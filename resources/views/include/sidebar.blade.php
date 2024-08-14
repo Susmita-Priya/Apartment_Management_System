@@ -17,7 +17,7 @@
                                 <a href="javascript: void(0);"><i class="fa fa-user"></i> <span> User </span> <span class="menu-arrow"></span></a>
                                 <ul class="nav-second-level " aria-expanded="false">
                                     <li><a href="{{ url('/user/create') }}">Add User</a></li>
-                                    <li><a href="admin-sweet-alert.html">View User</a></li>
+                                    <li><a href="{{ url('/user') }}">View User</a></li>
                                 </ul>
                             </li>
 
