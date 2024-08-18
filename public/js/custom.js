@@ -76,38 +76,38 @@
 
 
     
-        // $(document).on("click", "#view", function (e) {
-        //         e.preventDefault();
-        //         var link = $(this).attr("href");
-        //         var fullname = $(this).data("fullname");
-        //         var email = $(this).data("email");
-        //         var phn = $(this).data("phn");
-        //         var idno = $(this).data("idno");
-        //         var address = $(this).data("address");
-        //         var occStatus = $(this).data("occ-status");
-        //         var occPlace = $(this).data("occ-place");
-        //         var emname = $(this).data("emname");
-        //         var emphn = $(this).data("emphn");
-        //         swal({
-        //             title: 'User Information',
-        //             html: '<p>Full Name: ' + fullname + '</p>' +
-        //                   '<p>Email: ' + email + '</p>' +
-        //                   '<p>Phone: ' + phn + '</p>' +
-        //                   '<p>ID Number: ' + idno + '</p>' +
-        //                   '<p>Address: ' + address + '</p>' +
-        //                   '<p>Occupation Status: ' + occStatus + '</p>' +
-        //                   '<p>Occupation Place: ' + occPlace + '</p>' +
-        //                   '<p>Emergency Contact Name: ' + emname + '</p>' +
-        //                   '<p>Emergency Contact Phone: ' + emphn + '</p>',
-        //             width: 600,
-        //             padding: 100,
-        //             background: '#fff url(//subtlepatterns2015.subtlepatterns.netdna-cdn.com/patterns/geometry.png)'
-        //         }).then((result) => {
-        //                         if (result.isConfirmed) {
-        //                             window.location.href = link;
-        //                         }
-        //                     });
-        // });
+        $(document).on("click", "#view", function (e) {
+                e.preventDefault();
+                var link = $(this).attr("href");
+                var fullname = $(this).data("fullname");
+                var email = $(this).data("email");
+                var phn = $(this).data("phn");
+                var idno = $(this).data("idno");
+                var address = $(this).data("address");
+                var occStatus = $(this).data("occ-status");
+                var occPlace = $(this).data("occ-place");
+                var emname = $(this).data("emname");
+                var emphn = $(this).data("emphn");
+                swal({
+                    title: 'User Information',
+                    html: '<p>Full Name: ' + fullname + '</p>' +
+                          '<p>Email: ' + email + '</p>' +
+                          '<p>Phone: ' + phn + '</p>' +
+                          '<p>ID Number: ' + idno + '</p>' +
+                          '<p>Address: ' + address + '</p>' +
+                          '<p>Occupation Status: ' + occStatus + '</p>' +
+                          '<p>Occupation Place: ' + occPlace + '</p>' +
+                          '<p>Emergency Contact Name: ' + emname + '</p>' +
+                          '<p>Emergency Contact Phone: ' + emphn + '</p>',
+                    width: 600,
+                    padding: 100,
+                    background: '#fff url(//subtlepatterns2015.subtlepatterns.netdna-cdn.com/patterns/geometry.png)'
+                }).then((result) => {
+                                if (result.isConfirmed) {
+                                    window.location.href = link;
+                                }
+                            });
+        });
 
 
 

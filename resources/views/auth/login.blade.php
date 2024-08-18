@@ -2,7 +2,7 @@
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
-    <form method="POST" action="{{ route('login') }}">
+    <form method="POST" action="{{url('/')}}/index">
         @csrf
 
         <!-- Email Address -->
@@ -44,16 +44,16 @@
             </x-primary-button>
         </div>
     </form>
-</x-guest-layout> --}}
-
+</x-guest-layout>
+ --}}
 
 <!DOCTYPE html>
 <html>
     
-<!-- Mirrored from coderthemes.com/adminox/default/page-login.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 06 Nov 2019 12:29:42 GMT -->
-<head>
+    <!-- Mirrored from coderthemes.com/adminox/default/page-login.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 06 Nov 2019 12:29:42 GMT -->
+    <head>
         <meta charset="utf-8" />
-        <title>Adminox - Responsive Web App Kit</title>
+        <title>Admin login</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
         <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />
         <meta content="Coderthemes" name="author" />
@@ -70,12 +70,11 @@
 
     <script src="{{ asset('admin_dashboard') }}/assets/js/modernizr.min.js"></script>
 
-
     </head>
 
+    <body style="background-color:rgb(100,197,177)">
 
-    <body class="bg-accpunt-pages">
-
+        @include('auth.message')
         <!-- HOME -->
         <section>
             <div class="container">
@@ -88,20 +87,20 @@
                                 <div class="account-box">
                                     <div class="account-logo-box">
                                         <h2 class="text-uppercase text-center">
-                                            <a href="index.html" class="text-success">
-                                                <span><img src="{{ asset('admin_dashboard') }}/assets/images/logo_dark.png" alt="" height="30"></span>
+                                            <a href="{{url('/')}}/index" class="text-success">
+                                                <span><img src="{{ asset('image') }}/bytecarelogowhite.png" alt="" height="60"></span>
                                             </a>
                                         </h2>
                                         <h5 class="text-uppercase font-bold m-b-5 m-t-50">Sign In</h5>
                                         <p class="m-b-0">Login to your Admin account</p>
                                     </div>
                                     <div class="account-content">
-                                        <form class="form-horizontal" action="{{url('/')}}/index">
-
+                                        <form class="form-horizontal" action="{{url('/')}}" method="post">
+                                            @csrf
                                             <div class="form-group m-b-20 row">
                                                 <div class="col-12">
                                                     <label for="emailaddress">Email address</label>
-                                                    <input class="form-control" type="email" id="emailaddress" required="" placeholder="abc@gmail.com">
+                                                    <input class="form-control" name="email" type="email" id="emailaddress" required="" placeholder="abc@gmail.com">
                                                 </div>
                                             </div>
 
@@ -109,7 +108,7 @@
                                                 <div class="col-12">
                                                     <a href="page-recoverpw.html" class="text-muted pull-right"><small>Forgot your password?</small></a>
                                                     <label for="password">Password</label>
-                                                    <input class="form-control" type="password" required="" id="password" placeholder="Enter your password">
+                                                    <input class="form-control" name="password" type="password" required="" id="password" placeholder="Enter your password">
                                                 </div>
                                             </div>
 
@@ -134,7 +133,7 @@
 
                                         </form>
 
-                                        <div class="row">
+                                        {{-- <div class="row">
                                             <div class="col-sm-12">
                                                 <div class="text-center">
                                                     <button type="button" class="btn m-r-5 btn-facebook waves-effect waves-light">
@@ -154,7 +153,7 @@
                                             <div class="col-sm-12 text-center">
                                                 <p class="text-muted">Don't have an account? <a href="page-register.html" class="text-dark m-l-5"><b>Sign Up</b></a></p>
                                             </div>
-                                        </div>
+                                        </div> --}}
 
                                     </div>
                                 </div>
@@ -190,5 +189,5 @@
    
     </body>
 
-<!-- Mirrored from coderthemes.com/adminox/default/page-login.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 06 Nov 2019 12:29:42 GMT -->
+    <!-- Mirrored from coderthemes.com/adminox/default/page-login.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 06 Nov 2019 12:29:42 GMT -->
 </html>

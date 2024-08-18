@@ -5,10 +5,10 @@
     <div class="topbar-left">
         <a href="index.html" class="logo">
                     <span>
-                        <img src="{{ asset('admin_dashboard') }}/assets/images/logo.png" alt="" height="25">
+                        <img src="{{ asset('image') }}/bytecarelogodark.png" alt="" height="45">
                     </span>
             <i>
-                <img src="{{ asset('admin_dashboard') }}/assets/images/logo_sm.png" alt="" height="28">
+                <img src="{{ asset('image') }}/bytecarelogo_sm.png" alt="" height="28">
             </i>
         </a>
     </div>
@@ -57,19 +57,19 @@
             <li class="list-inline-item dropdown notification-list">
                 <a class="nav-link dropdown-toggle waves-effect waves-light nav-user" data-toggle="dropdown" href="#" role="button"
                    aria-haspopup="false" aria-expanded="false">
-                    <img src="{{ asset('admin_dashboard') }}/assets/images/users/avatar-1.jpg" alt="user" class="rounded-circle">
+                    <img src="{{ asset('image') }}/person-man.jpg" alt="user" class="rounded-circle">
                 </a>
                 <div class="dropdown-menu dropdown-menu-right profile-dropdown " aria-labelledby="Preview">
                     <!-- item-->
                     <div class="dropdown-item noti-title">
-                        <h5 class="text-overflow"><small>Welcome ! John</small> </h5>
+                        <h5 class="text-overflow"><small>Welcome {{ Auth::user()->name }}</small> </h5>
                     </div>
 
                     <!-- item-->
                     <a href="javascript:void(0);" class="dropdown-item notify-item">
                         <i class="mdi mdi-account-circle"></i> <span>Profile</span>
                     </a>
-
+{{-- 
                     <!-- item-->
                     <a href="javascript:void(0);" class="dropdown-item notify-item">
                         <i class="mdi mdi-settings"></i> <span>Settings</span>
@@ -78,13 +78,18 @@
                     <!-- item-->
                     <a href="javascript:void(0);" class="dropdown-item notify-item">
                         <i class="mdi mdi-lock-open"></i> <span>Lock Screen</span>
-                    </a>
+                    </a> --}}
 
                     <!-- item-->
-                    <a href="javascript:void(0);" class="dropdown-item notify-item">
+                    <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
+                        @csrf
+                    </form>
+                    
+                    <a href="#" class="dropdown-item notify-item" 
+                       onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                         <i class="mdi mdi-power"></i> <span>Logout</span>
                     </a>
-
+                    
                 </div>
             </li>
 
