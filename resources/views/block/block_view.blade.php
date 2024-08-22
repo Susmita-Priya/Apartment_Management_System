@@ -77,7 +77,9 @@
                             ];
                         @endphp
 
-                        <p class="text-muted font-13"><strong>Building:</strong> <span class="m-l-15">{{ $block->building->name }} ({{ $typeFullForm[$block->building->type] ?? 'Other' }} Building)</span></p>
+                        <p class="text-muted font-13"><strong>Building:</strong> <span class="m-l-15">{{ $block->building->name }} </span></p>
+                        
+                        <p class="text-muted font-13"><strong>Building Type:</strong> <span class="m-l-15">{{ $typeFullForm[$block->building->type] ?? 'Other' }}</span></p>
                         
                         {{-- <p class="text-muted font-13"><strong>Number of Floors:</strong> <span class="m-l-15">{{ $block->floors }}</span></p> --}}
 
