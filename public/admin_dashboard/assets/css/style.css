@@ -877,7 +877,7 @@ a:focus {
 }
 
 .w-md {
-  min-width: 110px;
+  min-width: 60px;
 }
 
 .w-lg {
@@ -1163,6 +1163,7 @@ a:focus {
 .col-xl-9, .col-xl-auto {
   padding-left: 10px;
   padding-right: 10px;
+  padding-bottom: 5px;
 }
 
 .breadcrumb {

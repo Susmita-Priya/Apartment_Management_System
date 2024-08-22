@@ -48,7 +48,8 @@
 <div class="form-row">
     <div class="form-group col-md-12">
         <label for="permission" class="col-form-label h5">Permissions</label>
-@php
+        
+        @php
             $groupCounter = 0; // Counter to track groups
         @endphp
 

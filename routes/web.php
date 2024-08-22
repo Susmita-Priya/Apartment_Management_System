@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BlockController;
+use App\Http\Controllers\BuildingController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
@@ -27,6 +29,13 @@ Route::get('/index', function () {
  
     return view('admin_dashboard.index');
 });
+
+
+Route::get('/property', function () {
+ 
+    return view('property.property_list');
+});
+
 
 // Route::get('/dashboard', function () {
 //     return view('dashboard');
@@ -117,3 +126,35 @@ Route::get('permission/delete/{id}', [PermissionController::class,'destroy'])->n
 // Route::middleware(['auth'])->group(function () {
 //     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 // });
+
+
+
+
+Route::get('building', [BuildingController::class,'index'])->name("building.index");
+
+Route::get('building/create', [BuildingController::class,'create'])->name("building.create");
+
+Route::post('building/create', [BuildingController::class,'store']);
+
+Route::get('building/show/{id}', [BuildingController::class,'show'])->name("building.show");
+
+Route::get('building/edit/{id}', [BuildingController::class,'edit'])->name("building.edit");
+
+Route::post('building/edit/{id}', [BuildingController::class,'update'])->name("building.update");
+
+Route::get('building/delete/{id}', [BuildingController::class,'destroy'])->name("building.delete");
+
+
+
+
+Route::get('block/create', [BlockController::class,'create'])->name("block.create");
+
+Route::post('block/create', [BlockController::class,'store']);
+
+Route::get('block/show/{id}', [BlockController::class,'show'])->name("block.show");
+
+Route::get('block/edit/{id}', [BlockController::class,'edit'])->name("block.edit");
+
+Route::post('block/edit/{id}', [BlockController::class,'update'])->name("block.update");
+
+Route::get('block/delete/{id}', [BlockController::class,'destroy'])->name("block.delete");

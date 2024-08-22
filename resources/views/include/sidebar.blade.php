@@ -50,10 +50,10 @@
                 <li>
                     <a href="javascript: void(0);"><i class="fa fa-home"></i> <span> Property </span> <span class="menu-arrow"></span></a>
                     <ul class="nav-second-level " aria-expanded="false">
-                        @if (App\Models\Permission::hasPermission('add_property', $role_id))
-                            <li><a href="{{ url('/property/create') }}">Add Property</a></li>
-                        @endif
-                        <li><a href="{{ url('/property') }}">View Property</a></li>
+                        {{-- @if (App\Models\Permission::hasPermission('add_property', $role_id))
+                            <li><a href="{{ url('/building/create') }}">Add Property</a></li>
+                        @endif --}}
+                        <li><a href="{{ url('/building') }}">View Property</a></li>
                     </ul>
                 </li>
                 @endif

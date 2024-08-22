@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('email',100);
             $table->string('phn',100);
             $table->string('idno',100);
-            $table->string('iddoc',100)->nullable();;
+            $table->string('iddoc',100)->nullable();
             $table->string('address',100);
             $table->enum('occ_status',["choose","employee","employer","others"]);
             $table->string('occ_place',100);
