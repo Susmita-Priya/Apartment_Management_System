@@ -16,4 +16,9 @@ class Block extends Model
     {
         return $this->belongsTo(Building::class, 'building_id');
     }
+
+    public function floors()
+    {
+        return $this->hasMany(Floor::class, 'block_id');
+    }
 }

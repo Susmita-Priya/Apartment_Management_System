@@ -67,8 +67,14 @@ class BlockController extends Controller
      */
     public function show(string $id)
     {
-        $block = Block::with('building')->findOrFail($id);
-        return view('block.block_view', compact('block'));
+        $block = Block::withCount(['building', 'floors'])->findOrFail($id);
+        $building = $block->building;    // Get the building associated with this block
+        
+        // Pass the data to the view
+        return view('block.block_view', compact('block', 'building'));
+
+        // $block = Block::with('building')->findOrFail($id);
+        // return view('block.block_view', compact('block'));
     }
 
     /**
@@ -106,7 +112,7 @@ class BlockController extends Controller
     public function destroy(string $id)
     {
 
-        // Find the block to delete
+    // Find the block to delete
     $block = Block::findOrFail($id);
     
     // Fetch the associated building

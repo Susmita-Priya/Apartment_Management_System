@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BlockController;
 use App\Http\Controllers\BuildingController;
+use App\Http\Controllers\FloorController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
@@ -158,3 +159,18 @@ Route::get('block/edit/{id}', [BlockController::class,'edit'])->name("block.edit
 Route::post('block/edit/{id}', [BlockController::class,'update'])->name("block.update");
 
 Route::get('block/delete/{id}', [BlockController::class,'destroy'])->name("block.delete");
+
+
+
+
+Route::get('floor/create', [FloorController::class,'create'])->name("floor.create");
+
+Route::post('floor/create', [FloorController::class,'store'])->name("floor.store");
+
+Route::get('floor/show/{id}', [FloorController::class,'show'])->name("floor.show");
+
+Route::get('floor/edit/{id}', [FloorController::class,'edit'])->name("floor.edit");
+
+Route::post('floor/edit/{id}', [FloorController::class,'update'])->name("floor.update");
+
+Route::get('floor/delete/{id}', [FloorController::class,'destroy'])->name("floor.delete");

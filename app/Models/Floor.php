@@ -1,0 +1,28 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class Floor extends Model
+{
+    use HasFactory;
+    protected $table = 'floors';
+
+    protected $fillable = [
+        'block_id', 'floor_no', 'name', 'type', 'residential_suite', 'commercial_unit',
+        'supporting_service_room', 'parking_lot', 'bike_lot', 'storage_lot', 'common_area'
+    ];
+    
+
+    public function block()
+    {
+        return $this->belongsTo(Block::class);
+    }
+
+    public function building()
+    {
+        return $this->block->building(); // Access the building through the block
+    }
+}
