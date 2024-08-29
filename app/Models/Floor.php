@@ -25,4 +25,9 @@ class Floor extends Model
     {
         return $this->block->building(); // Access the building through the block
     }
+
+    public function units()
+    {
+        return $this->hasMany(Unit::class, 'floor_id');
+    }
 }

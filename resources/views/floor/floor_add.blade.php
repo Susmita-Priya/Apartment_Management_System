@@ -88,7 +88,8 @@
                             <label><input type="checkbox" name="common_area"> Common Area</label>
                         </div>
 
-                        <button type="submit" class="btn btn-primary">Add Floor</button>
+                        <button type="submit" class="btn waves-effect waves-light btn-sm" style="background-color: rgb(100, 197, 177); border-color: rgb(100, 197, 177); color: white;">
+                            Add Floor</button>
                     </form>
                 </div>
             </div>

@@ -40,7 +40,7 @@
                             <span class="pull-left m-r-15"><img src="{{ asset($block->building->image) }}" alt="" class="thumb-lg rounded-circle"></span>
                             <div class="media-body">
                                 <h4 class="m-t-7 font-18">{{ $floor->name }}</h4>
-                                <p class="font-13">{{ $floor->block->building->name }} Building</p>
+                                <p class="font-15">{{ $floor->block->building->name }} Building</p>
                             </div>
                         </div>
                         <div class="col-sm-6">
@@ -67,13 +67,16 @@
                     <h4 class="header-title mt-0 m-b-20">Floor Information</h4>
                     <div class="panel-body">
 
-                        <p class="text-muted font-13"><strong>Floor No:</strong> <span class="m-l-15">{{ $floor->floor_no }}</p>
-                        <p class="text-muted font-13"><strong>Floor Name:</strong> <span class="m-l-15">{{ $floor->name }}</p>
-                        <p class="text-muted font-13"><strong>Type:</strong> <span class="m-l-15">{{ ucfirst($floor->type) }} floor</p>
+                        <p class="text-muted font-15"><strong>Floor No:</strong> <span class="m-l-15">{{ $floor->floor_no }}</p>
+                        <p class="text-muted font-15"><strong>Floor Name:</strong> <span class="m-l-15">{{ $floor->name }}</p>
+                        <p class="text-muted font-15"><strong>Type:</strong> <span class="m-l-15">{{ ucfirst($floor->type) }} floor</p>
+                            <p class="text-muted font-15"><strong>Date Added:</strong> <span class="m-l-15">{{ $floor->created_at->format('d M, Y') }}</span></p>
+                            <p class="text-muted font-15"><strong>Number of Units:</strong> <span class="m-l-15">{{ $floor->units_count }}</span></p>
+
                         <hr>
 
-                        <p class="text-muted font-13"><strong>Block ID:</strong> <span class="m-l-15">{{ $block->block_id }}</span></p>
-                        <p class="text-muted font-13"><strong>Block:</strong> <span class="m-l-15">{{ $block->name }}</span></p>
+                        <p class="text-muted font-15"><strong>Block ID:</strong> <span class="m-l-15">{{ $block->block_id }}</span></p>
+                        <p class="text-muted font-15"><strong>Block:</strong> <span class="m-l-15">{{ $block->name }}</span></p>
                         <hr>
 
                         @php
@@ -84,28 +87,26 @@
                             ];
                         @endphp
 
-                        <p class="text-muted font-13"><strong>Building:</strong> <span class="m-l-15">{{ $block->building->name }} </span></p>
-                        <p class="text-muted font-13"><strong>Building Type:</strong> <span class="m-l-15">{{ $typeFullForm[$block->building->type] ?? 'Other' }}</span></p>
+                        <p class="text-muted font-15"><strong>Building:</strong> <span class="m-l-15">{{ $block->building->name }} </span></p>
+                        <p class="text-muted font-15"><strong>Building ID:</strong> <span class="m-l-15">{{ $building->building_id }}</span></p>
+                        <p class="text-muted font-15"><strong>Building Type:</strong> <span class="m-l-15">{{ $typeFullForm[$block->building->type] ?? 'Other' }}</span></p>
                         <hr>
-                        {{-- <p class="text-muted font-13"><strong>Number of Units:</strong> <span class="m-l-15">{{ $block->floors_count }}</span></p> --}}
-
                         
 
                         @if($building->type === 'RESB' || $building->type === 'RECB')
-                            <p class="text-muted font-13"><strong>Residential Suites:</strong><span class="m-l-15">Yes</p>
+                            <p class="text-muted font-15"><strong>Residential Suites:</strong><span class="m-l-15">Yes</p>
                         @endif
                                 
                         @if($building->type === 'COMB' || $building->type === 'RECB')
-                            <p class="text-muted font-13"><strong>Commercial Units:</strong><span class="m-l-15">Yes</p>
+                            <p class="text-muted font-15"><strong>Commercial Units:</strong><span class="m-l-15">Yes</p>
                         @endif
 
-                        <p class="text-muted font-13"><strong>Supporting & Service Room:</strong> <span class="m-l-15">{{ $floor->supporting_service_room ? 'Yes' : 'No' }}</p>
-                        <p class="text-muted font-13"><strong>Parking Lot:</strong> <span class="m-l-15">{{ $floor->parking_lot ? 'Yes' : 'No' }}</p>
-                        <p class="text-muted font-13"><strong>Bike Lot:</strong> <span class="m-l-15">{{ $floor->bike_lot ? 'Yes' : 'No' }}</p>
-                        <p class="text-muted font-13"><strong>Storage Lot:</strong> <span class="m-l-15">{{ $floor->storage_lot ? 'Yes' : 'No' }}</p>
-                        <p class="text-muted font-13"><strong>Common Area:</strong> <span class="m-l-15">{{ $floor->common_area ? 'Yes' : 'No' }}</p>
-
-                        <p class="text-muted font-13"><strong>Date Added:</strong> <span class="m-l-15">{{ $block->created_at->format('d M, Y') }}</span></p>
+                        <p class="text-muted font-15"><strong>Supporting & Service Room:</strong> <span class="m-l-15">{{ $floor->supporting_service_room ? 'Yes' : 'No' }}</p>
+                        <p class="text-muted font-15"><strong>Parking Lot:</strong> <span class="m-l-15">{{ $floor->parking_lot ? 'Yes' : 'No' }}</p>
+                        <p class="text-muted font-15"><strong>Bike Lot:</strong> <span class="m-l-15">{{ $floor->bike_lot ? 'Yes' : 'No' }}</p>
+                        <p class="text-muted font-15"><strong>Storage Lot:</strong> <span class="m-l-15">{{ $floor->storage_lot ? 'Yes' : 'No' }}</p>
+                        <p class="text-muted font-15"><strong>Common Area:</strong> <span class="m-l-15">{{ $floor->common_area ? 'Yes' : 'No' }}</p>
+                        
 
                         {{-- <p class="text-muted font-13"><strong>Block Image :</strong>
                             <span class="m-l-15"><img src="{{ asset($block->image) }}" style="width:27%; height:27%" alt="image can't found"></span>
@@ -123,7 +124,7 @@
                             <button type="button" class="btn waves-effect waves-light"
                             style="background-color: rgb(100, 197, 177); border-color: rgb(100, 197, 177); color: white; 
                                   position: absolute; right: 10px;  transform: translateY(-50%);  text-decoration: none;"
-                                    onclick="window.location.href='{{ route('floor.create', ['block_id' => $block->id]) }}'"
+                                    onclick="window.location.href='{{ route('unit.create', ['floor_id' => $floor->id]) }}'"
                                     >
                                 <i class="mdi mdi-plus m-r-5"></i> 
 
@@ -144,258 +145,74 @@
                     </div>
                 </div>
                 <!-- end row -->
-<!-- Floors List -->
-{{-- <div class="row"> --}}
-    <!-- Residential Suite, Supporting Room & Mailroom (for Residential buildings) -->
-    {{-- @if ($block->building->type === 'RESB')
-        <div class="col-12">
-            <h4 class="header-title mt-0 m-b-20">Residential Suite, Supporting Room & Mailroom</h4>
-            @php
-                $sortedFloors = $block->floors->sortBy('floor_no');
-            @endphp
-            @foreach($sortedFloors->chunk(3) as $chunk)
-                <div class="row">
-                    @foreach($chunk as $floor)
-                        @if($floor->residential_suite || $floor->supporting_service_room || $floor->mailroom)
-                            <div class="col-md-4">
-                                <div class="card-box">
-                                    <h4 class="header-title mt-0 m-b-20">{{ $floor->name }}</h4>
-                                    <div class="panel-body">
-                                    <p class="text-muted font-13"><strong>Floor No: </strong>{{ $floor->floor_no }}</p>
-                                    <p class="text-muted font-13"><strong>Type: </strong>{{ ucfirst($floor->type) }}</p>
-                                    @if($floor->residential_suite)
-                                        <p class="text-muted font-13"><strong>Residential Suite: </strong>Yes</p>
-                                    @endif
-                                    @if($floor->supporting_service_room)
-                                        <p class="text-muted font-13"><strong>Supporting Service Room: </strong>Yes</p>
-                                    @endif
-                                    @if($floor->mailroom)
-                                        <p class="text-muted font-13"><strong>Mailroom: </strong>Yes</p>
-                                    @endif
-                                    <button type="button" 
-                                        onclick="window.location.href='{{ route('floor.show', $floor->id) }}'"
-                                        class="btn btn-info m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm">
-                                        Enter
-                                    </button>
-                                    <button type="button" 
-                                        class="btn btn-success m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm" 
-                                        onclick="window.location.href='{{ route('floor.edit', $floor->id) }}'">
-                                        Edit
-                                    </button>
-                                    <a type="button" 
-                                       href="{{ route('floor.delete', ['id' => $floor->id]) }}"
-                                       class="btn btn-danger m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm">
-                                        Delete
-                                    </a>
-                                </div>
-                                </div>
-                            </div>
-                        @endif
-                    @endforeach
-                </div>
-            @endforeach
-        </div>
-    @endif --}}
 
-    <!-- Commercial Unit, Supporting Room & Mailroom (for Commercial buildings) -->
-    {{-- @if ($block->building->type === 'COMB')
-        <div class="col-12">
-            <h4 class="header-title mt-0 m-b-20">Commercial Unit, Supporting Room & Mailroom</h4>
-            @php
-                $sortedFloors = $block->floors->sortBy('floor_no');
-            @endphp
-            @foreach($sortedFloors->chunk(3) as $chunk)
-                <div class="row">
-                    @foreach($chunk as $floor)
-                        @if($floor->commercial_unit || $floor->supporting_service_room || $floor->mailroom)
-                            <div class="col-md-4">
-                                <div class="card-box">
-                                    <h4 class="header-title mt-0 m-b-20">{{ $floor->name }}</h4>
-                                    <div class="panel-body">
-                                    <p class="text-muted font-13"><strong>Floor No: </strong>{{ $floor->floor_no }}</p>
-                                    <p class="text-muted font-13"><strong>Type: </strong>{{ ucfirst($floor->type) }}</p>
-                                    @if($floor->commercial_unit)
-                                        <p class="text-muted font-13"><strong>Commercial Unit: </strong>Yes</p>
-                                    @endif
-                                    @if($floor->supporting_service_room)
-                                        <p class="text-muted font-13"><strong>Supporting Service Room: </strong>Yes</p>
-                                    @endif
-                                    @if($floor->mailroom)
-                                        <p class="text-muted font-13"><strong>Mailroom: </strong>Yes</p>
-                                    @endif
-                                    <button type="button" 
-                                        onclick="window.location.href='{{ route('floor.show', $floor->id) }}'"
-                                        class="btn btn-info m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm">
-                                        Enter
-                                    </button>
-                                    <button type="button" 
-                                        class="btn btn-success m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm" 
-                                        onclick="window.location.href='{{ route('floor.edit', $floor->id) }}'">
-                                        Edit
-                                    </button>
-                                    <a type="button" 
-                                       href="{{ route('floor.delete', ['id' => $floor->id]) }}"
-                                       class="btn btn-danger m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm">
-                                        Delete
-                                    </a>
-                                </div>
-                                </div>
-                            </div>
-                        @endif
-                    @endforeach
-                </div>
-            @endforeach
-        </div>
-    @endif
+                
 
-    <!-- Residential Suite, Commercial Unit, Supporting Room & Mailroom (for Residential-Commercial buildings) -->
-    @if ($block->building->type === 'RECB')
-        <div class="col-12">
-            <h4 class="header-title mt-0 m-b-20">Residential Suite, Commercial Unit, Supporting Room & Mailroom</h4>
-            @php
-                $sortedFloors = $block->floors->sortBy('floor_no');
-            @endphp
-            @foreach($sortedFloors->chunk(3) as $chunk)
-                <div class="row">
-                    @foreach($chunk as $floor)
-                        @if($floor->residential_suite || $floor->commercial_unit || $floor->supporting_service_room || $floor->mailroom)
-                            <div class="col-md-4">
-                                <div class="card-box">
-                                    <h4 class="header-title mt-0 m-b-20">{{ $floor->name }}</h4>
-                                    <div class="panel-body">
-                                    <p class="text-muted font-13"><strong>Floor No: </strong>{{ $floor->floor_no }}</p>
-                                    <p class="text-muted font-13"><strong>Type: </strong>{{ ucfirst($floor->type) }}</p>
-                                    @if($floor->residential_suite)
-                                        <p class="text-muted font-13"><strong>Residential Suite: </strong>Yes</p>
-                                    @endif
-                                    @if($floor->commercial_unit)
-                                        <p class="text-muted font-13"><strong>Commercial Unit: </strong>Yes</p>
-                                    @endif
-                                    @if($floor->supporting_service_room)
-                                        <p class="text-muted font-13"><strong>Supporting Service Room: </strong>Yes</p>
-                                    @endif
-                                    @if($floor->mailroom)
-                                        <p class="text-muted font-13"><strong>Mailroom: </strong>Yes</p>
-                                    @endif
-                                    <button type="button" 
-                                        onclick="window.location.href='{{ route('floor.show', $floor->id) }}'"
-                                        class="btn btn-info m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm">
-                                        Enter
-                                    </button>
-                                    <button type="button" 
-                                        class="btn btn-success m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm" 
-                                        onclick="window.location.href='{{ route('floor.edit', $floor->id) }}'">
-                                        Edit
-                                    </button>
-                                    <a type="button" 
-                                       href="{{ route('floor.delete', ['id' => $floor->id]) }}"
-                                       class="btn btn-danger m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm">
-                                        Delete
-                                    </a>
-                                </div>
-                                </div>
-                            </div>
-                        @endif
-                    @endforeach
-                </div>
-            @endforeach
-        </div>
-    @endif --}}
-<!-- Parking Lot, Bike Lot & Storage Lot (for all buildings) -->
-{{-- <div class="col-12">
-    <h4 class="header-title mt-0 m-b-20">Parking Lot, Bike Lot & Storage Lot</h4>
+<!-- Units List -->
+<div class="row">
     @php
-        $sortedFloors = $block->floors->sortBy('floor_no');
-        $chunkedFloors = $sortedFloors->filter(function ($floor) {
-            return $floor->parking_lot || $floor->bike_lot || $floor->storage_lot;
-        })->chunk(3);
+        // Define unit types for categorization
+        $unitTypes = [
+            'Residential Suite' => 'Residential Suite',
+            'Commercial Unit' => 'Commercial Unit',
+            'Supporting and Servicing Unit' => 'Supporting and Servicing Unit',
+            'Parking Lot' => 'Parking Lot',
+            'Bike Lot' => 'Bike Lot',
+            'Storage Lot' => 'Storage Lot',
+            'Common Area' => 'Common Area'
+        ];
     @endphp
-    @foreach($chunkedFloors as $chunk)
-        <div class="row">
-            @foreach($chunk as $floor)
-                <div class="col-md-4 mb-4">
-                    <div class="card-box">
-                        <h4 class="header-title mt-0 m-b-20">{{ $floor->name }}</h4>
-                        <p class="text-muted font-13"><strong>Floor No: </strong>{{ $floor->floor_no }}</p>
-                        <p class="text-muted font-13"><strong>Type: </strong>{{ ucfirst($floor->type) }}</p>
-                        @if($floor->parking_lot)
-                            <p class="text-muted font-13"><strong>Parking Lot: </strong>Yes</p>
-                        @endif
-                        @if($floor->bike_lot)
-                            <p class="text-muted font-13"><strong>Bike Lot: </strong>Yes</p>
-                        @endif
-                        @if($floor->storage_lot)
-                            <p class="text-muted font-13"><strong>Storage Lot: </strong>Yes</p>
-                        @endif
-                        <button type="button" 
-                            onclick="window.location.href='{{ route('floor.show', $floor->id) }}'"
-                            class="btn btn-info m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm">
-                            Enter
-                        </button>
-                        <button type="button" 
-                            class="btn btn-success m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm" 
-                            onclick="window.location.href='{{ route('floor.edit', $floor->id) }}'">
-                            Edit
-                        </button>
-                        <a type="button" 
-                           href="{{ route('floor.delete', ['id' => $floor->id]) }}"
-                           class="btn btn-danger m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm">
-                            Delete
-                        </a>
+
+    @foreach($unitTypes as $typeKey => $typeName)
+        @php
+            // Filter units by type and sort them by the numeric part after "UNIT"
+            $unitsByType = $floor->units->where('type', $typeKey)->sortBy(function($unit) {
+                $position = strpos($unit->unit_id, 'UNIT');
+                if ($position !== false) {
+                    return (int) substr($unit->unit_id, $position + 4);
+                }
+                return $unit->unit_id; // or handle the case where "UNIT" is not found
+            });
+        @endphp
+        
+        @if($unitsByType->isNotEmpty())
+            <div class="col-md-12">
+                <h4 class="header-title mt-0 m-b-20">{{ $typeName }}</h4>
+
+                @foreach($unitsByType->chunk(3) as $chunk)
+                    <div class="row">
+                        @foreach($chunk as $unit)
+                            <div class="col-md-4">
+                                <div class="card-box">
+                                    <h4 class="header-title mt-0 m-b-20">{{ $unit->unit_id }}</h4>
+                                    <div class="panel-body">
+                                        <p class="text-muted font-15"><strong>Type: </strong>{{ $unit->type }}</p>
+                                        <button type="button" 
+                                            onclick="window.location.href='{{ route('unit.show', $unit->id) }}'"
+                                            class="btn btn-info m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm">
+                                            Enter
+                                        </button>
+                                        <button type="button" 
+                                            class="btn btn-success m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm" 
+                                            onclick="window.location.href='{{ route('unit.edit', $unit->id) }}'">
+                                            Edit
+                                        </button>
+                                        <a type="button" 
+                                            href="{{ route('unit.delete', ['id' => $unit->id]) }}"
+                                            class="btn btn-danger m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm">
+                                            Delete
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
                     </div>
-                </div>
-            @endforeach
-        </div>
-    @endforeach
-</div> --}}
-
-<!-- Common Area (for all buildings) -->
-{{-- <div class="col-12">
-    <h4 class="header-title mt-0 m-b-20">Common Area</h4>
-    @php
-        $sortedFloors = $block->floors->sortBy('floor_no');
-        $chunkedFloors = $sortedFloors->filter(function ($floor) {
-            return $floor->common_area;
-        })->chunk(3);
-    @endphp
-    @foreach($chunkedFloors as $chunk)
-        <div class="row">
-            @foreach($chunk as $floor)
-                <div class="col-md-4 mb-4">
-                    <div class="card-box">
-                        <h4 class="header-title mt-0 m-b-20">{{ $floor->name }}</h4>
-                        <p class="text-muted font-13"><strong>Floor No: </strong>{{ $floor->floor_no }}</p>
-                        <p class="text-muted font-13"><strong>Type: </strong>{{ ucfirst($floor->type) }}</p>
-                        <p class="text-muted font-13"><strong>Common Area: </strong>Yes</p>
-                        <button type="button" 
-                            onclick="window.location.href='{{ route('floor.show', $floor->id) }}'"
-                            class="btn btn-info m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm">
-                            Enter
-                        </button>
-                        <button type="button" 
-                            class="btn btn-success m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm" 
-                            onclick="window.location.href='{{ route('floor.edit', $floor->id) }}'">
-                            Edit
-                        </button>
-                        <a type="button" 
-                           href="{{ route('floor.delete', ['id' => $floor->id]) }}"
-                           class="btn btn-danger m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm">
-                            Delete
-                        </a>
-                    </div>
-                </div>
-            @endforeach
-        </div>
-    @endforeach
-</div> --}}
-
-
-</div>
-<!-- End Floors List -->
-
+                @endforeach
             </div>
-        </div>
-        <!-- end row -->
+        @endif
+    @endforeach
+</div>
+
     </div>
 </div>
 <!-- end content -->

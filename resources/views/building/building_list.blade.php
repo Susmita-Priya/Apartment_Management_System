@@ -56,7 +56,7 @@
                                 <img src="{{ asset($building->image) }}" class="img-thumbnail" alt="building-image">
                             </div>
                             <div class="member-card-alt-info">
-                                <h4 class="m-b-5 m-t-0 font-18">{{ $building->name }}</h4>
+                                <h4 class="m-b-5 m-t-0 font-19">{{ $building->name }}</h4>
                                 @php
                                 $typeFullForm = [
                                     'RESB' => 'Residential',
@@ -105,7 +105,7 @@
                                 <img src="{{ asset($building->image) }}" class="img-thumbnail" alt="building-image">
                             </div>
                             <div class="member-card-alt-info">
-                                <h4 class="m-b-5 m-t-0 font-18">{{ $building->name }}</h4>
+                                <h4 class="m-b-5 m-t-0 font-19">{{ $building->name }}</h4>
                                 @php
                                 $typeFullForm = [
                                     'RESB' => 'Residential',
@@ -154,7 +154,7 @@
                                 <img src="{{ asset($building->image) }}" class="img-thumbnail" alt="building-image">
                             </div>
                             <div class="member-card-alt-info">
-                                <h4 class="m-b-5 m-t-0 font-18">{{ $building->name }}</h4>
+                                <h4 class="m-b-5 m-t-0 font-19">{{ $building->name }}</h4>
                                 @php
                                 $typeFullForm = [
                                     'RESB' => 'Residential',
@@ -180,7 +180,7 @@
                                 <a type="button" 
                                    href="{{ route('building.delete', ['id' => $building->id]) }}"
                                    class="btn btn-danger m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm">
-                                    Delete
+                                   Delete
                                 </a>
                             </div>
                         </div>
