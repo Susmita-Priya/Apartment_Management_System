@@ -39,7 +39,7 @@
                             <span class="pull-left m-r-15"><img src="{{ asset($building->image) }}" alt="" class="thumb-lg rounded-circle"></span>
                             <div class="media-body">
                                 <h4 class="m-t-7 font-18">{{ $building->name }}</h4>
-                                <p class="font-13">Dhaka, Bangladesh</p>
+                                <p class="text-muted font-15">Dhaka, Bangladesh</p>
                                 {{-- <p class="text-muted m-b-0"><small>{{ $building->city }}, {{ $building->country }}</small></p> --}}
                             </div>
                         </div>
@@ -64,7 +64,7 @@
             <div class="col-md-4">
                 <!-- Building-Information -->
                 <div class="card-box">
-                    <h4 class="header-title mt-0 m-b-20">Building Information</h4>
+                    <h4 class="header-title mt-0 m-b-20 font-16">Building Information</h4>
                     <div class="panel-body">
                         {{-- <p class="text-muted font-13"><strong>Type:</strong> <span class="m-l-15"> --}}
                             @php
@@ -74,20 +74,20 @@
                                 'RECB' => 'Residential-Commercial',
                             ];
                             @endphp
-                            <p class="text-muted font-13"> <strong>Type:</strong>  <span class="m-l-15">
+                            <p class="text-muted font-15"> <strong>Type:</strong>  <span class="m-l-15">
                                 {{ $typeFullForm[$building->type] ?? 'Other' }} </span>
                             </p>
                             
                           
-                        <p class="text-muted font-13"><strong>Building ID:</strong> <span class="m-l-15">{{ $building->building_id }}</span></p>
+                        <p class="text-muted font-15"><strong>Building ID:</strong> <span class="m-l-15">{{ $building->building_id }}</span></p>
 
-                        <p class="text-muted font-13"><strong>Building Name:</strong> <span class="m-l-15">{{ $building->name }}</span></p>
+                        <p class="text-muted font-15"><strong>Building Name:</strong> <span class="m-l-15">{{ $building->name }}</span></p>
 
                         {{-- <p class="text-muted font-13"><strong>Number of Floors:</strong> <span class="m-l-15">{{ $building->floors }}</span></p> --}}
 
-                        <p class="text-muted font-13"><strong>Number of Blocks:</strong> <span class="m-l-15">{{ $building->blocks_count }}</span></p> 
+                        <p class="text-muted font-15"><strong>Number of Blocks:</strong> <span class="m-l-15">{{ $building->blocks_count }}</span></p> 
 
-                        <p class="text-muted font-13"><strong>Date Added:</strong> <span class="m-l-15">{{ $building->created_at->format('d M, Y') }}</span></p>
+                        <p class="text-muted font-15"><strong>Date Added:</strong> <span class="m-l-15">{{ $building->created_at->format('d M, Y') }}</span></p>
 
                         {{-- <p class="text-muted font-13"><strong>Building Image :</strong>
                             <span class="m-l-15"><img src="{{ asset($building->image) }}" style="width:27%; height:27%" alt="image can't found"></span>
@@ -119,7 +119,7 @@
                         <div class="col-md-4">
                             <div class="card-box">
                                 <h4 class="header-title mt-0 m-b-20">{{ $block->name }}</h4>
-                                <p class="text-muted font-13"><strong>Block ID: </strong>{{ $block->block_id }}</p>
+                                <p class="text-muted font-15"><strong>Block ID: </strong>{{ $block->block_id }}</p>
                                 {{-- <p class="text-muted font-13"><strong>Building: </strong>{{ $block->building->name }}</p> --}}
 
                                 <button type="button" 

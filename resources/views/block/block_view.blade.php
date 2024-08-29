@@ -39,7 +39,7 @@
                             <span class="pull-left m-r-15"><img src="{{ asset($block->building->image) }}" alt="" class="thumb-lg rounded-circle"></span>
                             <div class="media-body">
                                 <h4 class="m-t-7 font-18">{{ $block->name }}</h4>
-                                <p class="font-13">{{ $block->building->name }} Building</p>
+                                <p class="font-15">{{ $block->building->name }} Building</p>
                             </div>
                         </div>
                         <div class="col-sm-6">
@@ -65,8 +65,8 @@
                 <div class="card-box">
                     <h4 class="header-title mt-0 m-b-20">Block Information</h4>
                     <div class="panel-body">
-                        <p class="text-muted font-13"><strong>Block ID:</strong> <span class="m-l-15">{{ $block->block_id }}</span></p>
-                        <p class="text-muted font-13"><strong>Block Name:</strong> <span class="m-l-15">{{ $block->name }}</span></p>
+                        <p class="text-muted font-15"><strong>Block ID:</strong> <span class="m-l-15">{{ $block->block_id }}</span></p>
+                        <p class="text-muted font-15"><strong>Block Name:</strong> <span class="m-l-15">{{ $block->name }}</span></p>
                         <hr>
 
                         @php
@@ -77,15 +77,15 @@
                             ];
                         @endphp
 
-                        <p class="text-muted font-13"><strong>Building:</strong> <span class="m-l-15">{{ $block->building->name }} </span></p>
-                        
-                        <p class="text-muted font-13"><strong>Building Type:</strong> <span class="m-l-15">{{ $typeFullForm[$block->building->type] ?? 'Other' }}</span></p>
+                        <p class="text-muted font-15"><strong>Building:</strong> <span class="m-l-15">{{ $block->building->name }} </span></p>
+                        <p class="text-muted font-15"><strong>Building ID:</strong> <span class="m-l-15">{{ $building->building_id }}</span></p>
+                        <p class="text-muted font-15"><strong>Building Type:</strong> <span class="m-l-15">{{ $typeFullForm[$block->building->type] ?? 'Other' }}</span></p>
                         
                         <hr>
 
-                        <p class="text-muted font-13"><strong>Number of Floors:</strong> <span class="m-l-15">{{ $block->floors_count }}</span></p>
+                        <p class="text-muted font-15"><strong>Number of Floors:</strong> <span class="m-l-15">{{ $block->floors_count }}</span></p>
 
-                        <p class="text-muted font-13"><strong>Date Added:</strong> <span class="m-l-15">{{ $block->created_at->format('d M, Y') }}</span></p>
+                        <p class="text-muted font-15"><strong>Date Added:</strong> <span class="m-l-15">{{ $block->created_at->format('d M, Y') }}</span></p>
 
                         {{-- <p class="text-muted font-13"><strong>Block Image :</strong>
                             <span class="m-l-15"><img src="{{ asset($block->image) }}" style="width:27%; height:27%" alt="image can't found"></span>
@@ -116,7 +116,7 @@
     <!-- Residential Suite, Supporting Room & Mailroom (for Residential buildings) -->
     @if ($block->building->type === 'RESB')
         <div class="col-12">
-            <h4 class="header-title mt-0 m-b-20">Residential Suite & Supporting Room/h4>
+            <h4 class="header-title mt-0 m-b-20">Residential Suite & Supporting Room</h4>
             @php
                 $sortedFloors = $block->floors->sortBy('floor_no');
             @endphp
@@ -128,7 +128,7 @@
                                 <div class="card-box">
                                     <h4 class="header-title mt-0 m-b-20">{{ $floor->name }}</h4>
                                     <div class="panel-body">
-                                    <p class="text-muted font-13"><strong>Floor No: </strong>{{ $floor->floor_no }}</p>
+                                    <p class="text-muted font-15"><strong>Floor No: </strong>{{ $floor->floor_no }}</p>
                                     {{-- <p class="text-muted font-13"><strong>Type: </strong>{{ ucfirst($floor->type) }}</p> --}}
                                     {{-- @if($floor->residential_suite)
                                         <p class="text-muted font-13"><strong>Residential Suite: </strong>Yes</p>
@@ -179,7 +179,7 @@
                                 <div class="card-box">
                                     <h4 class="header-title mt-0 m-b-20">{{ $floor->name }}</h4>
                                     <div class="panel-body">
-                                    <p class="text-muted font-13"><strong>Floor No: </strong>{{ $floor->floor_no }}</p>
+                                    <p class="text-muted font-15"><strong>Floor No: </strong>{{ $floor->floor_no }}</p>
                                     {{-- <p class="text-muted font-13"><strong>Type: </strong>{{ ucfirst($floor->type) }}</p> --}}
                                     {{-- @if($floor->commercial_unit)
                                         <p class="text-muted font-13"><strong>Commercial Unit: </strong>Yes</p>
@@ -230,7 +230,7 @@
                                 <div class="card-box">
                                     <h4 class="header-title mt-0 m-b-20">{{ $floor->name }}</h4>
                                     <div class="panel-body">
-                                    <p class="text-muted font-13"><strong>Floor No: </strong>{{ $floor->floor_no }}</p>
+                                    <p class="text-muted font-15"><strong>Floor No: </strong>{{ $floor->floor_no }}</p>
                                     {{-- <p class="text-muted font-13"><strong>Type: </strong>{{ ucfirst($floor->type) }}</p> --}}
                                     {{-- @if($floor->residential_suite)
                                         <p class="text-muted font-13"><strong>Residential Suite: </strong>Yes</p>
@@ -331,8 +331,8 @@
                 <div class="col-md-4 mb-4">
                     <div class="card-box">
                         <h4 class="header-title mt-0 m-b-20">{{ $floor->name }}</h4>
-                        <p class="text-muted font-13"><strong>Floor No: </strong>{{ $floor->floor_no }}</p>
-                        <p class="text-muted font-13"><strong>Type: </strong>{{ ucfirst($floor->type) }}</p>
+                        <p class="text-muted font-15"><strong>Floor No: </strong>{{ $floor->floor_no }}</p>
+                        <p class="text-muted font-15"><strong>Type: </strong>{{ ucfirst($floor->type) }}</p>
                         {{-- <p class="text-muted font-13"><strong>Common Area: </strong>Yes</p> --}}
                         <button type="button" 
                             onclick="window.location.href='{{ route('floor.show', $floor->id) }}'"

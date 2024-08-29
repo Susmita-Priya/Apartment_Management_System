@@ -3,11 +3,14 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BlockController;
 use App\Http\Controllers\BuildingController;
+use App\Http\Controllers\ComroomController;
 use App\Http\Controllers\FloorController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ResroomController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\TenantsController;
+use App\Http\Controllers\UnitController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\AdminUserMiddleware;
 use App\Models\Permission;
@@ -174,3 +177,59 @@ Route::get('floor/edit/{id}', [FloorController::class,'edit'])->name("floor.edit
 Route::post('floor/edit/{id}', [FloorController::class,'update'])->name("floor.update");
 
 Route::get('floor/delete/{id}', [FloorController::class,'destroy'])->name("floor.delete");
+
+
+
+Route::get('unit/create', [UnitController::class,'create'])->name("unit.create");
+
+Route::post('unit/create', [UnitController::class,'store'])->name("unit.store");
+
+Route::get('unit/show/{id}', [UnitController::class,'show'])->name("unit.show");
+
+Route::get('unit/edit/{id}', [UnitController::class,'edit'])->name("unit.edit");
+
+Route::post('unit/edit/{id}', [UnitController::class,'update'])->name("unit.update");
+
+Route::get('unit/delete/{id}', [UnitController::class,'destroy'])->name("unit.delete");
+
+
+
+Route::get('unit/create', [UnitController::class,'create'])->name("unit.create");
+
+Route::post('unit/create', [UnitController::class,'store'])->name("unit.store");
+
+Route::get('unit/show/{id}', [UnitController::class,'show'])->name("unit.show");
+
+Route::get('unit/edit/{id}', [UnitController::class,'edit'])->name("unit.edit");
+
+Route::post('unit/edit/{id}', [UnitController::class,'update'])->name("unit.update");
+
+Route::get('unit/delete/{id}', [UnitController::class,'destroy'])->name("unit.delete");
+
+
+
+Route::get('resroom/create', [ResroomController::class, 'create'])->name("resroom.create");
+
+Route::post('resroom/create', [ResroomController::class, 'store'])->name("resroom.store");
+
+Route::get('resroom/show/{id}', [ResroomController::class, 'show'])->name("resroom.show");
+
+Route::get('resroom/edit/{id}', [ResroomController::class, 'edit'])->name("resroom.edit");
+
+Route::post('resroom/edit/{id}', [ResroomController::class, 'update'])->name("resroom.update");
+
+Route::get('resroom/delete/{id}', [ResroomController::class, 'destroy'])->name("resroom.delete");
+
+
+
+Route::get('comroom/create', [ComroomController::class, 'create'])->name("comroom.create");
+
+Route::post('comroom/create', [ComroomController::class, 'store'])->name("comroom.store");
+
+Route::get('comroom/show/{id}', [ComroomController::class, 'show'])->name("comroom.show");
+
+Route::get('comroom/edit/{id}', [ComroomController::class, 'edit'])->name("comroom.edit");
+
+Route::post('comroom/edit/{id}', [ComroomController::class, 'update'])->name("comroom.update");
+
+Route::get('comroom/delete/{id}', [ComroomController::class, 'destroy'])->name("comroom.delete");

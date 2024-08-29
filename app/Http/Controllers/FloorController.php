@@ -75,6 +75,7 @@ class FloorController extends Controller
         $floor = Floor::findOrFail($id);
         $block = $floor->block;
         $building = $block->building;
+        $floor = Floor::withCount('units')->findOrFail($id);
 
         return view('floor.floor_view', compact('building', 'block', 'floor'));
     }

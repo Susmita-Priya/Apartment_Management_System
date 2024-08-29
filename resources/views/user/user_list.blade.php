@@ -95,8 +95,8 @@
                                     <a href="javascript: void(0);" class="table-action-btn dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="mdi mdi-dots-horizontal"></i></a>
                                     <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
                                         
-                                        <a class="dropdown-item " href="{{ route('user.show',['id'=> $user->id]) }}" type="submit"><i class="mdi mdi-eye m-r-10 font-18 text-muted vertical-middle"></i>Full Information</a>          
-                                        <a class="dropdown-item " href="{{ route('user.edit',['id'=> $user->id]) }}" type="submit"><i class="mdi mdi-pencil m-r-10 text-muted font-18 vertical-middle"></i>Edit User</a>
+                                        <a class="dropdown-item" href="{{ route('user.show',['id'=> $user->id]) }}" type="submit"><i class="mdi mdi-eye m-r-10 font-18 text-muted vertical-middle"></i>Full Information</a>          
+                                        <a class="dropdown-item" href="{{ route('user.edit',['id'=> $user->id]) }}" type="submit"><i class="mdi mdi-pencil m-r-10 text-muted font-18 vertical-middle"></i>Edit User</a>
                                         <a class="dropdown-item" href="{{ route('user.delete',['id'=> $user->id]) }}" type="submit"><i class="mdi mdi-delete m-r-10 text-muted font-18 vertical-middle"></i>Delete User</a>                                  
                                     </div>
                                     </div>
