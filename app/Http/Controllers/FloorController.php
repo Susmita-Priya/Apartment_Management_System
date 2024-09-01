@@ -123,7 +123,7 @@ class FloorController extends Controller
         $floor->storage_lot = $request->has('storage_lot');
         $floor->common_area = $request->has('common_area');
         $floor->save();
-        return redirect()->route('block.show', $block->id)->with('success', 'Floor updated successfully.');
+        return redirect()->route('floor.show', $floor->id)->with('success', 'Floor updated successfully.');
     }
 
     public function destroy($id)

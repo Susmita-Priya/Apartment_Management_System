@@ -10,7 +10,7 @@ class CreateUnitsTable extends Migration
         Schema::create('units', function (Blueprint $table) {
             $table->id();
             $table->enum('type', ['Residential Suite', 'Commercial Unit', 'Supporting and Servicing Unit', 'Parking Lot', 'Bike Lot', 'Storage Lot', 'Common Area']);
-            $table->string('unit_id')->unique();
+            $table->string('unit_id');
             $table->timestamps();
 
             $table->foreignId('floor_id')->constrained()->onDelete('cascade');

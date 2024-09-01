@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\comroom;
+use App\Models\Comroom;
 use App\Models\Extracomroom;
 use App\Models\Unit;
 use Illuminate\Http\Request;
@@ -142,7 +142,7 @@ class ComroomController extends Controller
         'conference_room' => $request->conference_room,
         'dining_room' => $request->dining_room,
         'kitchen' => $request->kitchen,
-        'laundry' => $request->laundry,+
+        'laundry' => $request->laundry,
         'solarium' => $request->solarium,
         'storage' => $request->storage,
         'washroom' => $request->washroom,

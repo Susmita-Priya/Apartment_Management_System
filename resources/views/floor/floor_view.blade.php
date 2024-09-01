@@ -94,11 +94,14 @@
                         
 
                         @if($building->type === 'RESB' || $building->type === 'RECB')
-                            <p class="text-muted font-15"><strong>Residential Suites:</strong><span class="m-l-15">Yes</p>
+                            {{-- <p class="text-muted font-15"><strong>Residential Suites:</strong><span class="m-l-15">Yes</p> --}}
+                                <p class="text-muted font-15"><strong>Residential Suites:</strong> <span class="m-l-15">{{ $floor->residential_suite ? 'Yes' : 'No' }}</p>
                         @endif
                                 
                         @if($building->type === 'COMB' || $building->type === 'RECB')
-                            <p class="text-muted font-15"><strong>Commercial Units:</strong><span class="m-l-15">Yes</p>
+                            {{-- <p class="text-muted font-15"><strong>Commercial Units:</strong><span class="m-l-15">Yes</p> --}}
+                            <p class="text-muted font-15"><strong>Commercial Units:</strong> <span class="m-l-15">{{ $floor->commercial_unit? 'Yes' : 'No' }}</p>
+                                
                         @endif
 
                         <p class="text-muted font-15"><strong>Supporting & Service Room:</strong> <span class="m-l-15">{{ $floor->supporting_service_room ? 'Yes' : 'No' }}</p>
@@ -128,11 +131,11 @@
                                     >
                                 <i class="mdi mdi-plus m-r-5"></i> 
 
-                                @if($building->type === 'RESB' || $building->type === 'RECB')
+                                @if($building->type === 'RESB' )
                                    Add Suite
                                 @endif
                                 
-                                @if($building->type === 'COMB' || $building->type === 'RECB')
+                                @if($building->type === 'COMB' )
                                   Add Unit
                                 @endif
 
