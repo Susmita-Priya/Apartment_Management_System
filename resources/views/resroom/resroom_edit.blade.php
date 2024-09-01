@@ -98,17 +98,20 @@
                             </div>
 
                             <!-- Extra room fields -->
+                            <div id="dynamic-room-fields">
+                                @foreach($resroom->extraRooms as $index => $extraRoom)
+                                    <div class="form-group dynamic-room">
+                                        <input type="hidden" name="extra_rooms[{{ $index }}][id]" value="{{ $extraRoom->id }}">
+                                        <label for="room_name">Room Name</label>
+                                        <input type="text" name="extra_rooms[{{ $index }}][room_name]" class="form-control" value="{{ $extraRoom->room_name }}" placeholder="Enter room name">
+                                        <label for="quantity">How Many?</label>
+                                        <input type="number" name="extra_rooms[{{ $index }}][quantity]" class="form-control" value="{{ $extraRoom->quantity }}" placeholder="Enter number of rooms">
+                                        <button type="button" class="btn btn-danger mt-2 remove-room-field">Remove</button>
+                                    </div>
+                                @endforeach
+                            </div>
+
                             <button type="button" class="btn btn-primary" id="add-room-field" style="margin-bottom: 20px;">Add Extra Room</button>
-                            @foreach($resroom->extraRooms as $index => $extraRoom)
-                                <div class="form-group dynamic-room">
-                                    <input type="hidden" name="extra_rooms[{{ $index }}][id]" value="{{ $extraRoom->id }}">
-                                    <label for="room_name">Room Name</label>
-                                    <input type="text" name="extra_rooms[{{ $index }}][room_name]" class="form-control" value="{{ $extraRoom->room_name }}" placeholder="Enter room name">
-                                    <label for="quantity">How Many?</label>
-                                    <input type="number" name="extra_rooms[{{ $index }}][quantity]" class="form-control" value="{{ $extraRoom->quantity }}" placeholder="Enter number of rooms">
-                                    <button type="button" class="btn btn-danger mt-2 remove-room-field">Remove</button>
-                                </div>
-                            @endforeach
 
                             <button type="submit" class="btn waves-effect waves-light"
                             style="background-color: rgb(100, 197, 177); border-color: rgb(100, 197, 177); color: white;">Update</button>

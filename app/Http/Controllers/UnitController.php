@@ -38,7 +38,7 @@ class UnitController extends Controller
         // Validate the request
     $request->validate([
         'floor_id' => 'required|exists:floors,id',
-        'unit_no' => 'required|numeric',
+        'unit_no' => 'required',
     ]);
 
     // Fetch the floor using the provided floor_id
@@ -52,10 +52,10 @@ class UnitController extends Controller
     $unitNo = $request->unit_no;
     $unitId = $floor->floor_no . '-UNIT' . $unitNo;
 
-    // Check for uniqueness
-    if (Unit::where('unit_id', $unitId)->exists()) {
-        return redirect()->back()->withErrors('Unit ID already exists.');
-    }
+    // // Check for uniqueness
+    // if (Unit::where('unit_id', $unitId)->exists()) {
+    //     return redirect()->back()->withErrors('Unit ID already exists.');
+    // }
 
     // Create a new unit with the generated unit_id
     $unit = new Unit();
@@ -111,7 +111,7 @@ class UnitController extends Controller
         // Validate the request
     $request->validate([
         'floor_id' => 'required|exists:floors,id',
-        'unit_no' => 'required|numeric',
+        'unit_no' => 'required',
     ]);
 
     // Fetch the unit
@@ -126,10 +126,10 @@ class UnitController extends Controller
     // Combine floor_id with user-provided unit_no to generate the unit_id
     $unitNo = $request->unit_no;
     $unitId = $floor->floor_no . '-UNIT' . $unitNo;
-    // Check for uniqueness
-    if ($unit->unit_id !== $unitId && Unit::where('unit_id', $unitId)->exists()) {
-        return redirect()->back()->withErrors('Unit ID already exists.');
-    }
+    // // Check for uniqueness
+    // if ($unit->unit_id !== $unitId && Unit::where('unit_id', $unitId)->exists()) {
+    //     return redirect()->back()->withErrors('Unit ID already exists.');
+    // }
 
     // Update the unit
     $unit->unit_id = $unitId;

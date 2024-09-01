@@ -1,14 +1,18 @@
 <?php
 
+use App\Http\Controllers\AdroomController;
+use App\Http\Controllers\AmroomController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BlockController;
 use App\Http\Controllers\BuildingController;
 use App\Http\Controllers\ComroomController;
 use App\Http\Controllers\FloorController;
+use App\Http\Controllers\MechroomController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ResroomController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\SerroomController;
 use App\Http\Controllers\TenantsController;
 use App\Http\Controllers\UnitController;
 use App\Http\Controllers\UserController;
@@ -233,3 +237,58 @@ Route::get('comroom/edit/{id}', [ComroomController::class, 'edit'])->name("comro
 Route::post('comroom/edit/{id}', [ComroomController::class, 'update'])->name("comroom.update");
 
 Route::get('comroom/delete/{id}', [ComroomController::class, 'destroy'])->name("comroom.delete");
+
+
+
+Route::get('mechroom/create', [MechroomController::class, 'create'])->name("mechroom.create");
+
+Route::post('mechroom/create', [MechroomController::class, 'store'])->name("mechroom.store");
+
+Route::get('mechroom/show/{id}', [MechroomController::class, 'show'])->name("mechroom.show");
+
+Route::get('mechroom/edit/{id}', [MechroomController::class, 'edit'])->name("mechroom.edit");
+
+Route::post('mechroom/edit/{id}', [MechroomController::class, 'update'])->name("mechroom.update");
+
+Route::get('mechroom/delete/{id}', [MechroomController::class, 'destroy'])->name("mechroom.delete");
+
+
+
+Route::get('adroom/create', [AdroomController::class, 'create'])->name("adroom.create");
+
+Route::post('adroom/create', [AdroomController::class, 'store'])->name("adroom.store");
+
+Route::get('adroom/show/{id}', [AdroomController::class, 'show'])->name("adroom.show");
+
+Route::get('adroom/edit/{id}', [AdroomController::class, 'edit'])->name("adroom.edit");
+
+Route::post('adroom/edit/{id}', [AdroomController::class, 'update'])->name("adroom.update");
+
+Route::get('adroom/delete/{id}', [AdroomController::class, 'destroy'])->name("adroom.delete");
+
+
+Route::get('amroom/create', [AmroomController::class, 'create'])->name("amroom.create");
+
+Route::post('amroom/create', [AmroomController::class, 'store'])->name("amroom.store");
+
+Route::get('amroom/show/{id}', [AmroomController::class, 'show'])->name("amroom.show");
+
+Route::get('amroom/edit/{id}', [AmroomController::class, 'edit'])->name("amroom.edit");
+
+Route::post('amroom/edit/{id}', [AmroomController::class, 'update'])->name("amroom.update");
+
+Route::get('amroom/delete/{id}', [AmroomController::class, 'destroy'])->name("amroom.delete");
+
+
+
+Route::get('serroom/create', [SerroomController::class, 'create'])->name("serroom.create");
+
+Route::post('serroom/create', [SerroomController::class, 'store'])->name("serroom.store");
+
+Route::get('serroom/show/{id}', [SerroomController::class, 'show'])->name("serroom.show");
+
+Route::get('serroom/edit/{id}', [SerroomController::class, 'edit'])->name("serroom.edit");
+
+Route::post('serroom/edit/{id}', [SerroomController::class, 'update'])->name("serroom.update");
+
+Route::get('serroom/delete/{id}', [SerroomController::class, 'destroy'])->name("serroom.delete");
