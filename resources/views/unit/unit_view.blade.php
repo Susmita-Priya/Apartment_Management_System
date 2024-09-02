@@ -321,7 +321,7 @@
                                             <a href="{{ route('mechroom.edit', ['id'=> $unit->mechRoom->id]) }}" 
                                                class="btn btn-sm m-b-20" 
                                                style="background-color: rgb(100, 197, 177); border-color: rgb(100, 197, 177); color: white; text-decoration: none; margin-right: 10px; margin-bottom: 20px;">
-                                               Edit Mechanical Rooms
+                                               <i class="mdi mdi-pencil m-r-10 font-18 vertical-middle"></i>Edit Mechanical Rooms
                                             </a>
                                         </div>
                                         <div class="panel-body">
@@ -357,7 +357,7 @@
                                                                         <strong>Count:</strong> 
                                                                         <span class="m-l-15">{{ $extraRoom->quantity }}</span>
                                                                     </p>
-                                                                    <a href="{{ route('mechroom.show', ['id'=> $unit->mechRoom->id]) }}" class="btn btn-primary btn-sm">Enter</a>
+                                                                    <a href="{{ route('mechroom.show', ['id'=> $unit->extraRoom->id]) }}" class="btn btn-primary btn-sm">Enter</a>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -378,7 +378,7 @@
                                             <a href="{{ route('adroom.edit', ['id'=> $unit->adminRoom->id]) }}" 
                                                class="btn btn-sm" 
                                                style="background-color: rgb(100, 197, 177); border-color: rgb(100, 197, 177); color: white; text-decoration: none; margin-right: 10px; margin-bottom: 20px;">
-                                               Edit Administrative Rooms
+                                               <i class="mdi mdi-pencil m-r-10 font-18 vertical-middle"></i>Edit Administrative Rooms
                                             </a>
                                         </div>
                                         <div class="panel-body">
@@ -393,7 +393,7 @@
                                                                         <strong>Count:</strong> 
                                                                         <span class="m-l-15">{{ $value }}</span>
                                                                     </p>
-                                                                    <a href="{{ route('adroom.show', ['id'=> $unit->mechRoom->id]) }}" class="btn btn-primary btn-sm">Enter</a>
+                                                                    <a href="{{ route('adroom.show', ['id'=> $unit->adminRoom->id]) }}" class="btn btn-primary btn-sm">Enter</a>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -412,7 +412,7 @@
                                                                         <strong>Count:</strong> 
                                                                         <span class="m-l-15">{{ $extraRoom->quantity }}</span>
                                                                     </p>
-                                                                    <a href="{{ route('adroom.show', ['id'=> $unit->mechRoom->id]) }}" class="btn btn-primary btn-sm">Enter</a>
+                                                                    <a href="{{ route('adroom.show', ['id'=> $unit->extraRoom->id]) }}" class="btn btn-primary btn-sm">Enter</a>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -433,7 +433,7 @@
                                             <a href="{{ route('amroom.edit', ['id'=> $unit->amRoom->id]) }}" 
                                                class="btn btn-sm" 
                                                style="background-color: rgb(100, 197, 177); border-color: rgb(100, 197, 177); color: white; text-decoration: none; margin-right: 10px; margin-bottom: 20px;">
-                                               Edit Amenity Rooms
+                                               <i class="mdi mdi-pencil m-r-10 font-18 vertical-middle"></i>Edit Amenity Rooms
                                             </a>
                                         </div>
                                         <div class="panel-body">
@@ -448,7 +448,7 @@
                                                                         <strong>Count:</strong> 
                                                                         <span class="m-l-15">{{ $value }}</span>
                                                                     </p>
-                                                                    <a href="{{ route('amroom.show', ['id'=> $unit->mechRoom->id]) }}" class="btn btn-primary btn-sm">Enter</a>
+                                                                    <a href="{{ route('amroom.show', ['id'=> $unit->amRoom->id]) }}" class="btn btn-primary btn-sm">Enter</a>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -467,7 +467,7 @@
                                                                         <strong>Count:</strong> 
                                                                         <span class="m-l-15">{{ $extraRoom->quantity }}</span>
                                                                     </p>
-                                                                    <a href="{{ route('amroom.show', ['id'=> $unit->mechRoom->id]) }}" class="btn btn-primary btn-sm">Enter</a>
+                                                                    <a href="{{ route('amroom.show', ['id'=> $unit->extraRoom->id]) }}" class="btn btn-primary btn-sm">Enter</a>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -488,7 +488,7 @@
                                             <a href="{{ route('serroom.edit', ['id'=> $unit->serRoom->id]) }}" 
                                                class="btn btn-sm" 
                                                style="background-color: rgb(100, 197, 177); border-color: rgb(100, 197, 177); color: white; text-decoration: none; margin-right: 10px; margin-bottom: 20px;">
-                                               Edit Service Rooms
+                                               <i class="mdi mdi-pencil m-r-10 font-18 vertical-middle"></i>Edit Service Rooms
                                             </a>
                                         </div>
                                         <div class="panel-body">
@@ -503,7 +503,7 @@
                                                                         <strong>Count:</strong> 
                                                                         <span class="m-l-15">{{ $value }}</span>
                                                                     </p>
-                                                                    <a href="{{ route('serroom.show', ['id'=> $unit->mechRoom->id]) }}" class="btn btn-primary btn-sm">Enter</a>
+                                                                    <a href="{{ route('serroom.show', ['id'=> $unit->serRoom->id]) }}" class="btn btn-primary btn-sm">Enter</a>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -522,7 +522,7 @@
                                                                         <strong>Count:</strong> 
                                                                         <span class="m-l-15">{{ $extraRoom->quantity }}</span>
                                                                     </p>
-                                                                    <a href="{{ route('serroom.show', ['id'=> $unit->mechRoom->id]) }}" class="btn btn-primary btn-sm">Enter</a>
+                                                                    <a href="{{ route('serroom.show', ['id'=> $unit->extraRoom->id]) }}" class="btn btn-primary btn-sm">Enter</a>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -534,10 +534,9 @@
                                 </div>
                             @endif
                         @endif
-                    </div>
-                    
-                    
+                    </div>                   
                 </div>
+    
 
     </div> <!-- container -->
 </div> <!-- content -->

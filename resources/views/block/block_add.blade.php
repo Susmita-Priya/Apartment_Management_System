@@ -14,7 +14,7 @@
                     <h4 class="page-title float-left">Blocks</h4>
 
                     <ol class="breadcrumb float-right">
-                        <li class="breadcrumb-item"><a href="{{ url('/index') }}">Admin</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('index') }}">Admin</a></li>
                         <li class="breadcrumb-item"><a href="{{ route('building.show', $building->id) }}">Building</a></li>
                         <li class="breadcrumb-item active">Add Block</li>
                     </ol>
@@ -26,7 +26,7 @@
         <!-- end row -->
         <div class="row">
             <div class="col-md-12">
-                <form action="{{ url('/block/create') }}" enctype="multipart/form-data" method="POST">
+                <form action="{{ route('block.store') }}" enctype="multipart/form-data" method="POST">
                     @csrf
                     <div class="col-md-12">
                         <div class="card-box">

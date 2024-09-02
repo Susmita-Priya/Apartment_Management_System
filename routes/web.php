@@ -7,6 +7,7 @@ use App\Http\Controllers\BlockController;
 use App\Http\Controllers\BuildingController;
 use App\Http\Controllers\ComroomController;
 use App\Http\Controllers\FloorController;
+use App\Http\Controllers\IndexController;
 use App\Http\Controllers\MechroomController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProfileController;
@@ -32,17 +33,7 @@ use Illuminate\Support\Facades\Route;
 //     });
 // });
 
-
-Route::get('/index', function () {
- 
-    return view('admin_dashboard.index');
-});
-
-
-Route::get('/property', function () {
- 
-    return view('property.property_list');
-});
+Route::get('/index', [IndexController::class,'index'])->name("index");
 
 
 // Route::get('/dashboard', function () {
@@ -57,10 +48,10 @@ Route::get('/property', function () {
 
 // require __DIR__.'/auth.php';
 
-Route::post('/logout', [AuthController::class,'logout']);
+Route::post('/logout', [AuthController::class,'logout'])->name("logout");
 
 
-Route::get('/', [AuthController::class,'login']);
+Route::get('/', [AuthController::class,'login'])->name("login");
 
 Route::post('/', [AuthController::class,'auth_login']);
 
@@ -116,6 +107,7 @@ Route::get('role/delete/{id}', [RoleController::class,'destroy'])->name("role.de
 
 
 
+
 Route::get('permission', [PermissionController::class,'index'])->name("permission.index");
 
 Route::get('permission/create', [PermissionController::class,'create'])->name("permission.create");
@@ -131,18 +123,13 @@ Route::post('permission/edit/{id}', [PermissionController::class,'update'])->nam
 Route::get('permission/delete/{id}', [PermissionController::class,'destroy'])->name("permission.delete");
 
 
-// Route::middleware(['auth'])->group(function () {
-//     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-// });
 
 
-
-
-Route::get('building', [BuildingController::class,'index'])->name("building.index");
+Route::get('building', [BuildingController::class,'index'])->name("building");
 
 Route::get('building/create', [BuildingController::class,'create'])->name("building.create");
 
-Route::post('building/create', [BuildingController::class,'store']);
+Route::post('building/create', [BuildingController::class,'store'])->name("building.store");
 
 Route::get('building/show/{id}', [BuildingController::class,'show'])->name("building.show");
 
@@ -154,10 +141,9 @@ Route::get('building/delete/{id}', [BuildingController::class,'destroy'])->name(
 
 
 
-
 Route::get('block/create', [BlockController::class,'create'])->name("block.create");
 
-Route::post('block/create', [BlockController::class,'store']);
+Route::post('block/create', [BlockController::class,'store'])->name("block.store");
 
 Route::get('block/show/{id}', [BlockController::class,'show'])->name("block.show");
 

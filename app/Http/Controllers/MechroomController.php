@@ -234,7 +234,7 @@ class MechroomController extends Controller
 
         $mechroom->delete();
 
-        return redirect()->route('unit.show', $mechroom->unit_id)->with('success', 'Mechanical Room deleted successfully.');
+        return redirect()->route('unit.show', $mechroom->unit_id)->with('delete', 'Mechanical Room deleted successfully.');
 
     }
 }

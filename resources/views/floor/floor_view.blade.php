@@ -15,8 +15,8 @@
                     <h4 class="page-title float-left">{{ $floor->name }}</h4>
 
                     <ol class="breadcrumb float-right">
-                        <li class="breadcrumb-item"><a href="{{ url('/index') }}">Dashboard</a></li>
-                        <li class="breadcrumb-item"><a href="{{ url('/building') }}">Buildings</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('index') }}">Dashboard</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('building') }}">Buildings</a></li>
                         <li class="breadcrumb-item"><a href="{{ route('building.show', $block->building_id) }}">Building</a></li>
                         <li class="breadcrumb-item"><a href="{{ route('block.show', $floor->block_id) }}">Block</a></li>
                         <li class="breadcrumb-item active">Floor Details</li>
@@ -124,25 +124,38 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="text-right m-b-20">
+
+                             @if($floor->parking_lot || $floor->bike_lot)
+                                       
                             <button type="button" class="btn waves-effect waves-light"
                             style="background-color: rgb(100, 197, 177); border-color: rgb(100, 197, 177); color: white; 
                                   position: absolute; right: 10px;  transform: translateY(-50%);  text-decoration: none;"
-                                    onclick="window.location.href='{{ route('unit.create', ['floor_id' => $floor->id]) }}'"
-                                    >
-                                <i class="mdi mdi-plus m-r-5"></i> 
-
-                                @if($building->type === 'RESB' )
-                                   Add Suite
-                                @endif
+                                    onclick="window.location.href='{{ route('unit.create', ['floor_id' => $floor->id]) }}'">
+                                <i class="mdi mdi-plus m-r-5"></i> Add Stall 
+                                                    
+                                @elseif($building->type === 'RESB' )
+                                <button type="button" class="btn waves-effect waves-light"
+                                style="background-color: rgb(100, 197, 177); border-color: rgb(100, 197, 177); color: white; 
+                                      position: absolute; right: 10px;  transform: translateY(-50%);  text-decoration: none;"
+                                        onclick="window.location.href='{{ route('unit.create', ['floor_id' => $floor->id]) }}'">
+                                    <i class="mdi mdi-plus m-r-5"></i> Add Suite
+                                                            
+                                @elseif($building->type === 'COMB' )
+                                <button type="button" class="btn waves-effect waves-light"
+                                style="background-color: rgb(100, 197, 177); border-color: rgb(100, 197, 177); color: white; 
+                                      position: absolute; right: 10px;  transform: translateY(-50%);  text-decoration: none;"
+                                        onclick="window.location.href='{{ route('unit.create', ['floor_id' => $floor->id]) }}'">
+                                    <i class="mdi mdi-plus m-r-5"></i> Add Unit
                                 
-                                @if($building->type === 'COMB' )
-                                  Add Unit
+                                @elseif($building->type === 'RECB')
+                                <button type="button" class="btn waves-effect waves-light"
+                                style="background-color: rgb(100, 197, 177); border-color: rgb(100, 197, 177); color: white; 
+                                      position: absolute; right: 10px;  transform: translateY(-50%);  text-decoration: none;"
+                                        onclick="window.location.href='{{ route('unit.create', ['floor_id' => $floor->id]) }}'"
+                                        >
+                                    <i class="mdi mdi-plus m-r-5"></i> Add Suite / Unit
                                 @endif
 
-                                @if($building->type === 'RECB')
-                                Add Suite / Unit
-                              @endif
-                                
                             </button>
                         </div>
                     </div>
@@ -150,7 +163,6 @@
                 <!-- end row -->
 
                 
-
 <!-- Units List -->
 <div class="row">
     @php
@@ -200,11 +212,17 @@
                                             onclick="window.location.href='{{ route('unit.edit', $unit->id) }}'">
                                             Edit
                                         </button>
-                                        <a type="button" 
-                                            href="{{ route('unit.delete', ['id' => $unit->id]) }}"
-                                            class="btn btn-danger m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm">
+                                       
+                                        <button type="button" 
+                                            class="btn btn-danger m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm"
+                                            onclick="confirmDelete('{{ route('unit.delete', ['id' => $unit->id]) }}')">
                                             Delete
-                                        </a>
+                                        </button>
+                                        <!-- Hidden form for deletion -->
+                                        <form id="delete-form" action="{{ route('unit.delete', ['id' => $unit->id]) }}" method="GET" style="display: none;">
+                                            @csrf
+                                            @method('DELETE')
+                                        </form>
                                     </div>
                                 </div>
                             </div>

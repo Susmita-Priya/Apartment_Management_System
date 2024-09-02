@@ -123,7 +123,7 @@ class FloorController extends Controller
         $floor->storage_lot = $request->has('storage_lot');
         $floor->common_area = $request->has('common_area');
         $floor->save();
-        return redirect()->route('floor.show', $floor->id)->with('success', 'Floor updated successfully.');
+        return redirect()->route('block.show', $block->id)->with('success', 'Floor updated successfully.');
     }
 
     public function destroy($id)
@@ -134,6 +134,6 @@ class FloorController extends Controller
         // Fetch the associated building
         $block = Block::findOrFail($floor->block_id);
 
-        return redirect()->route('block.show', $block->id)->with('success', 'Floor Deleted successfully.');
+        return redirect()->route('block.show', $block->id)->with('delete', 'Floor Deleted successfully.');
     }
 }

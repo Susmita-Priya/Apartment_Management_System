@@ -17,7 +17,7 @@
                         <h4 class="page-title float-left">Dashboard</h4>
 
                         <ol class="breadcrumb float-right">
-                            <li class="breadcrumb-item"><a href="{{url('/index') }}">Admin</a></li>
+                            <li class="breadcrumb-item"><a href="{{route('index') }}">Admin</a></li>
                             <li class="breadcrumb-item active">Dashboard</li>
                         </ol>
 
@@ -26,7 +26,6 @@
                 </div>
             </div>
             <!-- end row -->
-
 
             <div class="row">
 
@@ -77,7 +76,6 @@
             </div>
             <!-- end row -->
 
-
             <div class="row">
                 <div class="col-xl-4">
                     <div class="card-box">
@@ -125,7 +123,6 @@
                 </div>
             </div>
             <!-- end row -->
-
 
             <div class="row">
                 <div class="col-xl-6 col-lg-12">
@@ -352,5 +349,6 @@
             <!--- end row -->
         </div> <!-- container -->
 </div>
+
 
 @endsection

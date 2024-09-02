@@ -7,10 +7,11 @@
         <div id="sidebar-menu">
             <!-- Left Menu Start -->
             <ul class="metismenu" id="side-menu">
+                @if(Auth::check())
                 @php
                     $role_id = Auth::user()->role_id;
                 @endphp
-
+                
                 <li class="menu-title">Navigation</li>
                 
                 <li>
@@ -83,7 +84,7 @@
                 </li>
                 @endif
             </ul>
-
+            @endif
         </div>
         <!-- Sidebar -->
         <div class="clearfix"></div>

@@ -14,8 +14,8 @@
                     <div class="page-title-box">
                         <h4 class="page-title float-left">Buildings</h4>
                         <ol class="breadcrumb float-right">
-                            <li class="breadcrumb-item"><a href="{{ url('/index') }}">Admin</a></li>
-                            <li class="breadcrumb-item"><a href="{{ url('/building') }}">Buildings</a></li>
+                            <li class="breadcrumb-item"><a href="{{ route('index') }}">Admin</a></li>
+                            <li class="breadcrumb-item"><a href="{{ route('building') }}">Buildings</a></li>
                             <li class="breadcrumb-item active">Building List</li>
                         </ol>
                         <div class="clearfix"></div>
@@ -43,152 +43,63 @@
             </div>
             <!-- end row -->
 
-            <!-- Section for Residential Buildings -->
-            <div class="row">
-                <div class="col-12">
-                    <h3>Residential Buildings</h3>
-                </div>
-                @foreach($buildings->where('type', 'RESB') as $building)
-                <div class="col-md-4">
-                    <div class="card-box">
-                        <div class="member-card-alt">
-                            <div class="thumb-xl member-thumb m-b-10 pull-left">
-                                <img src="{{ asset($building->image) }}" class="img-thumbnail" alt="building-image">
-                            </div>
-                            <div class="member-card-alt-info">
-                                <h4 class="m-b-5 m-t-0 font-19">{{ $building->name }}</h4>
-                                @php
-                                $typeFullForm = [
-                                    'RESB' => 'Residential',
-                                    'COMB' => 'Commercial',
-                                    'RECB' => 'Residential-Commercial',
-                                ];
-                                @endphp
-                                <p class="text-muted">
-                                    {{ $typeFullForm[$building->type] ?? 'Other' }} 
-                                    <span> | </span> 
-                                    {{ $building->building_id }}
-                                </p>
-                                <button type="button" 
-                                    onclick="window.location.href='{{ route('building.show', $building->id) }}'"
-                                    class="btn btn-info m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm">
-                                    Enter
-                                </button>
-                                <button type="button" 
-                                    class="btn btn-success m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm" 
-                                    onclick="window.location.href='{{ route('building.edit', $building->id) }}'">
-                                    Edit
-                                </button>
-                                <a type="button" 
-                                   href="{{ route('building.delete', ['id' => $building->id]) }}"
-                                   class="btn btn-danger m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm">
-                                    Delete
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                @endforeach
-            </div>
-            <!-- end section for Residential Buildings -->
+            <!-- Buildings Section -->
+@php
+$buildingTypes = [
+    'RESB' => 'Residential Buildings',
+    'COMB' => 'Commercial Buildings',
+    'RECB' => 'Residential-Commercial Buildings'
+];
+@endphp
 
-            <!-- Section for Commercial Buildings -->
-            <div class="row">
-                <div class="col-12">
-                    <h3>Commercial Buildings</h3>
+@foreach($buildingTypes as $type => $title)
+<div class="row">
+    <div class="col-12">
+        <h3>{{ $title }}</h3>
+    </div>
+    @foreach($buildings->where('type', $type) as $building)
+    <div class="col-md-4">
+        <div class="card-box">
+            <div class="member-card-alt">
+                <div class="thumb-xl member-thumb m-b-10 pull-left">
+                    <img src="{{ asset($building->image) }}" class="img-thumbnail" alt="building-image">
                 </div>
-                @foreach($buildings->where('type', 'COMB') as $building)
-                <div class="col-md-4">
-                    <div class="card-box">
-                        <div class="member-card-alt">
-                            <div class="thumb-xl member-thumb m-b-10 pull-left">
-                                <img src="{{ asset($building->image) }}" class="img-thumbnail" alt="building-image">
-                            </div>
-                            <div class="member-card-alt-info">
-                                <h4 class="m-b-5 m-t-0 font-19">{{ $building->name }}</h4>
-                                @php
-                                $typeFullForm = [
-                                    'RESB' => 'Residential',
-                                    'COMB' => 'Commercial',
-                                    'RECB' => 'Residential-Commercial',
-                                ];
-                                @endphp
-                                <p class="text-muted">
-                                    {{ $typeFullForm[$building->type] ?? 'Other' }} 
-                                    <span> | </span> 
-                                    {{ $building->building_id }}
-                                </p>
-                                <button type="button" 
-                                    onclick="window.location.href='{{ route('building.show', $building->id) }}'"
-                                    class="btn btn-info m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm">
-                                    Enter
-                                </button>
-                                <button type="button" 
-                                    class="btn btn-success m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm" 
-                                    onclick="window.location.href='{{ route('building.edit', $building->id) }}'">
-                                    Edit
-                                </button>
-                                <a type="button" 
-                                   href="{{ route('building.delete', ['id' => $building->id]) }}"
-                                   class="btn btn-danger m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm">
-                                    Delete
-                                </a>
-                            </div>
-                        </div>
-                    </div>
+                <div class="member-card-alt-info">
+                    <h4 class="m-b-5 m-t-0 font-19">{{ $building->name }}</h4>
+                    <p class="text-muted">
+                        {{ $buildingTypes[$building->type] ?? 'Other' }} 
+                        <span> | </span> 
+                        {{ $building->building_id }}
+                    </p>
+                    <button type="button" 
+                        onclick="window.location.href='{{ route('building.show', $building->id) }}'"
+                        class="btn btn-info m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm">
+                        Enter
+                    </button>
+                    <button type="button" 
+                        class="btn btn-success m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm" 
+                        onclick="window.location.href='{{ route('building.edit', $building->id) }}'">
+                        Edit
+                    </button>
+                    <button type="button" 
+                    class="btn btn-danger m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm"
+                    onclick="confirmDelete('{{ route('building.delete', ['id' => $building->id]) }}')">
+                    Delete
+                </button>
+                <!-- Hidden form for deletion -->
+                <form id="delete-form" action="{{ route('building.delete', ['id' => $building->id]) }}" method="GET" style="display: none;">
+                    @csrf
+                    @method('DELETE')
+                </form>
                 </div>
-                @endforeach
             </div>
-            <!-- end section for Commercial Buildings -->
+        </div>
+    </div>
+    @endforeach
+</div>
+@endforeach
+<!-- End Buildings Section -->
 
-            <!-- Section for Residential-Commercial Buildings -->
-            <div class="row">
-                <div class="col-12">
-                    <h3>Residential-Commercial Buildings</h3>
-                </div>
-                @foreach($buildings->where('type', 'RECB') as $building)
-                <div class="col-md-4">
-                    <div class="card-box">
-                        <div class="member-card-alt">
-                            <div class="thumb-xl member-thumb m-b-10 pull-left">
-                                <img src="{{ asset($building->image) }}" class="img-thumbnail" alt="building-image">
-                            </div>
-                            <div class="member-card-alt-info">
-                                <h4 class="m-b-5 m-t-0 font-19">{{ $building->name }}</h4>
-                                @php
-                                $typeFullForm = [
-                                    'RESB' => 'Residential',
-                                    'COMB' => 'Commercial',
-                                    'RECB' => 'Residential-Commercial',
-                                ];
-                                @endphp
-                                <p class="text-muted">
-                                    {{ $typeFullForm[$building->type] ?? 'Other' }} 
-                                    <span> | </span> 
-                                    {{ $building->building_id }}
-                                </p>
-                                <button type="button" 
-                                    onclick="window.location.href='{{ route('building.show', $building->id) }}'"
-                                    class="btn btn-info m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm">
-                                    Enter
-                                </button>
-                                <button type="button" 
-                                    class="btn btn-success m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm" 
-                                    onclick="window.location.href='{{ route('building.edit', $building->id) }}'">
-                                    Edit
-                                </button>
-                                <a type="button" 
-                                   href="{{ route('building.delete', ['id' => $building->id]) }}"
-                                   class="btn btn-danger m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm">
-                                   Delete
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                @endforeach
-            </div>
-            <!-- end section for Residential-Commercial Buildings -->
 
         </div> <!-- container -->
     </div> <!-- content -->

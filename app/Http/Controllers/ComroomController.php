@@ -194,6 +194,6 @@ class ComroomController extends Controller
     $comroom->delete();
 
     // Redirect with success message
-    return redirect()->route('unit.show', $comroom->unit_id)->with('success', 'Room deleted successfully.');
+    return redirect()->route('unit.show', $comroom->unit_id)->with('delete', 'Room deleted successfully.');
     }
 }

@@ -122,7 +122,7 @@ class BlockController extends Controller
     $block->delete();
     
     // Redirect to the building's details page with a success message
-    return redirect()->route('building.show', $building->id)->with('success', 'Block deleted successfully.');
+    return redirect()->route('building.show', $building->id)->with('delete', 'Block deleted successfully.');
 
     }
 }

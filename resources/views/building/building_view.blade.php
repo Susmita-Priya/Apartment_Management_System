@@ -16,8 +16,8 @@
                     <h4 class="page-title float-left">{{ $building->name }}</h4>
 
                     <ol class="breadcrumb float-right">
-                        <li class="breadcrumb-item"><a href="{{ url('/index') }}">Dashboard</a></li>
-                        <li class="breadcrumb-item"><a href="{{ url('/building') }}">Buildings</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('index') }}">Dashboard</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('building') }}">Buildings</a></li>
                         <li class="breadcrumb-item active">Building Details</li>
                     </ol>
 
@@ -132,18 +132,17 @@
                                     onclick="window.location.href='{{ route('block.edit', $block->id) }}'">
                                     Edit
                                 </button>
-                                <a type="button" 
-                                   href="{{ route('block.delete', ['id' => $block->id]) }}"
-                                   class="btn btn-danger m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm">
+                                <button type="button" 
+                                        class="btn btn-danger m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm"
+                                        onclick="confirmDelete('{{ route('block.delete', ['id' => $block->id]) }}')">
                                     Delete
-                                </a>
-                                {{-- <a href="{{ route('block.show', $block->id) }}" class="btn btn-info btn-sm">View</a>
-                                <a href="{{ route('block.edit', $block->id) }}" class="btn btn-success btn-sm">Edit</a>
-                                <form action="{{ route('block.destroy', $block->id) }}" method="POST" style="display:inline;">
+                                </button>
+
+                                <!-- Hidden form for deletion -->
+                                <form id="delete-form" action="{{ route('block.delete', ['id' => $block->id]) }}" method="GET" style="display: none;">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-                                </form> --}}
+                                </form>
                             </div>
                         </div>
                     @endforeach
