@@ -13,8 +13,8 @@
                     <h4 class="page-title float-left">Edit Floor</h4>
 
                     <ol class="breadcrumb float-right">
-                        <li class="breadcrumb-item"><a href="{{ url('/index') }}">Dashboard</a></li>
-                        <li class="breadcrumb-item"><a href="{{ url('/building') }}">Buildings</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('index') }}">Dashboard</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('building') }}">Buildings</a></li>
                         <li class="breadcrumb-item"><a href="{{ route('block.show', $floor->block_id) }}">Block</a></li>
                         <li class="breadcrumb-item active">Edit Floor</li>
                     </ol>

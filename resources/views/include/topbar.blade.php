@@ -62,8 +62,19 @@
                 <div class="dropdown-menu dropdown-menu-right profile-dropdown " aria-labelledby="Preview">
                     <!-- item-->
                     <div class="dropdown-item noti-title">
-                        <h5 class="text-overflow"><small>Welcome {{ Auth::user()->name }}</small> </h5>
+                        @if(Auth::check() && Auth::user()->name)
+                            <h5 class="text-overflow"><small>Welcome {{ Auth::user()->name }}</small></h5>
+                        @else
+                            <script>
+                                    swal("Sorry!!", "You need to log in to access this page", 'error', {
+                                        button: "OK",
+                                    }).then(() => {
+                                        window.location.href = '{{ route("login") }}'; // Redirect to the login page after alert
+                                    });
+                            </script>
+                        @endif
                     </div>
+                    
 
                     <!-- item-->
                     <a href="javascript:void(0);" class="dropdown-item notify-item">
@@ -81,14 +92,38 @@
                     </a> --}}
 
                     <!-- item-->
-                    <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                         @csrf
                     </form>
                     
-                    <a href="#" class="dropdown-item notify-item" 
-                       onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                    <a href="#" class="dropdown-item notify-item" id="logoutBtn"
+                       >
                         <i class="mdi mdi-power"></i> <span>Logout</span>
                     </a>
+
+                    <script type="text/javascript">
+                        document.getElementById('logoutBtn').addEventListener('click', function(event) {
+                            event.preventDefault();
+                            swal({
+                                title: "Are you sure?",
+                                text: "You will be logged out!",
+                                icon: "warning",
+                                showCancelButton: true,
+                                confirmButtonColor: "#3085d6",
+                                cancelButtonColor: "#d33",
+                                confirmButtonText: "Yes, Logout!"
+                            }).then((willLogout) => {
+                                if (willLogout) {
+                                   
+                                    document.getElementById('logout-form').submit();
+                                  
+                                } else {
+                                    swal("You are still logged in!");
+                                }
+                            });
+                        });
+                    </script>
+                    
                     
                 </div>
             </li>

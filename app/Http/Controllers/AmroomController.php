@@ -216,6 +216,6 @@ class AmroomController extends Controller
 
         $amroom->delete();
 
-        return redirect()->route('unit.show', $amroom->unit_id)->with('success', 'Amenity Room deleted successfully.');
+        return redirect()->route('unit.show', $amroom->unit_id)->with('delete', 'Amenity Room deleted successfully.');
     }
 }

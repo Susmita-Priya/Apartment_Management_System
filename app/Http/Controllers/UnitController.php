@@ -152,6 +152,6 @@ class UnitController extends Controller
         $unit->delete();
     
         return redirect()->route('floor.show', $floorId)
-            ->with('success', 'Unit deleted successfully.');
+            ->with('delete', 'Unit deleted successfully.');
     }
 }

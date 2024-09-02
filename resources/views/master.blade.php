@@ -16,6 +16,7 @@
         }
         </style>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js" integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
         <!-- App favicon -->
 <link rel="shortcut icon" href="{{ asset('admin_dashboard') }}/assets/images/favicon.ico">
@@ -44,8 +45,8 @@
     <body>
         <!-- Begin page -->
         <div id="wrapper"> 
-        
-        {{-- @include('auth.message') --}}
+ 
+        @include('message')
         
         @include('include.topbar')
 
@@ -96,10 +97,10 @@
 <!-- Sweet-Alert  -->
 <script src="{{ asset('admin_dashboard') }}/plugins/sweet-alert2/sweetalert2.min.js"></script>
 <script src="{{ asset('admin_dashboard') }}/assets/pages/jquery.sweet-alert.init.js"></script>
-{{-- 
-<!-- Sweet-Alert  -->
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> --}}
 
+
+
+{{-- 
 <!-- Font-awesome -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-PhNU2NnNx0+bXw85z1zOHu+RmF/yhJ7gr/kpiURmcYF4ZBS0alMCi/YQHZjxovhz" crossorigin="anonymous">
 

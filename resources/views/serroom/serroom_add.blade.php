@@ -13,8 +13,8 @@
                     <h4 class="page-title float-left">Add Service Room</h4>
 
                     <ol class="breadcrumb float-right">
-                        <li class="breadcrumb-item"><a href="{{ url('/index') }}">Dashboard</a></li>
-                        <li class="breadcrumb-item"><a href="{{ url('/building') }}">Buildings</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('index') }}">Dashboard</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('building') }}">Buildings</a></li>
                         <li class="breadcrumb-item"><a href="{{ route('block.show', $block->id) }}">Block</a></li>
                         <li class="breadcrumb-item"><a href="{{ route('floor.show', $floor->id) }}">Floor</a></li>
                         <li class="breadcrumb-item"><a href="{{ route('unit.show', $unit->id) }}">Unit</a></li>
@@ -41,7 +41,7 @@
             <div class="col-12">
                 <div class="card-box">
                     @if($unit->type == 'Supporting and Servicing Unit')
-                        <form action="{{ url('/serroom/create') }}" enctype="multipart/form-data" method="POST">
+                        <form action="{{ route('serroom.store') }}" enctype="multipart/form-data" method="POST">
                             @csrf
                             <input type="hidden" name="unit_id" value="{{ $unit->id }}">
 

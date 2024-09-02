@@ -14,8 +14,8 @@
                     <h4 class="page-title float-left">Buildings</h4>
 
                     <ol class="breadcrumb float-right">
-                        <li class="breadcrumb-item"><a href="{{ url('/index') }}">Admin</a></li>
-                        <li class="breadcrumb-item"><a href="{{ url('/building') }}">Buildings</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('index') }}">Admin</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('building') }}">Buildings</a></li>
                         <li class="breadcrumb-item active">Add Building</li>
                     </ol>
 
@@ -26,7 +26,7 @@
         <!-- end row -->
         <div class="row">
             <div class="col-md-12">
-                <form action="{{ url('/building/create') }}" enctype="multipart/form-data" method="POST">
+                <form action="{{ route('building.store') }}" enctype="multipart/form-data" method="POST">
                     @csrf
                     <div class="col-md-12">
                         <div class="card-box">

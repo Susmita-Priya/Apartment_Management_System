@@ -210,7 +210,7 @@ class AdroomController extends Controller
 
         $adroom->delete();
 
-        return redirect()->route('unit.show', $adroom->unit_id)->with('success', 'Administrative Room deleted successfully.');
+        return redirect()->route('unit.show', $adroom->unit_id)->with('delete', 'Administrative Room deleted successfully.');
     }
 }
 

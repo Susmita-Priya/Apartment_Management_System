@@ -13,8 +13,8 @@
                     <h4 class="page-title float-left">Edit Unit/Suite</h4>
 
                     <ol class="breadcrumb float-right">
-                        <li class="breadcrumb-item"><a href="{{ url('/index') }}">Dashboard</a></li>
-                        <li class="breadcrumb-item"><a href="{{ url('/building') }}">Buildings</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('index') }}">Dashboard</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('building') }}">Buildings</a></li>
                         <li class="breadcrumb-item"><a href="{{ route('block.show', $block->id) }}">Block</a></li>
                         <li class="breadcrumb-item"><a href="{{ route('floor.show', $floor->id) }}">Floor</a></li>
                         <li class="breadcrumb-item active">Edit Unit/Suite</li>
@@ -28,7 +28,7 @@
         <div class="row">
             <div class="col-12">
                 <div class="card-box">
-                    <form action="{{ url('/unit/edit', $unit->id) }}" enctype="multipart/form-data" method="POST">
+                    <form action="{{ route('unit.update', $unit->id) }}" enctype="multipart/form-data" method="POST">
                         @csrf
                         <input type="hidden" name="floor_id" value="{{ $floor->id }}">
 

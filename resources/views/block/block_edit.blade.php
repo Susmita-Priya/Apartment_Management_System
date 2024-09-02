@@ -14,8 +14,8 @@
                     <h4 class="page-title float-left">Blocks</h4>
 
                     <ol class="breadcrumb float-right">
-                        <li class="breadcrumb-item"><a href="{{ url('/index') }}">Admin</a></li>
-                        <li class="breadcrumb-item"><a href="{{ url('/building') }}">Buildings</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('index') }}">Admin</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('building') }}">Buildings</a></li>
                         <li class="breadcrumb-item"><a href="{{ route('building.show', $block->building_id) }}">Building</a></li>
                         <li class="breadcrumb-item active">Edit Block</li>
                     </ol>
@@ -27,7 +27,7 @@
         <!-- end row -->
         <div class="row">
             <div class="col-md-12">
-                <form action="{{ url('/block/edit/'.$block->id ) }}" enctype="multipart/form-data" method="POST">
+                <form action="{{ route('block.update',$block->id ) }}" enctype="multipart/form-data" method="POST">
                     @csrf
                     <div class="col-md-12">
                         <div class="card-box">

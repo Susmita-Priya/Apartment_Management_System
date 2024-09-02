@@ -198,7 +198,7 @@ foreach ($extraRooms as $extraRoomData) {
     $resroom->delete();
 
     // Redirect with success message
-    return redirect()->route('unit.show', $resroom->unit_id)->with('success', 'Room deleted successfully.');
+    return redirect()->route('unit.show', $resroom->unit_id)->with('delete', 'Room deleted successfully.');
 
     }
 }

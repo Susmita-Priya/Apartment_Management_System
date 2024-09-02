@@ -210,6 +210,6 @@ class SerroomController extends Controller
 
         $serroom->delete();
 
-        return redirect()->route('unit.show', $serroom->unit_id)->with('success', 'Service Room deleted successfully.');
+        return redirect()->route('unit.show', $serroom->unit_id)->with('delete', 'Service Room deleted successfully.');
     }
 }

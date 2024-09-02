@@ -62,6 +62,8 @@
     <!-- App favicon -->
     <link rel="shortcut icon" href="{{ asset('admin_dashboard') }}/assets/images/favicon.ico">
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js" integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
     <!-- App css -->
     <link href="{{ asset('admin_dashboard') }}/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <link href="{{ asset('admin_dashboard') }}/assets/css/icons.css" rel="stylesheet" type="text/css" />
@@ -74,7 +76,7 @@
 
     <body style="background-color:rgb(100,197,177)">
 
-        @include('auth.message')
+       
         <!-- HOME -->
         <section>
             <div class="container">
@@ -95,7 +97,7 @@
                                         <p class="m-b-0">Login to your Admin account</p>
                                     </div>
                                     <div class="account-content">
-                                        <form class="form-horizontal" action="{{url('/')}}" method="post">
+                                        <form class="form-horizontal" action="{{route('login')}}" method="post">
                                             @csrf
                                             <div class="form-group m-b-20 row">
                                                 <div class="col-12">
@@ -170,7 +172,7 @@
           </section>
           <!-- END HOME -->
 
-
+        @include('message')
 
         <script>
             var resizefunc = [];

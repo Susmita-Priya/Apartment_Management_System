@@ -19,7 +19,7 @@ class AuthController extends Controller
         // dd($request->all());
         if(Auth::attempt(['email' => $request->email , 'password'=> $request->password]))
         {
-            return redirect('/index')->with('success', 'User updated successfully!');
+            return redirect('/index')->with('successlogin', 'Login Successfull!');
         }
         else{
             return redirect()->back()->with('error',"Please Enter Correct Email and Password");
@@ -34,5 +34,13 @@ class AuthController extends Controller
 
         return redirect('/');
     }
+
+    // public function loginx()
+    // {
+    //     if (!Auth::check()) {
+    //         return redirect()->route('login')->with('errorlog', 'You need to log in to access this page.');
+    //     }
+    //     return redirect()->route('index');
+    // }
 
 }

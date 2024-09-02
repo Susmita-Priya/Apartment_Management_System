@@ -41,7 +41,7 @@ class BuildingController extends Controller
         'name' => 'required',
         'type' => 'required|in:RESB,COMB,RECB',
         // 'property_id' => 'required|exists:properties,id',
-        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
     ]);
 
     // Handle the image upload if present
@@ -114,7 +114,7 @@ class BuildingController extends Controller
         'name' => 'required',
         'type' => 'required|in:RESB,COMB,RECB',
         // 'property_id' => 'required|exists:properties,id',
-        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
     ]);
 
     // Find the building to update
