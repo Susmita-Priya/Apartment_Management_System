@@ -49,18 +49,27 @@ class UnitController extends Controller
     }
 
     // Combine floor_id with user-provided unit_no to generate the unit_id
-    $unitNo = $request->unit_no;
-    $unitId = $floor->floor_no . '-UNIT' . $unitNo;
+    // $unitNo = $request->unit_no;
+    // $unitId = $floor->floor_no . '-UNIT' . $unitNo;
 
     // // Check for uniqueness
     // if (Unit::where('unit_id', $unitId)->exists()) {
     //     return redirect()->back()->withErrors('Unit ID already exists.');
     // }
 
+    // Check for uniqueness, ignoring the current record
+    $exists = Unit::where('floor_id', $request->floor_id)
+    ->where('unit_no', $request->unit_no)
+    ->exists();
+
+if ($exists) {
+return redirect()->back()->with('error','This Unit NO already exists on this floor.');
+}
+
     // Create a new unit with the generated unit_id
     $unit = new Unit();
     $unit->floor_id = $floor->id;
-    $unit->unit_id = $unitId;
+    $unit->unit_no = $request->unit_no;
     $unit->type = $request['type'];
     // Add other fields as needed
     $unit->save();
@@ -124,15 +133,23 @@ class UnitController extends Controller
     }
 
     // Combine floor_id with user-provided unit_no to generate the unit_id
-    $unitNo = $request->unit_no;
-    $unitId = $floor->floor_no . '-UNIT' . $unitNo;
+    // $unitNo = $request->unit_no;
+    // $unitId = $floor->floor_no . '-UNIT' . $unitNo;
     // // Check for uniqueness
     // if ($unit->unit_id !== $unitId && Unit::where('unit_id', $unitId)->exists()) {
     //     return redirect()->back()->withErrors('Unit ID already exists.');
     // }
+    // Check for uniqueness, ignoring the current record
+    $exists = Unit::where('floor_id', $request->floor_id)
+    ->where('unit_no', $request->unit_no)
+    ->where('id', '!=', $unit->id)
+    ->exists();
 
+if ($exists) {
+return redirect()->back()->with('error','This Stall/Locker NO already exists on this floor.');
+}
     // Update the unit
-    $unit->unit_id = $unitId;
+    $unit->unit_no = $request->unit_no;;
     $unit->type = $request->type;
     // Add other fields as needed
     $unit->save();

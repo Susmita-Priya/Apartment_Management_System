@@ -32,7 +32,7 @@
                         @csrf
                         <input type="hidden" name="floor_id" value="{{ $floor->id }}">
 
-                        @php
+                        {{-- @php
                             // Correctly extract the numeric part of the unit ID after "UNIT"
                             $unitString = $unit->unit_id;
                             $position = strpos($unitString, 'UNIT');
@@ -41,11 +41,11 @@
                             } else {
                                 $unitId = null; // Handle the case where "UNIT" is not found
                             }
-                        @endphp
+                        @endphp --}}
 
                         <div class="form-group">
                             <label for="unit_no">Unit/Suite NO</label>
-                            <input type="text" name="unit_no" id="unit_no" class="form-control" value="{{ old('unit_no', $unitId) }}">
+                            <input type="text" name="unit_no" id="unit_no" class="form-control" value="{{ old('unit_no', $unit->unit_no) }}">
                         </div>
                         
                         <div class="form-group">

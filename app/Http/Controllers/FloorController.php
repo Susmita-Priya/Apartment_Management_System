@@ -51,21 +51,29 @@ class FloorController extends Controller
         // }
 
         
+        // Check for uniqueness
+        $exists = Floor::where('block_id', $request->block_id)
+        ->where('floor_no', $request->floor_no)
+        ->exists();
+
+        if ($exists) {
+        return redirect()->back()->with('error','This Floor NO already exists on this Block.');
+        }
+        
         // Create a new Floor entry
-        // Create a new Floor entry
-    $floor = new Floor;
-    $floor->block_id = $blockId;
-    $floor->floor_no = $request->input('floor_no');
-    $floor->name = $request->input('name');
-    $floor->type = $request->input('type');
-    $floor->residential_suite = $request->has('residential_suite');
-    $floor->commercial_unit = $request->has('commercial_unit');
-    $floor->supporting_service_room = $request->has('supporting_service_room');
-    $floor->parking_lot = $request->has('parking_lot');
-    $floor->bike_lot = $request->has('bike_lot');
-    $floor->storage_lot = $request->has('storage_lot');
-    $floor->common_area = $request->has('common_area');
-    $floor->save();
+        $floor = new Floor;
+        $floor->block_id = $blockId;
+        $floor->floor_no = $request->input('floor_no');
+        $floor->name = $request->input('name');
+        $floor->type = $request->input('type');
+        $floor->residential_suite = $request->has('residential_suite');
+        $floor->commercial_unit = $request->has('commercial_unit');
+        $floor->supporting_service_room = $request->has('supporting_service_room');
+        $floor->parking_lot = $request->has('parking_lot');
+        $floor->bike_lot = $request->has('bike_lot');
+        $floor->storage_lot = $request->has('storage_lot');
+        $floor->common_area = $request->has('common_area');
+        $floor->save();
 
         return redirect()->route('block.show', $block->id)->with('success', 'Floor added successfully.');
     }
@@ -75,7 +83,7 @@ class FloorController extends Controller
         $floor = Floor::findOrFail($id);
         $block = $floor->block;
         $building = $block->building;
-        $floor = Floor::withCount('units')->findOrFail($id);
+        $floor = Floor::withCount(['units', 'stallsLockers'])->findOrFail($id);
 
         return view('floor.floor_view', compact('building', 'block', 'floor'));
     }
@@ -99,8 +107,6 @@ class FloorController extends Controller
 
         $floor = Floor::findOrFail($id);
         $block = $floor->block;
-        $building = $block->building;
-
         // // Check for valid options based on building type
         // if ($building->type == 'RESB' && !$request->has('residential_suite')) {
         //     return redirect()->back()->withErrors(['residential_suite' => 'Residential suites must be specified for residential buildings.']);
@@ -109,6 +115,16 @@ class FloorController extends Controller
         // if ($building->type == 'COMB' && !$request->has('commercial_unit')) {
         //     return redirect()->back()->withErrors(['commercial_unit' => 'Commercial units must be specified for commercial buildings.']);
         // }
+
+        // Check for uniqueness
+        $exists = Floor::where('block_id', $request->block_id)
+        ->where('floor_no', $request->floor_no)
+        ->where('id', '!=', $floor->id)
+        ->exists();
+
+        if ($exists) {
+        return redirect()->back()->with('error','This Floor NO already exists on this Block.');
+        }
 
         // Update the Floor entry
         $floor->block_id = $request->input('block_id');

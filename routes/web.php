@@ -10,10 +10,10 @@ use App\Http\Controllers\FloorController;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\MechroomController;
 use App\Http\Controllers\PermissionController;
-use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ResroomController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SerroomController;
+use App\Http\Controllers\StallLockerController;
 use App\Http\Controllers\TenantsController;
 use App\Http\Controllers\UnitController;
 use App\Http\Controllers\UserController;
@@ -278,3 +278,17 @@ Route::get('serroom/edit/{id}', [SerroomController::class, 'edit'])->name("serro
 Route::post('serroom/edit/{id}', [SerroomController::class, 'update'])->name("serroom.update");
 
 Route::get('serroom/delete/{id}', [SerroomController::class, 'destroy'])->name("serroom.delete");
+
+
+
+Route::get('stall_locker/create', [StallLockerController::class, 'create'])->name("stall_locker.create");
+
+Route::post('stall_locker/create', [StallLockerController::class, 'store'])->name("stall_locker.store");
+
+Route::get('stall_locker/show/{id}', [StallLockerController::class, 'show'])->name("stall_locker.show");
+
+Route::get('stall_locker/edit/{id}', [StallLockerController::class, 'edit'])->name("stall_locker.edit");
+
+Route::post('stall_locker/edit/{id}', [StallLockerController::class, 'update'])->name("stall_locker.update");
+
+Route::get('stall_locker/delete/{id}', [StallLockerController::class, 'destroy'])->name("stall_locker.delete");

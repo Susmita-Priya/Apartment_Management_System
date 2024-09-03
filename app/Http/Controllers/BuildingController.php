@@ -39,7 +39,7 @@ class BuildingController extends Controller
     // Validate the request data
     $request->validate([
         'name' => 'required',
-        'type' => 'required|in:RESB,COMB,RECB',
+        'type' => 'required',
         // 'property_id' => 'required|exists:properties,id',
         'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
     ]);

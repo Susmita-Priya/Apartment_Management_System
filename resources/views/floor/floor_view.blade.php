@@ -40,7 +40,7 @@
                             <span class="pull-left m-r-15"><img src="{{ asset($block->building->image) }}" alt="" class="thumb-lg rounded-circle"></span>
                             <div class="media-body">
                                 <h4 class="m-t-7 font-18">{{ $floor->name }}</h4>
-                                <p class="font-15">{{ $floor->block->building->name }} Building</p>
+                                <p class="text-muted font-15">{{ $floor->block->building->name }} Building</p>
                             </div>
                         </div>
                         <div class="col-sm-6">
@@ -67,7 +67,7 @@
                     <h4 class="header-title mt-0 m-b-20">Floor Information</h4>
                     <div class="panel-body">
 
-                        <p class="text-muted font-15"><strong>Floor No:</strong> <span class="m-l-15">{{ $floor->floor_no }}</p>
+                        <p class="text-muted font-15"><strong>Floor No:</strong> <span class="m-l-15">{{ $floor->type }}-{{ $floor->floor_no }}</p>
                         <p class="text-muted font-15"><strong>Floor Name:</strong> <span class="m-l-15">{{ $floor->name }}</p>
                         <p class="text-muted font-15"><strong>Type:</strong> <span class="m-l-15">{{ ucfirst($floor->type) }} floor</p>
                             <p class="text-muted font-15"><strong>Date Added:</strong> <span class="m-l-15">{{ $floor->created_at->format('d M, Y') }}</span></p>
@@ -125,13 +125,29 @@
                     <div class="col-sm-12">
                         <div class="text-right m-b-20">
 
-                             @if($floor->parking_lot || $floor->bike_lot)
+                                @if($floor->parking_lot || $floor->bike_lot)
                                        
-                            <button type="button" class="btn waves-effect waves-light"
-                            style="background-color: rgb(100, 197, 177); border-color: rgb(100, 197, 177); color: white; 
+                                <button type="button" class="btn waves-effect waves-light"
+                                style="background-color: rgb(100, 197, 177); border-color: rgb(100, 197, 177); color: white; 
                                   position: absolute; right: 10px;  transform: translateY(-50%);  text-decoration: none;"
-                                    onclick="window.location.href='{{ route('unit.create', ['floor_id' => $floor->id]) }}'">
+                                    onclick="window.location.href='{{ route('stall_locker.create', ['floor_id' => $floor->id]) }}'">
                                 <i class="mdi mdi-plus m-r-5"></i> Add Stall 
+
+                                @elseif($floor->storage_lot)
+                                       
+                                <button type="button" class="btn waves-effect waves-light"
+                                style="background-color: rgb(100, 197, 177); border-color: rgb(100, 197, 177); color: white; 
+                                      position: absolute; right: 10px;  transform: translateY(-50%);  text-decoration: none;"
+                                        onclick="window.location.href='{{ route('stall_locker.create', ['floor_id' => $floor->id]) }}'">
+                                    <i class="mdi mdi-plus m-r-5"></i> Add Locker 
+                                
+                                @elseif($floor->parking_lot || $floor->bike_lot || $floor->storage_lot)
+                                   
+                                <button type="button" class="btn waves-effect waves-light"
+                                style="background-color: rgb(100, 197, 177); border-color: rgb(100, 197, 177); color: white; 
+                                  position: absolute; right: 10px;  transform: translateY(-50%);  text-decoration: none;"
+                                    onclick="window.location.href='{{ route('stall_locker.create', ['floor_id' => $floor->id]) }}'">
+                                <i class="mdi mdi-plus m-r-5"></i> Add Stall / Locker
                                                     
                                 @elseif($building->type === 'RESB' )
                                 <button type="button" class="btn waves-effect waves-light"
@@ -162,78 +178,142 @@
                 </div>
                 <!-- end row -->
 
+            
+                <!-- Units List -->
+                <div class="row">
+                    @php
+                        // Define unit types for categorization
+                        $unitTypes = [
+                            'Residential Suite' => 'Residential Suite',
+                            'Commercial Unit' => 'Commercial Unit',
+                            'Supporting and Servicing Unit' => 'Supporting and Servicing Unit',
+                        ];
+                    @endphp
                 
-<!-- Units List -->
-<div class="row">
-    @php
-        // Define unit types for categorization
-        $unitTypes = [
-            'Residential Suite' => 'Residential Suite',
-            'Commercial Unit' => 'Commercial Unit',
-            'Supporting and Servicing Unit' => 'Supporting and Servicing Unit',
-            'Parking Lot' => 'Parking Lot',
-            'Bike Lot' => 'Bike Lot',
-            'Storage Lot' => 'Storage Lot',
-            'Common Area' => 'Common Area'
-        ];
-    @endphp
-
-    @foreach($unitTypes as $typeKey => $typeName)
-        @php
-            // Filter units by type and sort them by the numeric part after "UNIT"
-            $unitsByType = $floor->units->where('type', $typeKey)->sortBy(function($unit) {
-                $position = strpos($unit->unit_id, 'UNIT');
-                if ($position !== false) {
-                    return (int) substr($unit->unit_id, $position + 4);
-                }
-                return $unit->unit_id; // or handle the case where "UNIT" is not found
-            });
-        @endphp
-        
-        @if($unitsByType->isNotEmpty())
-            <div class="col-md-12">
-                <h4 class="header-title mt-0 m-b-20">{{ $typeName }}</h4>
-
-                @foreach($unitsByType->chunk(3) as $chunk)
-                    <div class="row">
-                        @foreach($chunk as $unit)
-                            <div class="col-md-4">
-                                <div class="card-box">
-                                    <h4 class="header-title mt-0 m-b-20">{{ $unit->unit_id }}</h4>
-                                    <div class="panel-body">
-                                        <p class="text-muted font-15"><strong>Type: </strong>{{ $unit->type }}</p>
-                                        <button type="button" 
-                                            onclick="window.location.href='{{ route('unit.show', $unit->id) }}'"
-                                            class="btn btn-info m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm">
-                                            Enter
-                                        </button>
-                                        <button type="button" 
-                                            class="btn btn-success m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm" 
-                                            onclick="window.location.href='{{ route('unit.edit', $unit->id) }}'">
-                                            Edit
-                                        </button>
-                                       
-                                        <button type="button" 
-                                            class="btn btn-danger m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm"
-                                            onclick="confirmDelete('{{ route('unit.delete', ['id' => $unit->id]) }}')">
-                                            Delete
-                                        </button>
-                                        <!-- Hidden form for deletion -->
-                                        <form id="delete-form" action="{{ route('unit.delete', ['id' => $unit->id]) }}" method="GET" style="display: none;">
-                                            @csrf
-                                            @method('DELETE')
-                                        </form>
+                    @foreach($unitTypes as $typeKey => $typeName)
+                    @php
+                    // Filter units by type and sort by the numeric part after "UNIT"
+                    $unitsByType = $floor->units->where('type', $typeKey)->sortBy(function($unit) {
+                        return (int) $unit->unit_no;
+                    });
+                    @endphp
+                
+                       
+                        @if($unitsByType->isNotEmpty())
+                            <div class="col-md-12">
+                                <h4 class="header-title mt-0 m-b-20">{{ $typeName }}</h4>
+                
+                                @foreach($unitsByType->chunk(3) as $chunk)
+                                    <div class="row">
+                                        @foreach($chunk as $unit)
+                                            <div class="col-md-4">
+                                                <div class="card-box">
+                                                    <h4 class="header-title mt-0 m-b-20">UNIT-{{ $unit->unit_no }}</h4>
+                                                    <div class="panel-body">
+                                                        <p class="text-muted font-15"><strong>Type: </strong>{{ $unit->type }}</p>
+                                                        <button type="button" 
+                                                            onclick="window.location.href='{{ route('unit.show', $unit->id) }}'"
+                                                            class="btn btn-info m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm">
+                                                            Enter
+                                                        </button>
+                                                        <button type="button" 
+                                                            class="btn btn-success m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm" 
+                                                            onclick="window.location.href='{{ route('unit.edit', $unit->id) }}'">
+                                                            Edit
+                                                        </button>
+                                                       
+                                                        <button type="button" 
+                                                            class="btn btn-danger m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm"
+                                                            onclick="confirmDelete('{{ route('unit.delete', ['id' => $unit->id]) }}')">
+                                                            Delete
+                                                        </button>
+                                                        <!-- Hidden form for deletion -->
+                                                        <form id="delete-form" action="{{ route('unit.delete', ['id' => $unit->id]) }}" method="GET" style="display: none;">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endforeach
                                     </div>
-                                </div>
+                                @endforeach
                             </div>
-                        @endforeach
-                    </div>
-                @endforeach
-            </div>
-        @endif
-    @endforeach
-</div>
-
+                        @endif
+                    @endforeach
+                </div>
+                
+                <!-- Stalls/Lockers List -->
+                <div class="row mt-4">
+                    @php
+                        // Define stall/locker types for categorization
+                        $stallLockerTypes = [
+                            'Car Parking Stall' => 'Car Parking Stall',
+                            'Bike Parking Stall' => 'Bike Parking Stall',
+                            'Storage Locker' => 'Storage Locker',
+                        ];
+                    @endphp
+                
+                    @foreach($stallLockerTypes as $typeKey => $typeName)
+                    @php
+                    // Filter stalls/lockers by type and sort them by the numeric part of their number
+                    $stallsLockersByType = $floor->stallsLockers->where('type', $typeKey)->sortBy(function($stallLocker) {
+                        // Assuming stall_locker_no contains only numeric values or is formatted consistently
+                        return (int) $stallLocker->stall_locker_no;
+                    });
+                    @endphp
+                       
+                        @if($stallsLockersByType->isNotEmpty())
+                            <div class="col-md-12">
+                                <h4 class="header-title mt-0 m-b-20">{{ $typeName }}</h4>
+                
+                                @foreach($stallsLockersByType->chunk(3) as $chunk)
+                                    <div class="row">
+                                        @foreach($chunk as $stallLocker)
+                                            <div class="col-md-4">
+                                                <div class="card-box">
+                                                    <h4 class="header-title mt-0 m-b-20">                                
+                            
+                                                    @if($stallLocker->type=='Car Parking Stall' || $stallLocker->type=='Bike Parking Stall')
+                                                        Stall-
+                                                    @elseif ($stallLocker->type=='Storage Locker')
+                                                        Locker-
+                                                    @endif{{ $stallLocker->stall_locker_no }}</h4>
+                                                    
+                                                    <div class="panel-body">
+                                                        <p class="text-muted font-15"><strong>Type: </strong>{{ $stallLocker->type }}</p>
+                                                        <button type="button" 
+                                                            onclick="window.location.href='{{ route('stall_locker.show', $stallLocker->id) }}'"
+                                                            class="btn btn-info m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm">
+                                                            Enter
+                                                        </button>
+                                                        <button type="button" 
+                                                            class="btn btn-success m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm" 
+                                                            onclick="window.location.href='{{ route('stall_locker.edit', $stallLocker->id) }}'">
+                                                            Edit
+                                                        </button>
+                                                       
+                                                        <button type="button" 
+                                                            class="btn btn-danger m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm"
+                                                            onclick="confirmDelete('{{ route('stall_locker.delete', ['id' => $stallLocker->id]) }}')">
+                                                            Delete
+                                                        </button>
+                                                        <!-- Hidden form for deletion -->
+                                                        <form id="delete-form" action="{{ route('stall_locker.delete', ['id' => $stallLocker->id]) }}" method="GET" style="display: none;">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                @endforeach
+                            </div>
+                        @endif
+                    @endforeach
+                </div>
+                
     </div>
 </div>
 <!-- end content -->
