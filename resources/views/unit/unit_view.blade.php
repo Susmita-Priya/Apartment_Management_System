@@ -13,7 +13,7 @@
         <div class="row">
             <div class="col-12">
                 <div class="page-title-box">
-                    <h4 class="page-title float-left">{{ $unit->unit_id }}</h4>
+                    <h4 class="page-title float-left">Unit-{{ $unit->unit_no}}</h4>
 
                     <ol class="breadcrumb float-right">
                         <li class="breadcrumb-item"><a href="{{ url('/index') }}">Dashboard</a></li>
@@ -41,8 +41,8 @@
                         <div class="col-sm-6">
                             <span class="pull-left m-r-15"><img src="{{ asset($unit->floor->block->building->image) }}" alt="" class="thumb-lg rounded-circle"></span>
                             <div class="media-body">
-                                <h4 class="m-t-7 font-18">{{ $unit->unit_id }}</h4>
-                                <p class="font-15">{{ $unit->floor->block->building->name }} Building</p>
+                                <h4 class="m-t-7 font-18">Unit-{{ $unit->unit_no }}</h4>
+                                <p class="text-muted font-15">{{ $unit->floor->block->building->name }} Building</p>
                             </div>
                         </div>
                         <div class="col-sm-6">
@@ -75,7 +75,7 @@
                             @else
                                 Unit ID:
                             @endif
-                            </strong> <span class="m-l-15">{{ $unit->unit_id }}</span></p>
+                            </strong> <span class="m-l-15">{{ $unit->unit_no }}</span></p>
                         <p class="text-muted font-15"><strong>
                             @if($unit->type === 'Residential Suite')
                                 Suite Type:
@@ -122,31 +122,6 @@
             </ul>
         </div>
     @endif
-
-            {{-- <div class="col-md-8">
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="text-right m-b-20">
-                            @if($unit->type == 'Residential Suite')
-
-                            <div class="btn-group dropdown">
-                                <a href="javascript: void(0);" class="table-action-btn dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="mdi mdi-dots-horizontal"></i></a>
-                                <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                                    
-                                    <a class="dropdown-item" href="{{ route('resroom.create',['unit_id' => $unit->id]) }}" type="submit"><i class="mdi mdi-eye m-r-10 font-18 text-muted vertical-middle"></i>Add Room</a>          
-                                    <a class="dropdown-item" href="{{ route('resroom.edit',['id'=> $unit->resRoom->id]) }}" type="submit"><i class="mdi mdi-pencil m-r-10 text-muted font-18 vertical-middle"></i>Edit Room</a>
-                                    <a class="dropdown-item" href="{{ route('resroom.delete',['id'=> $unit->resRoom->id]) }}" type="submit"><i class="mdi mdi-delete m-r-10 text-muted font-18 vertical-middle"></i>Delete Room</a>                                  
-                                </div>
-                            </div>
-
-            
-            @else
-                <p>This action is only available for Residential Suites.</p>
-            @endif
-                        </div>
-                    </div>
-                </div>
-                <!-- end row --> --}}
 
                 <div class="col-md-8">
                     <div class="row">

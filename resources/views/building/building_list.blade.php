@@ -30,7 +30,7 @@
                        style="background-color: rgb(100, 197, 177); border-color: rgb(100, 197, 177); color: white; 
                               position: absolute; right: 20px; top: 50%; transform: translateY(-50%); 
                               text-decoration: none; padding: 10px 20px;"> <!-- Added padding here -->
-                        <i class="md md-add"></i> Add Building
+                       <i class="mdi mdi-plus m-r-5"></i>Add Building
                     </a>
                 </div>
                 <div class="col-sm-8">
@@ -85,12 +85,12 @@ $buildingTypes = [
                     class="btn btn-danger m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm"
                     onclick="confirmDelete('{{ route('building.delete', ['id' => $building->id]) }}')">
                     Delete
-                </button>
-                <!-- Hidden form for deletion -->
-                <form id="delete-form" action="{{ route('building.delete', ['id' => $building->id]) }}" method="GET" style="display: none;">
-                    @csrf
-                    @method('DELETE')
-                </form>
+                    </button>
+                    <!-- Hidden form for deletion -->
+                    <form id="delete-form" action="{{ route('building.delete', ['id' => $building->id]) }}" method="GET" style="display: none;">
+                        @csrf
+                        @method('DELETE')
+                    </form>
                 </div>
             </div>
         </div>

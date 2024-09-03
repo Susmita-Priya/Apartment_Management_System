@@ -39,7 +39,7 @@
                             <span class="pull-left m-r-15"><img src="{{ asset($block->building->image) }}" alt="" class="thumb-lg rounded-circle"></span>
                             <div class="media-body">
                                 <h4 class="m-t-7 font-18">{{ $block->name }}</h4>
-                                <p class="font-15">{{ $block->building->name }} Building</p>
+                                <p class="text-muted font-15">{{ $block->building->name }} Building</p>
                             </div>
                         </div>
                         <div class="col-sm-6">
@@ -120,9 +120,9 @@
 
     @php
         $sections = [
-            'RESB' => 'Residential Suite & Supporting Room',
-            'COMB' => 'Commercial Unit & Supporting Room',
-            'RECB' => 'Residential Suite, Commercial Unit & Supporting Room'
+            'RESB' => 'Residential Suite & Supporting Unit',
+            'COMB' => 'Commercial Unit & Supporting Unit',
+            'RECB' => 'Residential Suite, Commercial Unit & Supporting Unit'
         ];
     @endphp
 
@@ -140,7 +140,7 @@
                             <div class="col-md-4 mb-4">
                                 <div class="card-box">
                                     <h4 class="header-title mt-0 m-b-20">{{ $floor->name }}</h4>
-                                    <p class="text-muted font-15"><strong>Floor No: </strong>{{ $floor->floor_no }}</p>
+                                    <p class="text-muted font-15"><strong>Floor No: </strong>{{ $floor->type }}-{{ $floor->floor_no }}</p>
                                     <button type="button" 
                                         onclick="window.location.href='{{ route('floor.show', $floor->id) }}'"
                                         class="btn btn-info m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm">
@@ -181,7 +181,7 @@
                     <div class="col-md-4 mb-4">
                         <div class="card-box">
                             <h4 class="header-title mt-0 m-b-20">{{ $floor->name }}</h4>
-                            <p class="text-muted font-13"><strong>Floor No: </strong>{{ $floor->floor_no }}</p>
+                            <p class="text-muted font-15"><strong>Floor No: </strong>{{ $floor->type }}-{{ $floor->floor_no }}</p>
                             <button type="button" 
                                 onclick="window.location.href='{{ route('floor.show', $floor->id) }}'"
                                 class="btn btn-info m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm">
@@ -220,8 +220,8 @@
                     <div class="col-md-4 mb-4">
                         <div class="card-box">
                             <h4 class="header-title mt-0 m-b-20">{{ $floor->name }}</h4>
-                            <p class="text-muted font-15"><strong>Floor No: </strong>{{ $floor->floor_no }}</p>
-                            <p class="text-muted font-15"><strong>Type: </strong>{{ ucfirst($floor->type) }}</p>
+                            <p class="text-muted font-15"><strong>Floor No: </strong>{{ $floor->type }}-{{ $floor->floor_no }}</p>
+                            {{-- <p class="text-muted font-15"><strong>Type: </strong>{{ ucfirst($floor->type) }}</p> --}}
                             <button type="button" 
                                 onclick="window.location.href='{{ route('floor.show', $floor->id) }}'"
                                 class="btn btn-info m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm">

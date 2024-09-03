@@ -98,7 +98,7 @@
 <script src="{{ asset('admin_dashboard') }}/plugins/sweet-alert2/sweetalert2.min.js"></script>
 <script src="{{ asset('admin_dashboard') }}/assets/pages/jquery.sweet-alert.init.js"></script>
 
-
+@stack('js')
 
 {{-- 
 <!-- Font-awesome -->

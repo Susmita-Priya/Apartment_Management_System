@@ -30,4 +30,9 @@ class Floor extends Model
     {
         return $this->hasMany(Unit::class, 'floor_id');
     }
+
+    public function stallsLockers()
+    {
+        return $this->hasMany(StallLocker::class);
+    }
 }
