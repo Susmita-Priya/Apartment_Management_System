@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 class StallLockerController extends Controller
 {
-   /**
+    /**
      * Display a listing of the resource.
      */
     public function index()
@@ -48,23 +48,23 @@ class StallLockerController extends Controller
         //     'type' => $request->type,
         // ]);
 
-         // Create a new unit with the generated unit_id
+        // Create a new unit with the generated unit_id
 
 
         // Check for uniqueness, ignoring the current record
         $exists = StallLocker::where('floor_id', $request->floor_id)
-        ->where('stall_locker_no', $request->stall_locker_no)
-        ->exists();
+            ->where('stall_locker_no', $request->stall_locker_no)
+            ->exists();
 
-if ($exists) {
-return redirect()->back()->with('error','This Stall/Locker NO already exists on this floor.');
-}
-    $stallLocker = new StallLocker();
-    $stallLocker->floor_id = $request->floor_id;
-    $stallLocker->stall_locker_no = $request['stall_locker_no'];
-    $stallLocker->type = $request['type'];
-    // Add other fields as needed
-    $stallLocker->save();
+        if ($exists) {
+            return redirect()->back()->with('error', 'This Stall/Locker NO already exists on this floor.');
+        }
+        $stallLocker = new StallLocker();
+        $stallLocker->floor_id = $request->floor_id;
+        $stallLocker->stall_locker_no = $request['stall_locker_no'];
+        $stallLocker->type = $request['type'];
+        // Add other fields as needed
+        $stallLocker->save();
 
         return redirect()->route('floor.show', $request->floor_id)
             ->with('success', 'Stall/Locker added successfully.');
@@ -103,18 +103,18 @@ return redirect()->back()->with('error','This Stall/Locker NO already exists on 
             'stall_locker_no' => 'required|string|max:255',
             'type' => 'required',
         ]);
-        
+
         // Find and update the Stall/Locker
         $stallLocker = StallLocker::findOrFail($id);
 
         // Check for uniqueness, ignoring the current record
         $exists = StallLocker::where('floor_id', $request->floor_id)
-                            ->where('stall_locker_no', $request->stall_locker_no)
-                            ->where('id', '!=', $stallLocker->id)
-                            ->exists();
+            ->where('stall_locker_no', $request->stall_locker_no)
+            ->where('id', '!=', $stallLocker->id)
+            ->exists();
 
         if ($exists) {
-            return redirect()->back()->with('error','This Stall/Locker NO already exists on this floor.');
+            return redirect()->back()->with('error', 'This Stall/Locker NO already exists on this floor.');
         }
 
         $stallLocker->update([

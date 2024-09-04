@@ -12,10 +12,7 @@ class ComroomController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        
-    }
+    public function index() {}
 
     /**
      * Show the form for creating a new resource.
@@ -30,7 +27,6 @@ class ComroomController extends Controller
 
         // Return the view for adding a new residential room
         return view('comroom.comroom_add', compact('unit', 'floor', 'block', 'building'));
-
     }
 
     /**
@@ -55,12 +51,12 @@ class ComroomController extends Controller
 
         $unitId = $request->input('unit_id');
 
-    // Check if a room entry already exists for this unit
-    $existingRoom = Comroom::where('unit_id', $unitId)->first();
+        // Check if a room entry already exists for this unit
+        $existingRoom = Comroom::where('unit_id', $unitId)->first();
 
-    if ($existingRoom) {
-        return redirect()->back()->withErrors(['error' => 'Room entry has already been submitted for this unit.']);
-    }
+        if ($existingRoom) {
+            return redirect()->back()->withErrors(['error' => 'Room entry has already been submitted for this unit.']);
+        }
 
         $commercialRoom = new Comroom();
         $commercialRoom->unit_id = $request->unit_id;
@@ -83,9 +79,8 @@ class ComroomController extends Controller
                 'quantity' => $extraRoom['quantity'],
             ]);
         }
-    
+
         return redirect()->route('unit.show', $unitId)->with('success', 'Room entry added successfully.');
-    
     }
 
     /**
@@ -117,11 +112,11 @@ class ComroomController extends Controller
     public function update(Request $request, $id)
     {
 
-    $comroom = Comroom::with('extraRooms')->findOrFail($id);
+        $comroom = Comroom::with('extraRooms')->findOrFail($id);
 
-    // Validate incoming request
-    $request->validate([
-        'unit_id' => 'required|exists:units,id',
+        // Validate incoming request
+        $request->validate([
+            'unit_id' => 'required|exists:units,id',
             'bathroom' => 'nullable|integer',
             'office_room' => 'nullable|integer',
             'conference_room' => 'nullable|integer',
@@ -133,49 +128,48 @@ class ComroomController extends Controller
             'washroom' => 'nullable|integer',
             'extra_rooms.*.room_name' => 'nullable|string',
             'extra_rooms.*.quantity' => 'nullable|integer',
-    ]);
+        ]);
 
-    // Update basic fields
-    $comroom->update([
-        'bathroom' => $request->bathroom,
-        'office_room' => $request->office_room,
-        'conference_room' => $request->conference_room,
-        'dining_room' => $request->dining_room,
-        'kitchen' => $request->kitchen,
-        'laundry' => $request->laundry,
-        'solarium' => $request->solarium,
-        'storage' => $request->storage,
-        'washroom' => $request->washroom,
-    ]);
+        // Update basic fields
+        $comroom->update([
+            'bathroom' => $request->bathroom,
+            'office_room' => $request->office_room,
+            'conference_room' => $request->conference_room,
+            'dining_room' => $request->dining_room,
+            'kitchen' => $request->kitchen,
+            'laundry' => $request->laundry,
+            'solarium' => $request->solarium,
+            'storage' => $request->storage,
+            'washroom' => $request->washroom,
+        ]);
 
-    // Handle the extra rooms
-    $extraRooms = $request->extra_rooms ?? [];
+        // Handle the extra rooms
+        $extraRooms = $request->extra_rooms ?? [];
 
-    // First, remove any existing extra rooms that are not in the request
-    $comroom->extraRooms()->whereNotIn('id', collect($extraRooms)->pluck('id'))->delete();
+        // First, remove any existing extra rooms that are not in the request
+        $comroom->extraRooms()->whereNotIn('id', collect($extraRooms)->pluck('id'))->delete();
 
-    // Update or create new extra rooms
-    foreach ($extraRooms as $extraRoomData) {
-        if (isset($extraRoomData['id'])) {
-            // Update existing room
-            $extraRoom = $comroom->extraRooms()->find($extraRoomData['id']);
-            if ($extraRoom) {
-                $extraRoom->update([
+        // Update or create new extra rooms
+        foreach ($extraRooms as $extraRoomData) {
+            if (isset($extraRoomData['id'])) {
+                // Update existing room
+                $extraRoom = $comroom->extraRooms()->find($extraRoomData['id']);
+                if ($extraRoom) {
+                    $extraRoom->update([
+                        'room_name' => $extraRoomData['room_name'],
+                        'quantity' => $extraRoomData['quantity'],
+                    ]);
+                }
+            } else {
+                // Create new room
+                $comroom->extraRooms()->create([
                     'room_name' => $extraRoomData['room_name'],
                     'quantity' => $extraRoomData['quantity'],
                 ]);
             }
-        } else {
-            // Create new room
-            $comroom->extraRooms()->create([
-                'room_name' => $extraRoomData['room_name'],
-                'quantity' => $extraRoomData['quantity'],
-            ]);
         }
-    }
 
         return redirect()->route('unit.show', $request->unit_id)->with('success', 'Commercial Room updated successfully.');
-
     }
 
     /**
@@ -183,17 +177,17 @@ class ComroomController extends Controller
      */
     public function destroy($id)
     {
-       // Find the resroom by ID
-    $comroom = Comroom::find($id);
+        // Find the resroom by ID
+        $comroom = Comroom::find($id);
 
-    if (!$comroom) {
-        return redirect()->back()->with('error', 'Room not found.');
-    }
+        if (!$comroom) {
+            return redirect()->back()->with('error', 'Room not found.');
+        }
 
-    // Delete the room
-    $comroom->delete();
+        // Delete the room
+        $comroom->delete();
 
-    // Redirect with success message
-    return redirect()->route('unit.show', $comroom->unit_id)->with('delete', 'Room deleted successfully.');
+        // Redirect with success message
+        return redirect()->route('unit.show', $comroom->unit_id)->with('delete', 'Room deleted successfully.');
     }
 }

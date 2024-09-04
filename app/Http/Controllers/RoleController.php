@@ -14,10 +14,11 @@ class RoleController extends Controller
      */
     public function index()
     {
-        $roles =  Role :: all();
+        $roles =  Role::all();
 
-        return view('role.role_list',
-        ['roles' => $roles]
+        return view(
+            'role.role_list',
+            ['roles' => $roles]
         );
     }
 
@@ -35,7 +36,6 @@ class RoleController extends Controller
         return view('role.role_add', [
             'permissions' => $permissions,
         ]);
-        
     }
 
     /**
@@ -45,22 +45,22 @@ class RoleController extends Controller
     {
         $request->validate(
             [
-                'name' => 'required', 
+                'name' => 'required',
             ]
         );
 
         $role = new Role;
-        $role -> name = $request['name'];
-        $role -> save();
+        $role->name = $request['name'];
+        $role->save();
 
         // Attach permissions to the role
-    if ($request->has('permissions')) {
-        $role->permissions()->attach($request->input('permissions'));
-    }
+        if ($request->has('permissions')) {
+            $role->permissions()->attach($request->input('permissions'));
+        }
 
-    // Redirect back with success message
-    return redirect('role')->with('success', 'New Role Created and Permissions Assigned!');
-}
+        // Redirect back with success message
+        return redirect('role')->with('success', 'New Role Created and Permissions Assigned!');
+    }
 
 
     /**
@@ -77,10 +77,10 @@ class RoleController extends Controller
         //  }
 
         // Retrieve the role with its associated permissions by ID
-    $role = Role::with('permissions')->findOrFail($id);
-    
-    // Pass the role data to the view
-    return view('role.role_view', compact('role'));
+        $role = Role::with('permissions')->findOrFail($id);
+
+        // Pass the role data to the view
+        return view('role.role_view', compact('role'));
     }
 
     /**
@@ -89,16 +89,16 @@ class RoleController extends Controller
     public function edit(string $id)
     {
         $role = Role::find($id);
-    if (is_null($role)) {
-        return redirect('/role');
-    }
+        if (is_null($role)) {
+            return redirect('/role');
+        }
 
-    $permissions = Permission::all()->groupBy('groupby'); // Retrieve and group permissions by 'groupby'
+        $permissions = Permission::all()->groupBy('groupby'); // Retrieve and group permissions by 'groupby'
 
-    return view('role.role_edit', [
-        'role' => $role,
-        'permissions' => $permissions,
-    ]);
+        return view('role.role_edit', [
+            'role' => $role,
+            'permissions' => $permissions,
+        ]);
     }
 
     /**
@@ -113,19 +113,17 @@ class RoleController extends Controller
         );
 
         $role = Role::find($id);
-    if (is_null($role)) {
-        return redirect('/role');
-    }
+        if (is_null($role)) {
+            return redirect('/role');
+        }
 
-    $role->name = $request['name'];
-    $role->save();
+        $role->name = $request['name'];
+        $role->save();
 
-    // Sync permissions with the role
-    $role->permissions()->sync($request->input('permissions', []));
+        // Sync permissions with the role
+        $role->permissions()->sync($request->input('permissions', []));
 
-    return redirect('role')->with('update', "Role has been updated!");
-
-        
+        return redirect('role')->with('success', "Role has been updated!");
     }
 
     /**
@@ -134,19 +132,19 @@ class RoleController extends Controller
     public function destroy(string $id)
     {
         $role = Role::find($id);
-    if (!is_null($role)) {
-        // Detach all permissions associated with the role
-        $role->permissions()->detach();
+        if (!is_null($role)) {
+            // Detach all permissions associated with the role
+            $role->permissions()->detach();
 
-        // Now delete the role
-        $role->delete();
-        
-        // If the role has an associated iddoc, delete the file
-        if ($role->iddoc && file_exists(public_path($role->iddoc))) {
-            unlink(public_path($role->iddoc));
+            // Now delete the role
+            $role->delete();
+
+            // If the role has an associated iddoc, delete the file
+            if ($role->iddoc && file_exists(public_path($role->iddoc))) {
+                unlink(public_path($role->iddoc));
+            }
         }
-    }
 
-    return redirect('role')->with('delete', "Delete Successful!");
+        return redirect('role')->with('delete', "Delete Successful!");
     }
 }

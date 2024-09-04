@@ -15,7 +15,7 @@
 //     // In User.php model
 // protected $fillable = ['name', 'email', 'password', 'role_id'];
 
-    
+
 //     public function role()
 //     {
 //         return $this->belongsTo(Role::class);
@@ -47,4 +47,3 @@ class User extends Authenticatable // Extend Authenticatable
         return $this->belongsTo(Role::class);
     }
 }
-

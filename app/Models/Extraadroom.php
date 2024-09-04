@@ -22,4 +22,3 @@ class Extraadroom extends Model
         return $this->belongsTo(Adroom::class);
     }
 }
-

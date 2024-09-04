@@ -12,10 +12,11 @@ class PermissionController extends Controller
      */
     public function index()
     {
-        $permissions =  Permission :: all();
+        $permissions =  Permission::all();
 
-        return view('permission.permission_list',
-        ['permissions' => $permissions]
+        return view(
+            'permission.permission_list',
+            ['permissions' => $permissions]
         );
     }
 
@@ -34,20 +35,20 @@ class PermissionController extends Controller
     {
         $request->validate(
             [
-                'name' => 'required', 
+                'name' => 'required',
                 'slug' => 'required',
                 'groupby' => 'required'
             ]
         );
 
-        $permission= new permission;
-        $permission -> name = $request['name'];
-        $permission -> slug = $request['slug'];
-        $permission -> groupby = $request['groupby'];
-        $permission -> save();
+        $permission = new permission;
+        $permission->name = $request['name'];
+        $permission->slug = $request['slug'];
+        $permission->groupby = $request['groupby'];
+        $permission->save();
 
         // return back()-> with('success',"Registration successfull ! ");
-        return redirect('permission')->with('success',"New Permission Been Created ! ");
+        return redirect('permission')->with('success', "New Permission Been Created ! ");
     }
 
     /**
@@ -64,12 +65,12 @@ class PermissionController extends Controller
     public function edit(string $id)
     {
         $permission = Permission::find($id);
-         if(is_null($permission)){
+        if (is_null($permission)) {
             return redirect('/permission');
-         }else{
+        } else {
             $data = compact('permission');
             return view('permission.permission_edit')->with($data);
-         }
+        }
     }
 
     /**
@@ -87,13 +88,13 @@ class PermissionController extends Controller
 
         $permission = Permission::find($id);
 
-        $permission -> name = $request['name'];
-        $permission -> slug = $request['slug'];
-        $permission -> groupby = $request['groupby'];
-        $permission -> save();
+        $permission->name = $request['name'];
+        $permission->slug = $request['slug'];
+        $permission->groupby = $request['groupby'];
+        $permission->save();
 
         // return back()-> with('success',"Registration successfull ! ");
-        return redirect('permission')->with('update',"Permission have been updated ! ");
+        return redirect('permission')->with('success', "Permission have been updated ! ");
     }
 
     /**
@@ -102,13 +103,13 @@ class PermissionController extends Controller
     public function destroy(string $id)
     {
         $permission = Permission::find($id);
-        if(!is_null($permission)){
+        if (!is_null($permission)) {
             $permission->delete();
             if ($permission->iddoc && file_exists(public_path($permission->iddoc))) {
                 unlink(public_path($permission->iddoc));
             }
         }
-            
-        return redirect('permission')->with('delete',"Delete Successfull ! ");
+
+        return redirect('permission')->with('delete', "Delete Successfull ! ");
     }
 }

@@ -17,7 +17,7 @@ class Permission extends Model
     {
         return $this->belongsToMany(Role::class, 'role-permissions', 'permission_id', 'role_id');
     }
-    
+
 
     // public static function hasPermission($slug, $role_id)
     // {
@@ -38,6 +38,4 @@ class Permission extends Model
                 ->exists();
         });
     }
-    
 }
-
