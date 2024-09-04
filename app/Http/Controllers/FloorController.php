@@ -30,36 +30,36 @@ class FloorController extends Controller
 
     public function store(Request $request)
     {
-       
+
         $request->validate([
             'floor_no' => 'required',
             'name' => 'nullable|string|max:255',
             'type' => 'required|in:rooftop,upper,ground,underground',
         ]);
-    
+
         $blockId = $request->input('block_id'); // Change from query to input
         $block = Block::findOrFail($blockId);
         $building = $block->building;
-    
+
         // // Check for valid options based on building type
         // if ($building->type == 'RESB' && !$request->has('residential_suite')) {
         //     return redirect()->back()->withErrors(['residential_suite' => 'Residential suites must be specified for residential buildings.']);
         // }
-    
+
         // if ($building->type == 'COMB' && !$request->has('commercial_unit')) {
         //     return redirect()->back()->withErrors(['commercial_unit' => 'Commercial units must be specified for commercial buildings.']);
         // }
 
-        
+
         // Check for uniqueness
         $exists = Floor::where('block_id', $request->block_id)
-        ->where('floor_no', $request->floor_no)
-        ->exists();
+            ->where('floor_no', $request->floor_no)
+            ->exists();
 
         if ($exists) {
-        return redirect()->back()->with('error','This Floor NO already exists on this Block.');
+            return redirect()->back()->with('error', 'This Floor NO already exists on this Block.');
         }
-        
+
         // Create a new Floor entry
         $floor = new Floor;
         $floor->block_id = $blockId;
@@ -78,7 +78,7 @@ class FloorController extends Controller
         return redirect()->route('block.show', $block->id)->with('success', 'Floor added successfully.');
     }
 
-    public function show(Request $request,string $id)
+    public function show(Request $request, string $id)
     {
         $floor = Floor::findOrFail($id);
         $block = $floor->block;
@@ -93,7 +93,7 @@ class FloorController extends Controller
         $floor = Floor::findOrFail($id);
         $block = $floor->block;
         $building = $block->building;
-    
+
         return view('floor.floor_edit', compact('floor', 'block', 'building'));
     }
 
@@ -118,12 +118,12 @@ class FloorController extends Controller
 
         // Check for uniqueness
         $exists = Floor::where('block_id', $request->block_id)
-        ->where('floor_no', $request->floor_no)
-        ->where('id', '!=', $floor->id)
-        ->exists();
+            ->where('floor_no', $request->floor_no)
+            ->where('id', '!=', $floor->id)
+            ->exists();
 
         if ($exists) {
-        return redirect()->back()->with('error','This Floor NO already exists on this Block.');
+            return redirect()->back()->with('error', 'This Floor NO already exists on this Block.');
         }
 
         // Update the Floor entry

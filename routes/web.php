@@ -5,6 +5,7 @@ use App\Http\Controllers\AmroomController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BlockController;
 use App\Http\Controllers\BuildingController;
+use App\Http\Controllers\ComareaController;
 use App\Http\Controllers\ComroomController;
 use App\Http\Controllers\FloorController;
 use App\Http\Controllers\IndexController;
@@ -33,7 +34,7 @@ use Illuminate\Support\Facades\Route;
 //     });
 // });
 
-Route::get('/index', [IndexController::class,'index'])->name("index");
+Route::get('/index', [IndexController::class, 'index'])->name("index");
 
 
 // Route::get('/dashboard', function () {
@@ -48,153 +49,153 @@ Route::get('/index', [IndexController::class,'index'])->name("index");
 
 // require __DIR__.'/auth.php';
 
-Route::post('/logout', [AuthController::class,'logout'])->name("logout");
+Route::post('/logout', [AuthController::class, 'logout'])->name("logout");
 
 
-Route::get('/', [AuthController::class,'login'])->name("login");
+Route::get('/', [AuthController::class, 'login'])->name("login");
 
-Route::post('/', [AuthController::class,'auth_login']);
-
-
-
-Route::get('tenants', [TenantsController::class,'index'])->name("tenants.index");
-
-Route::get('tenants/create', [TenantsController::class,'create'])->name("tenants.create");
-
-Route::post('tenants/create', [TenantsController::class,'store']);
-
-Route::get('tenants/show/{id}', [TenantsController::class,'show'])->name("tenants.show");
-
-Route::get('tenants/edit/{id}', [TenantsController::class,'edit'])->name("tenants.edit");
-
-Route::post('tenants/edit/{id}', [TenantsController::class,'update'])->name("tenants.update");
-
-Route::get('tenants/delete/{id}', [TenantsController::class,'destroy'])->name("tenants.delete");
+Route::post('/', [AuthController::class, 'auth_login']);
 
 
 
+Route::get('tenants', [TenantsController::class, 'index'])->name("tenants.index");
 
-Route::get('user', [UserController::class,'index'])->name("user.index");
+Route::get('tenants/create', [TenantsController::class, 'create'])->name("tenants.create");
 
-Route::get('user/create', [UserController::class,'create'])->name("user.create");
+Route::post('tenants/create', [TenantsController::class, 'store']);
 
-Route::post('user/create', [UserController::class,'store']);
+Route::get('tenants/show/{id}', [TenantsController::class, 'show'])->name("tenants.show");
 
-Route::get('user/show/{id}', [UserController::class,'show'])->name("user.show");
+Route::get('tenants/edit/{id}', [TenantsController::class, 'edit'])->name("tenants.edit");
 
-Route::get('user/edit/{id}', [UserController::class,'edit'])->name("user.edit");
+Route::post('tenants/edit/{id}', [TenantsController::class, 'update'])->name("tenants.update");
 
-Route::post('user/edit/{id}', [UserController::class,'update'])->name("user.update");
-
-Route::get('user/delete/{id}', [UserController::class,'destroy'])->name("user.delete");
+Route::get('tenants/delete/{id}', [TenantsController::class, 'destroy'])->name("tenants.delete");
 
 
 
 
-Route::get('role', [RoleController::class,'index'])->name("role.index");
+Route::get('user', [UserController::class, 'index'])->name("user.index");
 
-Route::get('role/create', [RoleController::class,'create'])->name("role.create");
+Route::get('user/create', [UserController::class, 'create'])->name("user.create");
 
-Route::post('role/create', [RoleController::class,'store']);
+Route::post('user/create', [UserController::class, 'store']);
 
-Route::get('role/show/{id}', [RoleController::class,'show'])->name("role.show");
+Route::get('user/show/{id}', [UserController::class, 'show'])->name("user.show");
 
-Route::get('role/edit/{id}', [RoleController::class,'edit'])->name("role.edit");
+Route::get('user/edit/{id}', [UserController::class, 'edit'])->name("user.edit");
 
-Route::post('role/edit/{id}', [RoleController::class,'update'])->name("role.update");
+Route::post('user/edit/{id}', [UserController::class, 'update'])->name("user.update");
 
-Route::get('role/delete/{id}', [RoleController::class,'destroy'])->name("role.delete");
-
-
+Route::get('user/delete/{id}', [UserController::class, 'destroy'])->name("user.delete");
 
 
-Route::get('permission', [PermissionController::class,'index'])->name("permission.index");
 
-Route::get('permission/create', [PermissionController::class,'create'])->name("permission.create");
 
-Route::post('permission/create', [PermissionController::class,'store']);
+Route::get('role', [RoleController::class, 'index'])->name("role.index");
+
+Route::get('role/create', [RoleController::class, 'create'])->name("role.create");
+
+Route::post('role/create', [RoleController::class, 'store']);
+
+Route::get('role/show/{id}', [RoleController::class, 'show'])->name("role.show");
+
+Route::get('role/edit/{id}', [RoleController::class, 'edit'])->name("role.edit");
+
+Route::post('role/edit/{id}', [RoleController::class, 'update'])->name("role.update");
+
+Route::get('role/delete/{id}', [RoleController::class, 'destroy'])->name("role.delete");
+
+
+
+
+Route::get('permission', [PermissionController::class, 'index'])->name("permission.index");
+
+Route::get('permission/create', [PermissionController::class, 'create'])->name("permission.create");
+
+Route::post('permission/create', [PermissionController::class, 'store']);
 
 // Route::get('role/show/{id}', [AccessController::class,'show'])->name("role.show");
 
-Route::get('permission/edit/{id}', [PermissionController::class,'edit'])->name("permission.edit");
+Route::get('permission/edit/{id}', [PermissionController::class, 'edit'])->name("permission.edit");
 
-Route::post('permission/edit/{id}', [PermissionController::class,'update'])->name("permission.update");
+Route::post('permission/edit/{id}', [PermissionController::class, 'update'])->name("permission.update");
 
-Route::get('permission/delete/{id}', [PermissionController::class,'destroy'])->name("permission.delete");
-
-
-
-
-Route::get('building', [BuildingController::class,'index'])->name("building");
-
-Route::get('building/create', [BuildingController::class,'create'])->name("building.create");
-
-Route::post('building/create', [BuildingController::class,'store'])->name("building.store");
-
-Route::get('building/show/{id}', [BuildingController::class,'show'])->name("building.show");
-
-Route::get('building/edit/{id}', [BuildingController::class,'edit'])->name("building.edit");
-
-Route::post('building/edit/{id}', [BuildingController::class,'update'])->name("building.update");
-
-Route::get('building/delete/{id}', [BuildingController::class,'destroy'])->name("building.delete");
-
-
-
-Route::get('block/create', [BlockController::class,'create'])->name("block.create");
-
-Route::post('block/create', [BlockController::class,'store'])->name("block.store");
-
-Route::get('block/show/{id}', [BlockController::class,'show'])->name("block.show");
-
-Route::get('block/edit/{id}', [BlockController::class,'edit'])->name("block.edit");
-
-Route::post('block/edit/{id}', [BlockController::class,'update'])->name("block.update");
-
-Route::get('block/delete/{id}', [BlockController::class,'destroy'])->name("block.delete");
+Route::get('permission/delete/{id}', [PermissionController::class, 'destroy'])->name("permission.delete");
 
 
 
 
-Route::get('floor/create', [FloorController::class,'create'])->name("floor.create");
+Route::get('building', [BuildingController::class, 'index'])->name("building");
 
-Route::post('floor/create', [FloorController::class,'store'])->name("floor.store");
+Route::get('building/create', [BuildingController::class, 'create'])->name("building.create");
 
-Route::get('floor/show/{id}', [FloorController::class,'show'])->name("floor.show");
+Route::post('building/create', [BuildingController::class, 'store'])->name("building.store");
 
-Route::get('floor/edit/{id}', [FloorController::class,'edit'])->name("floor.edit");
+Route::get('building/show/{id}', [BuildingController::class, 'show'])->name("building.show");
 
-Route::post('floor/edit/{id}', [FloorController::class,'update'])->name("floor.update");
+Route::get('building/edit/{id}', [BuildingController::class, 'edit'])->name("building.edit");
 
-Route::get('floor/delete/{id}', [FloorController::class,'destroy'])->name("floor.delete");
+Route::post('building/edit/{id}', [BuildingController::class, 'update'])->name("building.update");
 
-
-
-Route::get('unit/create', [UnitController::class,'create'])->name("unit.create");
-
-Route::post('unit/create', [UnitController::class,'store'])->name("unit.store");
-
-Route::get('unit/show/{id}', [UnitController::class,'show'])->name("unit.show");
-
-Route::get('unit/edit/{id}', [UnitController::class,'edit'])->name("unit.edit");
-
-Route::post('unit/edit/{id}', [UnitController::class,'update'])->name("unit.update");
-
-Route::get('unit/delete/{id}', [UnitController::class,'destroy'])->name("unit.delete");
+Route::get('building/delete/{id}', [BuildingController::class, 'destroy'])->name("building.delete");
 
 
 
-Route::get('unit/create', [UnitController::class,'create'])->name("unit.create");
+Route::get('block/create', [BlockController::class, 'create'])->name("block.create");
 
-Route::post('unit/create', [UnitController::class,'store'])->name("unit.store");
+Route::post('block/create', [BlockController::class, 'store'])->name("block.store");
 
-Route::get('unit/show/{id}', [UnitController::class,'show'])->name("unit.show");
+Route::get('block/show/{id}', [BlockController::class, 'show'])->name("block.show");
 
-Route::get('unit/edit/{id}', [UnitController::class,'edit'])->name("unit.edit");
+Route::get('block/edit/{id}', [BlockController::class, 'edit'])->name("block.edit");
 
-Route::post('unit/edit/{id}', [UnitController::class,'update'])->name("unit.update");
+Route::post('block/edit/{id}', [BlockController::class, 'update'])->name("block.update");
 
-Route::get('unit/delete/{id}', [UnitController::class,'destroy'])->name("unit.delete");
+Route::get('block/delete/{id}', [BlockController::class, 'destroy'])->name("block.delete");
+
+
+
+
+Route::get('floor/create', [FloorController::class, 'create'])->name("floor.create");
+
+Route::post('floor/create', [FloorController::class, 'store'])->name("floor.store");
+
+Route::get('floor/show/{id}', [FloorController::class, 'show'])->name("floor.show");
+
+Route::get('floor/edit/{id}', [FloorController::class, 'edit'])->name("floor.edit");
+
+Route::post('floor/edit/{id}', [FloorController::class, 'update'])->name("floor.update");
+
+Route::get('floor/delete/{id}', [FloorController::class, 'destroy'])->name("floor.delete");
+
+
+
+Route::get('unit/create', [UnitController::class, 'create'])->name("unit.create");
+
+Route::post('unit/create', [UnitController::class, 'store'])->name("unit.store");
+
+Route::get('unit/show/{id}', [UnitController::class, 'show'])->name("unit.show");
+
+Route::get('unit/edit/{id}', [UnitController::class, 'edit'])->name("unit.edit");
+
+Route::post('unit/edit/{id}', [UnitController::class, 'update'])->name("unit.update");
+
+Route::get('unit/delete/{id}', [UnitController::class, 'destroy'])->name("unit.delete");
+
+
+
+Route::get('unit/create', [UnitController::class, 'create'])->name("unit.create");
+
+Route::post('unit/create', [UnitController::class, 'store'])->name("unit.store");
+
+Route::get('unit/show/{id}', [UnitController::class, 'show'])->name("unit.show");
+
+Route::get('unit/edit/{id}', [UnitController::class, 'edit'])->name("unit.edit");
+
+Route::post('unit/edit/{id}', [UnitController::class, 'update'])->name("unit.update");
+
+Route::get('unit/delete/{id}', [UnitController::class, 'destroy'])->name("unit.delete");
 
 
 
@@ -292,3 +293,17 @@ Route::get('stall_locker/edit/{id}', [StallLockerController::class, 'edit'])->na
 Route::post('stall_locker/edit/{id}', [StallLockerController::class, 'update'])->name("stall_locker.update");
 
 Route::get('stall_locker/delete/{id}', [StallLockerController::class, 'destroy'])->name("stall_locker.delete");
+
+
+
+Route::get('comarea/create', [ComareaController::class, 'create'])->name("comarea.create");
+
+Route::post('comarea/create', [ComareaController::class, 'store'])->name("comarea.store");
+
+Route::get('comarea/show/{id}', [ComareaController::class, 'show'])->name("comarea.show");
+
+Route::get('comarea/edit/{id}', [ComareaController::class, 'edit'])->name("comarea.edit");
+
+Route::post('comarea/edit/{id}', [ComareaController::class, 'update'])->name("comarea.update");
+
+Route::get('comarea/delete/{id}', [ComareaController::class, 'destroy'])->name("comarea.delete");

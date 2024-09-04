@@ -11,10 +11,19 @@ class Floor extends Model
     protected $table = 'floors';
 
     protected $fillable = [
-        'block_id', 'floor_no', 'name', 'type', 'residential_suite', 'commercial_unit',
-        'supporting_service_room', 'parking_lot', 'bike_lot', 'storage_lot', 'common_area'
+        'block_id',
+        'floor_no',
+        'name',
+        'type',
+        'residential_suite',
+        'commercial_unit',
+        'supporting_service_room',
+        'parking_lot',
+        'bike_lot',
+        'storage_lot',
+        'common_area'
     ];
-    
+
 
     public function block()
     {

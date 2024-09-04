@@ -15,17 +15,18 @@ class TenantsController extends Controller
 
     //  public function alert(Request $request)
     //  {
- 
+
     //      // return back()-> with('success',"Registration successfull ! ");
     //      return view('sweetalert')->with('message',"New User Been Created ! ");
     //  }
 
     public function index()
     {
-        $tenants =  Tenants :: all();
+        $tenants =  Tenants::all();
 
-        return view('tenants.tenants_list',
-        ['tenants' => $tenants]
+        return view(
+            'tenants.tenants_list',
+            ['tenants' => $tenants]
         );
     }
 
@@ -44,7 +45,7 @@ class TenantsController extends Controller
     {
         $request->validate(
             [
-                'fullname' => 'required', 
+                'fullname' => 'required',
                 'email' => 'required',
                 'phn' => 'required',
                 'idno' => 'required',
@@ -55,28 +56,28 @@ class TenantsController extends Controller
         if ($request->has('iddoc')) {
             $file = $request->file('iddoc');
             $filename = time() . "tenants." . $file->getClientOriginalExtension();
-            $path = 'uploads'; 
+            $path = 'uploads';
             $file->move(public_path($path), $filename); // Move to 'public/uploads' directly
-            $fullPath = $path . '/' . $filename; 
+            $fullPath = $path . '/' . $filename;
         } else {
-            $fullPath = null; 
+            $fullPath = null;
         }
 
         $tenants = new Tenants;
-        $tenants -> fullname = $request['fullname'];
-        $tenants -> email = $request['email'];
-        $tenants -> phn = $request['phn'];
-        $tenants -> idno = $request['idno'];
-        $tenants -> iddoc = $fullPath;
-        $tenants -> address = $request['address'];
-        $tenants -> occ_status = $request['occ_status'];
-        $tenants -> occ_place = $request['occ_place'];
-        $tenants -> emname = $request['emname'];
-        $tenants -> emphn = $request['emphn'];
-        $tenants -> save();
+        $tenants->fullname = $request['fullname'];
+        $tenants->email = $request['email'];
+        $tenants->phn = $request['phn'];
+        $tenants->idno = $request['idno'];
+        $tenants->iddoc = $fullPath;
+        $tenants->address = $request['address'];
+        $tenants->occ_status = $request['occ_status'];
+        $tenants->occ_place = $request['occ_place'];
+        $tenants->emname = $request['emname'];
+        $tenants->emphn = $request['emphn'];
+        $tenants->save();
 
         // return back()-> with('success',"Registration successfull ! ");
-        return redirect('tenants')->with('success',"New Tenants Been Created ! ");
+        return redirect('tenants')->with('success', "New Tenants Been Created ! ");
     }
 
     /**
@@ -85,12 +86,12 @@ class TenantsController extends Controller
     public function show(string $id)
     {
         $tenants = Tenants::find($id);
-         if(is_null($tenants)){
+        if (is_null($tenants)) {
             return redirect('/tenants');
-         }else{
+        } else {
             $data = compact('tenants');
             return view('tenants.tenants_view')->with($data);
-         }
+        }
     }
 
     /**
@@ -99,12 +100,12 @@ class TenantsController extends Controller
     public function edit(string $id)
     {
         $tenants = Tenants::find($id);
-         if(is_null($tenants)){
+        if (is_null($tenants)) {
             return redirect('/tenants');
-         }else{
+        } else {
             $data = compact('tenants');
             return view('tenants.tenants_edit')->with($data);
-         }
+        }
     }
 
     /**
@@ -114,7 +115,7 @@ class TenantsController extends Controller
     {
         $request->validate(
             [
-                'fullname' => 'required', 
+                'fullname' => 'required',
                 'email' => 'required',
                 'phn' => 'required',
                 'idno' => 'required',
@@ -130,7 +131,7 @@ class TenantsController extends Controller
             $path = 'uploads';
             $file->move(public_path($path), $filename);
             $fullPath = $path . '/' . $filename;
-    
+
             // If a new image is uploaded, delete the old one
             if ($tenants->iddoc && file_exists(public_path($tenants->iddoc))) {
                 unlink(public_path($tenants->iddoc));
@@ -139,19 +140,19 @@ class TenantsController extends Controller
             $tenants->iddoc = $fullPath; // Update with new image path
         }
 
-        $tenants -> fullname = $request['fullname'];
-        $tenants -> email = $request['email'];
-        $tenants -> phn = $request['phn'];
-        $tenants -> idno = $request['idno'];
-        $tenants -> address = $request['address'];
-        $tenants -> occ_status = $request['occ_status'];
-        $tenants -> occ_place = $request['occ_place'];
-        $tenants -> emname = $request['emname'];
-        $tenants -> emphn = $request['emphn'];
-        $tenants -> save();
+        $tenants->fullname = $request['fullname'];
+        $tenants->email = $request['email'];
+        $tenants->phn = $request['phn'];
+        $tenants->idno = $request['idno'];
+        $tenants->address = $request['address'];
+        $tenants->occ_status = $request['occ_status'];
+        $tenants->occ_place = $request['occ_place'];
+        $tenants->emname = $request['emname'];
+        $tenants->emphn = $request['emphn'];
+        $tenants->save();
 
         // return back()-> with('success',"Registration successfull ! ");
-        return redirect('tenants')->with('update',"Tenants details have been updated ! ");
+        return redirect('tenants')->with('success', "Tenants details have been updated ! ");
     }
 
     /**
@@ -160,14 +161,13 @@ class TenantsController extends Controller
     public function destroy(string $id)
     {
         $tenants = Tenants::find($id);
-        if(!is_null($tenants)){
+        if (!is_null($tenants)) {
             $tenants->delete();
             if ($tenants->iddoc && file_exists(public_path($tenants->iddoc))) {
                 unlink(public_path($tenants->iddoc));
             }
         }
-            
-        return redirect('tenants')->with('delete',"Delete Successfull ! ");
+
+        return redirect('tenants')->with('delete', "Delete Successfull ! ");
     }
-    
 }

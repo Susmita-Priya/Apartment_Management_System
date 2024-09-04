@@ -17,12 +17,10 @@ class AuthController extends Controller
     {
 
         // dd($request->all());
-        if(Auth::attempt(['email' => $request->email , 'password'=> $request->password]))
-        {
+        if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
             return redirect('/index')->with('successlogin', 'Login Successfull!');
-        }
-        else{
-            return redirect()->back()->with('error',"Please Enter Correct Email and Password");
+        } else {
+            return redirect()->back()->with('error', "Please Enter Correct Email and Password");
         }
     }
 

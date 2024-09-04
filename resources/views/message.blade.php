@@ -1,22 +1,21 @@
 @if (Session::has('successlogin'))
-<script>
-    swal("Good Job!","{{ Session::get('successlogin') }}",'success',{
-        button:true,
-        button:"OK",
-    })
-
-</script>    
+    <script>
+        swal("Welcome {{ Auth::user()->name }}!", "{{ Session::get('successlogin') }}", 'success', {
+            button: true,
+            button: "OK",
+        })
+    </script>
 @endif
 
 
 
 @if (Session::has('success'))
-<script>
-    swal("Done!!","{{ Session::get('success') }}",'success',{
-        button:true,
-        button:"OK",
-    })
-</script>    
+    <script>
+        swal("Done!!", "{{ Session::get('success') }}", 'success', {
+            button: true,
+            button: "OK",
+        })
+    </script>
 @endif
 
 <script>
@@ -40,20 +39,19 @@
 </script>
 
 @if (Session::has('delete'))
-<script>
-    swal("Done!!", "{{ Session::get('delete') }}", 'success', {
-        button: "OK",
-    });
-</script>
+    <script>
+        swal("Done!!", "{{ Session::get('delete') }}", 'success', {
+            button: "OK",
+        });
+    </script>
 @endif
 
 
 @if (Session::has('error'))
-<script>
-    swal("Oops...","{{ Session::get('error') }}",'error',{
-        button:true,
-        button:"OK",
-    })
-
-</script>    
+    <script>
+        swal("Oops...", "{{ Session::get('error') }}", 'error', {
+            button: true,
+            button: "OK",
+        })
+    </script>
 @endif

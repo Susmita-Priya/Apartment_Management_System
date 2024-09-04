@@ -1,85 +1,93 @@
 @extends('master')
 
 @section('content')
-@push('title')
-    <title>tenant</title>
-@endpush
+    @push('title')
+        <title>tenant</title>
+    @endpush
 
-<div class="content">
-    <div class="container-fluid">
+    <div class="content">
+        <div class="container-fluid">
 
-        <div class="row">
-            <div class="col-12">
-                <div class="page-title-box">
-                    <h4 class="page-title float-left">Profile</h4>
+            <div class="row">
+                <div class="col-12">
+                    <div class="page-title-box">
+                        <h4 class="page-title float-left">Profile</h4>
 
-                    <ol class="breadcrumb float-right">
-                        <li class="breadcrumb-item"><a href="{{url('/index') }}">Admin</a></li>
-                        <li class="breadcrumb-item"><a href="{{url('/tenants') }}">Tenant</a></li>
-                        <li class="breadcrumb-item active">Tenant information</li>
-                    </ol>
+                        <ol class="breadcrumb float-right">
+                            <li class="breadcrumb-item"><a href="{{ url('/index') }}">Admin</a></li>
+                            <li class="breadcrumb-item"><a href="{{ url('/tenants') }}">Tenant</a></li>
+                            <li class="breadcrumb-item active">Tenant information</li>
+                        </ol>
 
-                    <div class="clearfix"></div>
+                        <div class="clearfix"></div>
+                    </div>
                 </div>
             </div>
-        </div>
-        <!-- end row -->
+            <!-- end row -->
 
 
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="profile-bg-picture" style="background-image:url('{{ asset('admin_dashboard') }}/assets/images/bg-profile.jpg')">
-                    <span class="picture-bg-overlay"></span><!-- overlay -->
-                </div>
-                <!-- meta -->
-                <div class="profile-user-box">
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <span class="pull-left m-r-15"><img src="/image/person-man.jpg" alt="" class="thumb-lg rounded-circle"></span>
-                            <div class="media-body">
-                                <h4 class="m-t-5 m-b-5 font-18 ellipsis">{{ $tenants->fullname }}</h4>
-                                <p class="font-13"> {{ $tenants->email }}</p>
-                                <p class="text-muted m-b-0"><small>{{ $tenants->address }}</small></p>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="profile-bg-picture"
+                        style="background-image:url('{{ asset('admin_dashboard') }}/assets/images/bg-profile.jpg')">
+                        <span class="picture-bg-overlay"></span><!-- overlay -->
+                    </div>
+                    <!-- meta -->
+                    <div class="profile-user-box">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <span class="pull-left m-r-15"><img src="/image/person-man.jpg" alt=""
+                                        class="thumb-lg rounded-circle"></span>
+                                <div class="media-body">
+                                    <h4 class="m-t-5 m-b-5 font-18 ellipsis">{{ $tenants->fullname }}</h4>
+                                    <p class="font-13"> {{ $tenants->email }}</p>
+                                    <p class="text-muted m-b-0"><small>{{ $tenants->address }}</small></p>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="text-right">
-                                <a type="button" href="{{ route('tenants.edit',['id'=> $tenants->id]) }}" class="btn btn-success waves-effect waves-light">
-                                    <i class="mdi mdi-account-settings-variant m-r-5"></i> Edit Profile
-                                </a>
+                            <div class="col-sm-6">
+                                <div class="text-right">
+                                    <a type="button" href="{{ route('tenants.edit', ['id' => $tenants->id]) }}"
+                                        class="btn btn-success waves-effect waves-light">
+                                        <i class="mdi mdi-account-settings-variant m-r-5"></i> Edit Profile
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
+                    <!--/ meta -->
                 </div>
-                <!--/ meta -->
             </div>
-        </div>
-        <!-- end row -->
+            <!-- end row -->
 
-        <div class="row">
-            <div class="col-md-5">
-                <!-- Personal-Information -->
-                <div class="card-box">
-                    <h4 class="header-title mt-0 m-b-20">Personal Information</h4>
-                    <div class="panel-body">
-                        {{-- <p class="text-muted font-13">
+            <div class="row">
+                <div class="col-md-5">
+                    <!-- Personal-Information -->
+                    <div class="card-box">
+                        <h4 class="header-title mt-0 m-b-20">Personal Information</h4>
+                        <div class="panel-body">
+                            {{-- <p class="text-muted font-13">
                             Hye, I’m Johnathan Doe residing in this beautiful world. I create websites and mobile apps with great UX and UI design. I have done work with big companies like Nokia, Google and Yahoo. Meet me or Contact me for any queries. One Extra line for filling space. Fill as many you want.
                         </p> --}}
 
-                        <hr/>
+                            <hr />
 
-                        <div class="text-left">
-                            <p class="text-muted font-13"><strong>Full Name :</strong> <span class="m-l-15">{{ $tenants->fullname }}</span></p>
+                            <div class="text-left">
+                                <p class="text-muted font-13"><strong>Full Name :</strong> <span
+                                        class="m-l-15">{{ $tenants->fullname }}</span></p>
 
-                            <p class="text-muted font-13"><strong>Email :</strong><span class="m-l-15">{{ $tenants->email }}</span></p>
+                                <p class="text-muted font-13"><strong>Email :</strong><span
+                                        class="m-l-15">{{ $tenants->email }}</span></p>
 
-                            <p class="text-muted font-13"><strong>Mobile :</strong> <span class="m-l-15">{{ $tenants->phn }}</span></p>
+                                <p class="text-muted font-13"><strong>Mobile :</strong> <span
+                                        class="m-l-15">{{ $tenants->phn }}</span></p>
 
-                            <p class="text-muted font-13"><strong>Identity No/Passport :</strong> <span class="m-l-15">{{ $tenants->idno }}</span></p>
+                                <p class="text-muted font-13"><strong>Identity No/Passport :</strong> <span
+                                        class="m-l-15">{{ $tenants->idno }}</span></p>
 
-                            <p class="text-muted font-13"><strong>Identification Document :</strong>
-                                <span class="m-l-15"><img src="{{ asset($tenants->iddoc) }}" style="width:27%; height:27%" alt="User document"></span>
-                                {{-- <span class="m-l-5">
+                                <p class="text-muted font-13"><strong>Identification Document :</strong>
+                                    <span class="m-l-15"><img src="{{ asset($tenants->iddoc) }}"
+                                            style="width:27%; height:27%" alt="User document"></span>
+                                    {{-- <span class="m-l-5">
                                     <span class="flag-icon flag-icon-us m-r-5 m-t-0" title="us"></span>
                                     <span>English</span>
                                 </span>
@@ -95,16 +103,21 @@
                                     <span class="flag-icon flag-icon-fr m-r-5" title="fr"></span>
                                     <span>French</span>
                                 </span> --}}
-                            </p>
-                            <p class="text-muted font-13"><strong>Address :</strong> <span class="m-l-15">{{ $tenants->address }}</span></p>
-                            <p class="text-muted font-13"><strong>Occupation Status :</strong> <span class="m-l-15">{{ $tenants->occ_status }}</span></p>
-                            <p class="text-muted font-13"><strong>Occupation Place :</strong> <span class="m-l-15">{{ $tenants->occ_place }}</span></p>
-                            <hr>
-                            <p class="text-muted font-13"><strong>Emergency Contact Person :</strong> <span class="m-l-15">{{ $tenants->emname }}</span></p>
-                            <p class="text-muted font-13"><strong>Emergency Contact Phone :</strong> <span class="m-l-15">{{ $tenants->emphn }}</span></p>
-                        </div>
+                                </p>
+                                <p class="text-muted font-13"><strong>Address :</strong> <span
+                                        class="m-l-15">{{ $tenants->address }}</span></p>
+                                <p class="text-muted font-13"><strong>Occupation Status :</strong> <span
+                                        class="m-l-15">{{ $tenants->occ_status }}</span></p>
+                                <p class="text-muted font-13"><strong>Occupation Place :</strong> <span
+                                        class="m-l-15">{{ $tenants->occ_place }}</span></p>
+                                <hr>
+                                <p class="text-muted font-13"><strong>Emergency Contact Person :</strong> <span
+                                        class="m-l-15">{{ $tenants->emname }}</span></p>
+                                <p class="text-muted font-13"><strong>Emergency Contact Phone :</strong> <span
+                                        class="m-l-15">{{ $tenants->emphn }}</span></p>
+                            </div>
 
-                        {{-- <ul class="social-links list-inline m-t-20 m-b-0">
+                            {{-- <ul class="social-links list-inline m-t-20 m-b-0">
                             <li class="list-inline-item">
                                 <a title="" data-placement="top" data-toggle="tooltip" class="tooltips" href="#" data-original-title="Facebook"><i class="fa fa-facebook"></i></a>
                             </li>
@@ -115,11 +128,11 @@
                                 <a title="" data-placement="top" data-toggle="tooltip" class="tooltips" href="#" data-original-title="Skype"><i class="fa fa-skype"></i></a>
                             </li>
                         </ul> --}}
+                        </div>
                     </div>
-                </div>
-                <!-- Personal-Information -->
+                    <!-- Personal-Information -->
 
-                {{-- <div class="card-box ribbon-box">
+                    {{-- <div class="card-box ribbon-box">
                     <div class="ribbon ribbon-primary">Messages</div>
                     <div class="clearfix"></div>
                     <div class="inbox-widget">
@@ -177,12 +190,12 @@
                     </div>
                 </div> --}}
 
-            </div>
+                </div>
 
 
-            <div class="col-md-7">
+                <div class="col-md-7">
 
-                {{-- <div class="row">
+                    {{-- <div class="row">
 
                     <div class="col-sm-4">
                         <div class="card-box widget-box-four">
@@ -258,21 +271,21 @@
                     </div>
                 </div> --}}
 
-                <div class="card-box">
-                    <div class="table-responsive">
-                        <table class="table m-b-0">
-                            <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Project Name</th>
-                                <th>Start Date</th>
-                                <th>Due Date</th>
-                                <th>Status</th>
-                                <th>Assign</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {{-- <tr>
+                    <div class="card-box">
+                        <div class="table-responsive">
+                            <table class="table m-b-0">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Project Name</th>
+                                        <th>Start Date</th>
+                                        <th>Due Date</th>
+                                        <th>Status</th>
+                                        <th>Assign</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {{-- <tr>
                                 <td>1</td>
                                 <td>Adminox Admin</td>
                                 <td>01/01/2015</td>
@@ -313,20 +326,19 @@
                                 <td>Coderthemes</td>
                             </tr> --}}
 
-                            </tbody>
-                        </table>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
+
                 </div>
+                <!-- end col -->
 
             </div>
-            <!-- end col -->
-
-        </div>
-        <!-- end row -->
+            <!-- end row -->
 
 
-    </div> <!-- container -->
+        </div> <!-- container -->
 
-</div> <!-- content -->
-
+    </div> <!-- content -->
 @endsection

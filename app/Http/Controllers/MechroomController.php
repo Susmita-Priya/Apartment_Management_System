@@ -30,7 +30,6 @@ class MechroomController extends Controller
 
         // Return the view for adding a new mechanical room
         return view('mechroom.mechroom_add', compact('unit', 'floor', 'block', 'building'));
-
     }
 
     /**
@@ -107,7 +106,6 @@ class MechroomController extends Controller
         }
 
         return redirect()->route('unit.show', $unitId)->with('success', 'Mechanical Room entry added successfully.');
-
     }
 
     /**
@@ -130,7 +128,6 @@ class MechroomController extends Controller
         $building = $block->building;
 
         return view('mechroom.mechroom_edit', compact('mechroom', 'unit', 'floor', 'block', 'building'));
-
     }
 
     /**
@@ -218,7 +215,6 @@ class MechroomController extends Controller
         }
 
         return redirect()->route('unit.show', $request->unit_id)->with('success', 'Mechanical Room updated successfully.');
-
     }
 
     /**
@@ -235,6 +231,5 @@ class MechroomController extends Controller
         $mechroom->delete();
 
         return redirect()->route('unit.show', $mechroom->unit_id)->with('delete', 'Mechanical Room deleted successfully.');
-
     }
 }

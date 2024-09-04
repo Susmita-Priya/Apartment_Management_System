@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Models\Block;
@@ -31,36 +32,36 @@ class BlockController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-{
-    // Validate the request data
-    $request->validate([
-        'name' => 'required',
-        'building_id' => 'required|exists:buildings,id',
-    ]);
+    {
+        // Validate the request data
+        $request->validate([
+            'name' => 'required',
+            'building_id' => 'required|exists:buildings,id',
+        ]);
 
-    // Fetch the building
-    $building = Building::find($request->building_id);
+        // Fetch the building
+        $building = Building::find($request->building_id);
 
-    // Generate a unique block ID
-    $lastBlock = Block::where('building_id', $building->id)->orderBy('block_id', 'desc')->first();
-    $lastNumber = $lastBlock ? intval(substr($lastBlock->block_id, strrpos($lastBlock->block_id, '-') + 4)) : 0;
-    $newBlockId = $building->building_id . '-BLK' . ($lastNumber + 1);
-
-    // Check for uniqueness and regenerate if needed
-    while (Block::where('block_id', $newBlockId)->exists()) {
+        // Generate a unique block ID
+        $lastBlock = Block::where('building_id', $building->id)->orderBy('block_id', 'desc')->first();
+        $lastNumber = $lastBlock ? intval(substr($lastBlock->block_id, strrpos($lastBlock->block_id, '-') + 4)) : 0;
         $newBlockId = $building->building_id . '-BLK' . ($lastNumber + 1);
-        $lastNumber++;
+
+        // Check for uniqueness and regenerate if needed
+        while (Block::where('block_id', $newBlockId)->exists()) {
+            $newBlockId = $building->building_id . '-BLK' . ($lastNumber + 1);
+            $lastNumber++;
+        }
+
+        // Create a new Block entry
+        Block::create([
+            'block_id' => $newBlockId,
+            'name' => $request->name,
+            'building_id' => $request->building_id,
+        ]);
+
+        return redirect()->route('building.show', $building->id)->with('success', 'Block added successfully.');
     }
-
-    // Create a new Block entry
-    Block::create([
-        'block_id' => $newBlockId,
-        'name' => $request->name,
-        'building_id' => $request->building_id,
-    ]);
-
-    return redirect()->route('building.show', $building->id)->with('success', 'Block added successfully.');
-}
 
     /**
      * Display the specified resource.
@@ -69,7 +70,7 @@ class BlockController extends Controller
     {
         $block = Block::withCount(['building', 'floors'])->findOrFail($id);
         $building = $block->building;    // Get the building associated with this block
-        
+
         // Pass the data to the view
         return view('block.block_view', compact('block', 'building'));
 
@@ -100,7 +101,7 @@ class BlockController extends Controller
             'name' => $request->name,
         ]);
 
-           // Fetch the associated building
+        // Fetch the associated building
         $building = Building::findOrFail($block->building_id);
 
         return redirect()->route('building.show', $building->id)->with('success', 'Block updated successfully.');
@@ -112,17 +113,16 @@ class BlockController extends Controller
     public function destroy(string $id)
     {
 
-    // Find the block to delete
-    $block = Block::findOrFail($id);
-    
-    // Fetch the associated building
-    $building = Building::findOrFail($block->building_id);
-    
-    // Delete the block
-    $block->delete();
-    
-    // Redirect to the building's details page with a success message
-    return redirect()->route('building.show', $building->id)->with('delete', 'Block deleted successfully.');
+        // Find the block to delete
+        $block = Block::findOrFail($id);
 
+        // Fetch the associated building
+        $building = Building::findOrFail($block->building_id);
+
+        // Delete the block
+        $block->delete();
+
+        // Redirect to the building's details page with a success message
+        return redirect()->route('building.show', $building->id)->with('delete', 'Block deleted successfully.');
     }
 }
