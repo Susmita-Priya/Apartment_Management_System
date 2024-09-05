@@ -1,9 +1,9 @@
 @extends('master')
 
 @section('content')
-    {{-- @push('title')
-    <title>Contact</title>
-@endpush --}}
+    @push('title')
+        <title>Homepage</title>
+    @endpush
 
 
     <!-- Start content -->
@@ -91,7 +91,8 @@
                         <div class="text-center">
                             <h5 class="font-normal text-muted">You have to pay</h5>
                             <h3 class="m-b-30"><i class="mdi mdi-arrow-up-bold-hexagon-outline text-success"></i> 25643
-                                <small>USD</small></h3>
+                                <small>USD</small>
+                            </h3>
                         </div>
 
                         <div class="chart-container">
@@ -107,7 +108,8 @@
                         <div class="text-center">
                             <h5 class="font-normal text-muted">You have to pay</h5>
                             <h3 class="m-b-30"><i class="mdi mdi-arrow-down-bold-hexagon-outline text-danger"></i> 5623
-                                <small>USD</small></h3>
+                                <small>USD</small>
+                            </h3>
                         </div>
 
                         <div class="chart-container">
@@ -123,7 +125,8 @@
                         <div class="text-center">
                             <h5 class="font-normal text-muted">You have to pay</h5>
                             <h3 class="m-b-30"><i class="mdi mdi-arrow-up-bold-hexagon-outline text-success"></i> 12548
-                                <small>USD</small></h3>
+                                <small>USD</small>
+                            </h3>
                         </div>
 
                         <div class="chart-container">

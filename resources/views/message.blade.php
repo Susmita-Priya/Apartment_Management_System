@@ -18,16 +18,36 @@
     </script>
 @endif
 
+
+<script>
+     // Use the SweetAlert confirmation for dynamically added extra fields
+     document.addEventListener('click', function(e) {
+        if (e.target && e.target.classList.contains('remove-extra-field')) {
+            // Show SweetAlert confirmation dialog
+            swal({
+                title: "Are you sure?",
+                text: "Once deleted, you will not be able to recover this field!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            }).then((willDelete) => {
+                if (willDelete) {
+                    // Remove the extra field if the user confirms
+                    e.target.parentElement.remove();
+                }
+            });
+        }
+    });
+</script>
+
 <script>
     function confirmDelete(url) {
         swal({
             title: "Are you sure?",
             text: "Once deleted, you will not be able to recover this record!",
             icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "Yes, Delete!"
+            buttons: true,
+            dangerMode: true,
         }).then((willDelete) => {
             if (willDelete) {
                 // Submit the form by updating the form's action URL

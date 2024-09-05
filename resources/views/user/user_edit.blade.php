@@ -2,7 +2,7 @@
 
 @section('content')
     @push('title')
-        <title>Edit Users</title>
+        <title>Edit User</title>
     @endpush
 
     <!-- Start content -->

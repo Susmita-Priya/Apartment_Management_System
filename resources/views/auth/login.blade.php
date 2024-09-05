@@ -54,7 +54,9 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>Admin login</title>
+    @push('title')
+        <title>Login</title>
+    @endpush
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />
     <meta content="Coderthemes" name="author" />
@@ -74,7 +76,6 @@
     <link href="{{ asset('admin_dashboard') }}/assets/css/style.css" rel="stylesheet" type="text/css" />
 
     <script src="{{ asset('admin_dashboard') }}/assets/js/modernizr.min.js"></script>
-
 </head>
 
 <body style="background-color:rgb(100,197,177)">

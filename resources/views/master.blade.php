@@ -3,7 +3,8 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>Admin</title>
+    @stack('title')
+    <link rel="icon" href="{{ asset('image/bytecarelogo-sm.png') }}" type="image/png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />
     <meta content="Coderthemes" name="author" />
@@ -70,7 +71,6 @@
 
         @include('include.sidebar')
 
-
         <div class="content-page">
 
             @yield('content')
@@ -80,7 +80,6 @@
         @include('include.footer')
 
     </div>
-
 
     <!-- jQuery  -->
     <script src="{{ asset('admin_dashboard') }}/assets/js/jquery.min.js"></script>

@@ -97,11 +97,11 @@
                     index++;
                 });
 
-                document.addEventListener('click', function(e) {
-                    if (e.target && e.target.classList.contains('remove-extra-field')) {
-                        e.target.parentElement.remove();
-                    }
-                });
+                // document.addEventListener('click', function(e) {
+                //     if (e.target && e.target.classList.contains('remove-extra-field')) {
+                //         e.target.parentElement.remove();
+                //     }
+                // });
             </script>
         </div>
     </div>
