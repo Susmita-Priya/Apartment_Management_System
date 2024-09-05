@@ -11,8 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('comareas', function (Blueprint $table) {
+        Schema::create('account_groups', function (Blueprint $table) {
             $table->id();
+            $table->string('name')->nullable();
+            $table->integer('group_type')->comment('1=debit,2=credit')->nullable();
+            $table->text('remarks')->nullable();
+            $table->integer('status')->default(1)->comment('1=active,0=inactive');
             $table->timestamps();
         });
     }
@@ -22,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('comareas');
+        Schema::dropIfExists('account_groups');
     }
 };

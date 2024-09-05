@@ -30,7 +30,7 @@
 
             <div class="row">
                 <div class="col-sm-12">
-                    <div class="profile-bg-picture" style="background-image:url('{{ asset('image/block_bg.jpg') }}')">
+                    <div class="profile-bg-picture" style="background-image:url('{{ asset('image/block_bg.webp') }}')">
                         <span class="picture-bg-overlay"></span><!-- overlay -->
                     </div>
                     <!-- meta -->

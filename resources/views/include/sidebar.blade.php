@@ -76,6 +76,20 @@
                         </li>
                     @endif
 
+
+                    <!------------------ accounts start -------------------->
+                    <li>
+                        <a href="javascript: void(0);"><i class="fa fa-book"></i> <span> Accounts </span> <span
+                                class="menu-arrow"></span></a>
+                        <ul class="nav-second-level " aria-expanded="false">
+                            <li><a href="{{ route('account.index') }}">Account List</a></li>
+                            <li><a href="{{ route('account-group.index') }}">Account Group List</a></li>
+                            <li><a href="{{ route('journal-entry.index') }}">Journal Entries</a></li>
+                            <li><a href="{{ route('general-ledger-report') }}">General Ledger</a></li>
+                            <li><a href="{{ route('balance_sheet') }}">Balance Sheet</a></li>
+                        </ul>
+                    </li>
+
                     <!-- Access Management -->
                     @if (App\Models\Permission::hasPermission('manage_access', $role_id))
                         <li>

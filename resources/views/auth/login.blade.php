@@ -93,7 +93,7 @@
                                 <div class="account-logo-box">
                                     <h2 class="text-uppercase text-center">
                                         <a href="{{ url('/') }}/index" class="text-success">
-                                            <span><img src="{{ asset('image') }}/bytecarelogowhite.png" alt=""
+                                            <span><img src="{{ asset('image') }}/bytecarelogowhite.webp" alt=""
                                                     height="60"></span>
                                         </a>
                                     </h2>
@@ -201,6 +201,6 @@
 
 </body>
 
-<!-- Mirrored from coderthemes.com/adminox/default/page-login.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 06 Nov 2019 12:29:42 GMT -->
+
 
 </html>

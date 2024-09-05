@@ -16,8 +16,6 @@
                             <li class="breadcrumb-item"><a href="{{ route('index') }}">Dashboard</a></li>
                             <li class="breadcrumb-item"><a href="{{ route('building') }}">Buildings</a></li>
                             <li class="breadcrumb-item"><a href="{{ route('block.show', $block->id) }}">Block</a></li>
-                            {{-- <li class="breadcrumb-item"><a href="{{ route('floor.show', $floor->id) }}">Floor</a></li>
-                        <li class="breadcrumb-item"><a href="{{ route('unit.show', $unit->id) }}">Unit</a></li> --}}
                             <li class="breadcrumb-item active">Add Common Area</li>
                         </ol>
 
@@ -44,94 +42,94 @@
                             @csrf
                             <input type="hidden" name="unit_id" value="{{ $unit->id }}">
 
-                            <!-- Common area fields -->
+                            <!-- Common area fields with checkboxes -->
                             <div class="form-group">
-                                <label for="firelane">Firelane</label>
-                                <input type="number" name="firelane" class="form-control"
-                                    placeholder="Enter number of firelanes">
+                                <label for="firelane">
+                                    <input type="checkbox" name="firelane_enabled" value="1"> Firelane
+                                </label>
                             </div>
 
                             <div class="form-group">
-                                <label for="building_entrance">Building Entrance</label>
-                                <input type="number" name="building_entrance" class="form-control"
-                                    placeholder="Enter number of building entrances">
+                                <label for="building_entrance">
+                                    <input type="checkbox" name="building_entrance_enabled" value="1"> Building Entrance
+                                </label>
                             </div>
 
                             <div class="form-group">
-                                <label for="corridors">Corridors</label>
-                                <input type="number" name="corridors" class="form-control"
-                                    placeholder="Enter number of corridors">
+                                <label for="corridors">
+                                    <input type="checkbox" name="corridors_enabled" value="1"> Corridors
+                                </label>
                             </div>
 
                             <div class="form-group">
-                                <label for="driveways">Driveways</label>
-                                <input type="number" name="driveways" class="form-control"
-                                    placeholder="Enter number of driveways">
+                                <label for="driveways">
+                                    <input type="checkbox" name="driveways_enabled" value="1"> Driveways
+                                </label>
                             </div>
 
                             <div class="form-group">
-                                <label for="emergency_stairways">Emergency Stairways</label>
-                                <input type="number" name="emergency_stairways" class="form-control"
-                                    placeholder="Enter number of emergency stairways">
+                                <label for="emergency_stairways">
+                                    <input type="checkbox" name="emergency_stairways_enabled" value="1"> Emergency Stairways
+                                </label>
                             </div>
 
                             <div class="form-group">
-                                <label for="garden">Garden</label>
-                                <input type="number" name="garden" class="form-control"
-                                    placeholder="Enter number of gardens">
+                                <label for="garden">
+                                    <input type="checkbox" name="garden_enabled" value="1"> Garden
+                                </label>
                             </div>
 
                             <div class="form-group">
-                                <label for="hallway">Hallway</label>
-                                <input type="number" name="hallway" class="form-control"
-                                    placeholder="Enter number of hallways">
+                                <label for="hallway">
+                                    <input type="checkbox" name="hallway_enabled" value="1"> Hallway
+                                </label>
                             </div>
 
                             <div class="form-group">
-                                <label for="loading_dock">Loading Dock</label>
-                                <input type="number" name="loading_dock" class="form-control"
-                                    placeholder="Enter number of loading docks">
+                                <label for="loading_dock">
+                                    <input type="checkbox" name="loading_dock_enabled" value="1"> Loading Dock
+                                </label>
                             </div>
 
                             <div class="form-group">
-                                <label for="lobby">Lobby</label>
-                                <input type="number" name="lobby" class="form-control"
-                                    placeholder="Enter number of lobbies">
+                                <label for="lobby">
+                                    <input type="checkbox" name="lobby_enabled" value="1"> Lobby
+                                </label>
                             </div>
 
                             <div class="form-group">
-                                <label for="parking_entrance">Parking Entrance</label>
-                                <input type="number" name="parking_entrance" class="form-control"
-                                    placeholder="Enter number of parking entrances">
+                                <label for="parking_entrance">
+                                    <input type="checkbox" name="parking_entrance_enabled" value="1"> Parking Entrance
+                                </label>
                             </div>
 
                             <div class="form-group">
-                                <label for="patio">Patio</label>
-                                <input type="number" name="patio" class="form-control"
-                                    placeholder="Enter number of patios">
+                                <label for="patio">
+                                    <input type="checkbox" name="patio_enabled" value="1"> Patio
+                                </label>
                             </div>
 
                             <div class="form-group">
-                                <label for="rooftop">Rooftop</label>
-                                <input type="number" name="rooftop" class="form-control"
-                                    placeholder="Enter number of rooftops">
+                                <label for="rooftop">
+                                    <input type="checkbox" name="rooftop_enabled" value="1"> Rooftop
+                                </label>
                             </div>
 
                             <div class="form-group">
-                                <label for="stairways">Stairways</label>
-                                <input type="number" name="stairways" class="form-control"
-                                    placeholder="Enter number of stairways">
+                                <label for="stairways">
+                                    <input type="checkbox" name="stairways_enabled" value="1"> Stairways
+                                </label>
                             </div>
 
                             <div class="form-group">
-                                <label for="walkways">Walkways</label>
-                                <input type="number" name="walkways" class="form-control"
-                                    placeholder="Enter number of walkways">
+                                <label for="walkways">
+                                    <input type="checkbox" name="walkways_enabled" value="1"> Walkways
+                                </label>
                             </div>
 
                             <!-- Extra field button and container -->
                             <button type="button" class="btn btn-primary" id="add-extra-field"
-                                style="margin-bottom: 20px;">Add Extra Field</button>
+                                style="margin-bottom: 20px;">Add Extra Area</button>
                             <div id="dynamic-extra-fields"></div>
 
                             <button type="submit" class="btn waves-effect waves-light"
@@ -150,10 +148,10 @@
                     div.classList.add('dynamic-extra-field');
 
                     div.innerHTML = `
-                    <label for="field_name">Field Name</label>
-                    <input type="text" name="extra_fields[${index}][field_name]" class="form-control" placeholder="Enter field name">
-                    <label for="quantity">How Many?</label>
-                    <input type="number" name="extra_fields[${index}][quantity]" class="form-control" placeholder="Enter number">
+                    <label for="extra_field_${index}">
+                        <input type="checkbox" name="extra_fields[${index}][enabled]" value="1"> Area Name
+                    </label>
+                    <input type="text" name="extra_fields[${index}][field_name]" class="form-control" placeholder="Enter area name">
                     <button type="button" class="btn btn-danger mt-2 remove-extra-field">Remove</button>
                 `;
 
