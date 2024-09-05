@@ -26,10 +26,8 @@
 
             <div class="row">
                 <div class="col-sm-12">
-                    <a href="{{ route('building.create') }}" class="btn waves-effect waves-light btn-sm"
-                        style="background-color: rgb(100, 197, 177); border-color: rgb(100, 197, 177); color: white; 
-                              position: absolute; right: 20px; top: 50%; transform: translateY(-50%); 
-                              text-decoration: none; padding: 10px 20px;">
+                    <a href="{{ route('building.create') }}" class="btn waves-effect waves-light btn-sm greenbtn"
+                        style="position: absolute;">
                         <!-- Added padding here -->
                         <i class="mdi mdi-plus m-r-5"></i>Add Building
                     </a>

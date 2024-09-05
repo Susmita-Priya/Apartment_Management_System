@@ -41,7 +41,7 @@
                         <form action="{{ route('comarea.update', $comarea->id) }}" enctype="multipart/form-data" method="POST">
                             @csrf
                             @method('PUT')
-                            <input type="hidden" name="unit_id" value="{{ $unit->id }}">
+                            <input type="hidden" name="block_id" value="{{ $block->id }}">
 
                             <!-- Common area fields with checkboxes -->
                             <div class="form-group">
@@ -142,13 +142,11 @@
                                 @endforeach
                             @endif
 
-                            <!-- Extra field button and container -->
-                            <button type="button" class="btn btn-primary" id="add-extra-field"
-                                style="margin-bottom: 20px;">Add Extra Area</button>
+                            <!-- Add new extra field button -->
+                            <button type="button" class="btn btn-primary" id="add-extra-field" style="margin-bottom: 20px;">Add Extra Area</button>
                             <div id="dynamic-extra-fields"></div>
 
-                            <button type="submit" class="btn waves-effect waves-light"
-                                style="background-color: rgb(100, 197, 177); border-color: rgb(100, 197, 177); color: white;">Update</button>
+                            <button type="submit" class="btn waves-effect waves-light" style="background-color: rgb(100, 197, 177); border-color: rgb(100, 197, 177); color: white;">Update</button>
                         </form>
                     </div>
                 </div>

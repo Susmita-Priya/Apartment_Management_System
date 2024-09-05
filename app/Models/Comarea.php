@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Comarea extends Model
 {
     use HasFactory;
+    protected $table = 'comareas';
 
     protected $fillable = [
         'block_id',
@@ -29,7 +30,7 @@ class Comarea extends Model
 
     public function extraFields()
     {
-        return $this->hasMany(ComExtraField::class);
+        return $this->hasMany(ComExtraField::class, 'comarea_id');
     }
 
     public function block()

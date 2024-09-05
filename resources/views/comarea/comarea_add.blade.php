@@ -40,90 +40,23 @@
                     <div class="card-box">
                         <form action="{{ route('comarea.store') }}" enctype="multipart/form-data" method="POST">
                             @csrf
-                            <input type="hidden" name="unit_id" value="{{ $unit->id }}">
+                            <input type="hidden" name="block_id" value="{{ $block->id }}">
 
                             <!-- Common area fields with checkboxes -->
-                            <div class="form-group">
-                                <label for="firelane">
-                                    <input type="checkbox" name="firelane_enabled" value="1"> Firelane
-                                </label>
-                            </div>
+                            @foreach (['firelane' => 'Firelane', 'building_entrance' => 'Building Entrance', 'corridors' => 'Corridors', 'driveways' => 'Driveways', 'emergency_stairways' => 'Emergency Stairways', 'garden' => 'Garden', 'hallway' => 'Hallway', 'loading_dock' => 'Loading Dock', 'lobby' => 'Lobby', 'parking_entrance' => 'Parking Entrance', 'patio' => 'Patio', 'rooftop' => 'Rooftop', 'stairways' => 'Stairways', 'walkways' => 'Walkways'] as $key => $label)
+                                <div class="form-group">
+                                    <label>
+                                        <input type="checkbox" name="{{ $key }}_enabled"
+                                            class="common-area-checkbox" value="1"> {{ $label }}
+                                    </label>
+                                </div>
+                            @endforeach
 
+                            <!-- Select All Checkbox -->
                             <div class="form-group">
-                                <label for="building_entrance">
-                                    <input type="checkbox" name="building_entrance_enabled" value="1"> Building Entrance
-                                </label>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="corridors">
-                                    <input type="checkbox" name="corridors_enabled" value="1"> Corridors
-                                </label>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="driveways">
-                                    <input type="checkbox" name="driveways_enabled" value="1"> Driveways
-                                </label>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="emergency_stairways">
-                                    <input type="checkbox" name="emergency_stairways_enabled" value="1"> Emergency Stairways
-                                </label>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="garden">
-                                    <input type="checkbox" name="garden_enabled" value="1"> Garden
-                                </label>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="hallway">
-                                    <input type="checkbox" name="hallway_enabled" value="1"> Hallway
-                                </label>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="loading_dock">
-                                    <input type="checkbox" name="loading_dock_enabled" value="1"> Loading Dock
-                                </label>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="lobby">
-                                    <input type="checkbox" name="lobby_enabled" value="1"> Lobby
-                                </label>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="parking_entrance">
-                                    <input type="checkbox" name="parking_entrance_enabled" value="1"> Parking Entrance
-                                </label>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="patio">
-                                    <input type="checkbox" name="patio_enabled" value="1"> Patio
-                                </label>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="rooftop">
-                                    <input type="checkbox" name="rooftop_enabled" value="1"> Rooftop
-                                </label>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="stairways">
-                                    <input type="checkbox" name="stairways_enabled" value="1"> Stairways
-                                </label>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="walkways">
-                                    <input type="checkbox" name="walkways_enabled" value="1"> Walkways
+                                <label style="font-weight: bold; font-size: 18px;">
+                                    <i class="mdi mdi-arrow-up rotate-left-up"></i>
+                                    <input type="checkbox" id="select-all"> Select All
                                 </label>
                             </div>
 
@@ -140,21 +73,26 @@
             </div>
 
             <script>
+                // Handle the "Select All" checkbox functionality
+                document.getElementById('select-all').addEventListener('change', function() {
+                    let checked = this.checked;
+                    document.querySelectorAll('.common-area-checkbox').forEach(checkbox => {
+                        checkbox.checked = checked;
+                    });
+                });
+
                 let index = 0;
 
                 document.getElementById('add-extra-field').addEventListener('click', function() {
                     let div = document.createElement('div');
                     div.classList.add('form-group');
-                    div.classList.add('dynamic-extra-field');
-
                     div.innerHTML = `
                     <label for="extra_field_${index}">
-                        <input type="checkbox" name="extra_fields[${index}][enabled]" value="1"> Area Name
+                         Area Name
                     </label>
                     <input type="text" name="extra_fields[${index}][field_name]" class="form-control" placeholder="Enter area name">
                     <button type="button" class="btn btn-danger mt-2 remove-extra-field">Remove</button>
-                `;
-
+                    `;
                     document.getElementById('dynamic-extra-fields').appendChild(div);
                     index++;
                 });
