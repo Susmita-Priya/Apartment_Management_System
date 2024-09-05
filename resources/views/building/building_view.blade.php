@@ -45,9 +45,8 @@
                             </div>
                             <div class="col-sm-6">
                                 <div class="text-right">
-                                    <button type="button" class="btn waves-effect waves-light"
-                                        style="background-color: rgb(100, 197, 177); border-color: rgb(100, 197, 177); color: white; 
-                                  position: absolute; right: 10px; top: 50%; transform: translateY(-50%);  text-decoration: none;"
+                                    <button type="button" class="btn waves-effect waves-light greenbtn"
+                                        style="position: absolute;"
                                         onclick="window.location.href='{{ route('building.edit', $building->id) }}'">
                                         <i class="mdi mdi-pencil m-r-5"></i> Edit Building
                                     </button>
@@ -106,9 +105,8 @@
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="text-right m-b-20">
-                                <button type="button" class="btn waves-effect waves-light"
-                                    style="background-color: rgb(100, 197, 177); border-color: rgb(100, 197, 177); color: white; 
-                                  position: absolute; right: 10px;  transform: translateY(-50%);  text-decoration: none;"
+                                <button type="button" class="btn waves-effect waves-light greenbtn"
+                                    style="position: absolute;"
                                     onclick="window.location.href='{{ route('block.create', ['building_id' => $building->id]) }}'">
                                     <i class="mdi mdi-plus m-r-5"></i> Add Block
                                 </button>

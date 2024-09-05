@@ -39,17 +39,6 @@ class FloorController extends Controller
 
         $blockId = $request->input('block_id'); // Change from query to input
         $block = Block::findOrFail($blockId);
-        $building = $block->building;
-
-        // // Check for valid options based on building type
-        // if ($building->type == 'RESB' && !$request->has('residential_suite')) {
-        //     return redirect()->back()->withErrors(['residential_suite' => 'Residential suites must be specified for residential buildings.']);
-        // }
-
-        // if ($building->type == 'COMB' && !$request->has('commercial_unit')) {
-        //     return redirect()->back()->withErrors(['commercial_unit' => 'Commercial units must be specified for commercial buildings.']);
-        // }
-
 
         // Check for uniqueness
         $exists = Floor::where('block_id', $request->block_id)

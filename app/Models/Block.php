@@ -22,4 +22,10 @@ class Block extends Model
     {
         return $this->hasMany(Floor::class, 'block_id');
     }
+
+    public function commonArea()
+    {
+        return $this->hasOne(Comarea::class, 'block_id');
+    }
+    
 }

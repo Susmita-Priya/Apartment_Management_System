@@ -54,7 +54,9 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>Admin login</title>
+    @push('title')
+        <title>Login</title>
+    @endpush
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />
     <meta content="Coderthemes" name="author" />
@@ -74,7 +76,6 @@
     <link href="{{ asset('admin_dashboard') }}/assets/css/style.css" rel="stylesheet" type="text/css" />
 
     <script src="{{ asset('admin_dashboard') }}/assets/js/modernizr.min.js"></script>
-
 </head>
 
 <body style="background-color:rgb(100,197,177)">
@@ -93,7 +94,7 @@
                                 <div class="account-logo-box">
                                     <h2 class="text-uppercase text-center">
                                         <a href="{{ url('/') }}/index" class="text-success">
-                                            <span><img src="{{ asset('image') }}/bytecarelogowhite.png" alt=""
+                                            <span><img src="{{ asset('image') }}/bytecarelogowhite.webp" alt=""
                                                     height="60"></span>
                                         </a>
                                     </h2>
@@ -201,6 +202,6 @@
 
 </body>
 
-<!-- Mirrored from coderthemes.com/adminox/default/page-login.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 06 Nov 2019 12:29:42 GMT -->
+
 
 </html>

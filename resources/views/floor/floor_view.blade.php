@@ -31,7 +31,7 @@
 
             <div class="row">
                 <div class="col-sm-12">
-                    <div class="profile-bg-picture" style="background-image:url('{{ asset('image/floor.jpg') }}')">
+                    <div class="profile-bg-picture" style="background-image:url('{{ asset('image/floor.webp') }}')">
                         <span class="picture-bg-overlay"></span><!-- overlay -->
                     </div>
                     <!-- meta -->

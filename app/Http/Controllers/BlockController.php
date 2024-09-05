@@ -69,6 +69,7 @@ class BlockController extends Controller
     public function show(string $id)
     {
         $block = Block::withCount(['building', 'floors'])->findOrFail($id);
+        $block->load('commonArea.extraFields');
         $building = $block->building;    // Get the building associated with this block
 
         // Pass the data to the view

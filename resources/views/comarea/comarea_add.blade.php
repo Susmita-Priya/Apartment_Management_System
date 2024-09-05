@@ -16,8 +16,6 @@
                             <li class="breadcrumb-item"><a href="{{ route('index') }}">Dashboard</a></li>
                             <li class="breadcrumb-item"><a href="{{ route('building') }}">Buildings</a></li>
                             <li class="breadcrumb-item"><a href="{{ route('block.show', $block->id) }}">Block</a></li>
-                            {{-- <li class="breadcrumb-item"><a href="{{ route('floor.show', $floor->id) }}">Floor</a></li>
-                        <li class="breadcrumb-item"><a href="{{ route('unit.show', $unit->id) }}">Unit</a></li> --}}
                             <li class="breadcrumb-item active">Add Common Area</li>
                         </ol>
 
@@ -42,96 +40,29 @@
                     <div class="card-box">
                         <form action="{{ route('comarea.store') }}" enctype="multipart/form-data" method="POST">
                             @csrf
-                            <input type="hidden" name="unit_id" value="{{ $unit->id }}">
+                            <input type="hidden" name="block_id" value="{{ $block->id }}">
 
-                            <!-- Common area fields -->
-                            <div class="form-group">
-                                <label for="firelane">Firelane</label>
-                                <input type="number" name="firelane" class="form-control"
-                                    placeholder="Enter number of firelanes">
-                            </div>
+                            <!-- Common area fields with checkboxes -->
+                            @foreach (['firelane' => 'Firelane', 'building_entrance' => 'Building Entrance', 'corridors' => 'Corridors', 'driveways' => 'Driveways', 'emergency_stairways' => 'Emergency Stairways', 'garden' => 'Garden', 'hallway' => 'Hallway', 'loading_dock' => 'Loading Dock', 'lobby' => 'Lobby', 'parking_entrance' => 'Parking Entrance', 'patio' => 'Patio', 'rooftop' => 'Rooftop', 'stairways' => 'Stairways', 'walkways' => 'Walkways'] as $key => $label)
+                                <div class="form-group">
+                                    <label>
+                                        <input type="checkbox" name="{{ $key }}_enabled"
+                                            class="common-area-checkbox" value="1"> {{ $label }}
+                                    </label>
+                                </div>
+                            @endforeach
 
+                            <!-- Select All Checkbox -->
                             <div class="form-group">
-                                <label for="building_entrance">Building Entrance</label>
-                                <input type="number" name="building_entrance" class="form-control"
-                                    placeholder="Enter number of building entrances">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="corridors">Corridors</label>
-                                <input type="number" name="corridors" class="form-control"
-                                    placeholder="Enter number of corridors">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="driveways">Driveways</label>
-                                <input type="number" name="driveways" class="form-control"
-                                    placeholder="Enter number of driveways">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="emergency_stairways">Emergency Stairways</label>
-                                <input type="number" name="emergency_stairways" class="form-control"
-                                    placeholder="Enter number of emergency stairways">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="garden">Garden</label>
-                                <input type="number" name="garden" class="form-control"
-                                    placeholder="Enter number of gardens">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="hallway">Hallway</label>
-                                <input type="number" name="hallway" class="form-control"
-                                    placeholder="Enter number of hallways">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="loading_dock">Loading Dock</label>
-                                <input type="number" name="loading_dock" class="form-control"
-                                    placeholder="Enter number of loading docks">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="lobby">Lobby</label>
-                                <input type="number" name="lobby" class="form-control"
-                                    placeholder="Enter number of lobbies">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="parking_entrance">Parking Entrance</label>
-                                <input type="number" name="parking_entrance" class="form-control"
-                                    placeholder="Enter number of parking entrances">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="patio">Patio</label>
-                                <input type="number" name="patio" class="form-control"
-                                    placeholder="Enter number of patios">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="rooftop">Rooftop</label>
-                                <input type="number" name="rooftop" class="form-control"
-                                    placeholder="Enter number of rooftops">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="stairways">Stairways</label>
-                                <input type="number" name="stairways" class="form-control"
-                                    placeholder="Enter number of stairways">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="walkways">Walkways</label>
-                                <input type="number" name="walkways" class="form-control"
-                                    placeholder="Enter number of walkways">
+                                <label style="font-weight: bold; font-size: 18px;">
+                                    <i class="mdi mdi-arrow-up rotate-left-up"></i>
+                                    <input type="checkbox" id="select-all"> Select All
+                                </label>
                             </div>
 
                             <!-- Extra field button and container -->
                             <button type="button" class="btn btn-primary" id="add-extra-field"
-                                style="margin-bottom: 20px;">Add Extra Field</button>
+                                style="margin-bottom: 20px;">Add Extra Area</button>
                             <div id="dynamic-extra-fields"></div>
 
                             <button type="submit" class="btn waves-effect waves-light"
@@ -142,30 +73,35 @@
             </div>
 
             <script>
+                // Handle the "Select All" checkbox functionality
+                document.getElementById('select-all').addEventListener('change', function() {
+                    let checked = this.checked;
+                    document.querySelectorAll('.common-area-checkbox').forEach(checkbox => {
+                        checkbox.checked = checked;
+                    });
+                });
+
                 let index = 0;
 
                 document.getElementById('add-extra-field').addEventListener('click', function() {
                     let div = document.createElement('div');
                     div.classList.add('form-group');
-                    div.classList.add('dynamic-extra-field');
-
                     div.innerHTML = `
-                    <label for="field_name">Field Name</label>
-                    <input type="text" name="extra_fields[${index}][field_name]" class="form-control" placeholder="Enter field name">
-                    <label for="quantity">How Many?</label>
-                    <input type="number" name="extra_fields[${index}][quantity]" class="form-control" placeholder="Enter number">
+                    <label for="extra_field_${index}">
+                         Area Name
+                    </label>
+                    <input type="text" name="extra_fields[${index}][field_name]" class="form-control" placeholder="Enter area name">
                     <button type="button" class="btn btn-danger mt-2 remove-extra-field">Remove</button>
-                `;
-
+                    `;
                     document.getElementById('dynamic-extra-fields').appendChild(div);
                     index++;
                 });
 
-                document.addEventListener('click', function(e) {
-                    if (e.target && e.target.classList.contains('remove-extra-field')) {
-                        e.target.parentElement.remove();
-                    }
-                });
+                // document.addEventListener('click', function(e) {
+                //     if (e.target && e.target.classList.contains('remove-extra-field')) {
+                //         e.target.parentElement.remove();
+                //     }
+                // });
             </script>
         </div>
     </div>

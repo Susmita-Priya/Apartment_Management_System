@@ -109,10 +109,8 @@
                                 title: "Are you sure?",
                                 text: "You will be logged out!",
                                 icon: "warning",
-                                showCancelButton: true,
-                                confirmButtonColor: "#3085d6",
-                                cancelButtonColor: "#d33",
-                                confirmButtonText: "Yes, Logout!"
+                                buttons: true,
+                                dangerMode: true,
                             }).then((willLogout) => {
                                 if (willLogout) {
 

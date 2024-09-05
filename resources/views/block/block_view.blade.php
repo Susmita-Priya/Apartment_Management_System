@@ -30,7 +30,7 @@
 
             <div class="row">
                 <div class="col-sm-12">
-                    <div class="profile-bg-picture" style="background-image:url('{{ asset('image/block_bg.jpg') }}')">
+                    <div class="profile-bg-picture" style="background-image:url('{{ asset('image/block_bg.webp') }}')">
                         <span class="picture-bg-overlay"></span><!-- overlay -->
                     </div>
                     <!-- meta -->
@@ -249,55 +249,71 @@
                             @endforeach
                         </div>
 
-                        <!-- Common Area (for all buildings) -->
+                        <!-- Display common area names -->
+
                         <div class="col-12">
+
                             <h4 class="header-title mt-0 m-b-20">Common Area</h4>
-                            @foreach ($sortedFloors->filter(function ($floor) {
-                return $floor->common_area;
-            })->chunk(3) as $chunk)
-                                <div class="row">
-                                    @foreach ($chunk as $floor)
-                                        <div class="col-md-4 mb-4">
-                                            <div class="card-box">
-                                                <h4 class="header-title mt-0 m-b-20">{{ $floor->name }}</h4>
-                                                <p class="text-muted font-15"><strong>Floor No:
-                                                    </strong>{{ $floor->type }}-{{ $floor->floor_no }}</p>
-                                                {{-- <p class="text-muted font-15"><strong>Type: </strong>{{ ucfirst($floor->type) }}
-                                    </p> --}}
-                                                <button type="button"
-                                                    onclick="window.location.href='{{ route('floor.show', $floor->id) }}'"
-                                                    class="btn btn-info m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm">
-                                                    Enter
-                                                </button>
-                                                <button type="button"
-                                                    class="btn btn-success m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm"
-                                                    onclick="window.location.href='{{ route('floor.edit', $floor->id) }}'">
-                                                    Edit
-                                                </button>
-                                                {{-- <a type="button" 
-                               href="{{ route('floor.delete', ['id' => $floor->id]) }}"
-                                    class="btn btn-danger m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light
-                                    btn-sm">
-                                    Delete
-                                    </a> --}}
-                                                <button type="button"
-                                                    class="btn btn-danger m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm"
-                                                    onclick="confirmDelete('{{ route('floor.delete', ['id' => $floor->id]) }}')">
-                                                    Delete
-                                                </button>
-                                                <!-- Hidden form for deletion -->
-                                                <form id="delete-form"
-                                                    action="{{ route('floor.delete', ['id' => $floor->id]) }}"
-                                                    method="GET" style="display: none;">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                </form>
-                                            </div>
-                                        </div>
-                                    @endforeach
+                            <div class="row">
+                                <div class="col-md-4 mb-4">
+                                    <div class="card-box">
+                                        <!-- Display common areas with bullet points -->
+                                        @if ($block->commonArea)
+                                            <ul>
+                                                @foreach ($block->commonArea->getAttributes() as $key => $value)
+                                                    @if (
+                                                        $value &&
+                                                            in_array($key, [
+                                                                'firelane',
+                                                                'building_entrance',
+                                                                'corridors',
+                                                                'driveways',
+                                                                'emergency_stairways',
+                                                                'garden',
+                                                                'hallway',
+                                                                'loading_dock',
+                                                                'lobby',
+                                                                'parking_entrance',
+                                                                'patio',
+                                                                'rooftop',
+                                                                'stairways',
+                                                                'walkways',
+                                                            ]))
+                                                        <li>{{ ucfirst(str_replace('_', ' ', $key)) }}</li>
+                                                    @endif
+                                                @endforeach
+
+                                                <!-- Display extra fields -->
+                                                @foreach ($block->commonArea->extraFields as $extraField)
+                                                    <li>{{ $extraField->field_name }}</li>
+                                                @endforeach
+                                            </ul>
+                                            <button type="button"
+                                                class="btn btn-success m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm"
+                                                onclick="window.location.href='{{ route('comarea.edit', $block->commonArea->id) }}'">
+                                                Edit
+                                            </button>
+                                            <button type="button"
+                                                class="btn btn-danger m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm"
+                                                onclick="confirmDelete('{{ route('comarea.delete', ['id' => $block->commonArea->id]) }}')">
+                                                Delete
+                                            </button>
+                                            <!-- Hidden form for deletion -->
+                                            <form id="delete-form"
+                                                action="{{ route('comarea.delete', ['id' => $block->commonArea->id]) }}"
+                                                method="GET" style="display: none;">
+                                                @csrf
+                                                @method('DELETE')
+                                            </form>
+                                        @else
+                                            <p>No common areas defined for this block.</p>
+                                        @endif
+
+                                    </div>
                                 </div>
-                            @endforeach
+                            </div>
                         </div>
+
 
                     </div>
                     <!-- End Floors List -->

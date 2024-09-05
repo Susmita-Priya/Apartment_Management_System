@@ -163,16 +163,16 @@
                     <input type="text" name="extra_rooms[${index}][room_name]" class="form-control" placeholder="Enter room name">
                     <label for="quantity">How Many?</label>
                     <input type="number" name="extra_rooms[${index}][quantity]" class="form-control" placeholder="Enter number of rooms">
-                    <button type="button" class="btn btn-danger mt-2 remove-room-field">Remove</button>
+                    <button type="button" class="btn btn-danger mt-2 remove-extra-field">Remove</button>
                 `;
                     document.getElementById('dynamic-room-fields').appendChild(div);
                     index++;
                 });
-                document.addEventListener('click', function(e) {
-                    if (e.target && e.target.classList.contains('remove-room-field')) {
-                        e.target.parentElement.remove();
-                    }
-                });
+                // document.addEventListener('click', function(e) {
+                //     if (e.target && e.target.classList.contains('remove-room-field')) {
+                //         e.target.parentElement.remove();
+                //     }
+                // });
             </script>
         </div>
     </div>

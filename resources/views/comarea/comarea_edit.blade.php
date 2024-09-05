@@ -16,8 +16,6 @@
                             <li class="breadcrumb-item"><a href="{{ route('index') }}">Dashboard</a></li>
                             <li class="breadcrumb-item"><a href="{{ route('building') }}">Buildings</a></li>
                             <li class="breadcrumb-item"><a href="{{ route('block.show', $block->id) }}">Block</a></li>
-                            {{-- <li class="breadcrumb-item"><a href="{{ route('floor.show', $floor->id) }}">Floor</a></li>
-                        <li class="breadcrumb-item"><a href="{{ route('unit.show', $unit->id) }}">Unit</a></li> --}}
                             <li class="breadcrumb-item active">Edit Common Area</li>
                         </ol>
 
@@ -40,119 +38,44 @@
             <div class="row">
                 <div class="col-12">
                     <div class="card-box">
-                        <form action="{{ route('comarea.update', $comarea->id) }}" enctype="multipart/form-data"
-                            method="POST">
+                        <form action="{{ route('comarea.update', $comarea->id) }}" enctype="multipart/form-data" method="POST">
                             @csrf
-                            @method('PUT')
-                            <input type="hidden" name="unit_id" value="{{ $unit->id }}">
+                            <input type="hidden" name="block_id" value="{{ $block->id }}">
 
-                            <!-- Common area fields -->
-                            <div class="form-group">
-                                <label for="firelane">Firelane</label>
-                                <input type="number" name="firelane" class="form-control"
-                                    placeholder="Enter number of firelanes" value="{{ $comarea->firelane }}">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="building_entrance">Building Entrance</label>
-                                <input type="number" name="building_entrance" class="form-control"
-                                    placeholder="Enter number of building entrances"
-                                    value="{{ $comarea->building_entrance }}">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="corridors">Corridors</label>
-                                <input type="number" name="corridors" class="form-control"
-                                    placeholder="Enter number of corridors" value="{{ $comarea->corridors }}">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="driveways">Driveways</label>
-                                <input type="number" name="driveways" class="form-control"
-                                    placeholder="Enter number of driveways" value="{{ $comarea->driveways }}">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="emergency_stairways">Emergency Stairways</label>
-                                <input type="number" name="emergency_stairways" class="form-control"
-                                    placeholder="Enter number of emergency stairways"
-                                    value="{{ $comarea->emergency_stairways }}">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="garden">Garden</label>
-                                <input type="number" name="garden" class="form-control"
-                                    placeholder="Enter number of gardens" value="{{ $comarea->garden }}">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="hallway">Hallway</label>
-                                <input type="number" name="hallway" class="form-control"
-                                    placeholder="Enter number of hallways" value="{{ $comarea->hallway }}">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="loading_dock">Loading Dock</label>
-                                <input type="number" name="loading_dock" class="form-control"
-                                    placeholder="Enter number of loading docks" value="{{ $comarea->loading_dock }}">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="lobby">Lobby</label>
-                                <input type="number" name="lobby" class="form-control"
-                                    placeholder="Enter number of lobbies" value="{{ $comarea->lobby }}">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="parking_entrance">Parking Entrance</label>
-                                <input type="number" name="parking_entrance" class="form-control"
-                                    placeholder="Enter number of parking entrances"
-                                    value="{{ $comarea->parking_entrance }}">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="patio">Patio</label>
-                                <input type="number" name="patio" class="form-control"
-                                    placeholder="Enter number of patios" value="{{ $comarea->patio }}">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="rooftop">Rooftop</label>
-                                <input type="number" name="rooftop" class="form-control"
-                                    placeholder="Enter number of rooftops" value="{{ $comarea->rooftop }}">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="stairways">Stairways</label>
-                                <input type="number" name="stairways" class="form-control"
-                                    placeholder="Enter number of stairways" value="{{ $comarea->stairways }}">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="walkways">Walkways</label>
-                                <input type="number" name="walkways" class="form-control"
-                                    placeholder="Enter number of walkways" value="{{ $comarea->walkways }}">
-                            </div>
-
-                            <!-- Extra fields editing section -->
-                            @foreach ($comarea->extra_fields as $index => $extraField)
-                                <div class="form-group dynamic-extra-field">
-                                    <label for="field_name">Field Name</label>
-                                    <input type="text" name="extra_fields[{{ $index }}][field_name]"
-                                        class="form-control" placeholder="Enter field name"
-                                        value="{{ $extraField['field_name'] }}">
-                                    <label for="quantity">How Many?</label>
-                                    <input type="number" name="extra_fields[{{ $index }}][quantity]"
-                                        class="form-control" placeholder="Enter number"
-                                        value="{{ $extraField['quantity'] }}">
-                                    <button type="button" class="btn btn-danger mt-2 remove-extra-field">Remove</button>
+                            <!-- Common area fields with checkboxes -->
+                            @foreach (['firelane' => 'Firelane', 'building_entrance' => 'Building Entrance', 'corridors' => 'Corridors', 'driveways' => 'Driveways', 'emergency_stairways' => 'Emergency Stairways', 'garden' => 'Garden', 'hallway' => 'Hallway', 'loading_dock' => 'Loading Dock', 'lobby' => 'Lobby', 'parking_entrance' => 'Parking Entrance', 'patio' => 'Patio', 'rooftop' => 'Rooftop', 'stairways' => 'Stairways', 'walkways' => 'Walkways'] as $key => $label)
+                                <div class="form-group">
+                                    <label>
+                                        <input type="checkbox" name="{{ $key }}_enabled"
+                                            class="common-area-checkbox" value="0"
+                                            {{ $comarea->{$key} ? 'checked' : '' }}> {{ $label }}
+                                    </label>
                                 </div>
                             @endforeach
 
-                            <!-- Button to add more extra fields -->
-                            <button type="button" class="btn btn-primary" id="add-extra-field"
-                                style="margin-bottom: 20px;">Add Extra Field</button>
-                            <div id="dynamic-extra-fields"></div>
+                            <!-- Select All Checkbox -->
+                            <div class="form-group">
+                                <label style="font-weight: bold; font-size: 18px;">
+                                    <i class="mdi mdi-arrow-up rotate-left-up"></i>
+                                    <input type="checkbox" id="select-all"> Select All
+                                </label>
+                            </div>
+
+                            <!-- Extra fields section -->
+                            <button type="button" class="btn btn-primary" id="add-extra-field" style="margin-bottom: 20px;">Add Extra Area</button>
+
+                            <!-- Existing extra fields -->
+                            <div id="dynamic-extra-fields">
+                                @foreach ($comarea->extraFields as $index => $extraField)
+                                    <div class="form-group">
+                                        <label for="extra_field_{{ $index }}">
+                                            Area Name
+                                        </label>
+                                        <input type="text" name="extra_fields[{{ $index }}][field_name]" class="form-control" value="{{ $extraField->field_name }}">
+                                        <button type="button" class="btn btn-danger mt-2 remove-extra-field">Remove</button>
+                                    </div>
+                                @endforeach
+                            </div>
 
                             <button type="submit" class="btn waves-effect waves-light"
                                 style="background-color: rgb(100, 197, 177); border-color: rgb(100, 197, 177); color: white;">Update</button>
@@ -162,30 +85,30 @@
             </div>
 
             <script>
-                let index = {{ count($comarea->extra_fields) }};
+                // Handle the "Select All" checkbox functionality
+                document.getElementById('select-all').addEventListener('change', function() {
+                    let checked = this.checked;
+                    document.querySelectorAll('.common-area-checkbox').forEach(checkbox => {
+                        checkbox.checked = checked;
+                    });
+                });
+
+                let index = {{ $comarea->extraFields->count() }}; // Start with the count of existing extra fields
 
                 document.getElementById('add-extra-field').addEventListener('click', function() {
                     let div = document.createElement('div');
                     div.classList.add('form-group');
-                    div.classList.add('dynamic-extra-field');
-
                     div.innerHTML = `
-                    <label for="field_name">Field Name</label>
-                    <input type="text" name="extra_fields[${index}][field_name]" class="form-control" placeholder="Enter field name">
-                    <label for="quantity">How Many?</label>
-                    <input type="number" name="extra_fields[${index}][quantity]" class="form-control" placeholder="Enter number">
+                    <label for="extra_field_${index}">
+                         Area Name
+                    </label>
+                    <input type="text" name="extra_fields[${index}][field_name]" class="form-control" placeholder="Enter area name">
                     <button type="button" class="btn btn-danger mt-2 remove-extra-field">Remove</button>
-                `;
-
+                    `;
                     document.getElementById('dynamic-extra-fields').appendChild(div);
                     index++;
                 });
 
-                document.addEventListener('click', function(e) {
-                    if (e.target && e.target.classList.contains('remove-extra-field')) {
-                        e.target.parentElement.remove();
-                    }
-                });
             </script>
         </div>
     </div>
