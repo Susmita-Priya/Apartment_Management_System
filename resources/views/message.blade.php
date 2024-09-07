@@ -69,7 +69,7 @@
 
 @if (Session::has('error'))
     <script>
-        swal("Oops...", "{{ Session::get('error') }}", 'error', {
+        swal("Sorry!", "{{ Session::get('error') }}", 'error', {
             button: true,
             button: "OK",
         })
