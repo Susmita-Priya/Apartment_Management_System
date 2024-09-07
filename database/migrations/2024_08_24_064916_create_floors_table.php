@@ -23,7 +23,6 @@ return new class extends Migration
             $table->boolean('parking_lot')->nullable();
             $table->boolean('bike_lot')->nullable();
             $table->boolean('storage_lot')->nullable();
-            $table->boolean('common_area')->nullable();
             $table->timestamps();
         });
     }

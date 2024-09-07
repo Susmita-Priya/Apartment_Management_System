@@ -173,7 +173,7 @@
                                             @foreach ($chunk as $floor)
                                                 <div class="col-md-4 mb-4">
                                                     <div class="card-box">
-                                                        <h4 class="header-title mt-0 m-b-20">{{ $floor->name }}</h4>
+                                                        <h4 class="header-title mt-0 m-b-20">{{ $floor->name }} FLOOR</h4>
                                                         <p class="text-muted font-15"><strong>Floor No:
                                                             </strong>{{ $floor->type }}-{{ $floor->floor_no }}</p>
                                                         <button type="button"
@@ -217,7 +217,7 @@
                                     @foreach ($chunk as $floor)
                                         <div class="col-md-4 mb-4">
                                             <div class="card-box">
-                                                <h4 class="header-title mt-0 m-b-20">{{ $floor->name }}</h4>
+                                                <h4 class="header-title mt-0 m-b-20">{{ $floor->name }} LEVEL</h4>
                                                 <p class="text-muted font-15"><strong>Floor No:
                                                     </strong>{{ $floor->type }}-{{ $floor->floor_no }}</p>
                                                 <button type="button"
@@ -247,6 +247,7 @@
                                     @endforeach
                                 </div>
                             @endforeach
+                            
                         </div>
 
                         <!-- Display common area names -->

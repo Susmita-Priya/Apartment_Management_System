@@ -33,7 +33,7 @@
                 </div>
             </div>
 
-            @include('accounts.alert_message')
+            
 
             <!-- end row -->
             <div class="row">

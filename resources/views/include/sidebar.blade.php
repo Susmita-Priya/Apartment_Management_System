@@ -76,7 +76,23 @@
                         </li>
                     @endif
 
-
+                    <!------------------ Payroll start -------------------->
+                    <li>
+                        <a href="javascript: void(0);"><i class="fa fa-money"></i> <span> Payroll Management </span>
+                            <span class="menu-arrow"></span></a>
+                        <ul class="nav-second-level " aria-expanded="false">
+                            <li><a href="{{ route('department.index') }}">Department</a></li>
+                            <li><a href="{{ route('designaiton.index') }}">Designaiton</a></li>
+                            <li><a href="{{ route('employee_type.index') }}">Employee Type</a></li>
+                            <li><a href="{{ route('job_location.index') }}">Job Location</a></li>
+                            <li><a href="{{ route('employee.index') }}">Employee</a></li>
+                            <li><a href="{{ route('salary_head.index') }}" class="text-capitalize">salary head</a></li>
+                            <li><a href="{{ route('payroll.generate') }}" class="text-capitalize">generate payroll</a>
+                            </li>
+                            <li><a href="{{ route('payroll.index') }}" class="text-capitalize">payroll list</a></li>
+                        </ul>
+                    </li>
+                    
                     <!------------------ accounts start -------------------->
                     <li>
                         <a href="javascript: void(0);"><i class="fa fa-book"></i> <span> Accounts </span> <span

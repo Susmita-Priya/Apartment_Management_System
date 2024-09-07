@@ -43,6 +43,7 @@ class FloorController extends Controller
         // Check for uniqueness
         $exists = Floor::where('block_id', $request->block_id)
             ->where('floor_no', $request->floor_no)
+            ->where('type', $request->type)
             ->exists();
 
         if ($exists) {
@@ -61,7 +62,6 @@ class FloorController extends Controller
         $floor->parking_lot = $request->has('parking_lot');
         $floor->bike_lot = $request->has('bike_lot');
         $floor->storage_lot = $request->has('storage_lot');
-        $floor->common_area = $request->has('common_area');
         $floor->save();
 
         return redirect()->route('block.show', $block->id)->with('success', 'Floor added successfully.');
@@ -108,6 +108,7 @@ class FloorController extends Controller
         // Check for uniqueness
         $exists = Floor::where('block_id', $request->block_id)
             ->where('floor_no', $request->floor_no)
+            ->where('type', $request->type)
             ->where('id', '!=', $floor->id)
             ->exists();
 
@@ -126,7 +127,6 @@ class FloorController extends Controller
         $floor->parking_lot = $request->has('parking_lot');
         $floor->bike_lot = $request->has('bike_lot');
         $floor->storage_lot = $request->has('storage_lot');
-        $floor->common_area = $request->has('common_area');
         $floor->save();
         return redirect()->route('block.show', $block->id)->with('success', 'Floor updated successfully.');
     }

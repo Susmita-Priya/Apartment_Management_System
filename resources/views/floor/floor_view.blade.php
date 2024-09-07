@@ -232,7 +232,6 @@
                                                                 onclick="window.location.href='{{ route('unit.edit', $unit->id) }}'">
                                                                 Edit
                                                             </button>
-
                                                             <button type="button"
                                                                 class="btn btn-danger m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm"
                                                                 onclick="confirmDelete('{{ route('unit.delete', ['id' => $unit->id]) }}')">

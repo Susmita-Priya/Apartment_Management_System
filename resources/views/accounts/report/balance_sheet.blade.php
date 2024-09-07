@@ -19,7 +19,7 @@
                 </div>
             </div>
             <!-- end row -->
-            @include('accounts.alert_message')
+            
             <div class="row">
                 <div class="col-12">
                     <div class="card-header bg-white d-flex justify-content-end mb-3">

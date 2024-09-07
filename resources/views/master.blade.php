@@ -9,30 +9,9 @@
     <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />
     <meta content="Coderthemes" name="author" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <style>
-        .no-border {
-            border: none !important;
-            box-shadow: none !important;
-            /* To remove any box shadow that might be adding a border effect */
-        }
-
-        .greenbtn {
-            background-color: rgb(100, 197, 177);
-            border-color: rgb(100, 197, 177);
-            color: white;
-            position: absolute;
-            right: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            text-decoration: none;
-            padding: 10px 20px;
-        }
-
-        .rotate-left-up {
-  display: inline-block;
-  transform: rotate(-45deg);
-}
-    </style>
+   
+     <!-- custom css -->
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 
     <!-- Sweet Alert -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"
@@ -40,7 +19,7 @@
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <!-- App favicon -->
-    <link rel="shortcut icon" href="{{ asset('admin_dashboard') }}/assets/images/favicon.ico" type="image/x-icon">
+    {{-- <link rel="shortcut icon" href="{{ asset('admin_dashboard') }}/assets/images/favicon.ico" type="image/x-icon"> --}}
 
     <!-- C3 charts css -->
     <link href="{{ asset('admin_dashboard') }}/plugins/c3/c3.min.css" rel="stylesheet" type="text/css" />
@@ -76,7 +55,7 @@
             @yield('content')
 
         </div>
-        
+
         @include('include.footer')
 
     </div>
