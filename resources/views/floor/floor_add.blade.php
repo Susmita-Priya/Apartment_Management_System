@@ -85,9 +85,9 @@
                                 <label><input type="checkbox" name="storage_lot"> Storage Lot</label>
                             </div>
 
-                            <div class="form-group">
+                            {{-- <div class="form-group">
                                 <label><input type="checkbox" name="common_area"> Common Area</label>
-                            </div>
+                            </div> --}}
 
                             <button type="submit" class="btn waves-effect waves-light btn-sm"
                                 style="background-color: rgb(100, 197, 177); border-color: rgb(100, 197, 177); color: white;">

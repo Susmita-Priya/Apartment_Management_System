@@ -1,0 +1,40 @@
+.no-border {
+    border: none !important;
+    box-shadow: none !important;
+    /* To remove any box shadow that might be adding a border effect */
+}
+
+.greenbtn {
+    background-color: rgb(100, 197, 177);
+    border-color: rgb(100, 197, 177);
+    color: white;
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    text-decoration: none;
+    padding: 10px 20px;
+}
+
+.rotate-left-up {
+    display: inline-block;
+    transform: rotate(-45deg);
+}
+
+.custom-btn {
+    background: none;
+    color: rgb(100, 197, 177);
+    border: none;
+    font-weight: bold;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.custom-btn:hover {
+    background-color: rgb(100, 197, 177);
+    color: white;
+}
+
+.custom-btn i {
+    margin-right: 5px;
+    /* Space between the icon and text */
+}

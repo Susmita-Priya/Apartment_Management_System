@@ -107,7 +107,8 @@
                                     <input type="number" name="washroom" class="form-control"
                                         value="{{ $resroom->washroom }}" placeholder="Enter number of washrooms">
                                 </div>
-
+                                <button type="button" class="btn btn-primary" id="add-room-field"
+                                    style="margin-bottom: 20px;">Add Extra Room</button>
                                 <!-- Extra room fields -->
                                 <div id="dynamic-room-fields">
                                     @foreach ($resroom->extraRooms as $index => $extraRoom)
@@ -127,9 +128,6 @@
                                         </div>
                                     @endforeach
                                 </div>
-
-                                <button type="button" class="btn btn-primary" id="add-room-field"
-                                    style="margin-bottom: 20px;">Add Extra Room</button>
 
                                 <button type="submit" class="btn waves-effect waves-light"
                                     style="background-color: rgb(100, 197, 177); border-color: rgb(100, 197, 177); color: white;">Update</button>

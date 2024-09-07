@@ -21,7 +21,6 @@ class Floor extends Model
         'parking_lot',
         'bike_lot',
         'storage_lot',
-        'common_area'
     ];
 
 

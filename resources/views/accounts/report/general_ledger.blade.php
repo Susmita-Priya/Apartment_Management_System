@@ -19,7 +19,7 @@
                 </div>
             </div>
             <!-- end row -->
-            @include('accounts.alert_message')
+            
             <div class="row">
                 <div class="col-12">
                     <div class="card-box">
