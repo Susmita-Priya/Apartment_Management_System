@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Asset;
+use App\Models\Block;
 use App\Models\Resroom;
 use Illuminate\Http\Request;
 
@@ -21,12 +22,12 @@ class AssetController extends Controller
      */
     public function create($id,$count,$room_type)
     {
-        $resroom = Resroom::findOrFail($id);
-        $unit = $resroom->unit;
-        $floor = $unit->floor;
-        $block = $floor->block;
-        $building = $block->building;
-        $resrooms = Resroom::all(); // Fetch all resrooms for the dropdown
+        $resroom = Resroom::with(['unit.floor.block.building'])->findOrFail($id);
+        // $unit = $resroom->unit;
+        // $floor = $unit->floor;
+        // $block = $floor->block;
+        // $building = $block->building;
+        // $resrooms = Resroom::all(); // Fetch all resrooms for the dropdown
         return view('asset.asset_add', compact('resroom','count','room_type'));
     }
 

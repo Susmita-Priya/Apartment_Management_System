@@ -1,15 +1,10 @@
 <?php
 
-use App\Http\Controllers\Accounts\AccountController;
-use App\Http\Controllers\Accounts\AccountGroupController;
-use App\Http\Controllers\Accounts\AccountingReportController;
-use App\Http\Controllers\Accounts\JournalEntryController;
+
 use App\Http\Controllers\AdroomController;
 use App\Http\Controllers\AmroomController;
 use App\Http\Controllers\AssetController;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\Bank\BankTransactionController;
-use App\Http\Controllers\Bank\BankTransactionTypeController;
 use App\Http\Controllers\BlockController;
 use App\Http\Controllers\BuildingController;
 use App\Http\Controllers\ComareaController;
@@ -17,13 +12,6 @@ use App\Http\Controllers\ComroomController;
 use App\Http\Controllers\FloorController;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\MechroomController;
-use App\Http\Controllers\Payroll\DepartmentController;
-use App\Http\Controllers\Payroll\DesignationController;
-use App\Http\Controllers\Payroll\EmployeeController;
-use App\Http\Controllers\Payroll\EmployeeTypeController;
-use App\Http\Controllers\Payroll\JobLocationController;
-use App\Http\Controllers\Payroll\PayrollController;
-use App\Http\Controllers\Payroll\SalaryHeadController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ResroomController;
 use App\Http\Controllers\RoleController;
@@ -325,71 +313,9 @@ Route::get('asset/delete/{id}', [AssetController::class, 'destroy'])->name("asse
 
 
 
-// ----------------  payroll management -------------------------- //
-
-// department
-Route::get('department/delete/{id}', [DepartmentController::class, 'destroy'])->name('department.delete');
-Route::resource('department', DepartmentController::class);
+/////////////////////////// selim  ///////////////////////////
 
 
-// designaiton
-Route::get('designaiton/delete/{id}', [DesignationController::class, 'destroy'])->name('designaiton.delete');
-Route::resource('designaiton', DesignationController::class);
-
-// job_location
-Route::get('job/location/delete/{id}', [JobLocationController::class, 'destroy'])->name('job_location.delete');
-Route::resource('job_location', JobLocationController::class);
-
-
-// employee type
-Route::get('employee/type/delete/{id}', [EmployeeTypeController::class, 'destroy'])->name('employee_type.delete');
-Route::resource('employee_type', EmployeeTypeController::class);
-
-
-// employee
-Route::get('employee/delete/{id}', [EmployeeController::class, 'destroy'])->name('employee.delete');
-Route::resource('employee', EmployeeController::class);
-
-
-// salary head
-Route::get('salary/head/delete/{id}', [SalaryHeadController::class, 'destroy'])->name('salary_head.delete');
-Route::resource('salary_head', SalaryHeadController::class);
-
-
-// payroll
-Route::get('payroll/delete/{id}', [PayrollController::class, 'destroy'])->name('payroll.delete');
-Route::get('payroll/generate', [PayrollController::class, 'generate'])->name('payroll.generate');
-Route::resource('payroll', PayrollController::class);
-
-
-
-// ---------------- accounting -------------------------- //
-
-Route::get('account/delete/{id}', [AccountController::class, 'destroy'])->name('account.delete');
-Route::resource('account', AccountController::class);
-
-Route::get('account/group/delete/{id}', [AccountGroupController::class, 'destroy'])->name('account-group.delete');
-Route::resource('account-group', AccountGroupController::class);
-
-Route::get('journal/entry/delete/{id}', [JournalEntryController::class, 'destroy'])->name('journal-entry.delete');
-Route::resource('journal-entry', JournalEntryController::class);
-
-Route::get('journal-add-more-input', [JournalEntryController::class, 'addMoreInput']);
-
-// report
-Route::get('general/ledger/report', [AccountingReportController::class, 'generalLedger'])->name('general-ledger-report');
-Route::get('balance/sheet', [AccountingReportController::class, 'balance_sheet'])->name('balance_sheet');
-
-
-// ----------------  bank management -------------------------- //
-
-// transaction type 
-Route::get('bank/transaction/type/delete/{id}', [BankTransactionTypeController::class, 'destroy'])->name('bank_transaction_type.delete');
-Route::resource('bank_transaction_type', BankTransactionTypeController::class);
-
-
-// bank transaction
-Route::get('bank/transaction/delete/{id}', [BankTransactionController::class, 'destroy'])->name('bank_transaction.delete');
-Route::get('bank/transaction/report', [BankTransactionController::class, 'transactionReport'])->name('bank_transaction_report');
-Route::resource('bank_transaction', BankTransactionController::class);
-
+include('payroll.php');
+include('account.php');
+include('bank_management.php');

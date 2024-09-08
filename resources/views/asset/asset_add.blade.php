@@ -11,11 +11,16 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box">
-                        <h4 class="page-title">Add Asset</h4>
-                        <ol class="breadcrumb">
-                            {{-- <li class="breadcrumb-item"><a href="{{ route('index') }}">Dashboard</a></li>
-                            <li class="breadcrumb-item"><a href="{{ route('building') }}">Buildings</a></li>
-                            <li class="breadcrumb-item"><a href="{{ route('unit.show', $unit->id) }}">Unit</a></li> --}}
+                        {{-- <h4 class="page-title float-left">{{ $roomTypeLabel }}</h4> --}}
+                        <ol class="breadcrumb float-right">
+                            <li class="breadcrumb-item"><a href="{{ url('/index') }}">Dashboard</a></li>
+                            <li class="breadcrumb-item"><a href="{{ url('/building') }}">Buildings</a></li>
+                            <li class="breadcrumb-item"><a
+                                    href="{{ route('building.show', $resroom->unit->floor->block->building_id) }}">Building</a></li>
+                            <li class="breadcrumb-item"><a
+                                    href="{{ route('block.show', $resroom->unit->floor->block_id) }}">Block</a></li>
+                            <li class="breadcrumb-item"><a href="{{ route('floor.show', $resroom->unit->floor_id) }}">Floor</a></li>
+                            <li class="breadcrumb-item"><a href="{{ route('unit.show', $resroom->unit_id) }}">Unit</a></li>
                             <li class="breadcrumb-item active">Add Asset</li>
                         </ol>
                         <div class="clearfix"></div>
@@ -96,32 +101,32 @@
 
     <!-- Javascript for Dynamic Asset Addition -->
     <script>
-        let assetIndex = 1;
+            let assetIndex = 1;
 
-        document.getElementById('add-asset').addEventListener('click', function() {
-            const assetList = document.getElementById('asset-list');
+document.getElementById('add-asset').addEventListener('click', function() {
+    const assetList = document.getElementById('asset-list');
 
-            const newAsset = `
-                <div class="row asset-item">
-                    <div class="col-md-5">
-                        <label for="asset_name">Asset Name</label>
-                        <input type="text" name="assets[${assetIndex}][name]" class="form-control" placeholder="Enter Asset Name" required>
-                    </div>
-                    
-                    <div class="col-md-5">
-                        <label for="quantity">Quantity</label>
-                        <input type="number" name="assets[${assetIndex}][quantity]" class="form-control" placeholder="Enter Quantity" required>
-                    </div>
-                    
-                    <div class="col-md-2 text-right">
-                        <button type="button" class="btn btn-danger remove-asset mt-4">Remove</button>
-                    </div>
-                </div>
-            `;
+    const newAsset = `
+        <div class="row asset-item">
+            <div class="col-md-5">
+                <label for="asset_name">Asset Name</label>
+                <input type="text" name="assets[${assetIndex}][name]" class="form-control" placeholder="Enter Asset Name" required>
+            </div>
+            
+            <div class="col-md-5">
+                <label for="quantity">Quantity</label>
+                <input type="number" name="assets[${assetIndex}][quantity]" class="form-control" placeholder="Enter Quantity" required>
+            </div>
+            
+            <div class="col-md-2 text-right">
+                <button type="button" class="btn btn-danger remove-asset mt-4">Remove</button>
+            </div>
+        </div>
+    `;
 
-            assetList.insertAdjacentHTML('beforeend', newAsset);
-            assetIndex++;
-        });
+    assetList.insertAdjacentHTML('beforeend', newAsset);
+    assetIndex++;
+});
 
         // // Remove asset row
         // document.addEventListener('click', function (e) {

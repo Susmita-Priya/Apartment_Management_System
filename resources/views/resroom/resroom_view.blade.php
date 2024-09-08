@@ -151,7 +151,7 @@
                                     </button>
 
                                     <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                                        <a class="dropdown-item" {{-- href="{{ route('asset.edit', ['id' => $roomInstance->id]) }}" --}} type="submit">
+                                        <a class="dropdown-item" href="{{ route('asset.edit', ['id' => $resroom->id]) }}" type="submit">
                                             <i class="mdi mdi-pencil m-r-10 text-muted font-18 vertical-middle"></i>
                                             Edit asset
                                         </a>

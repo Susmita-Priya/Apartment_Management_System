@@ -58,11 +58,9 @@
             }).then((willDelete) => {
                 if (willDelete) {
                     // Remove asset row
-                    document.addEventListener('click', function(e) {
                         if (e.target.classList.contains('remove-asset')) {
                             e.target.closest('.asset-item').remove();
                         }
-                    });
                 }
             });
         }
