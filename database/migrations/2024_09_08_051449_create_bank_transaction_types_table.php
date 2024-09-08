@@ -11,14 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('accounts', function (Blueprint $table) {
+        Schema::create('bank_transaction_types', function (Blueprint $table) {
             $table->id();
-            $table->string('account_no')->nullable();
-            $table->string('account_title')->nullable();
-            $table->integer('account_type_id')->nullable();
-            $table->integer('account_group_id')->nullable();
-            $table->double('opening_balance')->nullable();
+            $table->string('name')->nullable();
             $table->text('remarks')->nullable();
+            $table->integer('type')->nullable()->comment('1=debit,2=credit');
             $table->integer('status')->default(1)->comment('1=active,0=inactive');
             $table->timestamps();
         });
@@ -29,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('accounts');
+        Schema::dropIfExists('bank_transaction_types');
     }
 };

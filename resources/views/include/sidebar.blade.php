@@ -76,6 +76,20 @@
                         </li>
                     @endif
 
+                    
+
+                    <!------------------ bank management -------------------->
+                    <li>
+                        <a href="javascript: void(0);"><i class="fa fa-money"></i> <span> Bank Management </span>
+                            <span class="menu-arrow"></span></a>
+                        <ul class="nav-second-level " aria-expanded="false">
+                            <li><a href="{{ route('bank_transaction_type.index') }}">Bank Transaction Type</a></li>
+                            <li><a href="{{ route('bank_transaction.index') }}">Bank Transaction</a></li>
+                            <li><a href="{{ route('bank_transaction_report') }}">Bank Transaction Report</a></li>
+                        </ul>
+                    </li>
+
+                    
                     <!------------------ Payroll start -------------------->
                     <li>
                         <a href="javascript: void(0);"><i class="fa fa-money"></i> <span> Payroll Management </span>

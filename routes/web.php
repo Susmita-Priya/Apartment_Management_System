@@ -6,7 +6,10 @@ use App\Http\Controllers\Accounts\AccountingReportController;
 use App\Http\Controllers\Accounts\JournalEntryController;
 use App\Http\Controllers\AdroomController;
 use App\Http\Controllers\AmroomController;
+use App\Http\Controllers\AssetController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Bank\BankTransactionController;
+use App\Http\Controllers\Bank\BankTransactionTypeController;
 use App\Http\Controllers\BlockController;
 use App\Http\Controllers\BuildingController;
 use App\Http\Controllers\ComareaController;
@@ -196,19 +199,6 @@ Route::get('unit/delete/{id}', [UnitController::class, 'destroy'])->name("unit.d
 
 
 
-Route::get('unit/create', [UnitController::class, 'create'])->name("unit.create");
-
-Route::post('unit/create', [UnitController::class, 'store'])->name("unit.store");
-
-Route::get('unit/show/{id}', [UnitController::class, 'show'])->name("unit.show");
-
-Route::get('unit/edit/{id}', [UnitController::class, 'edit'])->name("unit.edit");
-
-Route::post('unit/edit/{id}', [UnitController::class, 'update'])->name("unit.update");
-
-Route::get('unit/delete/{id}', [UnitController::class, 'destroy'])->name("unit.delete");
-
-
 
 Route::get('resroom/create', [ResroomController::class, 'create'])->name("resroom.create");
 
@@ -321,6 +311,20 @@ Route::get('comarea/delete/{id}', [ComareaController::class, 'destroy'])->name("
 
 
 
+Route::get('asset/create/{id}/{count}/{room_type}', [AssetController::class, 'create'])->name('asset.create');
+
+Route::post('asset/store', [AssetController::class, 'store'])->name("asset.store");
+
+Route::get('asset/show/{id}', [AssetController::class, 'show'])->name("asset.show");
+
+Route::get('asset/edit/{id}', [AssetController::class, 'edit'])->name("asset.edit");
+
+Route::post('asset/edit/{id}', [AssetController::class, 'update'])->name("asset.update");
+
+Route::get('asset/delete/{id}', [AssetController::class, 'destroy'])->name("asset.delete");
+
+
+
 // ----------------  payroll management -------------------------- //
 
 // department
@@ -375,4 +379,17 @@ Route::get('journal-add-more-input', [JournalEntryController::class, 'addMoreInp
 // report
 Route::get('general/ledger/report', [AccountingReportController::class, 'generalLedger'])->name('general-ledger-report');
 Route::get('balance/sheet', [AccountingReportController::class, 'balance_sheet'])->name('balance_sheet');
+
+
+// ----------------  bank management -------------------------- //
+
+// transaction type 
+Route::get('bank/transaction/type/delete/{id}', [BankTransactionTypeController::class, 'destroy'])->name('bank_transaction_type.delete');
+Route::resource('bank_transaction_type', BankTransactionTypeController::class);
+
+
+// bank transaction
+Route::get('bank/transaction/delete/{id}', [BankTransactionController::class, 'destroy'])->name('bank_transaction.delete');
+Route::get('bank/transaction/report', [BankTransactionController::class, 'transactionReport'])->name('bank_transaction_report');
+Route::resource('bank_transaction', BankTransactionController::class);
 

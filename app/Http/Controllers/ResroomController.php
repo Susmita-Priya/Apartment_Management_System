@@ -95,13 +95,33 @@ class ResroomController extends Controller
      * Display the specified resource.
      */
     public function show($id, $room_type)
-    {
-        $resroom = Resroom::with(['unit'])->findOrFail($id);
-        $unit = $resroom->unit; 
-        $roomTypeDetails = $resroom->$room_type; // Fetch specific room type details
-        
-        return view('resroom.resroom_view', compact('resroom', 'roomTypeDetails', 'room_type'));
-    }
+{
+    // Define room type labels
+    $residentialRoomTypes = [
+        'bedroom' => 'Bedroom',
+        'bathroom' => 'Bathroom',
+        'balcony' => 'Balcony',
+        'dining_room' => 'Dining Room',
+        'library_room' => 'Library Room',
+        'kitchen' => 'Kitchen',
+        'storeroom' => 'Storeroom',
+        'laundry' => 'Laundry',
+        'solarium' => 'Solarium',
+        'washroom' => 'Washroom',
+    ];
+
+    $resroom = Resroom::with(['unit'])->findOrFail($id);
+    $unit = $resroom->unit;
+
+    // Fetch specific room type details
+    $roomTypeDetails = $resroom->$room_type; 
+
+    // Fetch the label using the room_type key
+    $roomTypeLabel = $residentialRoomTypes[$room_type] ?? ucfirst($room_type);
+
+    return view('resroom.resroom_view', compact('resroom', 'roomTypeDetails', 'room_type', 'roomTypeLabel'));
+}
+
     /**
      * Show the form for editing the specified resource.
      */

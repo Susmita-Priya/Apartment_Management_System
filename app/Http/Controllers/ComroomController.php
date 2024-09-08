@@ -86,9 +86,13 @@ class ComroomController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(comroom $comroom)
+    public function show($id,$room_type)
     {
-        //
+        $comroom = Comroom::with(['unit'])->findOrFail($id);
+        $unit = $comroom->unit; 
+        $roomTypeDetails = $comroom->$room_type; // Fetch specific room type details
+        
+        return view('comroom.comroom_view', compact('comroom', 'roomTypeDetails', 'room_type'));
     }
 
     /**

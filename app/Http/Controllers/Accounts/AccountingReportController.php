@@ -66,6 +66,6 @@ class AccountingReportController extends Controller
     {
         $data['page_title'] =  'Balance Sheet';
         $data['accounts'] =  Account::orderBy('id', 'asc')->where('status', 1)->get();
-        return view('accounts.report.balance_sheet', $data);
+        return view('accounts.account.balance_sheet', $data);
     }
 }

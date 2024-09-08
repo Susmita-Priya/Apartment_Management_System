@@ -108,8 +108,7 @@
                                     </div>
                                 </div>
 
-                                <button type="submit" class="btn waves-effect waves-light btn-sm"
-                                    style="background-color: rgb(100, 197, 177); border-color: rgb(100, 197, 177); color: white;">
+                                <button type="submit" class="btn waves-effect waves-light btn-sm submitbtn">
                                     Add Building
                                 </button>
                             </div>

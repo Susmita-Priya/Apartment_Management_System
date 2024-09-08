@@ -1,11 +1,11 @@
 @extends('master')
 @section('content')
     @php
-        if (!empty($account->id)) {
-            $route = route('account.update', $account->id);
+        if (!empty($bank_transaction_type->id)) {
+            $route = route('bank_transaction_type.update', $bank_transaction_type->id);
             $page_title_prefix = 'Update';
         } else {
-            $route = route('account.store');
+            $route = route('bank_transaction_type.store');
             $page_title_prefix = 'Create';
         }
     @endphp
@@ -19,11 +19,11 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-12">
-                    <div class="page-title-box">
+                    <div class="page-title-box text-capitalize">
                         <h4 class="page-title float-left">{{ $page_title }}</h4>
 
                         <ol class="breadcrumb float-right">
-                            <li class="breadcrumb-item"><a href="{{ url('/index') }}">Admin</a></li>
+                            <li class="breadcrumb-item"><a href="#">Admin</a></li>
                             <li class="breadcrumb-item"><a href="#">{{ $page_title }}</a></li>
                             <li class="breadcrumb-item active">{{ $page_title_prefix }} {{ $page_title }}</li>
                         </ol>
@@ -37,44 +37,35 @@
 
             <!-- end row -->
             <div class="row">
-                <div class="col-md-2"><a href="{{ route('account.index') }}" class="btn btn-success"><i class="fa fa-list"></i> Go To {{ $page_title }} List</a></div>
+                <div class="col-md-2"><a href="{{ route('bank_transaction_type.index') }}" class="btn btn-success text-capitalize"><i class="fa fa-list"></i> Go To {{ $page_title }} List</a></div>
                 <div class="col-md-2"></div>
                 <div class="col-md-4">
                     <form action="{{ $route }}" enctype="multipart/form-data" method="POST">
-                        @if (!empty($account->id))
+                        @if (!empty($bank_transaction_type->id))
                             @method('PUT')
                         @endif
 
                         @csrf
 
                         <div class="card-box">
-                            <h1 class="d-flex justify-content-center mt-4">{{ $page_title_prefix }} {{ $page_title }}</h1>
+                            <h4 class="d-flex justify-content-center mt-4 text-capitalize">{{ $page_title_prefix }} {{ $page_title }}</h4>
 
                             <div class="form-row">
                                 <div class="form-group col-md-12">
-                                    <label for="account_no" class="col-form-label">Account Number *</label>
-                                    <input type="text" class="form-control" name="account_no" id="account_no"
-                                        value="{{ $account->account_no ?? '' }}" required>
+                                    <label for="name" class="col-form-label">name *</label>
+                                    <input type="text" class="form-control" name="name" id="name"
+                                        value="{{ $bank_transaction_type->name ?? '' }}" required>
                                     <span class="text-danger">
-                                        @error('account_no')
+                                        @error('name')
                                             {{ $message }}
                                         @enderror
                                     </span>
                                 </div>
-                                <div class="form-group col-md-12">
-                                    <label for="account_title" class="col-form-label">Account Title *</label>
-                                    <input type="text" class="form-control" name="account_title" id="account_title"
-                                        value="{{ $account->account_title ?? '' }}" required>
-                                    <span class="text-danger">
-                                        @error('account_title')
-                                            {{ $message }}
-                                        @enderror
-                                    </span>
-                                </div>
+                                
                                 <div class="form-group col-md-12">
                                     <label for="remarks" class="col-form-label">Remarks</label>
                                     <input type="text" class="form-control" name="remarks" id="remarks"
-                                        value="{{ $account->remarks ?? '' }}">
+                                        value="{{ $bank_transaction_type->remarks ?? '' }}">
                                     <span class="text-danger">
                                         @error('remarks')
                                             {{ $message }}
@@ -83,11 +74,18 @@
                                 </div>
 
                                 <div class="form-group col-md-12">
-                                    <label for="opening_balance" class="col-form-label">opening balance</label>
-                                    <input type="text" class="form-control" name="opening_balance" id="opening_balance"
-                                        value="{{ $account->opening_balance ?? '' }}">
+                                    <label for="type" class="col-form-label">type *</label>
+                                    <select class="form-control" name="type" id="type" required>
+                                        <option value="1"
+                                            @isset($bank_transaction_type->type) {{ $bank_transaction_type->type == 1 ? 'selected' : '' }} @endisset>
+                                            Debit
+                                        </option>
+                                        <option value="2"
+                                            @isset($bank_transaction_type->type) {{ $bank_transaction_type->type == 2 ? 'selected' : '' }} @endisset>
+                                            Credit</option>
+                                    </select>
                                     <span class="text-danger">
-                                        @error('opening_balance')
+                                        @error('type')
                                             {{ $message }}
                                         @enderror
                                     </span>
@@ -97,11 +95,11 @@
                                     <label for="status" class="col-form-label">Status *</label>
                                     <select class="form-control" name="status" id="status" required>
                                         <option value="1"
-                                            @isset($account->status) {{ $account->status == 1 ? 'selected' : '' }} @endisset>
+                                            @isset($bank_transaction_type->status) {{ $bank_transaction_type->status == 1 ? 'selected' : '' }} @endisset>
                                             Active
                                         </option>
                                         <option value="0"
-                                            @isset($account->status) {{ $account->status != 1 ? 'selected' : '' }} @endisset>
+                                            @isset($bank_transaction_type->status) {{ $bank_transaction_type->status != 1 ? 'selected' : '' }} @endisset>
                                             Inactive</option>
                                     </select>
                                     <span class="text-danger">

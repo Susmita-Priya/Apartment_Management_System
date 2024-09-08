@@ -19,9 +19,11 @@
 @endif
 
 
+
+{{-- remove extra fields --}}
 <script>
-     // Use the SweetAlert confirmation for dynamically added extra fields
-     document.addEventListener('click', function(e) {
+    // Use the SweetAlert confirmation for dynamically added extra fields
+    document.addEventListener('click', function(e) {
         if (e.target && e.target.classList.contains('remove-extra-field')) {
             // Show SweetAlert confirmation dialog
             swal({
@@ -34,6 +36,33 @@
                 if (willDelete) {
                     // Remove the extra field if the user confirms
                     e.target.parentElement.remove();
+                }
+            });
+        }
+    });
+</script>
+
+
+{{-- remove extra asset --}}
+<script>
+    // Use the SweetAlert confirmation for dynamically added extra fields
+    document.addEventListener('click', function(e) {
+        if (e.target && e.target.classList.contains('remove-asset')) {
+            // Show SweetAlert confirmation dialog
+            swal({
+                title: "Are you sure?",
+                text: "Once deleted, you will not be able to recover this field!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            }).then((willDelete) => {
+                if (willDelete) {
+                    // Remove asset row
+                    document.addEventListener('click', function(e) {
+                        if (e.target.classList.contains('remove-asset')) {
+                            e.target.closest('.asset-item').remove();
+                        }
+                    });
                 }
             });
         }

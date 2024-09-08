@@ -16,6 +16,12 @@
     padding: 10px 20px;
 }
 
+.submitbtn {
+    background-color: rgb(100, 197, 177);
+    border-color: rgb(100, 197, 177);
+    color: white;
+}
+
 .rotate-left-up {
     display: inline-block;
     transform: rotate(-45deg);
