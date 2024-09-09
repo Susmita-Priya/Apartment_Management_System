@@ -12,16 +12,22 @@ class Asset extends Model
     /**
      * The table associated with the model.
      */
-    protected $table = 'assets'; // Define the table name if it's different from the plural form of the model name
+    protected $table = 'assets'; 
 
     /**
      * The attributes that are mass assignable.
      */
     protected $fillable = [
         'resroom_id',  // The associated room (foreign key)
-        'room_id',     // Room identifier (e.g., "bedroom1", "bathroom2")
-        'asset_name',  // The name of the asset (e.g., "Chair", "Table")
-        'quantity',    // Quantity of the asset
+        'room_id',     // Room identifier
+        'assets_details',  // JSON column for asset details
+    ];
+
+    /**
+     * The attributes that should be cast to native types.
+     */
+    protected $casts = [
+        'assets_details' => 'array',  // Cast JSON to array
     ];
 
     /**

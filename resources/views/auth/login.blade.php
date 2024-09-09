@@ -1,51 +1,3 @@
-{{-- <x-guest-layout>
-    <!-- Session Status -->
-    <x-auth-session-status class="mb-4" :status="session('status')" />
-
-    <form method="POST" action="{{url('/')}}/index">
-        @csrf
-
-        <!-- Email Address -->
-        <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
-        </div>
-
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
-
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="current-password" />
-
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-        </div>
-
-        <!-- Remember Me -->
-        <div class="block mt-4">
-            <label for="remember_me" class="inline-flex items-center">
-                <input id="remember_me" type="checkbox" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" name="remember">
-                <span class="ms-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
-            </label>
-        </div>
-
-        <div class="flex items-center justify-end mt-4">
-            @if (Route::has('password.request'))
-                <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('password.request') }}">
-                    {{ __('Forgot your password?') }}
-                </a>
-            @endif
-
-            <x-primary-button class="ms-3">
-                {{ __('Log in') }}
-            </x-primary-button>
-        </div>
-    </form>
-</x-guest-layout>
- --}}
 
 <!DOCTYPE html>
 <html>
@@ -62,10 +14,8 @@
     <meta content="Coderthemes" name="author" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
-    {{-- <!-- App favicon -->
-    <link rel="shortcut icon" href="{{ asset('admin_dashboard') }}/assets/images/favicon.ico"> --}}
-
-    <link rel="icon" href="{{ asset('image/bytecarelogo-sm.png') }}" type="image/png">
+    <!-- App favicon -->
+    <link rel="shortcut icon" href="{{ asset('admin_dashboard') }}/assets/images/favicon.ico">
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"
         integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA=="
@@ -88,23 +38,23 @@
         <div class="container">
             <div class="row">
                 <div class="col-sm-12">
-
                     <div class="wrapper-page">
-
                         <div class="account-pages">
                             <div class="account-box">
                                 <div class="account-logo-box">
                                     <h2 class="text-uppercase text-center">
-                                        <a href="{{ url('/') }}/index" class="text-success">
-                                            <span><img src="{{ asset('image') }}/bytecarelogowhite.webp" alt=""
+                                        @if(!empty($general_setting->company_logo))
+                                        <a href="{{ route('index') }}" class="text-success">
+                                            <span><img src="{{ asset('setting/company_logo/' . $general_setting->company_logo) }}" alt=""
                                                     height="60"></span>
                                         </a>
+                                        @endif
                                     </h2>
                                     <h5 class="text-uppercase font-bold m-b-5 m-t-50">Sign In</h5>
                                     <p class="m-b-0">Login to your Admin account</p>
                                 </div>
                                 <div class="account-content">
-                                    <form class="form-horizontal" action="{{ route('login') }}" method="post">
+                                    <form class="form-horizontal" action="{{ route('do_login') }}" method="post">
                                         @csrf
                                         <div class="form-group m-b-20 row">
                                             <div class="col-12">
@@ -145,31 +95,7 @@
                                                     type="submit">Sign In</button>
                                             </div>
                                         </div>
-
                                     </form>
-
-                                    {{-- <div class="row">
-                                            <div class="col-sm-12">
-                                                <div class="text-center">
-                                                    <button type="button" class="btn m-r-5 btn-facebook waves-effect waves-light">
-                                                        <i class="fa fa-facebook"></i>
-                                                    </button>
-                                                    <button type="button" class="btn m-r-5 btn-googleplus waves-effect waves-light">
-                                                        <i class="fa fa-google"></i>
-                                                    </button>
-                                                    <button type="button" class="btn m-r-5 btn-twitter waves-effect waves-light">
-                                                        <i class="fa fa-twitter"></i>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="row m-t-50">
-                                            <div class="col-sm-12 text-center">
-                                                <p class="text-muted">Don't have an account? <a href="page-register.html" class="text-dark m-l-5"><b>Sign Up</b></a></p>
-                                            </div>
-                                        </div> --}}
-
                                 </div>
                             </div>
                         </div>

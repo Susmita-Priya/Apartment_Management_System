@@ -3,9 +3,13 @@
 
     <!-- LOGO -->
     <div class="topbar-left">
-        <a href="index.html" class="logo">
+        <a href="{{ route('index') }}" class="logo">
             <span>
-                <img src="{{ asset('image') }}/bytecarelogodark.png" alt="" height="45">
+                @if (!empty($general_setting->company_logo))
+                    <img src="{{ asset('setting/company_logo/' . $general_setting->company_logo) }}" style="width:120px">
+                @else
+                    <img src="{{ asset('image') }}/bytecarelogodark.png" alt="" height="45">
+                @endif
             </span>
             <i>
                 <img src="{{ asset('image') }}/bytecarelogo_sm.png" alt="" height="28">

@@ -11,7 +11,7 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box">
-                        {{-- <h4 class="page-title float-left">{{ $roomTypeLabel }}</h4> --}}
+                        <h4 class="page-title float-left">Add Asset</h4>
                         <ol class="breadcrumb float-right">
                             <li class="breadcrumb-item"><a href="{{ url('/index') }}">Dashboard</a></li>
                             <li class="breadcrumb-item"><a href="{{ url('/building') }}">Buildings</a></li>
@@ -21,6 +21,7 @@
                                     href="{{ route('block.show', $resroom->unit->floor->block_id) }}">Block</a></li>
                             <li class="breadcrumb-item"><a href="{{ route('floor.show', $resroom->unit->floor_id) }}">Floor</a></li>
                             <li class="breadcrumb-item"><a href="{{ route('unit.show', $resroom->unit_id) }}">Unit</a></li>
+                            <li class="breadcrumb-item"><a href="{{ route('resroom.show',['id' => $resroom->id, 'room_type' => $room_type]) }}">Room</a></li>
                             <li class="breadcrumb-item active">Add Asset</li>
                         </ol>
                         <div class="clearfix"></div>
@@ -43,15 +44,11 @@
                                 <div class="col-md-5">
                                     <label for="room_id">Room</label>
                                     <select name="room_id" class="form-control" required>
-                                        {{-- <option value="">Select Room</option>
-                                        @foreach ($resrooms as $room)
-                                            <option value="{{ $room->id }}">{{ $roomTypeLabel }} {{ $i }}</option>
-                                        @endforeach --}}
                                         @for ($i = 1; $i <= $count; $i++)
-                                        @php
-                                            $roomId = $room_type . $i;
-                                        @endphp
-                                        <option value="{{ $roomId }}">{{ $roomId }}</option>
+                                            @php
+                                                $roomId = $room_type . $i;
+                                            @endphp
+                                            <option value="{{ $roomId }}">{{ $roomId }}</option>
                                         @endfor
                                     </select>
                                 </div>
@@ -101,35 +98,34 @@
 
     <!-- Javascript for Dynamic Asset Addition -->
     <script>
-            let assetIndex = 1;
+        let assetIndex = 1;
 
-document.getElementById('add-asset').addEventListener('click', function() {
-    const assetList = document.getElementById('asset-list');
+        document.getElementById('add-asset').addEventListener('click', function() {
+            const assetList = document.getElementById('asset-list');
 
-    const newAsset = `
-        <div class="row asset-item">
-            <div class="col-md-5">
-                <label for="asset_name">Asset Name</label>
-                <input type="text" name="assets[${assetIndex}][name]" class="form-control" placeholder="Enter Asset Name" required>
-            </div>
-            
-            <div class="col-md-5">
-                <label for="quantity">Quantity</label>
-                <input type="number" name="assets[${assetIndex}][quantity]" class="form-control" placeholder="Enter Quantity" required>
-            </div>
-            
-            <div class="col-md-2 text-right">
-                <button type="button" class="btn btn-danger remove-asset mt-4">Remove</button>
-            </div>
-        </div>
-    `;
+            const newAsset = `
+                <div class="row asset-item">
+                    <div class="col-md-5">
+                        <label for="asset_name">Asset Name</label>
+                        <input type="text" name="assets[${assetIndex}][name]" class="form-control" placeholder="Enter Asset Name" required>
+                    </div>
+                    
+                    <div class="col-md-5">
+                        <label for="quantity">Quantity</label>
+                        <input type="number" name="assets[${assetIndex}][quantity]" class="form-control" placeholder="Enter Quantity" required>
+                    </div>
+                    
+                    <div class="col-md-2 text-right">
+                        <button type="button" class="btn btn-danger remove-asset mt-4">Remove</button>
+                    </div>
+                </div>
+            `;
 
-    assetList.insertAdjacentHTML('beforeend', newAsset);
-    assetIndex++;
-});
+            assetList.insertAdjacentHTML('beforeend', newAsset);
+            assetIndex++;
+        });
 
-        // // Remove asset row
-        // document.addEventListener('click', function (e) {
+        // document.addEventListener('click', function(e) {
         //     if (e.target.classList.contains('remove-asset')) {
         //         e.target.closest('.asset-item').remove();
         //     }

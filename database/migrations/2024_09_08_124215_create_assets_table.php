@@ -14,10 +14,11 @@ return new class extends Migration
         Schema::create('assets', function (Blueprint $table) {
             $table->id();
             $table->foreignId('resroom_id')->constrained()->onDelete('cascade'); // Foreign key to resroom
-            $table->string('room_id');       // Room identifier (e.g., "bedroom1", "bathroom2")
-            $table->string('asset_name');    // Name of the asset (e.g., "Chair", "Table")
-            $table->integer('quantity');     // Quantity of the asset
+            $table->string('room_id');       // Room identifier (e.g., "bedroom1", "bathroom1")
+            $table->json('assets_details');  // JSON column for asset details
             $table->timestamps();
+
+            $table->unique(['resroom_id', 'room_id']); // Ensure only one row per resroom_id and room_id
         });
     }
 
@@ -29,3 +30,4 @@ return new class extends Migration
         Schema::dropIfExists('assets');
     }
 };
+

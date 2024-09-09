@@ -90,7 +90,7 @@
                     </li>
 
                     
-                    <!------------------ Payroll start -------------------->
+                    <!------------------ Payroll Management -------------------->
                     <li>
                         <a href="javascript: void(0);"><i class="fa fa-money"></i> <span> Payroll Management </span>
                             <span class="menu-arrow"></span></a>
@@ -107,7 +107,7 @@
                         </ul>
                     </li>
                     
-                    <!------------------ accounts start -------------------->
+                    <!------------------ accounts Management -------------------->
                     <li>
                         <a href="javascript: void(0);"><i class="fa fa-book"></i> <span> Accounts </span> <span
                                 class="menu-arrow"></span></a>
@@ -120,12 +120,26 @@
                         </ul>
                     </li>
 
+                    
+                    <!------------------ SAAS Management -------------------->
+                    <li>
+                        <a href="javascript: void(0);"><i class="fa fa-book"></i> <span> SAAS Management </span> <span
+                                class="menu-arrow"></span></a>
+                        <ul class="nav-second-level " aria-expanded="false">
+                            <li><a href="{{ route('subscription_package.index') }}">Package List</a></li>
+                            <li><a href="{{ route('subscription_package_duration.index') }}">Package Duration List</a></li>
+                            <li><a href="{{ route('customer.index') }}">Customer List</a></li>
+                        </ul>
+                    </li>
+
+
                     <!-- Access Management -->
                     @if (App\Models\Permission::hasPermission('manage_access', $role_id))
                         <li>
                             <a href="javascript: void(0);"><i class="mdi mdi-lock-open"></i> <span> Access </span> <span
                                     class="menu-arrow"></span></a>
                             <ul class="nav-second-level " aria-expanded="false">
+                                <li><a href="{{ route('setting.create_edit') }}">Setting</a></li>
                                 <li><a href="{{ url('/user') }}">User Management</a></li>
                                 <li><a href="{{ url('/role') }}">Role Management</a></li>
                                 <li><a href="{{ url('/permission') }}">Permission Management</a></li>

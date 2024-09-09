@@ -35,8 +35,8 @@
                             <thead>
                                 <tr>
                                     <td colspan="7" class="text-center">
-                                        <h4>Byte Care Limited</h4>
-                                        <p>Makka tower(7th floor), kakrail, dhaka, bangladesh</p>
+                                        <h4> {{ $general_setting->company_name ?? '' }}</h4>
+                                        <p> {{ $general_setting->address ?? '' }}</p>
                                         
                                         <h5>{{ $page_title }}</h5>
                                     </td>

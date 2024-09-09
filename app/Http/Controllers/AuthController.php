@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\SaasPlatform\SubscriptionPackage;
+use App\Models\SaasPlatform\SubscriptionPackageDuration;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -9,11 +12,10 @@ class AuthController extends Controller
 {
     public function login()
     {
-
         return view('auth.login');
     }
 
-    public function auth_login(Request $request)
+    public function doLogin(Request $request)
     {
 
         // dd($request->all());
@@ -32,13 +34,4 @@ class AuthController extends Controller
 
         return redirect('/');
     }
-
-    // public function loginx()
-    // {
-    //     if (!Auth::check()) {
-    //         return redirect()->route('login')->with('errorlog', 'You need to log in to access this page.');
-    //     }
-    //     return redirect()->route('index');
-    // }
-
 }

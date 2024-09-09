@@ -20,15 +20,10 @@ class AssetController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create($id,$count,$room_type)
+    public function create($id, $count, $room_type)
     {
         $resroom = Resroom::with(['unit.floor.block.building'])->findOrFail($id);
-        // $unit = $resroom->unit;
-        // $floor = $unit->floor;
-        // $block = $floor->block;
-        // $building = $block->building;
-        // $resrooms = Resroom::all(); // Fetch all resrooms for the dropdown
-        return view('asset.asset_add', compact('resroom','count','room_type'));
+        return view('asset.asset_add', compact('resroom', 'count', 'room_type'));
     }
 
     /**
@@ -36,55 +31,75 @@ class AssetController extends Controller
      */
     public function store(Request $request)
     {
-        // // Validate the incoming request data
-        // $request->validate([
-        //     'room_no' => 'required|exists:resrooms,id',
-        //     'room_id' => 'required|string',
-        //     'assets.*.name' => 'required|string|max:255',
-        //     'assets.*.quantity' => 'required|integer|min:1',
-        // ]);
-
-        // // Loop through the assets and store them
-        // foreach ($request->input('assets') as $assetData) {
-        //     Asset::create([
-        //         'resroom_id' => $request->input('room_no'),
-        //         'room_id' => $request->input('room_id'),
-        //         'asset_name' => $assetData['name'],
-        //         'quantity' => $assetData['quantity'],
-        //     ]);
-        // }
-
-        // // Redirect back with success message
-        // // return
-        // //     ->with('success', 'Assets added successfully.');
-
-        // Prepare the array for bulk insert
-    $assets = [];
+        $request->validate([
+            'room_no' => 'required|exists:resrooms,id',
+            'room_id' => 'required|string',
+            'assets.*.name' => 'required|string|max:255',
+            'assets.*.quantity' => 'required|integer|min:1',
+        ]);
     
-    foreach ($request->input('assets') as $assetData) {
-        $assets[] = [
-            'resroom_id' => $request->input('room_no'),
-            'room_id' => $request->input('room_id'),
-            'asset_name' => $assetData['name'],
-            'quantity' => $assetData['quantity'],
-            'created_at' => now(),
-            'updated_at' => now(),
-        ];
+        // Group assets by resroom_id and room_id
+        $assetsGrouped = [];
+    
+        foreach ($request->input('assets') as $assetData) {
+            $roomId = $request->input('room_id');
+            $resroomId = $request->input('room_no');
+    
+            $key = $resroomId . '-' . $roomId;
+    
+            if (!isset($assetsGrouped[$key])) {
+                $assetsGrouped[$key] = [
+                    'resroom_id' => $resroomId,
+                    'room_id' => $roomId,
+                    'assets_details' => [],
+                ];
+            }
+    
+            $assetsGrouped[$key]['assets_details'][] = [
+                'asset_name' => $assetData['name'],
+                'quantity' => $assetData['quantity'],
+            ];
+        }
+    
+        // Check for existing entries
+        foreach ($assetsGrouped as $assetsGroup) {
+            $existingAsset = Asset::where('resroom_id', $assetsGroup['resroom_id'])
+                ->where('room_id', $assetsGroup['room_id'])
+                ->first();
+    
+            if ($existingAsset) {
+                return redirect()->back()->with('error', 'An entry already exists.');
+            }
+        }
+    
+        // Save each group to the database
+        foreach ($assetsGrouped as $assetsGroup) {
+            Asset::updateOrCreate(
+                [
+                    'resroom_id' => $assetsGroup['resroom_id'],
+                    'room_id' => $assetsGroup['room_id'],
+                ],
+                [
+                    'assets_details' => json_encode($assetsGroup['assets_details']),
+                ]
+            );
+        }
+    
+        return redirect()->back()->with('success', 'Assets saved successfully.');
     }
-
-    // Bulk insert the assets
-    Asset::insert($assets);
-
-    return redirect()->back()->with('success', 'Assets saved successfully.');
-    }
-
+    
     /**
      * Display the specified resource.
      */
-    public function show(Asset $asset)
-    {
-        //
-    }
+    public function show($id)
+{
+    // Fetch the asset data for the room based on the ID
+    $assets = Asset::where('room_id', $id)->get();
+
+    // Return a view or partial HTML to be loaded in the modal
+    return view('asset.asset_view', compact('assets'));
+}
+
 
     /**
      * Show the form for editing the specified resource.

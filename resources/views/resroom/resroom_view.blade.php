@@ -143,7 +143,6 @@
                                     <i class="mdi mdi-plus m-r-5"></i> Add Asset
                                 </button>
 
-
                                 <div class="btn-group">
                                     <button type="button" class="btn waves-effect waves-light dropdown-toggle greenbtn"
                                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -151,7 +150,8 @@
                                     </button>
 
                                     <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                                        <a class="dropdown-item" href="{{ route('asset.edit', ['id' => $resroom->id]) }}" type="submit">
+                                        <a class="dropdown-item" href="{{ route('asset.edit', ['id' => $resroom->id]) }}"
+                                            type="submit">
                                             <i class="mdi mdi-pencil m-r-10 text-muted font-18 vertical-middle"></i>
                                             Edit asset
                                         </a>
@@ -185,30 +185,123 @@
                                     <div class="row">
                                 @endif
                                 <div class="col-md-4">
-                                    <div class="card-box">
+                                    <div class="card-box room-card" data-toggle="modal" data-target="#assetModal" 
+                                         data-roomid="{{ $roomId }}" data-roomnumber="{{ $i }}">
                                         <h4 class="header-title mt-0 m-b-20">{{ $roomTypeLabel }} {{ $i }}
                                         </h4>
                                         <div class="panel-body">
-                                            <p class="text-muted font-15">
-                                                <strong>ID:</strong>
-                                                <span class="m-l-15">{{ $roomId }}</span>
-                                            </p>
-                                            {{-- <p class="text-muted font-15">
-                                <strong>Count:</strong>
-                                <span class="m-l-15">{{ $roomTypeDetails }}</span>
-                            </p> --}}
+                                            <p class="text-muted font-15"><strong>ID:</strong><span
+                                                    class="m-l-15">{{ $roomId }}</span></p>
                                         </div>
                                     </div>
                                 </div>
-                                <!-- Close the row after every 3 rooms -->
                                 @if ($i % 3 == 0 || $i == $roomTypeDetails)
                         </div> <!-- End row -->
                         @endif
                         @endfor
 
+
+                    </div>
+                </div>
+                <!-- Modal for viewing assets -->
+                <div class="modal fade" id="assetModal" tabindex="-1" role="dialog" aria-labelledby="assetModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="assetModalLabel">Room Assets</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button> 
+                            </div>
+                            <div class="modal-body">
+                                <div id="assetContent">
+                                    <!-- Assets content will be loaded dynamically here -->
+                                    {{-- <p>kkkkkk</p> --}}
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
             </div>
         </div>
     @endsection
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // When a room card is clicked
+            document.querySelectorAll('.room-card').forEach(card => {
+                card.addEventListener('click', function() {
+                    const roomId = this.getAttribute('data-room-id');
+                    // const roomType = this.getAttribute('data-room-type');
+                    
+                    // Open the modal
+                    $('#assetModal').modal('show');
+    
+                    // Clear previous content
+                    document.getElementById('assetContent').innerHTML = 'Loading...';
+    
+                    // Fetch the asset data
+                    fetch(`/asset/show/${roomId}`)
+                        .then(response => response.text())
+                        .then(html => {
+                            document.getElementById('assetContent').innerHTML = html;
+                        })
+                        .catch(error => {
+                            console.error('Error fetching assets:', error);
+                            document.getElementById('assetContent').innerHTML = 'Error loading assets.';
+                        });
+                });
+            });
+        });
+    </script>
+    
+
+{{-- <script>
+    function loadAssets(roomId) {
+        // Make an AJAX request to load the assets for the given roomId
+        $.ajax({
+            url: `/assets/show/${roomId}`,
+            method: 'GET',
+            success: function(response) {
+                // Load the assets content into the modal body
+                $('#assetContent').html(response);
+            },
+            error: function() {
+                $('#assetContent').html('<p>Failed to load assets.</p>');
+            }
+        });
+    }
+    </script> --}}
+    
+    {{-- <script>
+        $(document).ready(function() {
+            // When a room card is clicked
+            $('.room-card').on('click', function() {
+                var roomId = $(this).data('room-id'); // Get the room ID from the clicked card
+
+                // Make an AJAX request to fetch the asset data
+                $.ajax({
+                    url: '{{ route('asset.show', ['id' => ':roomId']) }}'.replace(':roomId',
+                        roomId), // Use the dynamic room ID in the route
+                    method: 'GET',
+                    success: function(response) {
+                        // Load the asset data into the modal
+                        $('#assetContent').html(response);
+
+                        // Show the modal
+                        $('#assetModal').modal('show');
+                    },
+                    error: function(xhr) {
+                        console.error('Error fetching asset data:', xhr);
+                        alert('Unable to fetch asset data. Please try again later.');
+                    }
+                });
+            });
+        });
+    </script> --}}

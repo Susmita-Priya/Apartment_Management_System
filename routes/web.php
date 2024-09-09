@@ -15,7 +15,9 @@ use App\Http\Controllers\MechroomController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ResroomController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\SaasPlatform\WebsiteController;
 use App\Http\Controllers\SerroomController;
+use App\Http\Controllers\SettingController;
 use App\Http\Controllers\StallLockerController;
 use App\Http\Controllers\TenantsController;
 use App\Http\Controllers\UnitController;
@@ -51,12 +53,19 @@ Route::get('/index', [IndexController::class, 'index'])->name("index");
 
 // require __DIR__.'/auth.php';
 
+// old
+// Route::post('/logout', [AuthController::class, 'logout'])->name("logout");
+// Route::get('/', [AuthController::class, 'login'])->name("login");
+// Route::post('/', [AuthController::class, 'auth_login']);
+
+
+// new
+
+Route::get('/', [WebsiteController::class, 'website'])->name("website");
 Route::post('/logout', [AuthController::class, 'logout'])->name("logout");
+Route::get('/login', [AuthController::class, 'login'])->name("login");
+Route::post('login/form/submit', [AuthController::class, 'doLogin'])->name("do_login");
 
-
-Route::get('/', [AuthController::class, 'login'])->name("login");
-
-Route::post('/', [AuthController::class, 'auth_login']);
 
 
 
@@ -319,3 +328,8 @@ Route::get('asset/delete/{id}', [AssetController::class, 'destroy'])->name("asse
 include('payroll.php');
 include('account.php');
 include('bank_management.php');
+include('saas_platform.php');
+
+Route::get('setting/create_edit', [SettingController::class, 'create_edit'])->name("setting.create_edit");
+Route::post('setting/update/{id}', [SettingController::class, 'update'])->name("setting.update");
+Route::post('setting/store', [SettingController::class, 'store'])->name("setting.store");
