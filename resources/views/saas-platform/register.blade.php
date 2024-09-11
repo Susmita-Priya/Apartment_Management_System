@@ -101,8 +101,8 @@
                             </div>
                             <div class="col-md-6 p-10">
                                 <label><strong>Phone:</strong> <span class="text-danger">*</span></label>
-                                <input class="form-control" type="text" name="phone"
-                                    value="{{ old('phone') }}" placeholder="01......." required>
+                                <input class="form-control" type="text" name="phone" value="{{ old('phone') }}"
+                                    placeholder="01......." required>
                             </div>
                             <div class="col-md-6 p-10 ">
                                 <label><strong>Email:</strong> <span class="text-danger">*</span></label>
@@ -143,28 +143,28 @@
                                 <label for=""><strong>Package Duration:</strong> <span
                                         class="text-danger">*</span></label>
 
-                                <input type="text" value="{{ $package_duration_text ?? '' }}" class="form-control bg-light"
-                                    readonly>
+                                <input type="text" value="{{ $package_duration_text ?? '' }}"
+                                    class="form-control bg-light" readonly>
                             </div>
-                            @if(!empty($selected_package_data->discount_amount))
-                            <div class="col-md-6 p-10">
-                                <label for=""><strong>Discount Amount:</strong> <span
-                                        class="text-danger">*</span></label>
+                            @if (!empty($selected_package_data->discount_amount))
+                                <div class="col-md-6 p-10">
+                                    <label for=""><strong>Discount Amount:</strong> <span
+                                            class="text-danger">*</span></label>
 
-                                <input type="text" name="discount_amount" value="{{ $selected_package_data->discount_amount ?? '' }}" class="form-control bg-light"
-                                    readonly>
-                            </div>
+                                    <input type="text" name="discount_amount"
+                                        value="{{ $selected_package_data->discount_amount ?? '' }}"
+                                        class="form-control bg-light" readonly>
+                                </div>
                             @endif
 
                             <div class="col-md-6 p-10">
                                 <label><strong>Total Amount:</strong> <span class="text-danger">*</span></label>
                                 <input type="number" name="total_payable_amount"
-                                    value="{{ ($selected_package_data->price ?? 0)-($selected_package_data->discount_amount ?? 0) }}" placeholder="0"
-                                    class="form-control  bg-light" readonly>
+                                    value="{{ ($selected_package_data->price ?? 0) - ($selected_package_data->discount_amount ?? 0) }}"
+                                    placeholder="0" class="form-control  bg-light" readonly>
                             </div>
                             <div class="col-md-6 p-10">
-                                <label><strong>Payment Method : <span
-                                    class="text-danger">*</span></strong> </label>
+                                <label><strong>Payment Method : <span class="text-danger">*</span></strong> </label>
                                 <select class="form-control chosen payment_method_type" name="payment_method"
                                     required>
                                     <option value="1">Cash</option>
@@ -188,8 +188,7 @@
                                 <br>
                                 <div class="form-group text-center">
                                     <div class="buttons">
-                                        <button id="create"
-                                            class="submit_btn btn btn-primary"
+                                        <button id="create" class="submit_btn btn btn-primary"
                                             onclick="wrong_pass_alert()">
                                             Submit
                                         </button>
@@ -199,7 +198,8 @@
                                 </div>
                             </div>
                             <p class="text-center">© 2023-{{ date('Y') }}
-                                <a href="{{ $general_setting->company_website_link ?? '' }}" class="text-decoration-none"
+                                <a href="{{ $general_setting->company_website_link ?? '' }}"
+                                    class="text-decoration-none"
                                     target="_blank">{{ $general_setting->company_name ?? '' }}.
                                 </a>
                                 All rights reserved.
@@ -282,16 +282,11 @@
             $('.payment_method_type').on('change', function() {
                 var paymentType = $(this).find('option:selected').val();
                 // console.log(paymentType);
-                $('#online_account').attr('required', false);
-                $('#transactionId').attr('required', false);
 
-                if (paymentType != '') {
-                    $('#online_account').attr('required', true);
-                    $('#transactionId').attr('required', true);
-                    $('.online_type').show();
-                }  else {
-                    // if empty then
+                if (paymentType == 1) {
                     $('.online_type').hide();
+                } else {
+                    $('.online_type').show();
                 }
             });
         });

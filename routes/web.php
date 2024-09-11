@@ -86,19 +86,23 @@ Route::get('tenants/delete/{id}', [TenantsController::class, 'destroy'])->name("
 
 
 
+// user
 Route::get('user', [UserController::class, 'index'])->name("user.index");
-
 Route::get('user/create', [UserController::class, 'create'])->name("user.create");
-
 Route::post('user/create', [UserController::class, 'store']);
-
 Route::get('user/show/{id}', [UserController::class, 'show'])->name("user.show");
-
 Route::get('user/edit/{id}', [UserController::class, 'edit'])->name("user.edit");
-
 Route::post('user/edit/{id}', [UserController::class, 'update'])->name("user.update");
-
 Route::get('user/delete/{id}', [UserController::class, 'destroy'])->name("user.delete");
+
+// user subscription
+Route::get('user/add/subscription/{id}', [UserController::class, 'add_subscription_form'])->name("user_subscription.add");
+Route::post('user/store/subscription/{id}', [UserController::class, 'store_subscription'])->name("user_subscription.store");
+Route::get('user/subscription/view/{id}', [UserController::class, 'view_subscription'])->name("user_subscription.view");
+Route::get('user/edit/subscription/{id}', [UserController::class, 'edit_subscription_form'])->name("user_subscription.edit");
+Route::post('user/update/subscription/{id}', [UserController::class, 'update_subscription'])->name("user_subscription.update");
+Route::get('user/delete/subscription/{id}', [UserController::class, 'delete_subscription'])->name("user_subscription.delete");
+
 
 
 
@@ -167,7 +171,6 @@ Route::get('block/delete/{id}', [BlockController::class, 'destroy'])->name("bloc
 
 
 
-
 Route::get('floor/create', [FloorController::class, 'create'])->name("floor.create");
 
 Route::post('floor/create', [FloorController::class, 'store'])->name("floor.store");
@@ -193,7 +196,6 @@ Route::get('unit/edit/{id}', [UnitController::class, 'edit'])->name("unit.edit")
 Route::post('unit/edit/{id}', [UnitController::class, 'update'])->name("unit.update");
 
 Route::get('unit/delete/{id}', [UnitController::class, 'destroy'])->name("unit.delete");
-
 
 
 
@@ -314,9 +316,9 @@ Route::post('asset/store', [AssetController::class, 'store'])->name("asset.store
 
 Route::get('asset/show/{id}', [AssetController::class, 'show'])->name("asset.show");
 
-Route::get('asset/edit/{id}', [AssetController::class, 'edit'])->name("asset.edit");
+Route::get('asset/edit/{id}/{room_type}', [AssetController::class, 'edit'])->name("asset.edit");
 
-Route::post('asset/edit/{id}', [AssetController::class, 'update'])->name("asset.update");
+Route::post('asset/edit/{id}/{room_type}', [AssetController::class, 'update'])->name("asset.update");
 
 Route::get('asset/delete/{id}', [AssetController::class, 'destroy'])->name("asset.delete");
 

@@ -107,7 +107,7 @@
             @if (!empty($subscription_packages))
                 @foreach ($subscription_packages as $package)
                     <div class="col-md-4">
-                        <div class="package_main card border" style="position: relative; z-index:999;">
+                        <div class="package_main card border mt-4" style="position: relative; z-index:999;">
                             <div class="package_header pt-4 text-white text-center">
                                 <h2>{{ $package->name ?? '' }}</h2>
                                 <p>{!! $package->short_description ?? '' !!}</p>

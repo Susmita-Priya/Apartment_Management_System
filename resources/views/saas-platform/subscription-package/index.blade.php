@@ -39,6 +39,8 @@
                                     <th>Short Description</th>
                                     <th>package duration</th>
                                     <th>Price</th>
+                                    <th>discount amount</th>
+                                    <th>total price</th>
                                     <th>User Role</th>
                                     <th>Description</th>
                                     <th>Status</th>
@@ -71,6 +73,8 @@
                                             </td>
 
                                             <td>{{ $subscription_package->price ?? '' }}</td>
+                                            <td>{{ ($subscription_package->discount_amount ?? '') }}</td>
+                                            <td> {{ ($subscription_package->price ?? 0) - ($subscription_package->discount_amount ?? 0) }}</td>
                                             <td class=" text-center">{{ $subscription_package->role->name ?? '' }}
                                             <td>{!! $subscription_package->description ?? '' !!}</td>
 

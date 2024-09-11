@@ -37,16 +37,16 @@ class AssetController extends Controller
             'assets.*.name' => 'required|string|max:255',
             'assets.*.quantity' => 'required|integer|min:1',
         ]);
-    
+
         // Group assets by resroom_id and room_id
         $assetsGrouped = [];
-    
+
         foreach ($request->input('assets') as $assetData) {
             $roomId = $request->input('room_id');
             $resroomId = $request->input('room_no');
-    
+
             $key = $resroomId . '-' . $roomId;
-    
+
             if (!isset($assetsGrouped[$key])) {
                 $assetsGrouped[$key] = [
                     'resroom_id' => $resroomId,
@@ -54,24 +54,24 @@ class AssetController extends Controller
                     'assets_details' => [],
                 ];
             }
-    
+
             $assetsGrouped[$key]['assets_details'][] = [
                 'asset_name' => $assetData['name'],
                 'quantity' => $assetData['quantity'],
             ];
         }
-    
+
         // Check for existing entries
         foreach ($assetsGrouped as $assetsGroup) {
             $existingAsset = Asset::where('resroom_id', $assetsGroup['resroom_id'])
                 ->where('room_id', $assetsGroup['room_id'])
                 ->first();
-    
+
             if ($existingAsset) {
                 return redirect()->back()->with('error', 'An entry already exists.');
             }
         }
-    
+
         // Save each group to the database
         foreach ($assetsGrouped as $assetsGroup) {
             Asset::updateOrCreate(
@@ -84,44 +84,81 @@ class AssetController extends Controller
                 ]
             );
         }
-    
+
         return redirect()->back()->with('success', 'Assets saved successfully.');
     }
-    
+
     /**
      * Display the specified resource.
      */
     public function show($id)
-{
-    // Fetch the asset data for the room based on the ID
-    $assets = Asset::where('room_id', $id)->get();
+    {
+        $assets = Asset::where('room_id', $id)->get();
 
-    // Return a view or partial HTML to be loaded in the modal
-    return view('asset.asset_view', compact('assets'));
-}
+        // Decode JSON manually (if not casting properly)
+        foreach ($assets as $asset) {
+            $asset->assets_details = json_decode($asset->assets_details, true);
+        }
+
+        return view('asset.asset_view', compact('assets'));
+    }
 
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Asset $asset)
+    public function edit($id,$room_type)
     {
-        //
+        $asset = Asset::findOrFail($id);
+        $resroom = Resroom::with(['unit.floor.block.building'])->findOrFail($asset->resroom_id);
+
+
+        // Decode JSON if assets_details is stored as a JSON string
+        if (is_string($asset->assets_details)) {
+            $asset->assets_details = json_decode($asset->assets_details, true);
+        }
+
+        return view('asset.asset_edit', compact('resroom', 'asset', 'room_type'));
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified asset in storage.
      */
-    public function update(Request $request, Asset $asset)
+    public function update(Request $request, $id, $room_type)
     {
-        //
+        $request->validate([
+            'assets.*.name' => 'required|string|max:255',
+            'assets.*.quantity' => 'required|integer|min:1',
+        ]);
+
+        $asset = Asset::findOrFail($id);
+
+        // Update the asset details
+        $assetDetails = [];
+        foreach ($request->input('assets') as $assetData) {
+            $assetDetails[] = [
+                'asset_name' => $assetData['name'],
+                'quantity' => $assetData['quantity'],
+            ];
+        }
+
+        $asset->update([
+            'assets_details' => json_encode($assetDetails),
+        ]);
+
+        return redirect()->route('resroom.show', ['id' => $asset->resroom_id, 'room_type' => $room_type])
+                 ->with('success', 'Assets updated successfully.');
+;
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified asset from storage.
      */
-    public function destroy(Asset $asset)
+    public function destroy($id)
     {
-        //
+        $asset = Asset::findOrFail($id);
+        $asset->delete();
+
+        return redirect()->back()->with('success', 'Asset deleted successfully.');
     }
 }

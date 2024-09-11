@@ -49,6 +49,7 @@
                                         class="thumb-lg rounded-circle"></span>
                                 <div class="media-body">
                                     <h4 class="m-t-7 font-18">{{ $roomTypeLabel }}</h4>
+                                    {{-- <h4>{{ $resroom->asset->room_id }}</h4> --}}
                                     <p class="text-muted font-15">{{ $resroom->unit->floor->block->building->name }}
                                         Building</p>
                                 </div>
@@ -143,33 +144,33 @@
                                     <i class="mdi mdi-plus m-r-5"></i> Add Asset
                                 </button>
 
-                                <div class="btn-group">
+                                {{-- <div class="btn-group">
                                     <button type="button" class="btn waves-effect waves-light dropdown-toggle greenbtn"
                                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         Manage Asset <span class="caret"></span>
                                     </button>
 
                                     <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                                        <a class="dropdown-item" href="{{ route('asset.edit', ['id' => $resroom->id]) }}"
+                                        <a class="dropdown-item" href="{{ route('asset.edit', ['id' => $resroom->asset->id]) }}"
                                             type="submit">
                                             <i class="mdi mdi-pencil m-r-10 text-muted font-18 vertical-middle"></i>
                                             Edit asset
                                         </a>
 
                                         <!-- Button for deletion with confirmation -->
-                                        <button type="button" class="dropdown-item" {{-- onclick="confirmDelete('{{ route('asset.delete', ['id' => $roomInstance->id]) }}')" --}}>
+                                        <button type="button" class="dropdown-item" onclick="confirmDelete('{{ route('asset.delete', ['id' => $roomInstance->id]) }}')">
                                             <i class="mdi mdi-delete m-r-10 text-muted font-18 vertical-middle"></i>
                                             Delete asset
                                         </button>
 
                                         <!-- Hidden form for deletion -->
-                                        <form id="delete-form" {{-- action="{{ route($roomType . '.delete', ['id' => $roomInstance->id]) }}" --}} method="GET" style="display: none;">
+                                        <form id="delete-form" action="{{ route($roomType . '.delete', ['id' => $roomInstance->id]) }}" method="GET" style="display: none;">
                                             @csrf
                                             @method('DELETE')
                                         </form>
 
                                     </div>
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
                     </div>
@@ -179,14 +180,16 @@
                                 @php
                                     // Generate a unique ID for each room card
                                     $roomId = $room_type . $i;
+                                    $assetId = $resroom->asset->where('room_id', $roomId)->first()->id ?? null;
+                                    
                                 @endphp
-
+                                   
                                 @if ($i % 3 == 1)
                                     <div class="row">
                                 @endif
                                 <div class="col-md-4">
-                                    <div class="card-box room-card" data-toggle="modal" data-target="#assetModal" 
-                                         data-roomid="{{ $roomId }}" data-roomnumber="{{ $i }}">
+                                    <div class="card-box room-card" data-toggle="modal" data-target="#assetModal"
+                                     data-roomid="{{ $roomId }}" data-roomtype="{{ $room_type }}" data-assetid="{{ $assetId }}">
                                         <h4 class="header-title mt-0 m-b-20">{{ $roomTypeLabel }} {{ $i }}
                                         </h4>
                                         <div class="panel-body">
@@ -212,57 +215,41 @@
                                 <h5 class="modal-title" id="assetModalLabel">Room Assets</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
-                                </button> 
+                                </button>
                             </div>
                             <div class="modal-body">
                                 <div id="assetContent">
-                                    <!-- Assets content will be loaded dynamically here -->
-                                    {{-- <p>kkkkkk</p> --}}
+                                    <!-- Asset content will be dynamically loaded here -->
                                 </div>
                             </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <div class ="modal-footer">
+                                <a id="edit-button" href="#" class="btn btn-primary">
+                                    Edit Asset
+                                </a>
+                        
+                                <!-- Delete button -->
+                                <button type="button" class="btn btn-danger" id="delete-button">
+                                    Delete Asset
+                                </button>
+
                             </div>
+                            
                         </div>
                     </div>
                 </div>
+                <!-- Hidden Delete Form -->
+                <form id="delete-form" method="GET" style="display: none;">
+                    @csrf
+                    @method('DELETE')
+                </form>
 
             </div>
         </div>
     @endsection
 
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // When a room card is clicked
-            document.querySelectorAll('.room-card').forEach(card => {
-                card.addEventListener('click', function() {
-                    const roomId = this.getAttribute('data-room-id');
-                    // const roomType = this.getAttribute('data-room-type');
-                    
-                    // Open the modal
-                    $('#assetModal').modal('show');
-    
-                    // Clear previous content
-                    document.getElementById('assetContent').innerHTML = 'Loading...';
-    
-                    // Fetch the asset data
-                    fetch(`/asset/show/${roomId}`)
-                        .then(response => response.text())
-                        .then(html => {
-                            document.getElementById('assetContent').innerHTML = html;
-                        })
-                        .catch(error => {
-                            console.error('Error fetching assets:', error);
-                            document.getElementById('assetContent').innerHTML = 'Error loading assets.';
-                        });
-                });
-            });
-        });
-    </script>
-    
 
-{{-- <script>
+    {{-- <script>
     function loadAssets(roomId) {
         // Make an AJAX request to load the assets for the given roomId
         $.ajax({
@@ -278,7 +265,7 @@
         });
     }
     </script> --}}
-    
+
     {{-- <script>
         $(document).ready(function() {
             // When a room card is clicked

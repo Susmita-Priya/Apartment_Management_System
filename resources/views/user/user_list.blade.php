@@ -13,8 +13,8 @@
                         <h4 class="page-title float-left">Users</h4>
 
                         <ol class="breadcrumb float-right">
-                            <li class="breadcrumb-item"><a href="{{ url('/index') }}">Admin</a></li>
-                            <li class="breadcrumb-item"><a href="{{ url('/user') }}">Users</a></li>
+                            <li class="breadcrumb-item"><a href="#">Admin</a></li>
+                            <li class="breadcrumb-item"><a href="#">Users</a></li>
                             <li class="breadcrumb-item active">Users list</li>
                         </ol>
 
@@ -38,52 +38,79 @@
 
                         <hr>
 
-                        <table class="table table-hover m-0 tickets-list table-actions-bar dt-responsive nowrap"
+                        <table
+                            class="table table-hover m-0 tickets-list table-actions-bar dt-responsive nowrap table-bordered"
                             cellspacing="0" width="100%" id="datatable">
                             <thead>
-                                <tr>
-                                    <th>ID</th>
+                                <tr class="text-capitalize">
+                                    <th>SL</th>
                                     <th>Name</th>
                                     <th>Email</th>
+                                    <th>phone</th>
+                                    <th>company name</th>
+                                    <th>Package</th>
                                     <th>Role</th>
+                                    <th>Expire Date</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($users as $user)
+                                @foreach ($users as $key => $user)
                                     <tr>
-                                        <td>{{ $user->id }}</td>
+                                        <td>{{ ++$key }}</td>
                                         <td>{{ $user->name }}</td>
                                         <td>{{ $user->email }}</td>
+                                        <td>{{ $user->phone ?? '' }}</td>
+                                        <td>{{ $user->company_name ?? '' }}</td>
+                                        <td>{{ $user->subscription_package->name ?? '' }}</td>
                                         <td>
                                             <span class="badge badge-success">{{ $user->role->name }}</span>
                                         </td>
+                                        <td>{{ $user->expire_date ?? '' }}</td>
                                         <td>
                                             <div class="btn-group dropdown">
                                                 <a href="javascript: void(0);" class="table-action-btn dropdown-toggle"
                                                     data-toggle="dropdown" aria-expanded="false"><i
                                                         class="mdi mdi-dots-horizontal"></i></a>
                                                 <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                                                    <a class="dropdown-item"
+                                                        href="{{ route('user_subscription.add', $user->id) }}">
+                                                        <i
+                                                            class="mdi mdi-pencil m-r-10 text-muted font-18 vertical-middle"></i>
+                                                        Add Subscription
+                                                    </a>
+
+                                                    <a href="{{ route('user_subscription.view', $user->id) }}" class="dropdown-item">
+                                                        <i
+                                                            class="mdi mdi-eye m-r-10 text-muted font-18 vertical-middle"></i>
+                                                        View Subscription
+                                                    </a>
 
                                                     <a class="dropdown-item"
-                                                        href="{{ route('user.show', ['id' => $user->id]) }}"
-                                                        type="submit"><i
-                                                            class="mdi mdi-eye m-r-10 font-18 text-muted vertical-middle"></i>Full
-                                                        Information</a>
+                                                        href="{{ route('user.show', ['id' => $user->id]) }}">
+                                                        <i
+                                                            class="mdi mdi-book m-r-10 font-18 text-muted vertical-middle"></i>
+                                                        Full Information
+                                                    </a>
                                                     <a class="dropdown-item"
-                                                        href="{{ route('user.edit', ['id' => $user->id]) }}"
-                                                        type="submit"><i
-                                                            class="mdi mdi-pencil m-r-10 text-muted font-18 vertical-middle"></i>Edit
-                                                        User</a>
+                                                        href="{{ route('user.edit', ['id' => $user->id]) }}">
+                                                        <i
+                                                            class="mdi mdi-pencil m-r-10 text-muted font-18 vertical-middle"></i>
+                                                        Edit
+                                                    </a>
                                                     <a class="dropdown-item"
                                                         href="{{ route('user.delete', ['id' => $user->id]) }}"
-                                                        type="submit"><i
-                                                            class="mdi mdi-delete m-r-10 text-muted font-18 vertical-middle"></i>Delete
-                                                        User</a>
+                                                        onclick="return confirm('Are you sure to delete it ?')">
+                                                        <i
+                                                            class="mdi mdi-delete m-r-10 text-muted font-18 vertical-middle"></i>
+                                                        Delete
+                                                    </a>
                                                 </div>
                                             </div>
                                         </td>
                                     </tr>
+
+                                  
                                 @endforeach
                             </tbody>
                         </table>

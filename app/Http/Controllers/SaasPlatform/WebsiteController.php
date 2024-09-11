@@ -27,15 +27,6 @@ class WebsiteController extends Controller
 
     public function register(Request $request)
     {
-
-        $data['subscription_packages'] = SubscriptionPackage::orderBy('sl_no', 'asc')
-            ->where('status', 1)
-            ->get();
-
-        $data['subscription_package_durations'] = SubscriptionPackageDuration::orderBy('type', 'asc')
-            ->where('status', 1)
-            ->get();
-
         if ($request->package_id) {
             $data['selected_package_data'] = SubscriptionPackage::find($request->package_id);
         } else {
@@ -46,15 +37,18 @@ class WebsiteController extends Controller
 
     public function do_registration(Request $request)
     {
-        // return $request;
-        $request->validate([
-            'password' => 'required|confirmed',
-        ]);
+        try {
+            // return $request;
+            $request->validate([
+                'email' => 'required|string|email|max:255|unique:users',
+            ]);
 
-        $data = $request->all();
-        $data = $request->all();
-        Customer::create($data);
-        return redirect()->route('website')->with('success', "Registration successfull.");
+            $data = $request->all();
+            Customer::create($data);
+            return redirect()->route('website')->with('success', "Registration successfull.");
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
     }
 
 
@@ -81,6 +75,4 @@ class WebsiteController extends Controller
             return response()->json(array("exists" => false));
         }
     }
-
-    
 }
