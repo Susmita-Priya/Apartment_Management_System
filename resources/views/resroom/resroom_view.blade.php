@@ -135,6 +135,7 @@
                     </div>
                     <!-- Block-Information -->
                 </div>
+                
                 <div class="col-md-8">
                     <div class="row">
                         <div class="col-sm-12">
@@ -181,15 +182,16 @@
                                     // Generate a unique ID for each room card
                                     $roomId = $room_type . $i;
                                     $assetId = $resroom->asset->where('room_id', $roomId)->first()->id ?? null;
-                                    
+
                                 @endphp
-                                   
+
                                 @if ($i % 3 == 1)
                                     <div class="row">
                                 @endif
                                 <div class="col-md-4">
                                     <div class="card-box room-card" data-toggle="modal" data-target="#assetModal"
-                                     data-roomid="{{ $roomId }}" data-roomtype="{{ $room_type }}" data-assetid="{{ $assetId }}">
+                                        data-roomid="{{ $roomId }}" data-roomtype="{{ $room_type }}"
+                                        data-assetid="{{ $assetId }}">
                                         <h4 class="header-title mt-0 m-b-20">{{ $roomTypeLabel }} {{ $i }}
                                         </h4>
                                         <div class="panel-body">
@@ -202,8 +204,6 @@
                         </div> <!-- End row -->
                         @endif
                         @endfor
-
-
                     </div>
                 </div>
                 <!-- Modal for viewing assets -->
@@ -226,14 +226,14 @@
                                 <a id="edit-button" href="#" class="btn btn-primary">
                                     Edit Asset
                                 </a>
-                        
+
                                 <!-- Delete button -->
                                 <button type="button" class="btn btn-danger" id="delete-button">
                                     Delete Asset
                                 </button>
 
                             </div>
-                            
+
                         </div>
                     </div>
                 </div>

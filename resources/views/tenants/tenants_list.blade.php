@@ -5,38 +5,6 @@
 @endpush
 
 @section('content')
-    {{-- @if (session('success'))
-        <script>
-            Swal.fire({
-                title: 'Success!',
-                text: '{{ session('success') }}',
-                icon: 'success',
-                confirmButtonText: 'OK'
-            });
-        </script>
-    @endif
-
-    @if (session('update'))
-        <script>
-            Swal.fire({
-                title: 'Success!',
-                text: '{{ session('update') }}',
-                icon: 'success',
-                confirmButtonText: 'OK'
-            });
-        </script>
-    @endif
-
-    @if (session('delete'))
-        <script>
-            Swal.fire({
-                title: 'Success!',
-                text: '{{ session('delete') }}',
-                icon: 'success',
-                confirmButtonText: 'OK'
-            });
-        </script>
-    @endif --}}
 
     <div class="content">
         <div class="container-fluid">

@@ -157,6 +157,8 @@ Route::get('building/delete/{id}', [BuildingController::class, 'destroy'])->name
 
 
 
+Route::get('block/index', [BlockController::class, 'index'])->name("block.index");
+
 Route::get('block/create', [BlockController::class, 'create'])->name("block.create");
 
 Route::post('block/create', [BlockController::class, 'store'])->name("block.store");
@@ -171,6 +173,8 @@ Route::get('block/delete/{id}', [BlockController::class, 'destroy'])->name("bloc
 
 
 
+Route::get('floor/index', [FloorController::class, 'index'])->name("floor.index");
+
 Route::get('floor/create', [FloorController::class, 'create'])->name("floor.create");
 
 Route::post('floor/create', [FloorController::class, 'store'])->name("floor.store");
@@ -184,6 +188,8 @@ Route::post('floor/edit/{id}', [FloorController::class, 'update'])->name("floor.
 Route::get('floor/delete/{id}', [FloorController::class, 'destroy'])->name("floor.delete");
 
 
+
+Route::get('unit/index', [UnitController::class, 'index'])->name("unit.index");
 
 Route::get('unit/create', [UnitController::class, 'create'])->name("unit.create");
 

@@ -29,9 +29,14 @@ class Resroom extends Model
         return $this->hasMany(Extraresroom::class);
     }
 
-    public function asset()
+    public function assets()
     {
         return $this->hasMany(Asset::class);
+    }
+
+    public function resroom()
+    {
+        return $this->belongsTo(Resroom::class);
     }
 
     public function unit()

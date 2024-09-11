@@ -35,7 +35,7 @@
                     @endif
 
                     <!-- Landlords -->
-                    @if (App\Models\Permission::hasPermission('view_landlords', $role_id))
+                    {{-- @if (App\Models\Permission::hasPermission('view_landlords', $role_id))
                         <li>
                             <a href="javascript: void(0);"><i class="fa fa-user"></i> <span> Landlords </span> <span
                                     class="menu-arrow"></span></a>
@@ -46,7 +46,7 @@
                                 <li><a href="{{ url('/landlord') }}">View Landlords</a></li>
                             </ul>
                         </li>
-                    @endif
+                    @endif --}}
 
                     <!-- Property -->
                     @if (App\Models\Permission::hasPermission('view_property', $role_id))
@@ -58,12 +58,15 @@
                             <li><a href="{{ url('/building/create') }}">Add Property</a></li>
                         @endif --}}
                                 <li><a href="{{ url('/building') }}">View Property</a></li>
+                                <li><a href="{{ route('block.index') }}">View block</a></li>
+                                <li><a href="{{ route('floor.index') }}">View floor</a></li>
+                                <li><a href="{{ route('unit.index') }}">View unit</a></li>
                             </ul>
                         </li>
                     @endif
 
                     <!-- Leases / Tenancy -->
-                    @if (App\Models\Permission::hasPermission('view_lease', $role_id))
+                    {{-- @if (App\Models\Permission::hasPermission('view_lease', $role_id))
                         <li>
                             <a href="javascript: void(0);"><i class="fa fa-home"></i> <span> Leases / Tenancy </span>
                                 <span class="menu-arrow"></span></a>
@@ -74,7 +77,7 @@
                                 <li><a href="{{ url('/Lease') }}">View Lease</a></li>
                             </ul>
                         </li>
-                    @endif
+                    @endif --}}
 
                     
 

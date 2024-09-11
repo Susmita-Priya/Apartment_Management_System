@@ -16,12 +16,12 @@
                             <li class="breadcrumb-item"><a href="{{ url('/index') }}">Dashboard</a></li>
                             <li class="breadcrumb-item"><a href="{{ url('/building') }}">Buildings</a></li>
                             <li class="breadcrumb-item"><a
-                                    href="{{ route('building.show', $resroom->unit->floor->block->building_id) }}">Building</a></li>
+                                    href="{{ route('building.show', $room->unit->floor->block->building_id) }}">Building</a></li>
                             <li class="breadcrumb-item"><a
-                                    href="{{ route('block.show', $resroom->unit->floor->block_id) }}">Block</a></li>
-                            <li class="breadcrumb-item"><a href="{{ route('floor.show', $resroom->unit->floor_id) }}">Floor</a></li>
-                            <li class="breadcrumb-item"><a href="{{ route('unit.show', $resroom->unit_id) }}">Unit</a></li>
-                            <li class="breadcrumb-item"><a href="{{ route('resroom.show',['id' => $resroom->id, 'room_type' => $room_type]) }}">Room</a></li>
+                                    href="{{ route('block.show', $room->unit->floor->block_id) }}">Block</a></li>
+                            <li class="breadcrumb-item"><a href="{{ route('floor.show', $room->unit->floor_id) }}">Floor</a></li>
+                            <li class="breadcrumb-item"><a href="{{ route('unit.show', $room->unit_id) }}">Unit</a></li>
+                            <li class="breadcrumb-item"><a href="{{ route($room_type. '.show',['id' => $room->id, 'room_type' => $room_type]) }}">Room</a></li>
                             <li class="breadcrumb-item active">Add Asset</li>
                         </ol>
                         <div class="clearfix"></div>
@@ -37,7 +37,8 @@
 
                         <form action="{{ route('asset.store') }}" enctype="multipart/form-data" method="POST">
                             @csrf
-                            <input type="hidden" name="room_no" value="{{ $resroom->id }}">
+                            <input type="hidden" name="room_no" value="{{ $room->id ?? '' }}">
+                            <input type="hidden" name="room_type" value="{{ $room_type }}">
 
                             <!-- Room Section (appears only once) -->
                             <div class="row">

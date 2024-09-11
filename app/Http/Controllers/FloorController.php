@@ -9,12 +9,12 @@ use Illuminate\Http\Request;
 
 class FloorController extends Controller
 {
-    public function index($blockId)
+    public function index()
     {
-        // $block = Block::with('floors')->findOrFail($blockId);
-        // $building = $block->building;
-
-        // return view('floors.index', compact('building', 'block'));
+        
+        // Fetch all floors with their associated blocks and buildings
+        $floors = Floor::with('block.building')->get();
+        return view('floor.floor_list', compact('floors'));
     }
 
     public function create(Request $request)
