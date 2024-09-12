@@ -94,14 +94,11 @@ class ResroomController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($id, $room_type)
+    public function show(Resroom $resroom)
     {
-        $resroom = Resroom::with(['unit'])->findOrFail($id);
-        $unit = $resroom->unit; 
-        $roomTypeDetails = $resroom->$room_type; // Fetch specific room type details
-        
-        return view('resroom.resroom_view', compact('resroom', 'roomTypeDetails', 'room_type'));
+        //
     }
+
     /**
      * Show the form for editing the specified resource.
      */
