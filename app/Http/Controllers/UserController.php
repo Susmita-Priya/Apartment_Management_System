@@ -4,13 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Role;
+use App\Models\SaasPlatform\SubscriptionPackage;
+use App\Models\SaasPlatform\SubscriptionPackageDuration;
+use App\Models\SaasPlatform\SubscriptionUserInfo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 
 class UserController extends Controller
 {
     public function index()
     {
-        $users = User::with('role')->get();
+        $users = User::with('role', 'subscription_package')->get();
         return view('user.user_list', ['users' => $users]);
     }
 
@@ -41,65 +45,151 @@ class UserController extends Controller
 
     public function show(string $id)
     {
-        // Retrieve the user with their role and associated permissions by ID
         $user = User::with('role.permissions')->findOrFail($id);
-
-        // Pass the user data to the view
         return view('user.user_view', compact('user'));
     }
 
     public function edit(string $id)
     {
-        // Retrieve the user by their ID
         $user = User::findOrFail($id);
-
-        // Retrieve all roles
         $roles = Role::all();
-
-        // Pass the user and roles to the view
         return view('user.user_edit', ['user' => $user, 'roles' => $roles]);
     }
 
 
     public function update(Request $request, string $id)
     {
-        // Validate the incoming request data
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255',
             'password' => 'nullable',
             'role_id' => 'required|exists:roles,id',
         ]);
-
-        // Retrieve the user by the given ID
         $user = User::findOrFail($id);
-
-        // Update the user's name and email
         $user->update($request->only(['name', 'email']));
-
-        // Update the user's role
         $user->role_id = $request->input('role_id');
-
-        // Check if the password field is filled, then hash and update it
         if ($request->filled('password')) {
             $user->password = bcrypt($request->input('password'));
         }
-
         $user->save();
-
-        // Redirect back to the user index with a success message
         return redirect()->route('user.index')->with('success', 'User updated successfully!');
     }
 
     public function destroy(string $id)
     {
-        // Retrieve the user by the given ID
         $user = User::findOrFail($id);
-
-        // Delete the user
         $user->delete();
-
-        // Redirect back to the user index with a success message
         return redirect()->route('user.index')->with('delete', 'User deleted successfully!');
+    }
+
+    public function add_subscription_form(string $id)
+    {
+        $data['user'] = User::findOrFail($id);
+        $data['latest_user_subscription'] = SubscriptionUserInfo::where('user_id', $id)->orderByDesc('id')->first();
+
+        $data['roles'] = Role::all();
+        $data['page_title'] = 'user subscription';
+
+        $data['subscription_packages'] = SubscriptionPackage::orderBy('sl_no', 'asc')
+            ->where('status', 1)
+            ->get();
+        $data['subscription_package_durations'] = SubscriptionPackageDuration::orderBy('type', 'asc')
+            ->where('status', 1)
+            ->get();
+        return view('user.add_subscription', $data);
+    }
+
+    public function store_subscription(Request $request, string $id)
+    {
+        // return $request;
+
+        $data = $request->all();
+
+        $package = SubscriptionPackage::find($request->subscription_package_id);
+        $duration = SubscriptionPackageDuration::where('id', $package->subscription_package_duration_id)->first();
+
+        $duration_value = $duration->value;
+
+        if ($duration->type == 1) {
+            $expire_date = Carbon::parse($request->subcription_date)->addDay($duration_value)->format('Y-m-d');
+        } elseif ($duration->type == 2) {
+            $expire_date = Carbon::parse($request->subcription_date)->addWeek($duration_value)->format('Y-m-d');
+        } elseif ($duration->type == 3) {
+            $expire_date = Carbon::parse($request->subcription_date)->addMonth($duration_value)->format('Y-m-d');
+        } elseif ($duration->type == 4) {
+            $expire_date = Carbon::parse($request->subcription_date)->addYear($duration_value)->format('Y-m-d');
+        } else {
+            return back()->with('error', "Something went wrong.");
+        }
+        // return $expire_date;
+
+        $data['subscription_package_duration_id'] = $duration->id;
+        $data['subcription_date'] = $request->subcription_date;
+        $data['expire_date'] = $expire_date;
+
+
+        SubscriptionUserInfo::create($data);
+        return redirect()->route('user.index')->with('success', 'Subscription added successfully!');
+    }
+
+    public function view_subscription(string $id)
+    {
+        $data['subscription_infos'] = SubscriptionUserInfo::where('user_id', $id)->get();
+        return view('user.view_subscription', $data);
+    }
+
+    public function delete_subscription(string $id)
+    {
+        $data['subscription_infos'] = SubscriptionUserInfo::where('id', $id)->delete();
+        return redirect()->back()->with('error', 'Subscription deleted successfully!');
+    }
+
+
+    public function edit_subscription_form(string $id)
+    {
+        $data['page_title'] = 'user subscription update';
+        $data['subscription_info'] = SubscriptionUserInfo::find($id);
+
+        $data['subscription_packages'] = SubscriptionPackage::orderBy('sl_no', 'asc')
+            ->where('status', 1)
+            ->get();
+        $data['subscription_package_durations'] = SubscriptionPackageDuration::orderBy('type', 'asc')
+            ->where('status', 1)
+            ->get();
+
+        return view('user.edit_subscription', $data);
+    }
+
+    public function update_subscription(Request $request, string $id)
+    {
+
+        $subscription_user_info = SubscriptionUserInfo::find($id);
+        $data = $request->all();
+
+        $package = SubscriptionPackage::find($request->subscription_package_id);
+        $duration = SubscriptionPackageDuration::where('id', $package->subscription_package_duration_id)->first();
+
+        $duration_value = $duration->value;
+
+        if ($duration->type == 1) {
+            $expire_date = Carbon::parse($request->subcription_date)->addDay($duration_value)->format('Y-m-d');
+        } elseif ($duration->type == 2) {
+            $expire_date = Carbon::parse($request->subcription_date)->addWeek($duration_value)->format('Y-m-d');
+        } elseif ($duration->type == 3) {
+            $expire_date = Carbon::parse($request->subcription_date)->addMonth($duration_value)->format('Y-m-d');
+        } elseif ($duration->type == 4) {
+            $expire_date = Carbon::parse($request->subcription_date)->addYear($duration_value)->format('Y-m-d');
+        } else {
+            return back()->with('error', "Something went wrong.");
+        }
+        // return $expire_date;
+
+        $data['subcription_date'] = $request->subcription_date;
+        $data['expire_date'] = $expire_date;
+        $data['subscription_package_duration_id'] = $duration->id;
+
+        $subscription_user_info->update($data);
+
+        return redirect()->route('user_subscription.view', $subscription_user_info->user_id)->with('success', 'Subscription added successfully!');
     }
 }

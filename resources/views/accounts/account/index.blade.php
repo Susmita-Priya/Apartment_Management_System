@@ -19,7 +19,7 @@
                 </div>
             </div>
             <!-- end row -->
-            
+
             <div class="row">
                 <div class="col-12">
                     <div class="card-box">
@@ -38,6 +38,7 @@
                                     <th>Account Title</th>
                                     <th>Account Number</th>
                                     <th>Description</th>
+                                    <th>opening balance</th>
                                     <th>status</th>
                                     <th class="hidden-sm">Action</th>
                                 </tr>
@@ -51,6 +52,7 @@
                                             <td>{{ $account->account_title ?? '' }}</td>
                                             <td>{{ $account->account_no ?? '' }}</td>
                                             <td>{{ $account->remarks ?? '' }}</td>
+                                            <td>{{ $account->opening_balance ?? '' }}</td>
                                             <td class="{{ $account->status != 1 ? 'text-danger' : '' }}">
                                                 {{ $account->status == 1 ? 'Active' : 'Inactive' }}
                                             </td>
@@ -84,11 +86,9 @@
                                                     </div>
                                                 </div>
                                             </td>
+                                        </tr>
                                     @endforeach
                                 @endif
-
-                                </tr>
-
                             </tbody>
                         </table>
                     </div>

@@ -86,10 +86,10 @@
                                                     </div>
                                                 </div>
                                             </td>
+                                        </tr>
                                     @endforeach
                                 @endif
 
-                                </tr>
 
                             </tbody>
                         </table>

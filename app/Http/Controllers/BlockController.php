@@ -13,9 +13,9 @@ class BlockController extends Controller
      */
     public function index()
     {
-        // // Fetch all blocks
-        // $blocks = Block::with('building')->get();
-        // return view('block.block_list', compact('blocks'));
+         // Fetch all blocks with their associated buildings
+         $blocks = Block::with('building')->get();
+         return view('block.block_list', compact('blocks'));
     }
 
     /**

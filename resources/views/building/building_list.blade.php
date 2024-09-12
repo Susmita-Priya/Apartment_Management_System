@@ -8,7 +8,6 @@
     <!-- Start content -->
     <div class="content">
         <div class="container-fluid">
-
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box">
@@ -25,6 +24,17 @@
             <!-- end row -->
 
             <div class="row">
+                <div class="col-4">
+                    <form action="" method="GET">
+                        <div class="page-title">
+                            <div class="d-flex">
+                                <input type="text" class="form-control" name="search_property" value="{{ $search_property ?? '' }}"
+                                    placeholder="search here...">
+                                <input type="submit" class="form-control" value="Submit" placeholder="search here...">
+                            </div>
+                        </div>
+                    </form>
+                </div>
                 <div class="col-sm-12">
                     <a href="{{ route('building.create') }}" class="btn waves-effect waves-light btn-sm greenbtn"
                         style="position: absolute;">

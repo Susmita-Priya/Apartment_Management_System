@@ -18,6 +18,16 @@ return new class extends Migration
         $table->timestamp('email_verified_at')->nullable();
         $table->string('password');
         $table->foreignId('role_id')->constrained('roles')->onDelete('cascade');
+
+        // new
+        $table->integer('subscription_package_id')->nullable();
+        $table->integer('customer_id')->nullable();
+        $table->date('expire_date')->default('4050-01-01');
+        $table->string('phone')->nullable();
+        $table->string('company_name')->nullable();
+        $table->date('registration_date')->nullable();
+
+
         $table->rememberToken();
         $table->timestamps();
         });

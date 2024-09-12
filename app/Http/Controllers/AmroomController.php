@@ -101,15 +101,22 @@ class AmroomController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($id)
+    public function show($id, $room_type)
     {
-        $amroom = Amroom::findOrFail($id);
-        $unit = $amroom->unit;
-        $floor = $unit->floor;
-        $block = $floor->block;
-        $building = $block->building;
 
-        return view('amroom.amroom_show', compact('amroom', 'unit', 'floor', 'block', 'building'));
+    // Fetch the residential room with related unit and assets
+    $amroom = Amroom::with(['unit', 'assets'])->findOrFail($id);
+    $unit = $amroom->unit;
+
+    // Fetch specific room type details from the model
+    $roomTypeDetails = $amroom->$room_type ?? null;
+
+    if (!$roomTypeDetails) {
+        return redirect()->back()->with('error', 'Room details not found.');
+    }
+    // dd($mechroom);
+
+    return view('amroom.amroom_view', compact('amroom', 'roomTypeDetails', 'room_type'));
     }
 
     /**

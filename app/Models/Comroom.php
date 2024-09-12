@@ -28,6 +28,11 @@ class Comroom extends Model
         return $this->hasMany(Extracomroom::class);
     }
 
+    public function assets()
+    {
+        return $this->morphMany(Asset::class, 'assetable');
+    }
+
     public function unit()
     {
         return $this->belongsTo(Unit::class);

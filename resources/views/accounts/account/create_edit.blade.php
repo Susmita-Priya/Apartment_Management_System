@@ -81,6 +81,18 @@
                                         @enderror
                                     </span>
                                 </div>
+
+                                <div class="form-group col-md-12">
+                                    <label for="opening_balance" class="col-form-label">opening balance</label>
+                                    <input type="text" class="form-control" name="opening_balance" id="opening_balance"
+                                        value="{{ $account->opening_balance ?? '' }}">
+                                    <span class="text-danger">
+                                        @error('opening_balance')
+                                            {{ $message }}
+                                        @enderror
+                                    </span>
+                                </div>
+
                                 <div class="form-group col-md-12">
                                     <label for="status" class="col-form-label">Status *</label>
                                     <select class="form-control" name="status" id="status" required>

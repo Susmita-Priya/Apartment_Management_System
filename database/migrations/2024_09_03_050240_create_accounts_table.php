@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('account_title')->nullable();
             $table->integer('account_type_id')->nullable();
             $table->integer('account_group_id')->nullable();
+            $table->double('opening_balance')->nullable();
             $table->text('remarks')->nullable();
             $table->integer('status')->default(1)->comment('1=active,0=inactive');
             $table->timestamps();

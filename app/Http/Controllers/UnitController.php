@@ -11,7 +11,12 @@ class UnitController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index() {}
+    public function index() {
+        // Fetch units with their related floor, block, and building details
+        $units = Unit::with(['floor.block', 'floor.block.building'])->get();
+
+        return view('unit.unit_list', compact('units'));
+    }
 
     /**
      * Show the form for creating a new resource.

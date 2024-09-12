@@ -208,7 +208,7 @@
 
 
 
-                                <button type="submit" class="btn waves-effect waves-light"
+                                <button type="submit" class="btn waves-effect waves-light greenbtn"
                                     style="background-color: rgb(100, 197, 177); border-color: rgb(100, 197, 177); color: white;">Update</button>
                             </form>
                         @else

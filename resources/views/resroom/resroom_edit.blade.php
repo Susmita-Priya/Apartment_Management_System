@@ -129,8 +129,7 @@
                                     @endforeach
                                 </div>
 
-                                <button type="submit" class="btn waves-effect waves-light"
-                                    style="background-color: rgb(100, 197, 177); border-color: rgb(100, 197, 177); color: white;">Update</button>
+                                <button type="submit" class="btn waves-effect waves-light submitbtn">Update</button>
                             </form>
                         @else
                             <p>This page is only applicable for Residential Suites.</p>
@@ -141,28 +140,21 @@
 
             <script>
                 let index = {{ count($resroom->extra_rooms ?? []) }};
-
                 document.getElementById('add-room-field').addEventListener('click', function() {
-                    let div = document.createElement('div');
-                    div.classList.add('form-group');
-                    div.classList.add('dynamic-room');
+    let div = document.createElement('div');
+    div.classList.add('form-group');
+    div.classList.add('dynamic-room');
 
-                    div.innerHTML = `
-                    <label for="room_name">Room Name</label>
-                    <input type="text" name="extra_rooms[\${index}][room_name]" class="form-control" placeholder="Enter room name">
-                    <label for="quantity">How Many?</label>
-                    <input type="number" name="extra_rooms[\${index}][quantity]" class="form-control" placeholder="Enter number of rooms">
-                    <button type="button" class="btn btn-danger mt-2 remove-extra-field">Remove</button>
-                `;
+    div.innerHTML = `
+    <label for="room_name">Room Name</label>
+    <input type="text" name="extra_rooms[\${index}][room_name]" class="form-control" placeholder="Enter room name">
+    <label for="quantity">How Many?</label>
+    <input type="number" name="extra_rooms[\${index}][quantity]" class="form-control" placeholder="Enter number of rooms">
+    <button type="button" class="btn btn-danger mt-2 remove-extra-field">Remove</button>
+`;
 
-                    document.getElementById('dynamic-room-fields').appendChild(div);
-                    index++;
-                });
-
-                // document.addEventListener('click', function(e) {
-                //     if (e.target && e.target.classList.contains('remove-room-field')) {
-                //         e.target.parentElement.remove();
-                //     }
-                // });
+    document.getElementById('dynamic-room-fields').appendChild(div);
+    index++;
+});
             </script>
         @endsection

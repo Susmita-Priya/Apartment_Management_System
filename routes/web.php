@@ -1,11 +1,9 @@
 <?php
 
-use App\Http\Controllers\Accounts\AccountController;
-use App\Http\Controllers\Accounts\AccountGroupController;
-use App\Http\Controllers\Accounts\AccountingReportController;
-use App\Http\Controllers\Accounts\JournalEntryController;
+
 use App\Http\Controllers\AdroomController;
 use App\Http\Controllers\AmroomController;
+use App\Http\Controllers\AssetController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BlockController;
 use App\Http\Controllers\BuildingController;
@@ -14,18 +12,14 @@ use App\Http\Controllers\ComroomController;
 use App\Http\Controllers\FloorController;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\MechroomController;
-use App\Http\Controllers\Payroll\DepartmentController;
-use App\Http\Controllers\Payroll\DesignationController;
-use App\Http\Controllers\Payroll\EmployeeController;
-use App\Http\Controllers\Payroll\EmployeeTypeController;
-use App\Http\Controllers\Payroll\JobLocationController;
-use App\Http\Controllers\Payroll\PayrollController;
-use App\Http\Controllers\Payroll\SalaryHeadController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ResroomController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\SaasPlatform\WebsiteController;
 use App\Http\Controllers\SerroomController;
+use App\Http\Controllers\SettingController;
 use App\Http\Controllers\StallLockerController;
+use App\Http\Controllers\TenantController;
 use App\Http\Controllers\TenantsController;
 use App\Http\Controllers\UnitController;
 use App\Http\Controllers\UserController;
@@ -60,45 +54,52 @@ Route::get('/index', [IndexController::class, 'index'])->name("index");
 
 // require __DIR__.'/auth.php';
 
+// old
+// Route::post('/logout', [AuthController::class, 'logout'])->name("logout");
+// Route::get('/', [AuthController::class, 'login'])->name("login");
+// Route::post('/', [AuthController::class, 'auth_login']);
+
+
+// new
+
+Route::get('/', [WebsiteController::class, 'website'])->name("website");
 Route::post('/logout', [AuthController::class, 'logout'])->name("logout");
-
-
-Route::get('/', [AuthController::class, 'login'])->name("login");
-
-Route::post('/', [AuthController::class, 'auth_login']);
-
-
-
-Route::get('tenants', [TenantsController::class, 'index'])->name("tenants.index");
-
-Route::get('tenants/create', [TenantsController::class, 'create'])->name("tenants.create");
-
-Route::post('tenants/create', [TenantsController::class, 'store']);
-
-Route::get('tenants/show/{id}', [TenantsController::class, 'show'])->name("tenants.show");
-
-Route::get('tenants/edit/{id}', [TenantsController::class, 'edit'])->name("tenants.edit");
-
-Route::post('tenants/edit/{id}', [TenantsController::class, 'update'])->name("tenants.update");
-
-Route::get('tenants/delete/{id}', [TenantsController::class, 'destroy'])->name("tenants.delete");
+Route::get('/login', [AuthController::class, 'login'])->name("login");
+Route::post('login/form/submit', [AuthController::class, 'doLogin'])->name("do_login");
 
 
 
 
+// tenant list
+
+Route::resource('tenant', TenantController::class);
+
+Route::get('/view-renter', 'TenantController@viewRenter')->name('view-renter');
+Route::get('/make/renter/active/{id}', 'TenantController@makeActive')->name('make-renter-active');
+Route::get('/make/renter/inactive/{id}', 'TenantController@inActive')->name('make-renter-in-active');
+// Route::get('/edit-renter/{id}', 'TenantController@editRenter')->name('edit-renter');
+Route::post('/delete-renter/{id}', 'TenantController@deleteRenter')->name('delete-renter');
+
+
+
+
+// user
 Route::get('user', [UserController::class, 'index'])->name("user.index");
-
 Route::get('user/create', [UserController::class, 'create'])->name("user.create");
-
 Route::post('user/create', [UserController::class, 'store']);
-
 Route::get('user/show/{id}', [UserController::class, 'show'])->name("user.show");
-
 Route::get('user/edit/{id}', [UserController::class, 'edit'])->name("user.edit");
-
 Route::post('user/edit/{id}', [UserController::class, 'update'])->name("user.update");
-
 Route::get('user/delete/{id}', [UserController::class, 'destroy'])->name("user.delete");
+
+// user subscription
+Route::get('user/add/subscription/{id}', [UserController::class, 'add_subscription_form'])->name("user_subscription.add");
+Route::post('user/store/subscription/{id}', [UserController::class, 'store_subscription'])->name("user_subscription.store");
+Route::get('user/subscription/view/{id}', [UserController::class, 'view_subscription'])->name("user_subscription.view");
+Route::get('user/edit/subscription/{id}', [UserController::class, 'edit_subscription_form'])->name("user_subscription.edit");
+Route::post('user/update/subscription/{id}', [UserController::class, 'update_subscription'])->name("user_subscription.update");
+Route::get('user/delete/subscription/{id}', [UserController::class, 'delete_subscription'])->name("user_subscription.delete");
+
 
 
 
@@ -153,6 +154,8 @@ Route::get('building/delete/{id}', [BuildingController::class, 'destroy'])->name
 
 
 
+Route::get('block/index', [BlockController::class, 'index'])->name("block.index");
+
 Route::get('block/create', [BlockController::class, 'create'])->name("block.create");
 
 Route::post('block/create', [BlockController::class, 'store'])->name("block.store");
@@ -167,6 +170,7 @@ Route::get('block/delete/{id}', [BlockController::class, 'destroy'])->name("bloc
 
 
 
+Route::get('floor/index', [FloorController::class, 'index'])->name("floor.index");
 
 Route::get('floor/create', [FloorController::class, 'create'])->name("floor.create");
 
@@ -182,19 +186,7 @@ Route::get('floor/delete/{id}', [FloorController::class, 'destroy'])->name("floo
 
 
 
-Route::get('unit/create', [UnitController::class, 'create'])->name("unit.create");
-
-Route::post('unit/create', [UnitController::class, 'store'])->name("unit.store");
-
-Route::get('unit/show/{id}', [UnitController::class, 'show'])->name("unit.show");
-
-Route::get('unit/edit/{id}', [UnitController::class, 'edit'])->name("unit.edit");
-
-Route::post('unit/edit/{id}', [UnitController::class, 'update'])->name("unit.update");
-
-Route::get('unit/delete/{id}', [UnitController::class, 'destroy'])->name("unit.delete");
-
-
+Route::get('unit/index', [UnitController::class, 'index'])->name("unit.index");
 
 Route::get('unit/create', [UnitController::class, 'create'])->name("unit.create");
 
@@ -242,7 +234,7 @@ Route::get('mechroom/create', [MechroomController::class, 'create'])->name("mech
 
 Route::post('mechroom/create', [MechroomController::class, 'store'])->name("mechroom.store");
 
-Route::get('mechroom/show/{id}', [MechroomController::class, 'show'])->name("mechroom.show");
+Route::get('mechroom/show/{id}/{room_type}', [MechroomController::class, 'show'])->name("mechroom.show");
 
 Route::get('mechroom/edit/{id}', [MechroomController::class, 'edit'])->name("mechroom.edit");
 
@@ -256,7 +248,7 @@ Route::get('adroom/create', [AdroomController::class, 'create'])->name("adroom.c
 
 Route::post('adroom/create', [AdroomController::class, 'store'])->name("adroom.store");
 
-Route::get('adroom/show/{id}', [AdroomController::class, 'show'])->name("adroom.show");
+Route::get('adroom/show/{id}/{room_type}', [AdroomController::class, 'show'])->name("adroom.show");
 
 Route::get('adroom/edit/{id}', [AdroomController::class, 'edit'])->name("adroom.edit");
 
@@ -269,7 +261,7 @@ Route::get('amroom/create', [AmroomController::class, 'create'])->name("amroom.c
 
 Route::post('amroom/create', [AmroomController::class, 'store'])->name("amroom.store");
 
-Route::get('amroom/show/{id}', [AmroomController::class, 'show'])->name("amroom.show");
+Route::get('amroom/show/{id}/{room_type}', [AmroomController::class, 'show'])->name("amroom.show");
 
 Route::get('amroom/edit/{id}', [AmroomController::class, 'edit'])->name("amroom.edit");
 
@@ -283,7 +275,7 @@ Route::get('serroom/create', [SerroomController::class, 'create'])->name("serroo
 
 Route::post('serroom/create', [SerroomController::class, 'store'])->name("serroom.store");
 
-Route::get('serroom/show/{id}', [SerroomController::class, 'show'])->name("serroom.show");
+Route::get('serroom/show/{id}/{room_type}', [SerroomController::class, 'show'])->name("serroom.show");
 
 Route::get('serroom/edit/{id}', [SerroomController::class, 'edit'])->name("serroom.edit");
 
@@ -321,58 +313,28 @@ Route::get('comarea/delete/{id}', [ComareaController::class, 'destroy'])->name("
 
 
 
-// ----------------  payroll management -------------------------- //
+Route::get('asset/create/{id}/{count}/{room_type}', [AssetController::class, 'create'])->name('asset.create');
 
-// department
-Route::get('department/delete/{id}', [DepartmentController::class, 'destroy'])->name('department.delete');
-Route::resource('department', DepartmentController::class);
+Route::post('asset/store', [AssetController::class, 'store'])->name("asset.store");
 
+Route::get('asset/show/{id}', [AssetController::class, 'show'])->name("asset.show");
 
-// designaiton
-Route::get('designaiton/delete/{id}', [DesignationController::class, 'destroy'])->name('designaiton.delete');
-Route::resource('designaiton', DesignationController::class);
+Route::get('asset/edit/{id}/{room_type}', [AssetController::class, 'edit'])->name("asset.edit");
 
-// job_location
-Route::get('job/location/delete/{id}', [JobLocationController::class, 'destroy'])->name('job_location.delete');
-Route::resource('job_location', JobLocationController::class);
+Route::post('asset/edit/{id}/{room_type}', [AssetController::class, 'update'])->name("asset.update");
 
-
-// employee type
-Route::get('employee/type/delete/{id}', [EmployeeTypeController::class, 'destroy'])->name('employee_type.delete');
-Route::resource('employee_type', EmployeeTypeController::class);
-
-
-// employee
-Route::get('employee/delete/{id}', [EmployeeController::class, 'destroy'])->name('employee.delete');
-Route::resource('employee', EmployeeController::class);
-
-
-// salary head
-Route::get('salary/head/delete/{id}', [SalaryHeadController::class, 'destroy'])->name('salary_head.delete');
-Route::resource('salary_head', SalaryHeadController::class);
-
-
-// payroll
-Route::get('payroll/delete/{id}', [PayrollController::class, 'destroy'])->name('payroll.delete');
-Route::get('payroll/generate', [PayrollController::class, 'generate'])->name('payroll.generate');
-Route::resource('payroll', PayrollController::class);
+Route::get('asset/delete/{id}', [AssetController::class, 'destroy'])->name("asset.delete");
 
 
 
-// ---------------- accounting -------------------------- //
+/////////////////////////// selim  ///////////////////////////
 
-Route::get('account/delete/{id}', [AccountController::class, 'destroy'])->name('account.delete');
-Route::resource('account', AccountController::class);
 
-Route::get('account/group/delete/{id}', [AccountGroupController::class, 'destroy'])->name('account-group.delete');
-Route::resource('account-group', AccountGroupController::class);
+include('payroll.php');
+include('account.php');
+include('bank_management.php');
+include('saas_platform.php');
 
-Route::get('journal/entry/delete/{id}', [JournalEntryController::class, 'destroy'])->name('journal-entry.delete');
-Route::resource('journal-entry', JournalEntryController::class);
-
-Route::get('journal-add-more-input', [JournalEntryController::class, 'addMoreInput']);
-
-// report
-Route::get('general/ledger/report', [AccountingReportController::class, 'generalLedger'])->name('general-ledger-report');
-Route::get('balance/sheet', [AccountingReportController::class, 'balance_sheet'])->name('balance_sheet');
-
+Route::get('setting/create_edit', [SettingController::class, 'create_edit'])->name("setting.create_edit");
+Route::post('setting/update/{id}', [SettingController::class, 'update'])->name("setting.update");
+Route::post('setting/store', [SettingController::class, 'store'])->name("setting.store");

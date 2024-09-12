@@ -46,9 +46,8 @@
                             </div>
                             <div class="col-sm-6">
                                 <div class="text-right">
-                                    <button type="button" class="btn waves-effect waves-light"
-                                        style="background-color: rgb(100, 197, 177); border-color: rgb(100, 197, 177); color: white; 
-                                  position: absolute; right: 10px; top: 50%; transform: translateY(-50%);  text-decoration: none;"
+                                    <button type="button" class="btn waves-effect waves-light greenbtn"
+                                        style=" position: absolute; "
                                         onclick="window.location.href='{{ route('block.edit', $block->id) }}'">
                                         <i class="mdi mdi-pencil m-r-5"></i> Edit Block
                                     </button>
@@ -110,16 +109,15 @@
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="text-right m-b-20">
-                                {{-- <button type="button" class="btn waves-effect waves-light"
+                                {{-- <button type="button" class="btn waves-effect waves-light greenbtn"
                             style="background-color: rgb(100, 197, 177); border-color: rgb(100, 197, 177); color: white; 
-                                  position: absolute; right: 10px;  transform: translateY(-50%);  text-decoration: none;"
+                                  position: absolute; """
                                     onclick="window.location.href='{{ route('floor.create', ['block_id' => $block->id]) }}'"
                             >
                             <i class="mdi mdi-plus m-r-5"></i> Add Floor
                             </button> --}}
                                 <div class="btn-group">
-                                    <button type="button" class="btn waves-effect waves-light dropdown-toggle"
-                                        style="background-color: rgb(100, 197, 177); border-color: rgb(100, 197, 177); color: white;"
+                                    <button type="button" class="btn waves-effect waves-light dropdown-toggle greenbtn"
                                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         Add <span class="caret"></span>
                                     </button>
@@ -134,12 +132,6 @@
                                             <i class="mdi mdi-plus m-r-10 text-muted font-18 vertical-middle"></i> Add
                                             Common Area
                                         </a>
-                                        {{-- <a class="dropdown-item" href="{{ route('amroom.create', ['unit_id' => $unit->id]) }}">
-                                    <i class="mdi mdi-plus m-r-10 text-muted font-18 vertical-middle"></i> Amenity Room
-                                    </a> --}}
-                                        {{-- <a class="dropdown-item" href="{{ route('floor.create', ['block_id' => $block->id]) }}">
-                                    <i class="mdi mdi-plus m-r-10 text-muted font-18 vertical-middle"></i> Service Room
-                                    </a> --}}
                                     </div>
                                 </div>
                             </div>

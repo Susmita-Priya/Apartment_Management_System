@@ -47,9 +47,8 @@
                             </div>
                             <div class="col-sm-6">
                                 <div class="text-right">
-                                    <button type="button" class="btn waves-effect waves-light"
-                                        style="background-color: rgb(100, 197, 177); border-color: rgb(100, 197, 177); color: white; 
-                                  position: absolute; right: 10px; top: 50%; transform: translateY(-50%);  text-decoration: none;"
+                                    <button type="button" class="btn waves-effect waves-light greenbtn"
+                                        style=" position: absolute; "
                                         onclick="window.location.href='{{ route('floor.edit', $floor->id) }}'">
                                         <i class="mdi mdi-pencil m-r-5"></i> Edit Floor
                                     </button>
@@ -144,39 +143,34 @@
                             <div class="text-right m-b-20">
 
                                 @if ($floor->parking_lot || $floor->bike_lot)
-                                    <button type="button" class="btn waves-effect waves-light"
-                                        style="background-color: rgb(100, 197, 177); border-color: rgb(100, 197, 177); color: white; 
-                                  position: absolute; right: 10px;  transform: translateY(-50%);  text-decoration: none;"
+                                    <button type="button" class="btn waves-effect waves-light greenbtn"
+                                        style="position: absolute; "
                                         onclick="window.location.href='{{ route('stall_locker.create', ['floor_id' => $floor->id]) }}'">
                                         <i class="mdi mdi-plus m-r-5"></i> Add Stall
                                     @elseif($floor->storage_lot)
-                                        <button type="button" class="btn waves-effect waves-light"
-                                            style="background-color: rgb(100, 197, 177); border-color: rgb(100, 197, 177); color: white; 
-                                      position: absolute; right: 10px;  transform: translateY(-50%);  text-decoration: none;"
+                                        <button type="button" class="btn waves-effect waves-light greenbtn"
+                                            style="position: absolute; "
                                             onclick="window.location.href='{{ route('stall_locker.create', ['floor_id' => $floor->id]) }}'">
                                             <i class="mdi mdi-plus m-r-5"></i> Add Locker
                                         @elseif($floor->parking_lot || $floor->bike_lot || $floor->storage_lot)
-                                            <button type="button" class="btn waves-effect waves-light"
-                                                style="background-color: rgb(100, 197, 177); border-color: rgb(100, 197, 177); color: white; 
-                                  position: absolute; right: 10px;  transform: translateY(-50%);  text-decoration: none;"
+                                            <button type="button" class="btn waves-effect waves-light greenbtn"
+                                                style="position: absolute; "
                                                 onclick="window.location.href='{{ route('stall_locker.create', ['floor_id' => $floor->id]) }}'">
                                                 <i class="mdi mdi-plus m-r-5"></i> Add Stall / Locker
                                             @elseif($building->type === 'RESB')
-                                                <button type="button" class="btn waves-effect waves-light"
-                                                    style="background-color: rgb(100, 197, 177); border-color: rgb(100, 197, 177); color: white; 
-                                      position: absolute; right: 10px;  transform: translateY(-50%);  text-decoration: none;"
+                                                <button type="button" class="btn waves-effect waves-light greenbtn"
+                                                    style="position: absolute; "
                                                     onclick="window.location.href='{{ route('unit.create', ['floor_id' => $floor->id]) }}'">
                                                     <i class="mdi mdi-plus m-r-5"></i> Add Suite
                                                 @elseif($building->type === 'COMB')
-                                                    <button type="button" class="btn waves-effect waves-light"
-                                                        style="background-color: rgb(100, 197, 177); border-color: rgb(100, 197, 177); color: white; 
-                                      position: absolute; right: 10px;  transform: translateY(-50%);  text-decoration: none;"
+                                                    <button type="button" class="btn waves-effect waves-light greenbtn"
+                                                        style="position: absolute; "
                                                         onclick="window.location.href='{{ route('unit.create', ['floor_id' => $floor->id]) }}'">
                                                         <i class="mdi mdi-plus m-r-5"></i> Add Unit
                                                     @elseif($building->type === 'RECB')
-                                                        <button type="button" class="btn waves-effect waves-light"
-                                                            style="background-color: rgb(100, 197, 177); border-color: rgb(100, 197, 177); color: white; 
-                                      position: absolute; right: 10px;  transform: translateY(-50%);  text-decoration: none;"
+                                                        <button type="button"
+                                                            class="btn waves-effect waves-light greenbtn"
+                                                            style="position: absolute; "
                                                             onclick="window.location.href='{{ route('unit.create', ['floor_id' => $floor->id]) }}'">
                                                             <i class="mdi mdi-plus m-r-5"></i> Add Suite / Unit
                                 @endif
@@ -186,7 +180,6 @@
                         </div>
                     </div>
                     <!-- end row -->
-
 
                     <!-- Units List -->
                     <div class="row">

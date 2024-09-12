@@ -111,9 +111,22 @@ class MechroomController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show()
+    public function show($id, $room_type)
     {
-        //
+
+    // Fetch the residential room with related unit and assets
+    $mechroom = Mechroom::with(['unit', 'assets'])->findOrFail($id);
+    $unit = $mechroom->unit;
+
+    // Fetch specific room type details from the model
+    $roomTypeDetails = $mechroom->$room_type ?? null;
+
+    if (!$roomTypeDetails) {
+        return redirect()->back()->with('error', 'Room details not found.');
+    }
+    // dd($mechroom);
+
+    return view('mechroom.mechroom_view', compact('mechroom', 'roomTypeDetails', 'room_type'));
     }
 
     /**

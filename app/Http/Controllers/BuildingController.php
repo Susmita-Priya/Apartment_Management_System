@@ -10,16 +10,22 @@ class BuildingController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         // Fetch all buildings from the database
-        $buildings = Building::all();
 
-        // Fetch all buildings with their associated blocks from the database
-        // $buildings = Building::withCount('blocks')->get();
+        $data['search_property']=$search_property = $request->search_property ?? '';
 
+
+        $data['buildings'] = Building::orderBy('id', 'asc')
+            ->when($search_property != '', function ($query) use ($search_property) {
+                $query->where('name', 'like', "%$search_property%");
+            })
+            ->get();
+        // return $buildings;
+       
         // Pass the buildings data to the view
-        return view('building.building_list', compact('buildings'));
+        return view('building.building_list', $data);
     }
 
     /**
@@ -36,45 +42,45 @@ class BuildingController extends Controller
     public function store(Request $request)
     {
 
-       // Validate the request data
-    $request->validate([
-        'name' => 'required',
-        'type' => 'required',
-        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp', // max size is now 100KB
-    ]);
+        // Validate the request data
+        $request->validate([
+            'name' => 'required',
+            'type' => 'required',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp', // max size is now 100KB
+        ]);
 
-    // Handle the image upload if present
-    if ($request->hasFile('image')) {
-        $file = $request->file('image');
-        
-        // Check if the image size exceeds 100KB (102400 bytes)
-        if ($file->getSize() > 102400) {
-            return redirect()->back()->with('error', 'Image size exceeds 100KB. Please upload a smaller image.');
+        // Handle the image upload if present
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+
+            // Check if the image size exceeds 100KB (102400 bytes)
+            if ($file->getSize() > 102400) {
+                return redirect()->back()->with('error', 'Image size exceeds 100KB. Please upload a smaller image.');
+            }
+
+            $filename = time() . "_building." . $file->getClientOriginalExtension();
+            $path = 'uploads/buildings';
+            $file->move(public_path($path), $filename); // Move to 'public/uploads/buildings' directly
+            $fullPath = $path . '/' . $filename;
+        } else {
+            $fullPath = null;
         }
 
-        $filename = time() . "_building." . $file->getClientOriginalExtension();
-        $path = 'uploads/buildings';
-        $file->move(public_path($path), $filename); // Move to 'public/uploads/buildings' directly
-        $fullPath = $path . '/' . $filename;
-    } else {
-        $fullPath = null;
-    }
+        // Generate the building ID
+        $buildingType = $request->type; // 'RESB', 'COMB', 'RECB'
+        $lastBuilding = Building::where('type', $buildingType)->orderBy('building_id', 'desc')->first();
+        $newBuildingId = $buildingType . str_pad(($lastBuilding ? intval(substr($lastBuilding->building_id, 4)) + 1 : 1), 4, '0', STR_PAD_LEFT);
 
-    // Generate the building ID
-    $buildingType = $request->type; // 'RESB', 'COMB', 'RECB'
-    $lastBuilding = Building::where('type', $buildingType)->orderBy('building_id', 'desc')->first();
-    $newBuildingId = $buildingType . str_pad(($lastBuilding ? intval(substr($lastBuilding->building_id, 4)) + 1 : 1), 4, '0', STR_PAD_LEFT);
+        // Create a new Building entry using the detailed approach
+        $building = new Building;
+        $building->building_id = $newBuildingId;
+        $building->name = $request->name;
+        $building->type = $buildingType;
+        $building->image = $fullPath;
+        $building->save();
 
-    // Create a new Building entry using the detailed approach
-    $building = new Building;
-    $building->building_id = $newBuildingId;
-    $building->name = $request->name;
-    $building->type = $buildingType;
-    $building->image = $fullPath;
-    $building->save();
-
-    // Redirect with a success message
-    return redirect('building')->with('success', "New Building Created Successfully!");
+        // Redirect with a success message
+        return redirect('building')->with('success', "New Building Created Successfully!");
     }
 
     /**
@@ -112,48 +118,48 @@ class BuildingController extends Controller
      */
     public function update(Request $request, string $id)
     {
-       // Validate the request data
-    $request->validate([
-        'name' => 'required',
-        'type' => 'required|in:RESB,COMB,RECB',
-        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:100', // max size is now 100KB
-    ]);
+        // Validate the request data
+        $request->validate([
+            'name' => 'required',
+            'type' => 'required|in:RESB,COMB,RECB',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:100', // max size is now 100KB
+        ]);
 
-    // Find the building to update
-    $building = Building::findOrFail($id);
+        // Find the building to update
+        $building = Building::findOrFail($id);
 
-    // Handle the image upload if present
-    if ($request->hasFile('image')) {
-        $file = $request->file('image');
-        
-        // Check if the image size exceeds 100KB (102400 bytes)
-        if ($file->getSize() > 102400) {
-            return redirect()->back()->with('error', 'Image size exceeds 100KB. Please upload a smaller image.');
+        // Handle the image upload if present
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+
+            // Check if the image size exceeds 100KB (102400 bytes)
+            if ($file->getSize() > 102400) {
+                return redirect()->back()->with('error', 'Image size exceeds 100KB. Please upload a smaller image.');
+            }
+
+            // Delete the old image if it exists
+            if ($building->image && file_exists(public_path($building->image))) {
+                unlink(public_path($building->image));
+            }
+
+            // Upload the new image
+            $filename = time() . "_building." . $file->getClientOriginalExtension();
+            $path = 'uploads/buildings';
+            $file->move(public_path($path), $filename);
+            $fullPath = $path . '/' . $filename;
+        } else {
+            // Keep the old image if no new image is uploaded
+            $fullPath = $building->image;
         }
 
-        // Delete the old image if it exists
-        if ($building->image && file_exists(public_path($building->image))) {
-            unlink(public_path($building->image));
-        }
+        // Update the building record
+        $building->name = $request->name;
+        $building->type = $request->type;
+        $building->image = $fullPath;
+        $building->save();
 
-        // Upload the new image
-        $filename = time() . "_building." . $file->getClientOriginalExtension();
-        $path = 'uploads/buildings';
-        $file->move(public_path($path), $filename);
-        $fullPath = $path . '/' . $filename;
-    } else {
-        // Keep the old image if no new image is uploaded
-        $fullPath = $building->image;
-    }
-
-    // Update the building record
-    $building->name = $request->name;
-    $building->type = $request->type;
-    $building->image = $fullPath;
-    $building->save();
-
-    // Redirect with a success message
-    return redirect('building')->with('success', "Building Updated Successfully!");
+        // Redirect with a success message
+        return redirect('building')->with('success', "Building Updated Successfully!");
     }
 
     /**

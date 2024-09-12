@@ -94,7 +94,7 @@
     @stack('js')
 
     <!-- custom js -->
-    {{-- <script src="{{ asset('js/custom.js') }}"></script> --}}
+    <script src="{{ asset('js/custom.js') }}"></script>
 
     <script type="text/javascript">
         $(document).ready(function() {

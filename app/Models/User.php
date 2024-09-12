@@ -25,6 +25,7 @@
 
 namespace App\Models;
 
+use App\Models\SaasPlatform\SubscriptionPackage;
 use Illuminate\Foundation\Auth\User as Authenticatable; // Import Authenticatable
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Notifications\Notifiable;
@@ -35,7 +36,7 @@ class User extends Authenticatable // Extend Authenticatable
 
     protected $table = 'users';
 
-    protected $fillable = ['name', 'email', 'password', 'role_id'];
+    protected $fillable = ['name', 'email', 'password', 'role_id', 'expire_date', 'subscription_package_id', 'customer_id', 'phone', 'company_name', 'registration_date'];
 
     protected $hidden = [
         'password',
@@ -45,5 +46,11 @@ class User extends Authenticatable // Extend Authenticatable
     public function role()
     {
         return $this->belongsTo(Role::class);
+    }
+
+
+    public function subscription_package()
+    {
+        return $this->hasOne(SubscriptionPackage::class, 'id', 'subscription_package_id');
     }
 }

@@ -1,153 +1,56 @@
+///////////////// asset show modal///////////
 
+document.addEventListener('DOMContentLoaded', function () {
+    // When a room card is clicked
+    document.querySelectorAll('.room-card').forEach(card => {
+        card.addEventListener('click', function () {
+            const roomId = this.getAttribute('data-roomid');
+            const roomType = this.getAttribute('data-roomtype');
+            const assetId = this.getAttribute('data-assetid'); // Get the asset ID
 
+            // Open the modal
+            $('#assetModal').modal('show');
 
+            // Clear previous content
+            document.getElementById('assetContent').innerHTML = 'Loading...';
 
+            // Fetch the asset data
+            fetch(`/asset/show/${roomId}`)
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById('assetContent').innerHTML = html;
+                })
+                .catch(error => {
+                    console.error('Error fetching assets:', error);
+                    document.getElementById('assetContent').innerHTML = 'Error loading assets.';
+                });
 
-// $(document).on("click", "#delete", function (e) {
-//     e.preventDefault();
-//     var link = $(this).attr("href");
-    
-
-//     Swal.fire({
-//         title: 'Are you sure?',
-//         // text: "You won't be able to Delete this!",
-//         icon: 'question',
-//         showCancelButton: true,
-//         confirmButtonColor: '#3085d6',
-//         cancelButtonColor: '#d33',
-//         confirmButtonText: 'Yes, Delete it!'
-//     }).then((result) => {
-//         if (result.isConfirmed) {
-//             window.location.href = link;
-//             // Swal.fire(
-//             //     'Deleted!',
-//             //     'Your file has been deleted.',
-//             //     'success'              
-//             // )
-//         }else{
-//             Swal.fire(
-//                 'Cancelled!',
-//                 'Your imaginary file is safe.',
-//                 'error'
-//             )
-//         }
-//     });
-
-// });
-
-
-        // //Success Message
-        // $(document).ready(function() {
-        //     // Check if there is a success message in the session
-        //     if (session('success')){
-        //          swal({
-        //             title: 'Successful!',
-        //             text: 'New User Been Created !',
-        //             type: 'success',
-        //             confirmButtonColor: '#4fa7f3'
-        //         }).then((result) => {
-        //             if (result.isConfirmed) {
-        //                 // Redirect to the URL
-        //                 window.location.href = "{{ route('user.index') }}";
-        //             }
-        //         });
-        //     }
-               
-        // });
-        
-
-
-        //     //Success Message
-        //     $(document).on("click", "#sa-success-updateuser", function (e) {
-        //         e.preventDefault();
-        //         var link = $(this).attr("href");
-        //         swal({
-        //                 title: 'Successfull!',
-        //                 text: 'User details have been updated !',
-        //                 type: 'success',
-        //                 confirmButtonColor: '#4fa7f3'
-    
-        //             }).then((result) => {
-        //         if (result.isConfirmed) {
-        //             window.location.href = link;
-        //         }
-        //     });
-    
-        // });
-        
-
-
-
-
-
-    
-        $(document).on("click", "#view", function (e) {
-                e.preventDefault();
-                var link = $(this).attr("href");
-                var fullname = $(this).data("fullname");
-                var email = $(this).data("email");
-                var phn = $(this).data("phn");
-                var idno = $(this).data("idno");
-                var address = $(this).data("address");
-                var occStatus = $(this).data("occ-status");
-                var occPlace = $(this).data("occ-place");
-                var emname = $(this).data("emname");
-                var emphn = $(this).data("emphn");
-                swal({
-                    title: 'User Information',
-                    html: '<p>Full Name: ' + fullname + '</p>' +
-                          '<p>Email: ' + email + '</p>' +
-                          '<p>Phone: ' + phn + '</p>' +
-                          '<p>ID Number: ' + idno + '</p>' +
-                          '<p>Address: ' + address + '</p>' +
-                          '<p>Occupation Status: ' + occStatus + '</p>' +
-                          '<p>Occupation Place: ' + occPlace + '</p>' +
-                          '<p>Emergency Contact Name: ' + emname + '</p>' +
-                          '<p>Emergency Contact Phone: ' + emphn + '</p>',
-                    width: 600,
-                    padding: 100,
-                    background: '#fff url(//subtlepatterns2015.subtlepatterns.netdna-cdn.com/patterns/geometry.png)'
-                }).then((result) => {
-                                if (result.isConfirmed) {
-                                    window.location.href = link;
-                                }
-                            });
+            // Set the edit and delete URLs dynamically
+            document.getElementById('edit-button').href = `/asset/edit/${assetId}/${roomType}`;
+            document.getElementById('delete-button').onclick = function () {
+                confirmDelete(`/asset/delete/${assetId}`);
+            };
         });
+    });
+});
 
 
+// document.getElementById('add-room-field').addEventListener('click', function() {
+//     let div = document.createElement('div');
+//     div.classList.add('form-group');
+//     div.classList.add('dynamic-room');
 
+//     div.innerHTML = `
+// <label for="room_name">Room Name</label>
+// <input type="text" name="extra_rooms[${index}][room_name]" class="form-control" placeholder="Enter room name">
+// <label for="quantity">How Many?</label>
+// <input type="number" name="extra_rooms[${index}][quantity]" class="form-control" placeholder="Enter number of rooms">
+// <button type="button" class="btn btn-danger mt-2 remove-extra-field">Remove</button>
+// `;
 
-
-
-
-//         $(document).ready(function() {
-//     $('form').on('submit', function(e) {
-//         e.preventDefault(); // Prevent the default form submission
-
-//         var form = $(this);
-//         var url = form.attr('action');
-
-//         $.ajax({
-//             type: "POST",
-//             url: url,
-//             data: form.serialize(),
-//             success: function(response) {
-//                 if (response.success) {
-//                     Swal.fire({
-//                         title: 'Successful!',
-//                         text: response.message,
-//                         icon: 'success',
-//                         confirmButtonColor: '#4fa7f3'
-//                     }).then((result) => {
-//                         if (result.isConfirmed) {
-//                             window.location.href = '/user'; // Redirect to the user page
-//                         }
-//                     });
-//                 }
-//             },
-//             error: function(response) {
-//                 // Handle error if needed
-//             }
-//         });
-//     });
+//     document.getElementById('dynamic-room-fields').appendChild(div);
+//     index++;
 // });
+
+
+

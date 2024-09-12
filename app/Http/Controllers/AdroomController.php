@@ -101,9 +101,21 @@ class AdroomController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show()
+    public function show($id, $room_type)
     {
-        //
+        // Fetch the residential room with related unit and assets
+    $adroom = Adroom::with(['unit', 'assets'])->findOrFail($id);
+    $unit = $adroom->unit;
+
+    // Fetch specific room type details from the model
+    $roomTypeDetails = $adroom->$room_type ?? null;
+
+    if (!$roomTypeDetails) {
+        return redirect()->back()->with('error', 'Room details not found.');
+    }
+    // dd($mechroom);
+
+    return view('adroom.adroom_view', compact('adroom', 'roomTypeDetails', 'room_type'));
     }
 
     /**

@@ -35,8 +35,8 @@
                             <thead>
                                 <tr>
                                     <td colspan="7" class="text-center">
-                                        <h4>Byte Care Limited</h4>
-                                        <p>Makka tower(7th floor), kakrail, dhaka, bangladesh</p>
+                                        <h4> {{ $general_setting->company_name ?? '' }}</h4>
+                                        <p> {{ $general_setting->address ?? '' }}</p>
                                         
                                         <h5>{{ $page_title }}</h5>
                                     </td>
@@ -63,7 +63,7 @@
                                                 'account_id' => $account->id,
                                             ])->sum('credit');
 
-                                            $balance = $total_credit - $total_debit;
+                                            $balance = $total_credit - $total_debit + ($account->opening_balance ?? 0);
                                         @endphp
                                         <tr>
                                             <td scope="row">{{ ++$key }}</td>
@@ -72,10 +72,10 @@
                                             {{-- <td>{{ $total_debit }}</td>
                                             <td>{{ $total_credit }}</td> --}}
                                             <td>{{ $balance }}</td>
+                                        </tr>
                                     @endforeach
                                 @endif
 
-                                </tr>
 
                             </tbody>
                         </table>
