@@ -310,10 +310,6 @@
                                                     <strong>Count:</strong>
                                                     <span class="m-l-15">{{ $roomData->$key }}</span>
                                                 </p>
-                                                {{-- <div class="text-right">
-                                                    <a href="{{ route($roomurl . '.show', ['id' => $roomData->id]) }}"
-                                                        class="btn btn-primary btn-sm">Enter</a>
-                                                </div> --}}
                                                 <div class="text-right">
                                                     <a href="{{ route($roomurl . '.show', ['id' => $roomData->id, 'room_type' => $key]) }}"
                                                         class="btn btn-sm custom-btn">
@@ -424,7 +420,7 @@
                                                                                 class="btn btn-primary btn-sm">Enter</a>
                                                                         </div> --}}
                                                                         <div class="text-right">
-                                                                            <a href="{{ route('mechroom.show', ['id' => $unit->mechRoom->id]) }}"
+                                                                            <a href="{{ route('mechroom.show', ['id' => $unit->mechRoom->id, 'room_type' => $key]) }}"
                                                                                 class="btn btn-sm custom-btn">
                                                                                 <i class="mdi mdi-arrow-right"></i> Enter
                                                                             </a>
@@ -454,7 +450,7 @@
                                                                             class="btn btn-primary btn-sm">Enter</a>
                                                                         </div> --}}
                                                                         <div class="text-right">
-                                                                            <a href="{{ route('mechroom.show', ['id' => $extraRoom->id]) }}"
+                                                                            <a href="{{ route('mechroom.show', ['id' => $extraRoom->id, 'room_type' => $extraRoom->room_name]) }}"
                                                                                 class="btn btn-sm custom-btn">
                                                                                 <i class="mdi mdi-arrow-right"></i> Enter
                                                                             </a>
@@ -532,7 +528,7 @@
                                                                         </p>
 
                                                                         <div class="text-right">
-                                                                            <a href="{{ route('adroom.show', ['id' => $unit->adminRoom->id]) }}"
+                                                                            <a href="{{ route('adroom.show', ['id' => $unit->adminRoom->id, 'room_type' => $key]) }}"
                                                                                 class="btn btn-sm custom-btn">
                                                                                 <i class="mdi mdi-arrow-right"></i> Enter
                                                                             </a>
@@ -639,7 +635,7 @@
                                                                             class="btn btn-primary btn-sm">Enter</a>
                                                                         </div> --}}
                                                                         <div class="text-right">
-                                                                            <a href="{{ route('amroom.show', ['id' => $unit->amRoom->id]) }}"
+                                                                            <a href="{{ route('amroom.show', ['id' => $unit->amRoom->id, 'room_type' => $key]) }}"
                                                                                 class="btn btn-sm custom-btn">
                                                                                 <i class="mdi mdi-arrow-right"></i> Enter
                                                                             </a>
@@ -746,7 +742,7 @@
                                                                                 class="m-l-15">{{ $value }}</span>
                                                                         </p>
                                                                         <div class="text-right">
-                                                                            <a href="{{ route('serroom.show', ['id' => $unit->serRoom->id]) }}"
+                                                                            <a href="{{ route('serroom.show', ['id' => $unit->serRoom->id, 'room_type' => $key]) }}"
                                                                                 class="btn btn-sm custom-btn">
                                                                                 <i class="mdi mdi-arrow-right"></i> Enter
                                                                             </a>

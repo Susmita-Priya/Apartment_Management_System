@@ -86,38 +86,21 @@ class ComroomController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($id,$room_type)
+    public function show($id, $room_type)
     {
-        // $comroom = Comroom::with(['unit'])->findOrFail($id);
-        // $unit = $comroom->unit; 
-        // $roomTypeDetails = $comroom->$room_type; // Fetch specific room type details
         
-        // return view('comroom.comroom_view', compact('comroom', 'roomTypeDetails', 'room_type'));
-
-
-        // Define room type labels
-        $commercialRoomTypes = [
-            'bathroom' => 'Bathroom',
-            'office_room' => 'Office Room',
-            'conference_room' => 'Conference Room',
-            'dining_room' => 'Dining Room',
-            'kitchen' => 'Kitchen',
-            'laundry' => 'Laundry',
-            'solarium' => 'Solarium',
-            'storage' => 'Storage',
-            'washroom' => 'Washroom',
-        ];
-
-        $comroom = Comroom::with(['unit', 'asset'])->findOrFail($id);
+        $comroom = Comroom::with(['unit', 'assets'])->findOrFail($id);
         $unit = $comroom->unit;
 
         // Fetch specific room type details
-        $roomTypeDetails = $comroom->$room_type;
+        $roomTypeDetails = $comroom->$room_type ?? null;
 
-        // Fetch the label using the room_type key
-        $roomTypeLabel = $residentialRoomTypes[$room_type] ?? ucfirst($room_type);
+        if (!$roomTypeDetails) {
+            return redirect()->back()->with('error', 'Room details not found.');
+        }
 
-        return view('comroom.comroom_view', compact('comroom', 'roomTypeDetails', 'room_type', 'roomTypeLabel'));
+        return view('comroom.comroom_view', compact('comroom', 'roomTypeDetails', 'room_type'));
+
     }
 
     /**

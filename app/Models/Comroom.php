@@ -30,7 +30,7 @@ class Comroom extends Model
 
     public function assets()
     {
-        return $this->hasMany(Asset::class);
+        return $this->morphMany(Asset::class, 'assetable');
     }
 
     public function unit()

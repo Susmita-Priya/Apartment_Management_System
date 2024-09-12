@@ -12,16 +12,12 @@ class Asset extends Model
     /**
      * The table associated with the model.
      */
-    protected $table = 'assets'; 
+    protected $table = 'assets';
 
     /**
      * The attributes that are mass assignable.
      */
-    protected $fillable = [
-        'room_stall_id',  // The associated room (foreign key)
-        'room_id',     // Room identifier
-        'assets_details',  // JSON column for asset details
-    ];
+    protected $fillable = ['assetable_id', 'assetable_type', 'room_no', 'assets_details'];
 
     /**
      * The attributes that should be cast to native types.
@@ -33,21 +29,8 @@ class Asset extends Model
     /**
      * Get the resroom that the asset belongs to.
      */
-     // Relationship with Resroom
-     public function resroom()
-     {
-         return $this->belongsTo(Resroom::class);
-     }
- 
-     // Relationship with Comroom
-     public function comroom()
-     {
-         return $this->belongsTo(Comroom::class);
-     }
- 
-     // Relationship with StallLocker
-     public function stallLocker()
-     {
-         return $this->belongsTo(StallLocker::class, 'stall_locker_id');
-     }
+    public function assetable()
+    {
+        return $this->morphTo();
+    }
 }

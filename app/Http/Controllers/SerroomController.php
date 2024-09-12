@@ -101,9 +101,22 @@ class SerroomController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($id)
+    public function show($id, $room_type)
     {
-        // Add logic if needed to show a specific service room
+
+    // Fetch the residential room with related unit and assets
+    $serroom = Serroom::with(['unit', 'assets'])->findOrFail($id);
+    $unit = $serroom->unit;
+
+    // Fetch specific room type details from the model
+    $roomTypeDetails = $serroom->$room_type ?? null;
+
+    if (!$roomTypeDetails) {
+        return redirect()->back()->with('error', 'Room details not found.');
+    }
+    // dd($mechroom);
+
+    return view('serroom.serroom_view', compact('serroom', 'roomTypeDetails', 'room_type'));
     }
 
     /**

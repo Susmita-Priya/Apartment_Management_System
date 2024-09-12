@@ -2,7 +2,7 @@
 
 @section('content')
     @push('title')
-        <title>Unit Details</title>
+        <title>Commercial Room Details</title>
     @endpush
 
     <!-- Start content -->
@@ -13,7 +13,7 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box">
-                        <h4 class="page-title float-left">{{ ucfirst($room_type) }}</h4>
+                        <h4 class="page-title float-left">{{ ucfirst(str_replace('_', ' ', $room_type)) }}</h4>
 
                         <ol class="breadcrumb float-right">
                             <li class="breadcrumb-item"><a href="{{ route('index') }}">Dashboard</a></li>
@@ -48,7 +48,7 @@
                                         src="{{ asset($comroom->unit->floor->block->building->image) }}" alt=""
                                         class="thumb-lg rounded-circle"></span>
                                 <div class="media-body">
-                                    <h4 class="m-t-7 font-18">{{ $room_type }}</h4>
+                                    <h4 class="m-t-7 font-18">{{ ucfirst(str_replace('_', ' ', $room_type)) }}</h4>
                                     <p class="text-muted font-15">{{ $comroom->unit->floor->block->building->name }}
                                         Building</p>
                                 </div>
@@ -146,33 +146,6 @@
                                     <i class="mdi mdi-plus m-r-5"></i> Add Asset
                                 </button>
 
-                                {{-- <div class="btn-group">
-                                    <button type="button" class="btn waves-effect waves-light dropdown-toggle greenbtn"
-                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Manage Asset <span class="caret"></span>
-                                    </button>
-
-                                    <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                                        <a class="dropdown-item" href="{{ route('asset.edit', ['id' => $resroom->asset->id]) }}"
-                                            type="submit">
-                                            <i class="mdi mdi-pencil m-r-10 text-muted font-18 vertical-middle"></i>
-                                            Edit asset
-                                        </a>
-
-                                        <!-- Button for deletion with confirmation -->
-                                        <button type="button" class="dropdown-item" onclick="confirmDelete('{{ route('asset.delete', ['id' => $roomInstance->id]) }}')">
-                                            <i class="mdi mdi-delete m-r-10 text-muted font-18 vertical-middle"></i>
-                                            Delete asset
-                                        </button>
-
-                                        <!-- Hidden form for deletion -->
-                                        <form id="delete-form" action="{{ route($roomType . '.delete', ['id' => $roomInstance->id]) }}" method="GET" style="display: none;">
-                                            @csrf
-                                            @method('DELETE')
-                                        </form>
-
-                                    </div>
-                                </div> --}}
                             </div>
                         </div>
                     </div>
@@ -183,7 +156,9 @@
                         @php
                             // Generate a unique ID for each room card
                             $roomId = $room_type . $i;
-                            $assetId = $comroom->asset->where('room_id', $roomId)->first()->id ?? null;
+                            $assetId = $comroom->assets
+                                        ? $comroom->assets->where('room_no', $roomId)->first()->id ?? null
+                                        : null;
 
                         @endphp
 
@@ -194,7 +169,7 @@
                             <div class="card-box room-card" data-toggle="modal" data-target="#assetModal"
                                 data-roomid="{{ $roomId }}" data-roomtype="{{ $room_type }}"
                                 data-assetid="{{ $assetId }}">
-                                <h4 class="header-title mt-0 m-b-20">{{ $roomTypeLabel }} {{ $i }}
+                                <h4 class="header-title mt-0 m-b-20">{{ ucfirst(str_replace('_', ' ', $room_type)) }} {{ $i }}
                                 </h4>
                                 <div class="panel-body">
                                     <p class="text-muted font-15"><strong>ID:</strong><span

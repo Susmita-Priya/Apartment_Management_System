@@ -44,4 +44,9 @@ class Mechroom extends Model
     {
         return $this->belongsTo(Unit::class);
     }
+
+    public function assets()
+    {
+        return $this->morphMany(Asset::class, 'assetable');
+    }
 }

@@ -13,8 +13,8 @@
                     <div class="page-title-box">
                         <h4 class="page-title float-left">Add Asset</h4>
                         <ol class="breadcrumb float-right">
-                            <li class="breadcrumb-item"><a href="{{ url('/index') }}">Dashboard</a></li>
-                            <li class="breadcrumb-item"><a href="{{ url('/building') }}">Buildings</a></li>
+                            <li class="breadcrumb-item"><a href="{{ route('index') }}">Dashboard</a></li>
+                            <li class="breadcrumb-item"><a href="{{ route('building') }}">Buildings</a></li>
                             <li class="breadcrumb-item"><a
                                     href="{{ route('building.show', $room->unit->floor->block->building_id) }}">Building</a></li>
                             <li class="breadcrumb-item"><a
@@ -37,7 +37,7 @@
 
                         <form action="{{ route('asset.store') }}" enctype="multipart/form-data" method="POST">
                             @csrf
-                            <input type="hidden" name="room_no" value="{{ $room->id ?? '' }}">
+                            <input type="hidden" name="room_no" value="{{ $room->id }}">
                             <input type="hidden" name="room_type" value="{{ $room_type }}">
 
                             <!-- Room Section (appears only once) -->

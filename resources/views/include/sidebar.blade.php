@@ -26,10 +26,10 @@
                             <a href="javascript: void(0);"><i class="fa fa-user"></i> <span> Tenants </span> <span
                                     class="menu-arrow"></span></a>
                             <ul class="nav-second-level " aria-expanded="false">
-                                @if (App\Models\Permission::hasPermission('add_tenants', $role_id))
+                                {{-- @if (App\Models\Permission::hasPermission('add_tenants', $role_id))
                                     <li><a href="{{ url('/tenants/create') }}">Add Tenants</a></li>
-                                @endif
-                                <li><a href="{{ url('/tenants') }}">View Tenants</a></li>
+                                @endif --}}
+                                <li><a href="{{ route('tenant.index') }}">Tenant List</a></li>
                             </ul>
                         </li>
                     @endif

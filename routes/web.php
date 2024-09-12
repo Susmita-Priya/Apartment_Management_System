@@ -19,6 +19,7 @@ use App\Http\Controllers\SaasPlatform\WebsiteController;
 use App\Http\Controllers\SerroomController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\StallLockerController;
+use App\Http\Controllers\TenantController;
 use App\Http\Controllers\TenantsController;
 use App\Http\Controllers\UnitController;
 use App\Http\Controllers\UserController;
@@ -69,19 +70,15 @@ Route::post('login/form/submit', [AuthController::class, 'doLogin'])->name("do_l
 
 
 
-Route::get('tenants', [TenantsController::class, 'index'])->name("tenants.index");
+// tenant list
 
-Route::get('tenants/create', [TenantsController::class, 'create'])->name("tenants.create");
+Route::resource('tenant', TenantController::class);
 
-Route::post('tenants/create', [TenantsController::class, 'store']);
-
-Route::get('tenants/show/{id}', [TenantsController::class, 'show'])->name("tenants.show");
-
-Route::get('tenants/edit/{id}', [TenantsController::class, 'edit'])->name("tenants.edit");
-
-Route::post('tenants/edit/{id}', [TenantsController::class, 'update'])->name("tenants.update");
-
-Route::get('tenants/delete/{id}', [TenantsController::class, 'destroy'])->name("tenants.delete");
+Route::get('/view-renter', 'TenantController@viewRenter')->name('view-renter');
+Route::get('/make/renter/active/{id}', 'TenantController@makeActive')->name('make-renter-active');
+Route::get('/make/renter/inactive/{id}', 'TenantController@inActive')->name('make-renter-in-active');
+// Route::get('/edit-renter/{id}', 'TenantController@editRenter')->name('edit-renter');
+Route::post('/delete-renter/{id}', 'TenantController@deleteRenter')->name('delete-renter');
 
 
 
@@ -237,7 +234,7 @@ Route::get('mechroom/create', [MechroomController::class, 'create'])->name("mech
 
 Route::post('mechroom/create', [MechroomController::class, 'store'])->name("mechroom.store");
 
-Route::get('mechroom/show/{id}', [MechroomController::class, 'show'])->name("mechroom.show");
+Route::get('mechroom/show/{id}/{room_type}', [MechroomController::class, 'show'])->name("mechroom.show");
 
 Route::get('mechroom/edit/{id}', [MechroomController::class, 'edit'])->name("mechroom.edit");
 
@@ -251,7 +248,7 @@ Route::get('adroom/create', [AdroomController::class, 'create'])->name("adroom.c
 
 Route::post('adroom/create', [AdroomController::class, 'store'])->name("adroom.store");
 
-Route::get('adroom/show/{id}', [AdroomController::class, 'show'])->name("adroom.show");
+Route::get('adroom/show/{id}/{room_type}', [AdroomController::class, 'show'])->name("adroom.show");
 
 Route::get('adroom/edit/{id}', [AdroomController::class, 'edit'])->name("adroom.edit");
 
@@ -264,7 +261,7 @@ Route::get('amroom/create', [AmroomController::class, 'create'])->name("amroom.c
 
 Route::post('amroom/create', [AmroomController::class, 'store'])->name("amroom.store");
 
-Route::get('amroom/show/{id}', [AmroomController::class, 'show'])->name("amroom.show");
+Route::get('amroom/show/{id}/{room_type}', [AmroomController::class, 'show'])->name("amroom.show");
 
 Route::get('amroom/edit/{id}', [AmroomController::class, 'edit'])->name("amroom.edit");
 
@@ -278,7 +275,7 @@ Route::get('serroom/create', [SerroomController::class, 'create'])->name("serroo
 
 Route::post('serroom/create', [SerroomController::class, 'store'])->name("serroom.store");
 
-Route::get('serroom/show/{id}', [SerroomController::class, 'show'])->name("serroom.show");
+Route::get('serroom/show/{id}/{room_type}', [SerroomController::class, 'show'])->name("serroom.show");
 
 Route::get('serroom/edit/{id}', [SerroomController::class, 'edit'])->name("serroom.edit");
 
