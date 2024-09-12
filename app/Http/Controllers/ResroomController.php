@@ -94,6 +94,7 @@ class ResroomController extends Controller
     /**
      * Display the specified resource.
      */
+
     public function show($id, $room_type)
 {
     // Fetch the residential room with related unit and assets
@@ -110,10 +111,6 @@ class ResroomController extends Controller
     return view('resroom.resroom_view', compact('resroom', 'roomTypeDetails', 'room_type'));
 }
 
-
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit($id)
     {
         $resroom = ResRoom::with('extraRooms')->findOrFail($id);
