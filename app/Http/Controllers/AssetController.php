@@ -279,7 +279,6 @@ class AssetController extends Controller
      */
     public function create(Request $request)
     {
-       
         // Retrieve form data
         $roomId = $request->input('id');
         $roomType = $request->input('room_type');
@@ -297,7 +296,7 @@ class AssetController extends Controller
 ];
 
     $roomModelClass = $roomModels[$room]??null;
-// dd($roomModelClass);
+
     // Find the room and its related entities
     $roominstance = $roomModelClass::find($roomId);
         return view('asset.asset_add', compact('roomId', 'roomType', 'count', 'room', 'roominstance'));
@@ -306,57 +305,174 @@ class AssetController extends Controller
     /**
      * Store a newly created asset in storage.
      */
-    public function store(Request $request)
-    {
-        $request->validate([
-            'room_type' => 'required|string',
-            'room' => 'required|string',
-            'room_id' => 'required|integer',
-            'room_no' => 'required|string',
-            'assets.*.name' => 'required|string',
-            'assets.*.quantity' => 'required|integer|min:1',
-        ]);
+    // public function store(Request $request)
+    // {
+    //     $request->validate([
+    //         'room_type' => 'required|string',
+    //         'room' => 'required|string',
+    //         'room_id' => 'required|integer',
+    //         'room_no' => 'required|string',
+    //         'assets.*.name' => 'required|string',
+    //         'assets.*.quantity' => 'required|integer|min:1',
+    //     ]);
 
-        // Mapping room types to models
-        $roomModels = [
-            'resroom' => Resroom::class,
-            'comroom' => Comroom::class,
-            'mechroom' => Mechroom::class,
-            'adroom' => Adroom::class,
-            'amroom' => Amroom::class,
-            'serroom' => Serroom::class,
-        ];
+    //     // Mapping room types to models
+    //     $roomModels = [
+    //         'resroom' => Resroom::class,
+    //         'comroom' => Comroom::class,
+    //         'mechroom' => Mechroom::class,
+    //         'adroom' => Adroom::class,
+    //         'amroom' => Amroom::class,
+    //         'serroom' => Serroom::class,
+    //     ];
 
-        // Get the model class for the room type
-        $roomModelClass = $roomModels[$request->room] ?? null;
+    //     // Get the model class for the room type
+    //     $roomModelClass = $roomModels[$request->room] ?? null;
 
-        if (!$roomModelClass || !$roomModelClass::find($request->room_id)) {
-            return redirect()->back()->withErrors('Invalid room or room type.');
-        }
+    //     if (!$roomModelClass || !$roomModelClass::find($request->room_id)) {
+    //         return redirect()->back()->withErrors('Invalid room or room type.');
+    //     }
 
-        // Create or update assets for the polymorphic relationship
-        foreach ($request->assets as $assetData) {
-            Asset::create([
-                'assetable_id' => $request->room_id,
-                'assetable_type' => $roomModelClass,
-                'room_no' => $request->room_no,
-                'assets_details' => json_encode([
-                    'name' => $assetData['name'],
-                    'quantity' => $assetData['quantity'],
-                ]),
-            ]);
-        }
+    //     // Create or update assets for the polymorphic relationship
+    //     foreach ($request->assets as $assetData) {
+    //         Asset::create([
+    //             'assetable_id' => $request->room_id,
+    //             'assetable_type' => $roomModelClass,
+    //             'room_no' => $request->room_no,
+    //             'assets_details' => json_encode([
+    //                 'name' => $assetData['name'],
+    //                 'quantity' => $assetData['quantity'],
+    //             ]),
+    //         ]);
+    //     }
 
-        return redirect()->back()->with('success', 'Assets added successfully!');
+    //     return redirect()->back()->with('success', 'Assets added successfully!');
+    // }
+
+//     public function store(Request $request)
+// {
+//     $request->validate([
+//         'room_type' => 'required|string',
+//         'room' => 'required|string',
+//         'room_id' => 'required|integer',
+//         'room_no' => 'required|string',
+//         'assets.*.name' => 'required|string',
+//         'assets.*.quantity' => 'required|integer|min:1',
+//     ]);
+
+//     // Mapping room types to models
+//     $roomModels = [
+//         'resroom' => Resroom::class,
+//         'comroom' => Comroom::class,
+//         'mechroom' => Mechroom::class,
+//         'adroom' => Adroom::class,
+//         'amroom' => Amroom::class,
+//         'serroom' => Serroom::class,
+//     ];
+
+//     // Get the model class for the room type
+//     $roomModelClass = $roomModels[$request->room] ?? null;
+
+//     if (!$roomModelClass || !$roomModelClass::find($request->room_id)) {
+//         return redirect()->back()->withErrors('Invalid room or room type.');
+//     }
+
+//     foreach ($request->assets as $assetData) {
+//         // Check if asset already exists
+//         $existingAsset = Asset::where('assetable_id', $request->room_id)
+//                               ->where('assetable_type', $roomModelClass)
+//                               ->where('room_no', $request->room_no)
+//                               ->first();
+
+//         if ($existingAsset) {
+//             // Update the existing asset
+//             $existingAsset->assets_details = json_encode([
+//                 'name' => $assetData['name'],
+//                 'quantity' => $assetData['quantity'],
+//             ]);
+//             $existingAsset->save();
+//         } else {
+//             // Create a new asset
+//             Asset::create([
+//                 'assetable_id' => $request->room_id,
+//                 'assetable_type' => $roomModelClass,
+//                 'room_no' => $request->room_no,
+//                 'assets_details' => json_encode([
+//                     'name' => $assetData['name'],
+//                     'quantity' => $assetData['quantity'],
+//                 ]),
+//             ]);
+//         }
+//     }
+
+//     return redirect()->back()->with('success', 'Assets added successfully!');
+// }
+
+
+public function store(Request $request)
+{
+    $request->validate([
+        'room_type' => 'required|string',
+        'room' => 'required|string',
+        'room_id' => 'required|integer',
+        'room_no' => 'required|string',
+        'assets.*.name' => 'required|string',
+        'assets.*.quantity' => 'required|integer|min:1',
+    ]);
+
+    // Mapping room types to models
+    $roomModels = [
+        'resroom' => Resroom::class,
+        'comroom' => Comroom::class,
+        'mechroom' => Mechroom::class,
+        'adroom' => Adroom::class,
+        'amroom' => Amroom::class,
+        'serroom' => Serroom::class,
+    ];
+
+    // Get the model class for the room type
+    $roomModelClass = $roomModels[$request->room] ?? null;
+
+    if (!$roomModelClass || !$roomModelClass::find($request->room_id)) {
+        return redirect()->back()->withErrors('Invalid room or room type.');
     }
+
+    // Check for existing asset with the same assetsable_id and room_no
+    $existingAsset = Asset::where('assetable_id', $request->room_id)
+                          ->where('room_no', $request->room_no)
+                          ->first();
+
+    if ($existingAsset) {
+        return redirect()->back()->with('error','An asset with the same room number already exists for this room.');
+    }
+
+    // Prepare assets details as an array
+    $assetsDetails = array_map(function($assetData) {
+        return [
+            'name' => $assetData['name'],
+            'quantity' => $assetData['quantity'],
+        ];
+    }, $request->assets);
+
+    // Create or update asset for the polymorphic relationship
+    Asset::create([
+        'assetable_id' => $request->room_id,
+        'assetable_type' => $roomModelClass,
+        'room_no' => $request->room_no,
+        'assets_details' => json_encode($assetsDetails), // Include assets_details here
+    ]);
+// dd(request()->all());
+    return redirect()->back()->with('success', 'Assets added/updated successfully!');
+}
+
 
     /**
      * Display the specified asset.
      */
     public function show($id)
     {
-        $asset = Asset::findOrFail($id);
-        return view('asset.asset_view', compact('asset'));
+        $assets = Asset::findOrFail($id);
+        return view('asset.asset_view', compact('assets'));
     }
 
     /**

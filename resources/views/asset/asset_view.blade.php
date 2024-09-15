@@ -1,4 +1,4 @@
-@if($assets->isEmpty())
+{{-- @if($assets->isEmpty())
     <p>No assets found for this room.</p>
 @else
     <ul class="list-group">
@@ -8,6 +8,7 @@
             @endforeach
         @endforeach 
     </ul>
+    @endif
     {{-- @php
     $id = $asset->id
     @endphp --}}
@@ -22,4 +23,25 @@
         </button>
     </div> --}}
    
+    @if($assets)
+    @php
+        $details = json_decode($assets->assets_details, true);
+    @endphp
+
+    {{-- @if(is_array($details))
+        
+    @else
+        <p>Invalid asset details format.</p>
+    @endif
+@else
+    <p>No assets found for this room.</p>
+@endif --}}
+@foreach ($details as $detail)
+
+    <ul class="list-group">
+            <li class="list-group-item">
+                <strong>{{ $detail['name'] }}:</strong> {{ $detail['quantity'] }}
+            </li>
+        </ul>
+@endforeach
 @endif

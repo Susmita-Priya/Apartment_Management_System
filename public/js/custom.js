@@ -14,8 +14,15 @@ document.addEventListener('DOMContentLoaded', function () {
             // Clear previous content
             document.getElementById('assetContent').innerHTML = 'Loading...';
 
+             // If there is no assetId, display a message in the modal
+             if (!assetId) {
+                document.getElementById('assetContent').innerHTML = 'No assets found for this room.';
+                document.getElementById('edit-button').style.display = 'none';
+                document.getElementById('delete-button').style.display = 'none';
+            } else {
+
             // Fetch the asset data
-            fetch(`/asset/show/${roomId}`)
+            fetch(`/asset/show/${assetId}`)
                 .then(response => response.text())
                 .then(html => {
                     document.getElementById('assetContent').innerHTML = html;
@@ -29,7 +36,11 @@ document.addEventListener('DOMContentLoaded', function () {
             document.getElementById('edit-button').href = `/asset/edit/${assetId}/${roomType}`;
             document.getElementById('delete-button').onclick = function () {
                 confirmDelete(`/asset/delete/${assetId}`);
-            };
+            }; 
+              // Show buttons
+              document.getElementById('edit-button').style.display = 'inline-block';
+              document.getElementById('delete-button').style.display = 'inline-block';
+          }
         });
     });
 });

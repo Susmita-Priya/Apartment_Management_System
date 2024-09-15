@@ -147,7 +147,7 @@
                                 </button>
 
                                 <!-- Hidden form -->
-                                <form id="asset-form" action="{{ route('asset.create') }}" method="POST">
+                                <form id="asset-form" action="{{ route('asset.create') }}" method="GET">
                                     @csrf
                                     <input type="hidden" name="id" value="{{ $comroom->id }}">
                                     <input type="hidden" name="room_type" value="{{ $room_type }}">    <!-- bedroom,bathroom -->

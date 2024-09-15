@@ -16,12 +16,12 @@
                             <li class="breadcrumb-item"><a href="{{ url('/index') }}">Dashboard</a></li>
                             <li class="breadcrumb-item"><a href="{{ url('/building') }}">Buildings</a></li>
                             <li class="breadcrumb-item"><a
-                                    href="{{ route('building.show', $resroom->unit->floor->block->building_id) }}">Building</a></li>
-                            <li class="breadcrumb-item"><a
-                                    href="{{ route('block.show', $resroom->unit->floor->block_id) }}">Block</a></li>
-                            <li class="breadcrumb-item"><a href="{{ route('floor.show', $resroom->unit->floor_id) }}">Floor</a></li>
-                            <li class="breadcrumb-item"><a href="{{ route('unit.show', $resroom->unit_id) }}">Unit</a></li>
-                            <li class="breadcrumb-item"><a href="{{ route('resroom.show',['id' => $resroom->id, 'room_type' => $room_type]) }}">Room</a></li>
+                                href="{{ route('building.show', $roominstance->unit->floor->block->building_id) }}">Building</a></li>
+                        <li class="breadcrumb-item"><a
+                                href="{{ route('block.show', $roominstance->unit->floor->block_id) }}">Block</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('floor.show', $roominstance->unit->floor_id) }}">Floor</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('unit.show',['id' => $roominstance->unit->id] ) }}">Unit</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route($room . '.show', ['id' => $roomId, 'room_type' => $roomType]) }}">Room</a></li>  
                             <li class="breadcrumb-item active">Edit Asset</li>
                         </ol>
                         <div class="clearfix"></div>
