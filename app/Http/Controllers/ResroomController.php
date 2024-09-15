@@ -94,6 +94,7 @@ class ResroomController extends Controller
     /**
      * Display the specified resource.
      */
+
     public function show($id, $room_type)
     {
         // Fetch the residential room with related unit and assets
