@@ -296,8 +296,8 @@ class AssetController extends Controller
     "serroom" => Serroom::class,
 ];
 
-    $roomModelClass = $roomModels[$room];
-
+    $roomModelClass = $roomModels[$room]??null;
+// dd($roomModelClass);
     // Find the room and its related entities
     $roominstance = $roomModelClass::find($roomId);
         return view('asset.asset_add', compact('roomId', 'roomType', 'count', 'room', 'roominstance'));
