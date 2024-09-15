@@ -24,6 +24,7 @@ use App\Http\Controllers\TenantsController;
 use App\Http\Controllers\UnitController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\AdminUserMiddleware;
+use App\Models\Asset;
 use App\Models\Permission;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -310,7 +311,6 @@ Route::get('comarea/edit/{id}', [ComareaController::class, 'edit'])->name("comar
 Route::post('comarea/edit/{id}', [ComareaController::class, 'update'])->name("comarea.update");
 
 Route::get('comarea/delete/{id}', [ComareaController::class, 'destroy'])->name("comarea.delete");
-
 
 
 Route::get('asset/create', [AssetController::class, 'create'])->name("asset.create");
