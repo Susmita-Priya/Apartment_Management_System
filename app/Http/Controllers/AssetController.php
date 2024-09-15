@@ -12,6 +12,7 @@ use App\Models\Resroom;
 use App\Models\Serroom;
 use App\Models\StallLocker;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class AssetController extends Controller
 {
@@ -54,26 +55,26 @@ class AssetController extends Controller
     // }
 
 
-//     public function create($id, $count, $room_type)
-// {
-//     // Fetch relevant data for the view
-//     $resrooms = Resroom::all();
-//     $comrooms = Comroom::all();
-//     $stallLockers = StallLocker::all();
-    
-//     // Fetch a room if you have an id and room_type to identify it
-//     $room = null;
-//     if ($room_type == 'resroom') {
-//         $room = Resroom::with(['unit.floor.block.building'])->findOrFail($id);
-//     } elseif ($room_type == 'comroom') {
-//         $room = Comroom::with(['unit.floor.block.building'])->findOrFail($id);                              
-//     } elseif ($room_type == 'stall_locker') {
-//         $room = StallLocker::with(['floor.block.building'])->findOrFail($id);
-//     }
+    //     public function create($id, $count, $room_type)
+    // {
+    //     // Fetch relevant data for the view
+    //     $resrooms = Resroom::all();
+    //     $comrooms = Comroom::all();
+    //     $stallLockers = StallLocker::all();
 
-//     // Pass room information to the view
-//     return view('asset.asset_add', compact('resrooms', 'comrooms', 'stallLockers', 'room_type', 'id', 'count', 'room'));
-// }
+    //     // Fetch a room if you have an id and room_type to identify it
+    //     $room = null;
+    //     if ($room_type == 'resroom') {
+    //         $room = Resroom::with(['unit.floor.block.building'])->findOrFail($id);
+    //     } elseif ($room_type == 'comroom') {
+    //         $room = Comroom::with(['unit.floor.block.building'])->findOrFail($id);                              
+    //     } elseif ($room_type == 'stall_locker') {
+    //         $room = StallLocker::with(['floor.block.building'])->findOrFail($id);
+    //     }
+
+    //     // Pass room information to the view
+    //     return view('asset.asset_add', compact('resrooms', 'comrooms', 'stallLockers', 'room_type', 'id', 'count', 'room'));
+    // }
 
     /**
      * Store a newly created resource in storage.
@@ -93,7 +94,7 @@ class AssetController extends Controller
     //     // Determine the type of room/stall and set the foreign key accordingly
     //     $roomType = $request->input('room_type');
     //     $foreignKey = $request->input("{$roomType}_id");
-        
+
     //     // Group assets by room type and identifier
     //     $assetsGrouped = [];
 
@@ -267,7 +268,6 @@ class AssetController extends Controller
     // }
 
 
-
     public function index()
     {
         $assets = Asset::all();
@@ -277,10 +277,30 @@ class AssetController extends Controller
     /**
      * Show the form for creating a new asset.
      */
-    public function create($roomType, $roomId)
+    public function create(Request $request)
     {
-        // Here you pass the room type and id to the view so it can pre-fill the room selection
-        return view('asset.asset_add', compact('roomType', 'roomId'));
+       
+        // Retrieve form data
+        $roomId = $request->input('id');
+        $roomType = $request->input('room_type');
+        $count = $request->input('count');
+        $room = $request->input('room');
+
+   // Mapping room types to models
+   $roomModels = [
+    "resroom" => Resroom::class,
+    "comroom" => Comroom::class,
+    "mechroom" => Mechroom::class,
+    "adroom" => Adroom::class,
+    "amroom" => Amroom::class,
+    "serroom" => Serroom::class,
+];
+
+    $roomModelClass = $roomModels[$room];
+
+    // Find the room and its related entities
+    $roominstance = $roomModelClass::find($roomId);
+        return view('asset.asset_add', compact('roomId', 'roomType', 'count', 'room', 'roominstance'));
     }
 
     /**
@@ -289,8 +309,10 @@ class AssetController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'room_id' => 'required|string',
             'room_type' => 'required|string',
+            'room' => 'required|string',
+            'room_id' => 'required|integer',
+            'room_no' => 'required|string',
             'assets.*.name' => 'required|string',
             'assets.*.quantity' => 'required|integer|min:1',
         ]);
@@ -306,22 +328,23 @@ class AssetController extends Controller
         ];
 
         // Get the model class for the room type
-        $roomModelClass = $roomModels[$request->room_type] ?? null;
+        $roomModelClass = $roomModels[$request->room] ?? null;
 
         if (!$roomModelClass || !$roomModelClass::find($request->room_id)) {
             return redirect()->back()->withErrors('Invalid room or room type.');
         }
 
-        // Create or update assets
+        // Create or update assets for the polymorphic relationship
         foreach ($request->assets as $assetData) {
-            $asset = new Asset();
-            $asset->room_id = $request->room_id;
-            $asset->room_no = $request->room_no;
-            $asset->assets_details = json_encode([
-                'name' => $assetData['name'],
-                'quantity' => $assetData['quantity'],
+            Asset::create([
+                'assetable_id' => $request->room_id,
+                'assetable_type' => $roomModelClass,
+                'room_no' => $request->room_no,
+                'assets_details' => json_encode([
+                    'name' => $assetData['name'],
+                    'quantity' => $assetData['quantity'],
+                ]),
             ]);
-            $asset->save();
         }
 
         return redirect()->back()->with('success', 'Assets added successfully!');
@@ -356,7 +379,6 @@ class AssetController extends Controller
         ]);
 
         $asset = Asset::findOrFail($id);
-
         $asset->assets_details = json_encode([
             'name' => $request->input('assets.0.name'),
             'quantity' => $request->input('assets.0.quantity'),

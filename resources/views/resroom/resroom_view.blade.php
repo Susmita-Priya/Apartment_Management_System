@@ -13,7 +13,7 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box">
-                        <h4 class="page-title float-left">  {{ ucfirst(str_replace('_', ' ', $room_type)) }} </h4>
+                        <h4 class="page-title float-left"> {{ ucfirst(str_replace('_', ' ', $room_type)) }} </h4>
 
                         <ol class="breadcrumb float-right">
                             <li class="breadcrumb-item"><a href="{{ route('index') }}">Dashboard</a></li>
@@ -135,16 +135,37 @@
                     </div>
                     <!-- Block-Information -->
                 </div>
-
+                {{-- <p>{{ $resroom->id}} , {{ $room_type }}, {{ $roomTypeDetails}} </p> --}}
                 <div class="col-md-8">
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="text-right m-b-20">
+
+                                {{-- <button type="button" class="btn waves-effect waves-light greenbtn"
+                                    onclick="window.location.href='{{ route('asset.create', ['id' => $resroom->id, 'room_type' => $room_type, 'count' => $roomTypeDetails]) }}'">
+                                    <i class="mdi mdi-plus m-r-5"></i> Add Asset
+                                </button> --}}
+
+                                <!-- Button to trigger form submission -->
                                 <button type="button" class="btn waves-effect waves-light greenbtn"
-                                    onclick="window.location.href='{{ route('asset.create', ['id' => $resroom->id, 'count' => $roomTypeDetails, 'room_type' => $room_type]) }}'">
+                                    onclick="submitAssetForm()">
                                     <i class="mdi mdi-plus m-r-5"></i> Add Asset
                                 </button>
 
+                                <!-- Hidden form -->
+                                <form id="asset-form" action="{{ route('asset.create') }}" method="POST">
+                                    @csrf
+                                    <input type="hidden" name="id" value="{{ $resroom->id }}">
+                                    <input type="hidden" name="room_type" value="{{ $room_type }}">    <!-- bedroom,bathroom -->
+                                    <input type="hidden" name="count" value="{{ $roomTypeDetails }}">
+                                    <input type="hidden" name="room" value="resroom">
+                                </form>
+
+                                <script>
+                                    function submitAssetForm() {
+                                        document.getElementById('asset-form').submit();
+                                    }
+                                </script>
                             </div>
                         </div>
                     </div>
@@ -164,11 +185,13 @@
                                 @if ($i % 3 == 1)
                                     <div class="row">
                                 @endif
+
                                 <div class="col-md-4">
                                     <div class="card-box room-card" data-toggle="modal" data-target="#assetModal"
                                         data-roomid="{{ $roomId }}" data-roomtype="{{ $room_type }}"
                                         data-assetid="{{ $assetId }}">
-                                        <h4 class="header-title mt-0 m-b-20">{{ ucfirst(str_replace('_', ' ', $room_type)) }} {{ $i }}
+                                        <h4 class="header-title mt-0 m-b-20">
+                                            {{ ucfirst(str_replace('_', ' ', $room_type)) }} {{ $i }}
                                         </h4>
                                         <div class="panel-body">
                                             <p class="text-muted font-15"><strong>ID:</strong><span
@@ -209,7 +232,6 @@
                                 </button>
 
                             </div>
-
                         </div>
                     </div>
                 </div>
@@ -222,49 +244,3 @@
             </div>
         </div>
     @endsection
-
-
-
-    {{-- <script>
-    function loadAssets(roomId) {
-        // Make an AJAX request to load the assets for the given roomId
-        $.ajax({
-            url: `/assets/show/${roomId}`,
-            method: 'GET',
-            success: function(response) {
-                // Load the assets content into the modal body
-                $('#assetContent').html(response);
-            },
-            error: function() {
-                $('#assetContent').html('<p>Failed to load assets.</p>');
-            }
-        });
-    }
-    </script> --}}
-
-    {{-- <script>
-        $(document).ready(function() {
-            // When a room card is clicked
-            $('.room-card').on('click', function() {
-                var roomId = $(this).data('room-id'); // Get the room ID from the clicked card
-
-                // Make an AJAX request to fetch the asset data
-                $.ajax({
-                    url: '{{ route('asset.show', ['id' => ':roomId']) }}'.replace(':roomId',
-                        roomId), // Use the dynamic room ID in the route
-                    method: 'GET',
-                    success: function(response) {
-                        // Load the asset data into the modal
-                        $('#assetContent').html(response);
-
-                        // Show the modal
-                        $('#assetModal').modal('show');
-                    },
-                    error: function(xhr) {
-                        console.error('Error fetching asset data:', xhr);
-                        alert('Unable to fetch asset data. Please try again later.');
-                    }
-                });
-            });
-        });
-    </script> --}}

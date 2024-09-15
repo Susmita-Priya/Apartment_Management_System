@@ -313,7 +313,7 @@ Route::get('comarea/delete/{id}', [ComareaController::class, 'destroy'])->name("
 
 
 
-Route::get('asset/create/{id}/{count}/{room_type}', [AssetController::class, 'create'])->name('asset.create');
+Route::match(['get', 'post'], 'asset/create', [AssetController::class, 'create'])->name('asset.create');
 
 Route::post('asset/store', [AssetController::class, 'store'])->name("asset.store");
 

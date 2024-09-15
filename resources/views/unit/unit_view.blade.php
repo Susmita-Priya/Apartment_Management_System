@@ -338,7 +338,7 @@
                                                         class="btn btn-primary btn-sm">Enter</a>
                                                 </div> --}}
                                                 <div class="text-right">
-                                                    <a href="{{ route($roomurl . '.show', ['id' => $extraRoom->id, 'room_type' => $key]) }}"
+                                                    <a href="{{ route($roomurl . '.show', ['id' => $extraRoom->id, 'room_type' => $extraRoom->room_name]) }}"
                                                         class="btn btn-sm custom-btn">
                                                         <i class="mdi mdi-arrow-right"></i> Enter
                                                     </a>
