@@ -13,15 +13,20 @@
                     <div class="page-title-box">
                         <h4 class="page-title float-left">Edit Asset</h4>
                         <ol class="breadcrumb float-right">
-                            <li class="breadcrumb-item"><a href="{{ url('/index') }}">Dashboard</a></li>
-                            <li class="breadcrumb-item"><a href="{{ url('/building') }}">Buildings</a></li>
+                            <li class="breadcrumb-item"><a href="{{ route('index') }}">Dashboard</a></li>
+                            <li class="breadcrumb-item"><a href="{{ route('building') }}">Buildings</a></li>
                             <li class="breadcrumb-item"><a
-                                href="{{ route('building.show', $roominstance->unit->floor->block->building_id) }}">Building</a></li>
-                        <li class="breadcrumb-item"><a
-                                href="{{ route('block.show', $roominstance->unit->floor->block_id) }}">Block</a></li>
-                        <li class="breadcrumb-item"><a href="{{ route('floor.show', $roominstance->unit->floor_id) }}">Floor</a></li>
-                        <li class="breadcrumb-item"><a href="{{ route('unit.show',['id' => $roominstance->unit->id] ) }}">Unit</a></li>
-                        <li class="breadcrumb-item"><a href="{{ route($room . '.show', ['id' => $roomId, 'room_type' => $roomType]) }}">Room</a></li>  
+                                    href="{{ route('building.show', $roominstance->unit->floor->block->building_id) }}">Building</a>
+                            </li>
+                            <li class="breadcrumb-item"><a
+                                    href="{{ route('block.show', $roominstance->unit->floor->block_id) }}">Block</a></li>
+                            <li class="breadcrumb-item"><a
+                                    href="{{ route('floor.show', $roominstance->unit->floor_id) }}">Floor</a></li>
+                            <li class="breadcrumb-item"><a
+                                    href="{{ route('unit.show', ['id' => $roominstance->unit->id]) }}">Unit</a></li>
+                            <li class="breadcrumb-item"><a
+                                    href="{{ route($room . '.show', ['id' => $roomId, 'room_type' => $roomType]) }}">Room</a>
+                            </li>
                             <li class="breadcrumb-item active">Edit Asset</li>
                         </ol>
                         <div class="clearfix"></div>
@@ -34,12 +39,14 @@
                     <div class="card-box">
                         <h4 class="header-title">Asset Information</h4>
 
-                        <form action="{{ route('asset.update', ['id' => $asset->id, 'room_type' => $room_type]) }}" enctype="multipart/form-data" method="POST">
-
+                        <form action="{{ route('asset.update', $asset->id) }}" enctype="multipart/form-data" method="POST">
                             @csrf
-                         
-                            <input type="hidden" name="room_no" value="{{ $resroom->id }}">
-                            <input type="text" name="room_no" readonly value="{{ $asset->room_id }}">
+
+                            <div class="form-group">
+                                <label for="room_no">Room Number</label>
+                                <input type="text" name="room_no" class="form-control" value="{{ $asset->room_no }}"
+                                    required>
+                            </div>
 
                             {{-- <!-- Room Section -->
                             <div class="row">
@@ -62,44 +69,54 @@
                             <div id="asset-list" class="mt-3">
                                 @foreach ($asset->assets_details as $index => $detail)
                                     <div class="row asset-item">
-                                        <div class="col-md-5">
+                                        <div class="col-md-3">
                                             <label for="asset_name">Asset Name</label>
-                                            <input type="text" name="assets[{{ $index }}][name]" class="form-control"
-                                                   value="{{ $detail['asset_name'] }}" required>
+                                            <input type="text" name="assets[{{ $index }}][name]"
+                                                class="form-control" value="{{ $detail['name'] }}" required>
                                         </div>
 
-                                        <div class="col-md-5">
+                                        <div class="col-md-3">
                                             <label for="quantity">Quantity</label>
-                                            <input type="number" name="assets[{{ $index }}][quantity]" class="form-control"
-                                                   value="{{ $detail['quantity'] }}" required>
+                                            <input type="number" name="assets[{{ $index }}][quantity]"
+                                                class="form-control" value="{{ $detail['quantity'] }}" required>
                                         </div>
-
-                                        <div class="col-md-2 text-right">
-                                            <button type="button" class="btn btn-danger remove-asset mt-4">Remove</button>
+                                        <div class="col-md-3">
+                                            <label for="asset_image">Image</label>
+                                            <input type="file" name="assets[{{ $index }}][image]" class="form-control asset-image-input"
+                                                accept="image/*">
+                                            <div class="imagePreviewContainer" style="margin-top: 15px;">
+                                                <img src="{{ $detail['image'] ? asset($detail['image']) : '' }}" alt="Image Preview"
+                                                    class="imagePreview" style="max-width: 30%; height: auto; display: {{ $detail['image'] ? 'block' : 'none' }};">
+                                            </div>
                                         </div>
+                                        
+                                    <div class="col-md-3 text-right">
+                                        <button type="button" class="btn btn-danger remove-asset mt-4">Remove</button>
                                     </div>
-                                @endforeach
                             </div>
-
-                            <!-- Button to Add More Assets -->
-                            <div class="row">
-                                <div class="col-md-12 text-right">
-                                    <button type="button" id="add-asset" class="btn btn-success">Add Another Asset</button>
-                                </div>
-                            </div>
-
-                            <!-- Submit Button -->
-                            <div class="row mt-4">
-                                <div class="col-md-12 text-right">
-                                    <button type="submit" class="btn btn-primary">Save Changes</button>
-                                </div>
-                            </div>
-
-                        </form>
+                            @endforeach
                     </div>
+
+
+                    <!-- Button to Add More Assets -->
+                    <div class="row">
+                        <div class="col-md-12 text-right">
+                            <button type="button" id="add-asset" class="btn btn-success">Add Another Asset</button>
+                        </div>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="row mt-4">
+                        <div class="col-md-12 text-right">
+                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                        </div>
+                    </div>
+
+                    </form>
                 </div>
             </div>
         </div>
+    </div>
     </div>
 
     <!-- Javascript for Dynamic Asset Addition -->
@@ -111,17 +128,24 @@
 
             const newAsset = `
                 <div class="row asset-item">
-                    <div class="col-md-5">
+                    <div class="col-md-3">
                         <label for="asset_name">Asset Name</label>
                         <input type="text" name="assets[${assetIndex}][name]" class="form-control" placeholder="Enter Asset Name" required>
                     </div>
                     
-                    <div class="col-md-5">
+                    <div class="col-md-3">
                         <label for="quantity">Quantity</label>
                         <input type="number" name="assets[${assetIndex}][quantity]" class="form-control" placeholder="Enter Quantity" required>
                     </div>
-                    
-                    <div class="col-md-2 text-right">
+                              <div class="col-md-3">
+    <label for="asset_image">Image</label>
+    <input type="file" name="assets[${assetIndex}][image]" class="form-control asset-image-input" accept="image/*">
+    <div class="imagePreviewContainer" style="margin-top: 15px;">
+        <img src="" alt="Image Preview" class="imagePreview" style="max-width: 30%; height: auto; display: none;">
+    </div>
+</div>
+
+                    <div class="col-md-3 text-right">
                         <button type="button" class="btn btn-danger remove-asset mt-4">Remove</button>
                     </div>
                 </div>

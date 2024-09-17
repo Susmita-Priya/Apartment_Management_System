@@ -17,12 +17,17 @@
                             <li class="breadcrumb-item"><a href="{{ route('index') }}">Dashboard</a></li>
                             <li class="breadcrumb-item"><a href="{{ route('building') }}">Buildings</a></li>
                             <li class="breadcrumb-item"><a
-                                    href="{{ route('building.show', $roominstance->unit->floor->block->building_id) }}">Building</a></li>
+                                    href="{{ route('building.show', $roominstance->unit->floor->block->building_id) }}">Building</a>
+                            </li>
                             <li class="breadcrumb-item"><a
                                     href="{{ route('block.show', $roominstance->unit->floor->block_id) }}">Block</a></li>
-                            <li class="breadcrumb-item"><a href="{{ route('floor.show', $roominstance->unit->floor_id) }}">Floor</a></li>
-                            <li class="breadcrumb-item"><a href="{{ route('unit.show',['id' => $roominstance->unit->id] ) }}">Unit</a></li>
-                            <li class="breadcrumb-item"><a href="{{ route($room . '.show', ['id' => $roomId, 'room_type' => $roomType]) }}">Room</a></li>  
+                            <li class="breadcrumb-item"><a
+                                    href="{{ route('floor.show', $roominstance->unit->floor_id) }}">Floor</a></li>
+                            <li class="breadcrumb-item"><a
+                                    href="{{ route('unit.show', ['id' => $roominstance->unit->id]) }}">Unit</a></li>
+                            <li class="breadcrumb-item"><a
+                                    href="{{ route($room . '.show', ['id' => $roomId, 'room_type' => $roomType]) }}">Room</a>
+                            </li>
                             <li class="breadcrumb-item active">Add Asset</li>
                         </ol>
                         <div class="clearfix"></div>
@@ -62,23 +67,47 @@
                                     </select>
                                 </div>
                             </div>
-
+                            <div class="alert alert-primary">
+                                <ul>
+                                    <li>{{ 'Max file size allowed is 100KB' }}</li>
+                                    <li>{{ 'Upload only images of type jpg, png or webp' }}
+                                </ul>
+                            </div>
                             <!-- Dynamic Asset Inputs -->
                             <div id="asset-list" class="mt-3">
                                 <div class="row asset-item">
-                                    <div class="col-md-5">
+                                    <div class="col-md-3">
                                         <label for="asset_name">Asset Name</label>
                                         <input type="text" name="assets[0][name]" class="form-control"
                                             placeholder="Enter Asset Name" required>
                                     </div>
 
-                                    <div class="col-md-5">
+                                    <div class="col-md-3">
                                         <label for="quantity">Quantity</label>
                                         <input type="number" name="assets[0][quantity]" class="form-control"
                                             placeholder="Enter Quantity" required>
                                     </div>
 
-                                    <div class="col-md-2 text-right">
+                                    <div class="col-md-3">
+
+                                        {{-- <label for="asset_image">Image</label>
+                                        <input type="file" name="assets[0][image]" class="form-control" accept="image/*"> --}}
+                                        <label for="asset_image">Image</label>
+                                        <input type="file" name="assets[0][image]" id="image" class="form-control"
+                                            accept="image/*">
+                                        <span class="text-danger">
+                                            @error('image')
+                                                {{ $message }}
+                                            @enderror
+                                        </span>
+                                        <div id="imagePreviewContainer" style="margin-top: 15px;">
+                                            <!-- Show image preview here -->
+                                            <img id="imagePreview" src="" alt="Image Preview"
+                                                style="max-width: 30%; height: auto; display: none;">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3 text-right">
                                         <button type="button" class="btn btn-danger remove-asset mt-4">Remove</button>
                                     </div>
                                 </div>
@@ -114,19 +143,23 @@
 
             const newAsset = `
                 <div class="row asset-item">
-                    <div class="col-md-5">
+                    <div class="col-md-3">
                         <label for="asset_name">Asset Name</label>
                         <input type="text" name="assets[${assetIndex}][name]" class="form-control" placeholder="Enter Asset Name" required>
                     </div>
                     
-                    <div class="col-md-5">
+                    <div class="col-md-3">
                         <label for="quantity">Quantity</label>
                         <input type="number" name="assets[${assetIndex}][quantity]" class="form-control" placeholder="Enter Quantity" required>
                     </div>
-                    
-                    <div class="col-md-2 text-right">
-                        <button type="button" class="btn btn-danger remove-asset mt-4">Remove</button>
-                    </div>
+
+                                <div class="col-md-3">
+                <label for="asset_image">Image</label>
+                <input type="file" name="assets[${assetIndex}][image]" class="form-control asset-image-input" accept="image/*">
+                <div class="imagePreviewContainer" style="margin-top: 15px;">
+                    <img src="" alt="Image Preview" class="imagePreview" style="max-width: 30%; height: auto; display: none;">
+                </div>
+            </div>
                 </div>
             `;
 

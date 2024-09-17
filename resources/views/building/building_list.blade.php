@@ -24,7 +24,7 @@
             <!-- end row -->
 
             <div class="row">
-                <div class="col-4">
+               {{--  <div class="col-4">
                     <form action="" method="GET">
                         <div class="page-title">
                             <div class="d-flex">
@@ -34,7 +34,9 @@
                             </div>
                         </div>
                     </form>
-                </div>
+                </div> --}}
+
+                <label>Search:<input type="search" class="form-control form-control-sm" placeholder="" aria-controls="datatable"></label>
                 <div class="col-sm-12">
                     <a href="{{ route('building.create') }}" class="btn waves-effect waves-light btn-sm greenbtn"
                         style="position: absolute;">

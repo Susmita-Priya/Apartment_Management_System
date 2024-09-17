@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 });
 
             // Set the edit and delete URLs dynamically
-            document.getElementById('edit-button').href = `/asset/edit/${assetId}/${roomType}`;
+            document.getElementById('edit-button').href = `/asset/edit/${assetId}`;
             document.getElementById('delete-button').onclick = function () {
                 confirmDelete(`/asset/delete/${assetId}`);
             }; 
@@ -46,22 +46,54 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 
-// document.getElementById('add-room-field').addEventListener('click', function() {
-//     let div = document.createElement('div');
-//     div.classList.add('form-group');
-//     div.classList.add('dynamic-room');
-
-//     div.innerHTML = `
-// <label for="room_name">Room Name</label>
-// <input type="text" name="extra_rooms[${index}][room_name]" class="form-control" placeholder="Enter room name">
-// <label for="quantity">How Many?</label>
-// <input type="number" name="extra_rooms[${index}][quantity]" class="form-control" placeholder="Enter number of rooms">
-// <button type="button" class="btn btn-danger mt-2 remove-extra-field">Remove</button>
-// `;
-
-//     document.getElementById('dynamic-room-fields').appendChild(div);
-//     index++;
-// });
 
 
+//  this portion for image instant change 
+document.addEventListener('DOMContentLoaded', function() {
+    const imageInput = document.getElementById('image');
+    const imagePreview = document.getElementById('imagePreview');
 
+    imageInput.addEventListener('change', function() {
+        const file = this.files[0];
+        if (file) {
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+                imagePreview.src = e.target.result;
+                imagePreview.style.display = 'block'; // Show the image
+            };
+
+            reader.readAsDataURL(file);
+        } else {
+            imagePreview.src = '';
+            imagePreview.style.display = 'none'; // Hide the image if no file is selected
+        }
+    });
+});
+
+
+
+
+// Image instant show for dynamic field
+document.addEventListener('change', function(event) {
+    if (event.target.classList.contains('asset-image-input')) {
+        const fileInput = event.target;
+        const imagePreview = fileInput.closest('.asset-item').querySelector('.imagePreview');
+
+        const file = fileInput.files[0]; // Get the selected file
+
+        if (file) {
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+                imagePreview.src = e.target.result; // Set the image preview source to the file data
+                imagePreview.style.display = 'block'; // Show the image preview
+            };
+
+            reader.readAsDataURL(file); // Convert the file into a data URL
+        } else {
+            imagePreview.src = ''; // Clear the image preview if no file is selected
+            imagePreview.style.display = 'none'; // Hide the image preview
+        }
+    }
+});

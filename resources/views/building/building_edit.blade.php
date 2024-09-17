@@ -119,7 +119,7 @@
 
 
 
-    {{-- for image istant image change --}}
+    {{-- for image istant image change
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const imageInput = document.getElementById('image');
@@ -142,5 +142,5 @@
                 }
             });
         });
-    </script>
+    </script> --}}
 @endsection

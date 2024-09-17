@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     @stack('title')
-    <link rel="icon" href="{{ asset('image/bytecarelogo-sm.png') }}" type="image/png">
+    {{-- <link rel="icon" href="{{ asset('image/bytecarelogo-sm.png') }}" type="image/png"> --}}
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />
     <meta content="Coderthemes" name="author" />
@@ -19,7 +19,7 @@
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <!-- App favicon -->
-    {{-- <link rel="shortcut icon" href="{{ asset('admin_dashboard') }}/assets/images/favicon.ico" type="image/x-icon"> --}}
+    <link rel="shortcut icon" href="{{ asset('admin_dashboard') }}/assets/images/favicon.ico" type="image/x-icon">
 
     <!-- C3 charts css -->
     <link href="{{ asset('admin_dashboard') }}/plugins/c3/c3.min.css" rel="stylesheet" type="text/css" />

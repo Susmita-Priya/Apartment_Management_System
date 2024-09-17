@@ -83,7 +83,6 @@ Route::post('/delete-renter/{id}', 'TenantController@deleteRenter')->name('delet
 
 
 
-
 // user
 Route::get('user', [UserController::class, 'index'])->name("user.index");
 Route::get('user/create', [UserController::class, 'create'])->name("user.create");
@@ -207,7 +206,7 @@ Route::get('resroom/create', [ResroomController::class, 'create'])->name("resroo
 
 Route::post('resroom/create', [ResroomController::class, 'store'])->name("resroom.store");
 
-Route::get('resroom/show/{id}', [ResroomController::class, 'show'])->name("resroom.show");
+Route::get('resroom/show/{id}/{room_type}', [ResroomController::class, 'show'])->name('resroom.show');
 
 Route::get('resroom/edit/{id}', [ResroomController::class, 'edit'])->name("resroom.edit");
 
@@ -221,7 +220,7 @@ Route::get('comroom/create', [ComroomController::class, 'create'])->name("comroo
 
 Route::post('comroom/create', [ComroomController::class, 'store'])->name("comroom.store");
 
-Route::get('comroom/show/{id}', [ComroomController::class, 'show'])->name("comroom.show");
+Route::get('comroom/show/{id}/{room_type}', [ComroomController::class, 'show'])->name('comroom.show');
 
 Route::get('comroom/edit/{id}', [ComroomController::class, 'edit'])->name("comroom.edit");
 
@@ -313,15 +312,16 @@ Route::post('comarea/edit/{id}', [ComareaController::class, 'update'])->name("co
 Route::get('comarea/delete/{id}', [ComareaController::class, 'destroy'])->name("comarea.delete");
 
 
+
 Route::get('asset/create', [AssetController::class, 'create'])->name("asset.create");
 
 Route::post('asset/store', [AssetController::class, 'store'])->name("asset.store");
 
 Route::get('asset/show/{id}', [AssetController::class, 'show'])->name("asset.show");
 
-Route::get('asset/edit/{id}/{room_type}', [AssetController::class, 'edit'])->name("asset.edit");
+Route::get('asset/edit/{id}', [AssetController::class, 'edit'])->name("asset.edit");
 
-Route::post('asset/edit/{id}/{room_type}', [AssetController::class, 'update'])->name("asset.update");
+Route::post('asset/edit/{id}', [AssetController::class, 'update'])->name("asset.update");
 
 Route::get('asset/delete/{id}', [AssetController::class, 'destroy'])->name("asset.delete");
 
