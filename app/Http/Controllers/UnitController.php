@@ -16,7 +16,8 @@ class UnitController extends Controller
         $units = Unit::with(['floor.block', 'floor.block.building'])->get();
 
         return view('unit.unit_list', compact('units'));
-    }
+    }     
+    //l
 
     /**
      * Show the form for creating a new resource.
