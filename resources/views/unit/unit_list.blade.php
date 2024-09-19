@@ -51,7 +51,7 @@
                                     <tr>
                                         <td>{{ $unit->unit_no }}</td>
                                         <td>{{ $unit->type }}</td>
-                                        <td>{{ $unit->floor->floor_no }}</td>
+                                        <td>{{ $unit->floor->type }}-{{ $unit->floor->floor_no }}</td>
                                         <td>{{ $unit->floor->name }}</td>
                                         <td>{{ $unit->floor->block->block_id }}</td>
                                         <td>{{ $unit->floor->block->name }}</td>

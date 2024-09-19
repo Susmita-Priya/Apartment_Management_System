@@ -20,6 +20,33 @@
                         </a>
                     </li>
 
+                    <!-- New -->
+                    @if (App\Models\Permission::hasPermission('add_new', $role_id))
+                        <li>
+                            <a href="javascript: void(0);">
+                                <i class="fa fa-plus"></i>
+                                <span> New </span>
+                                <span class="menu-arrow"></span>
+                            </a>
+                            <ul class="nav-second-level">
+                                <li>
+                                    <a href="javascript: void(0);">
+                                        <i class="fa fa-plus"></i>
+                                        <span> Property </span>
+                                        <span class="menu-arrow"></span>
+                                    </a>
+                                    <ul class="nav-third-level" aria-expanded="false">
+                                        <li><a href="{{ route('building.create') }}" >New Building</a></li>
+                                        <li><a href="{{ route('block.create') }}" >New Block</a></li>
+                                        <li><a href="{{ route('floor.create') }}" >New Floor</a></li>
+                                        <li><a href="{{ route('comarea.create') }}" >New Common Area</a></li>
+                                        <li><a href="{{ route('unit.create') }}" >New Unit</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                    @endif
+
                     <!-- Tenants -->
                     @if (App\Models\Permission::hasPermission('view_tenants', $role_id))
                         <li>
@@ -57,9 +84,10 @@
                                 {{-- @if (App\Models\Permission::hasPermission('add_property', $role_id))
                             <li><a href="{{ url('/building/create') }}">Add Property</a></li>
                         @endif --}}
-                                <li><a href="{{ url('/building') }}">View Property</a></li>
+                                <li><a href="{{ route('building') }}">View Building</a></li>
                                 <li><a href="{{ route('block.index') }}">View block</a></li>
                                 <li><a href="{{ route('floor.index') }}">View floor</a></li>
+                                <li><a href="{{ route('comarea.index') }}">View Common Area</a></li>
                                 <li><a href="{{ route('unit.index') }}">View unit</a></li>
                             </ul>
                         </li>
@@ -79,7 +107,7 @@
                         </li>
                     @endif --}}
 
-                    
+
 
                     <!------------------ bank management -------------------->
                     <li>
@@ -92,7 +120,7 @@
                         </ul>
                     </li>
 
-                    
+
                     <!------------------ Payroll Management -------------------->
                     <li>
                         <a href="javascript: void(0);"><i class="fa fa-money"></i> <span> Payroll Management </span>
@@ -109,7 +137,7 @@
                             <li><a href="{{ route('payroll.index') }}" class="text-capitalize">payroll list</a></li>
                         </ul>
                     </li>
-                    
+
                     <!------------------ accounts Management -------------------->
                     <li>
                         <a href="javascript: void(0);"><i class="fa fa-book"></i> <span> Accounts </span> <span
@@ -123,14 +151,15 @@
                         </ul>
                     </li>
 
-                    
+
                     <!------------------ SAAS Management -------------------->
                     <li>
                         <a href="javascript: void(0);"><i class="fa fa-book"></i> <span> SAAS Management </span> <span
                                 class="menu-arrow"></span></a>
                         <ul class="nav-second-level " aria-expanded="false">
                             <li><a href="{{ route('subscription_package.index') }}">Package List</a></li>
-                            <li><a href="{{ route('subscription_package_duration.index') }}">Package Duration List</a></li>
+                            <li><a href="{{ route('subscription_package_duration.index') }}">Package Duration List</a>
+                            </li>
                             <li><a href="{{ route('customer.index') }}">Customer List</a></li>
                         </ul>
                     </li>

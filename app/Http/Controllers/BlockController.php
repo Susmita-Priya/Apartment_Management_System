@@ -13,9 +13,9 @@ class BlockController extends Controller
      */
     public function index()
     {
-         // Fetch all blocks with their associated buildings
-         $blocks = Block::with('building')->get();
-         return view('block.block_list', compact('blocks'));
+        // Fetch all blocks with their associated buildings
+        $blocks = Block::with('building')->get();
+        return view('block.block_list', compact('blocks'));
     }
 
     /**
@@ -25,7 +25,14 @@ class BlockController extends Controller
     {
         $buildingId = $request->query('building_id');
         $building = Building::find($buildingId);
-        return view('block.block_add', compact('building'));
+        $buildings = Building::all();
+        $typeFullForm = [
+            'RESB' => 'Residential Building',
+            'COMB' => 'Commercial Building',
+            'RECB' => 'Residential-Commercial Building',
+            // Add other types if needed
+        ];
+        return view('block.block_add', compact('building', 'buildings', 'typeFullForm'));
     }
 
     /**
@@ -60,7 +67,9 @@ class BlockController extends Controller
             'building_id' => $request->building_id,
         ]);
 
-        return redirect()->route('building.show', $building->id)->with('success', 'Block added successfully.');
+        return redirect()->back()->with('success', 'Block added successfully.');
+
+        // return redirect()->route('building.show', $building->id)->with('success', 'Block added successfully.');
     }
 
     /**
@@ -74,9 +83,6 @@ class BlockController extends Controller
 
         // Pass the data to the view
         return view('block.block_view', compact('block', 'building'));
-
-        // $block = Block::with('building')->findOrFail($id);
-        // return view('block.block_view', compact('block'));
     }
 
     /**
@@ -84,8 +90,16 @@ class BlockController extends Controller
      */
     public function edit(string $id)
     {
-        $block = Block::findOrFail($id);
-        return view('block.block_edit', compact('block'));
+        $block = Block::withCount(['building'])->findOrFail($id);
+        $buildings = Building::all(); // Fetch all buildings
+        $typeFullForm = [
+            'RESB' => 'Residential Building',
+            'COMB' => 'Commercial Building',
+            'RECB' => 'Residential-Commercial Building',
+            // Add other types if needed
+        ];
+
+        return view('block.block_edit', compact('block', 'buildings', 'typeFullForm'));
     }
 
     /**
@@ -93,19 +107,21 @@ class BlockController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $request->validate([
-            'name' => 'required',
-        ]);
-
         $block = Block::findOrFail($id);
-        $block->update([
-            'name' => $request->name,
-        ]);
 
-        // Fetch the associated building
-        $building = Building::findOrFail($block->building_id);
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'building_id' => 'required|exists:buildings,id',
+    ]);
 
-        return redirect()->route('building.show', $building->id)->with('success', 'Block updated successfully.');
+    $block->name = $request->name;
+    $block->building_id = $request->building_id; // Update the building_id
+    $block->save();
+
+    // Redirect back to the previous page with a success message
+    return redirect()->back()->with('success', 'Block updated successfully');
+
+        // return redirect()->route('building.show', $building->id)->with('success', 'Block updated successfully.');
     }
 
     /**

@@ -299,6 +299,8 @@ Route::get('stall_locker/delete/{id}', [StallLockerController::class, 'destroy']
 
 
 
+Route::get('comarea/index', [ComareaController::class, 'index'])->name("comarea.index");
+
 Route::get('comarea/create', [ComareaController::class, 'create'])->name("comarea.create");
 
 Route::post('comarea/create', [ComareaController::class, 'store'])->name("comarea.store");

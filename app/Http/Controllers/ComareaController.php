@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Block;
+use App\Models\Building;
 use App\Models\Comarea;
 use App\Models\ComExtraField;
 use Illuminate\Http\Request;
@@ -14,7 +15,9 @@ class ComareaController extends Controller
      */
     public function index()
     {
-        //
+        // Assuming you have a model named CommonArea that stores common area data
+        $commonAreas = Comarea::with('block.building')->get();
+        return view('comarea.comarea_list', compact('commonAreas'));
     }
 
     /**
@@ -22,12 +25,35 @@ class ComareaController extends Controller
      */
     public function create(Request $request)
     {
-        $blockId = $request->query('block_id');
-        $block = Block::findOrFail($blockId);
-        $building = $block->building;
+        // Fetch all buildings
+        $buildings = Building::all();
+        // Fetch all blocks and their related buildings
+        $blocks = Block::with('building')->get();
 
-        // Return the view for adding a new common area under the block
-        return view('comarea.comarea_add', compact('block', 'building'));
+        $blockId = $request->query('block_id');
+
+        // Initialize $block and $building to null
+        $block = null;
+        $building = null;
+
+        // If a blockId is provided and valid, fetch the Block and related Building
+        if ($blockId) {
+            $block = Block::find($blockId);
+            if ($block) {
+                $building = $block->building;
+            }
+        }
+
+        // Define type full form array
+        $typeFullForm = [
+            'RESB' => 'Residential Building',
+            'COMB' => 'Commercial Building',
+            'RECB' => 'Residential-Commercial Building',
+            // Add other types if needed
+        ];
+
+        // Pass all variables to the view
+        return view('comarea.comarea_add', compact('buildings', 'building', 'blocks', 'block', 'typeFullForm'));
     }
 
     /**
@@ -35,6 +61,7 @@ class ComareaController extends Controller
      */
     public function store(Request $request)
     {
+
        // Validation rules
        $request->validate([
         'block_id' => 'required|exists:blocks,id',
@@ -95,7 +122,8 @@ class ComareaController extends Controller
         }
     }
 
-    return redirect()->route('block.show', $blockId)->with('success', 'Common area entry added successfully.');
+    return redirect()->back()->with('success', 'Common area entry added successfully.');
+    // return redirect()->route('block.show', $blockId)->with('success', 'Common area entry added successfully.');
 
     }
 
@@ -104,7 +132,12 @@ class ComareaController extends Controller
      */
     public function show($id)
     {
-        //
+
+        $comarea = Comarea::findOrFail($id);
+        $block = $comarea->block;
+        $building = $block->building;
+
+        return view('comarea.comarea_view', compact('building', 'block', 'comarea'));
     }
 
     /**
@@ -112,11 +145,25 @@ class ComareaController extends Controller
      */
     public function edit($id)
     {
+        // Fetch all buildings
+        $buildings = Building::all();
+        // Fetch all blocks and their related buildings
+        $blocks = Block::with('building')->get();
+
         $comarea = Comarea::findOrFail($id);
         $block = $comarea->block;
         $building = $block->building;
 
-        return view('comarea.comarea_edit', compact('comarea', 'block', 'building'));
+        // Define type full form array
+        $typeFullForm = [
+            'RESB' => 'Residential Building',
+            'COMB' => 'Commercial Building',
+            'RECB' => 'Residential-Commercial Building',
+            // Add other types if needed
+        ];
+
+        return view('comarea.comarea_edit', compact('comarea', 'block', 'building', 'buildings', 'blocks', 'typeFullForm'));
+
     }
 
     /**

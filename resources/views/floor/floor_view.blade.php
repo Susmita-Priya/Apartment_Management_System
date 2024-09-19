@@ -200,7 +200,6 @@
                                 });
                             @endphp
 
-
                             @if ($unitsByType->isNotEmpty())
                                 <div class="col-md-12">
                                     <h4 class="header-title mt-0 m-b-20">{{ $typeName }}</h4>
