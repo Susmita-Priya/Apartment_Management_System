@@ -185,9 +185,7 @@ class FloorController extends Controller
         $floor = Floor::findOrFail($id);
         $floor->delete();
 
-        // Fetch the associated building
-        $block = Block::findOrFail($floor->block_id);
-
-        return redirect()->route('block.show', $block->id)->with('delete', 'Floor Deleted successfully.');
+        // return redirect()->route('block.show', $block->id)->with('delete', 'Floor Deleted successfully.');
+        return redirect()->back()->with('delete', 'Floor Deleted successfully.');
     }
 }

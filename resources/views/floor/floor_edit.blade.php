@@ -144,9 +144,9 @@
                             <div class="form-group">
                                 <label><input type="checkbox" name="parking_lot" {{ $floor->parking_lot ? 'checked' : '' }}> Parking Lot</label>
                             </div>
-                            <div class="form-group">
+                            {{-- <div class="form-group">
                                 <label><input type="checkbox" name="bike_lot" {{ $floor->bike_lot ? 'checked' : '' }}> Bike Lot</label>
-                            </div>
+                            </div> --}}
                             <div class="form-group">
                                 <label><input type="checkbox" name="storage_lot" {{ $floor->storage_lot ? 'checked' : '' }}> Storage Lot</label>
                             </div>

@@ -23,9 +23,11 @@ use App\Http\Controllers\TenantController;
 use App\Http\Controllers\TenantsController;
 use App\Http\Controllers\UnitController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\VehicleController;
 use App\Http\Middleware\AdminUserMiddleware;
 use App\Models\Asset;
 use App\Models\Permission;
+use App\Models\Vehicle;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -326,6 +328,22 @@ Route::get('asset/edit/{id}', [AssetController::class, 'edit'])->name("asset.edi
 Route::post('asset/edit/{id}', [AssetController::class, 'update'])->name("asset.update");
 
 Route::get('asset/delete/{id}', [AssetController::class, 'destroy'])->name("asset.delete");
+
+
+
+Route::get('vehicle/index', [VehicleController::class, 'index'])->name("vehicle.index");
+
+Route::get('vehicle/create', [VehicleController::class, 'create'])->name("vehicle.create");
+
+Route::post('vehicle/store', [VehicleController::class, 'store'])->name("vehicle.store");
+
+Route::get('vehicle/show/{id}', [VehicleController::class, 'show'])->name("vehicle.show");
+
+Route::get('vehicle/edit/{id}', [VehicleController::class, 'edit'])->name("vehicle.edit");
+
+Route::post('vehicle/edit/{id}', [VehicleController::class, 'update'])->name("vehicle.update");
+
+Route::get('vehicle/delete/{id}', [VehicleController::class, 'destroy'])->name("vehicle.delete");
 
 
 

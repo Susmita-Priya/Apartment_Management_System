@@ -43,7 +43,7 @@
                             <thead>
                                 <tr>
                                     <th>Floor No</th>
-                                    <th>Floor Type</th>
+                                    {{-- <th>Floor Type</th> --}}
                                     <th>Floor Name</th>
                                     <th>Block ID</th>
                                     <th>Block Name</th>
@@ -57,8 +57,8 @@
                             <tbody>
                                 @foreach ($floors as $floor)
                                     <tr>
-                                        <td>{{ $floor->floor_no }}</td>
-                                        <td>{{ ucfirst( $floor->type ) }}</td>
+                                        {{-- <td>{{ $floor->floor_no }}</td> --}}
+                                        <td>{{ ucfirst( $floor->type ) }}-{{ $floor->floor_no }}</td>
                                         <td>{{ $floor->name }}</td>
                                         <td>{{ $floor->block->block_id }}</td>
                                         <td>{{ $floor->block->name }}</td>

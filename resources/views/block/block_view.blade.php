@@ -148,9 +148,9 @@
 
                         @php
                             $sections = [
-                                'RESB' => 'Residential Suite & Supporting Unit',
-                                'COMB' => 'Commercial Unit & Supporting Unit',
-                                'RECB' => 'Residential Suite, Commercial Unit & Supporting Unit',
+                                'RESB' => 'Residential & Supporting Level',
+                                'COMB' => 'Commercial & Supporting Level',
+                                'RECB' => 'Residential, Commercial & Supporting Level',
                             ];
                         @endphp
 
@@ -201,7 +201,7 @@
 
                         <!-- Parking Lot, Bike Lot & Storage Lot (for all buildings) -->
                         <div class="col-12">
-                            <h4 class="header-title mt-0 m-b-20">Parking Lot, Bike Lot & Storage Lot</h4>
+                            <h4 class="header-title mt-0 m-b-20">Parking, Bike & Storage Level</h4>
                             @foreach ($sortedFloors->filter(function ($floor) {
                 return $floor->parking_lot || $floor->bike_lot || $floor->storage_lot;
             })->chunk(3) as $chunk)

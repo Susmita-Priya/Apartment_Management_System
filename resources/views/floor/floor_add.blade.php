@@ -110,12 +110,12 @@
                                 </select>
                             </div>
                             <label> Floor Features </label>
-                            <div class="alert alert-primary">
-                                <ul>
-                                    <li>{{ 'Please select one of the following: Residential Suite, Commercial Unit, or Supporting & Service Room.' }}
-                                    </li>
-                                    <li>{{ 'Alternatively, you may select Parking Lot or Storage options.' }}</li>
-                                </ul>
+                            <div class="alert alert-primary">                           
+                                <ul> {{ 'You can select one from the following options:' }}
+                                    <li>{{ 'Residential Suite, Commercial Unit, or Supporting & Service Room.' }}</li>
+                                    <li>{{ 'Parking Lot.' }}</li>
+                                    <li>{{ 'Storage Lot.' }}</li>
+                                </ul>                               
                             </div>
 
                             <!-- Checkbox placeholders -->
@@ -123,21 +123,19 @@
 
                             <!-- Supporting checkboxes -->
                             <div class="form-group">
-                                <label><input type="checkbox" name="supporting_service_room"> Supporting & Service
-                                    Room</label>
+                                <label><input type="checkbox" name="supporting_service_room"> Supporting & Service Room</label>
                             </div>
                             <div class="form-group">
                                 <label><input type="checkbox" name="parking_lot"> Parking Lot</label>
                             </div>
-                            <div class="form-group">
+                            {{-- <div class="form-group">
                                 <label><input type="checkbox" name="bike_lot"> Bike Lot</label>
-                            </div>
+                            </div> --}}
                             <div class="form-group">
                                 <label><input type="checkbox" name="storage_lot"> Storage Lot</label>
                             </div>
 
-                            <button type="submit" class="btn waves-effect waves-light btn-sm"
-                                style="background-color: rgb(100, 197, 177); border-color: rgb(100, 197, 177); color: white;">
+                            <button type="submit" class="btn waves-effect waves-light btn-sm submitbtn" >
                                 Add Floor
                             </button>
                         </form>

@@ -263,7 +263,7 @@ class ComareaController extends Controller
 
         $comarea->delete();
 
-        return redirect()->route('block.show', $comarea->block_id)->with('delete', 'Common area deleted successfully.');
-
+        // return redirect()->route('block.show', $comarea->block_id)->with('delete', 'Common area deleted successfully.');
+        return redirect()->back()->with('delete', 'Common area deleted successfully.');
     }
 }

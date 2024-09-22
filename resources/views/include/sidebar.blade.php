@@ -83,15 +83,32 @@
                             <ul class="nav-second-level " aria-expanded="false">
                                 {{-- @if (App\Models\Permission::hasPermission('add_property', $role_id))
                             <li><a href="{{ url('/building/create') }}">Add Property</a></li>
-                        @endif --}}
-                                <li><a href="{{ route('building') }}">View Building</a></li>
-                                <li><a href="{{ route('block.index') }}">View block</a></li>
-                                <li><a href="{{ route('floor.index') }}">View floor</a></li>
-                                <li><a href="{{ route('comarea.index') }}">View Common Area</a></li>
-                                <li><a href="{{ route('unit.index') }}">View unit</a></li>
+                            @endif --}}
+                                <li><a href="{{ route('building') }}">View Buildings</a></li>
+                                <li><a href="{{ route('block.index') }}">View blocks</a></li>
+                                <li><a href="{{ route('floor.index') }}">View floors</a></li>
+                                <li><a href="{{ route('comarea.index') }}">View Common Areas</a></li>
+                                <li><a href="{{ route('unit.index') }}">View units</a></li>
                             </ul>
                         </li>
                     @endif
+
+                    @if (App\Models\Permission::hasPermission('view_parking', $role_id))
+                    <li>
+                        <a href="javascript: void(0);"><i class="fa fa-car"></i> <span>Parking Management</span> <span
+                                class="menu-arrow"></span></a>
+                        <ul class="nav-second-level " aria-expanded="false">
+                            {{-- @if (App\Models\Permission::hasPermission('add_property', $role_id))
+                        <li><a href="{{ url('/building/create') }}">Add Property</a></li>
+                    @endif --}}
+                            <li><a href="{{ route('stall_locker.create') }}">New Stall</a></li>
+                            <li><a href="{{ route('vehicle.index') }}">Vehicles</a></li>
+                            <li><a href="{{ route('stall_locker.index') }}">Parking List</a></li>
+                            {{--<li><a href="{{ route('comarea.index') }}">View Common Area</a></li>
+                            <li><a href="{{ route('unit.index') }}">View unit</a></li> --}}
+                        </ul>
+                    </li>
+                @endif
 
                     <!-- Leases / Tenancy -->
                     {{-- @if (App\Models\Permission::hasPermission('view_lease', $role_id))

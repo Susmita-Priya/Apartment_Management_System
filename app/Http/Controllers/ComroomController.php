@@ -80,7 +80,8 @@ class ComroomController extends Controller
             ]);
         }
 
-        return redirect()->route('unit.show', $unitId)->with('success', 'Room entry added successfully.');
+        // return redirect()->route('unit.show', $unitId)->with('success', 'Room entry added successfully.');
+        return redirect()->back()->with('success', 'Room entry added successfully.');
     }
 
     /**
@@ -181,7 +182,8 @@ class ComroomController extends Controller
             }
         }
 
-        return redirect()->route('unit.show', $request->unit_id)->with('success', 'Commercial Room updated successfully.');
+        // return redirect()->route('unit.show', $request->unit_id)->with('success', 'Commercial Room updated successfully.');
+        return redirect()->back()->with('success', 'Commercial Room updated successfully.');
     }
 
     /**
@@ -200,6 +202,7 @@ class ComroomController extends Controller
         $comroom->delete();
 
         // Redirect with success message
-        return redirect()->route('unit.show', $comroom->unit_id)->with('delete', 'Room deleted successfully.');
+        // return redirect()->route('unit.show', $comroom->unit_id)->with('delete', 'Room deleted successfully.');
+        return redirect()->back()->with('delete', 'Room deleted successfully.');
     }
 }

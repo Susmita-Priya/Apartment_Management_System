@@ -21,7 +21,6 @@ return new class extends Migration
             $table->boolean('commercial_unit')->nullable();
             $table->boolean('supporting_service_room')->nullable();
             $table->boolean('parking_lot')->nullable();
-            $table->boolean('bike_lot')->nullable();
             $table->boolean('storage_lot')->nullable();
             $table->timestamps();
         });
