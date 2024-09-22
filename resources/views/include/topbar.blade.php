@@ -3,17 +3,19 @@
 
     <!-- LOGO -->
     <div class="topbar-left">
+
         <a href="{{ route('index') }}" class="logo">
             <span>
-                @if (!empty($general_setting->company_logo))
+                {{-- @if (!empty($general_setting->company_logo))
                     <img src="{{ asset('setting/company_logo/' . $general_setting->company_logo) }}" style="width:120px">
                 @else
                     <img src="{{ asset('image') }}/bytecarelogodark.png" alt="" height="45">
-                @endif
+                @endif --}}
+                <p style="color: rgb(100, 197, 177);"> Property Management </p>
             </span>
-            <i>
+            {{-- <i>
                 <img src="{{ asset('image') }}/bytecarelogo_sm.png" alt="" height="28">
-            </i>
+            </i> --}}
         </a>
     </div>
 

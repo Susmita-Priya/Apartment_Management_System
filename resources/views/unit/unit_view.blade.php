@@ -293,8 +293,7 @@
                                 'washroom' => 'Washroom',
                             ];
 
-                            $roomTypes =
-                                $unit->type == 'Residential Suite' ? $residentialRoomTypes : $commercialRoomTypes;
+                            $roomTypes = $unit->type == 'Residential Suite' ? $residentialRoomTypes : $commercialRoomTypes;
                             $roomData = $unit->type == 'Residential Suite' ? $unit->resRoom : $unit->comRoom;
                             $roomurl = $unit->type == 'Residential Suite' ? 'resroom' : 'comroom';
                         @endphp
@@ -312,7 +311,7 @@
                                                     <span class="m-l-15">{{ $roomData->$key }}</span>
                                                 </p>
                                                 <div class="text-right">
-                                                    <a href="{{ route($roomurl . '.show', ['id' => $roomData->id]) }}"
+                                                    <a href="{{ route($roomurl . '.show', ['id' => $roomData->id, 'room_type' => $key]) }}"
                                                         class="btn btn-sm custom-btn">
                                                         <i class="mdi mdi-arrow-right"></i> Enter
                                                      </a>                                                    
@@ -339,8 +338,7 @@
                                                         class="btn btn-primary btn-sm">Enter</a>
                                                 </div> --}}
                                                 <div class="text-right">
-                                                    <a href="{{ route($roomurl . '.show', ['id' => $extraRoom->id, 'room_type' => $key]) }}"
-
+                                                    <a href="{{ route($roomurl . '.show', ['id' => $extraRoom->id, 'room_type' => $extraRoom->room_name]) }}"
                                                         class="btn btn-sm custom-btn">
                                                         <i class="mdi mdi-arrow-right"></i> Enter
                                                     </a>

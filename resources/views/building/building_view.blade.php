@@ -106,7 +106,6 @@
                         <div class="col-sm-12">
                             <div class="text-right m-b-20">
                                 <button type="button" class="btn waves-effect waves-light greenbtn"
-                                    style="position: absolute;"
                                     onclick="window.location.href='{{ route('block.create', ['building_id' => $building->id]) }}'">
                                     <i class="mdi mdi-plus m-r-5"></i> Add Block
                                 </button>

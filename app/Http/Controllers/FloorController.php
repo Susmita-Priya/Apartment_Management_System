@@ -5,13 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\Block;
 use App\Models\Floor;
 use App\Models\Building;
+use App\Models\Unit;
 use Illuminate\Http\Request;
 
 class FloorController extends Controller
 {
     public function index()
     {
-        
+
         // Fetch all floors with their associated blocks and buildings
         $floors = Floor::with('block.building')->get();
         return view('floor.floor_list', compact('floors'));
@@ -19,14 +20,37 @@ class FloorController extends Controller
 
     public function create(Request $request)
     {
+        // Fetch all buildings
+        $buildings = Building::all();
+        // Fetch all blocks and their related buildings
+        $blocks = Block::with('building')->get();
 
         $blockId = $request->query('block_id');
 
-        $block = Block::findOrFail($blockId);
-        $building = $block->building;
+        // Initialize $block and $building to null
+        $block = null;
+        $building = null;
 
-        return view('floor.floor_add', compact('building', 'block'));
+        // If a blockId is provided and valid, fetch the Block and related Building
+        if ($blockId) {
+            $block = Block::find($blockId);
+            if ($block) {
+                $building = $block->building;
+            }
+        }
+
+        // Define type full form array
+        $typeFullForm = [
+            'RESB' => 'Residential Building',
+            'COMB' => 'Commercial Building',
+            'RECB' => 'Residential-Commercial Building',
+            // Add other types if needed
+        ];
+
+        // Pass all variables to the view
+        return view('floor.floor_add', compact('buildings', 'building', 'blocks', 'block', 'typeFullForm'));
     }
+
 
     public function store(Request $request)
     {
@@ -38,7 +62,6 @@ class FloorController extends Controller
         ]);
 
         $blockId = $request->input('block_id'); // Change from query to input
-        $block = Block::findOrFail($blockId);
 
         // Check for uniqueness
         $exists = Floor::where('block_id', $request->block_id)
@@ -64,46 +87,52 @@ class FloorController extends Controller
         $floor->storage_lot = $request->has('storage_lot');
         $floor->save();
 
-        return redirect()->route('block.show', $block->id)->with('success', 'Floor added successfully.');
+        return redirect()->back()->with('success', 'Floor added successfully.');
+        // return redirect()->route('block.show', $block->id)->with('success', 'Floor added successfully.');
     }
 
     public function show(Request $request, string $id)
     {
-        $floor = Floor::findOrFail($id);
+        $floor = Floor::withCount(['units', 'stallsLockers'])->findOrFail($id);
         $block = $floor->block;
         $building = $block->building;
-        $floor = Floor::withCount(['units', 'stallsLockers'])->findOrFail($id);
-
+        
         return view('floor.floor_view', compact('building', 'block', 'floor'));
     }
 
     public function edit(Request $request, $id)
     {
+        // Fetch all buildings
+        $buildings = Building::all();
+        // Fetch all blocks and their related buildings
+        $blocks = Block::with('building')->get();
+
         $floor = Floor::findOrFail($id);
         $block = $floor->block;
         $building = $block->building;
 
-        return view('floor.floor_edit', compact('floor', 'block', 'building'));
+        // Define type full form array
+        $typeFullForm = [
+            'RESB' => 'Residential Building',
+            'COMB' => 'Commercial Building',
+            'RECB' => 'Residential-Commercial Building',
+            // Add other types if needed
+        ];
+
+        return view('floor.floor_edit', compact('floor', 'block', 'building', 'buildings', 'blocks', 'typeFullForm'));
     }
 
     public function update(Request $request, $id)
     {
+
+        $floor = Floor::findOrFail($id);
+        $previousBuilding = $floor->building;
+
         $request->validate([
             'floor_no' => 'required',
             'name' => 'nullable|string|max:255',
             'type' => 'required|in:rooftop,upper,ground,underground',
         ]);
-
-        $floor = Floor::findOrFail($id);
-        $block = $floor->block;
-        // // Check for valid options based on building type
-        // if ($building->type == 'RESB' && !$request->has('residential_suite')) {
-        //     return redirect()->back()->withErrors(['residential_suite' => 'Residential suites must be specified for residential buildings.']);
-        // }
-
-        // if ($building->type == 'COMB' && !$request->has('commercial_unit')) {
-        //     return redirect()->back()->withErrors(['commercial_unit' => 'Commercial units must be specified for commercial buildings.']);
-        // }
 
         // Check for uniqueness
         $exists = Floor::where('block_id', $request->block_id)
@@ -128,7 +157,27 @@ class FloorController extends Controller
         $floor->bike_lot = $request->has('bike_lot');
         $floor->storage_lot = $request->has('storage_lot');
         $floor->save();
-        return redirect()->route('block.show', $block->id)->with('success', 'Floor updated successfully.');
+
+         // Handle deletion of units if the building type has changed
+    if ($previousBuilding->id !== $request->building_id) {
+        $newBuilding = Building::findOrFail($request->building_id);
+
+        if ($newBuilding->type === 'RESB') {
+            // Delete commercial units if present in this floor
+            Unit::where('floor_id', $id)
+                ->where('type', 'Commercial Unit')
+                ->delete();
+        } elseif ($newBuilding->type === 'COMB') {
+            // Delete residential suites if present in this floor
+            Unit::where('floor_id', $id)
+                ->where('type', 'Residential Suite')
+                ->delete();
+        } 
+        // No need to delete units if the new building type is 'RECB'
+    }
+
+        return redirect()->back()->with('success', 'Floor updated successfully.');
+        // return redirect()->route('block.show', $block->id)->with('success', 'Floor updated successfully.');
     }
 
     public function destroy($id)
@@ -136,9 +185,7 @@ class FloorController extends Controller
         $floor = Floor::findOrFail($id);
         $floor->delete();
 
-        // Fetch the associated building
-        $block = Block::findOrFail($floor->block_id);
-
-        return redirect()->route('block.show', $block->id)->with('delete', 'Floor Deleted successfully.');
+        // return redirect()->route('block.show', $block->id)->with('delete', 'Floor Deleted successfully.');
+        return redirect()->back()->with('delete', 'Floor Deleted successfully.');
     }
 }

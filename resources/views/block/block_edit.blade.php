@@ -45,11 +45,35 @@
                                             @enderror
                                         </span>
                                     </div>
+
+                                    <div class="form-group col-md-12">
+                                        <label for="building_id" class="col-form-label">Building</label>
+                                        <select class="form-control" name="building_id" id="building_id" onchange="showBuildingDetails()">
+                                            @foreach($buildings as $building)
+                                                <option value="{{ $building->id }}" {{ $block->building_id == $building->id ? 'selected' : '' }}>
+                                                    {{ $building->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
+                                    <!-- Display selected building details -->
+                                    <div class="form-group col-md-12">
+                                        <label class="col-form-label">Building Details</label>
+                                        <table class="table table-bordered">
+                                            <tr>
+                                                <th>Building ID</th>
+                                                <td id="building_id_display">{{ $block->building->building_id }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Building Type</th>
+                                                <td id="building_type_display">{{ $typeFullForm[$block->building->type] ?? 'Other' }}</td>
+                                            </tr>
+                                        </table>
+                                    </div>
                                 </div>
 
-                                <input type="hidden" name="building_id" value="{{ $block->building_id }}">
-
-                                <button type="submit" class="btn waves-effect waves-light btn-sm submitbtn" >        
+                                <button type="submit" class="btn waves-effect waves-light btn-sm submitbtn">        
                                     UPDATE
                                 </button>
                             </div>
@@ -60,4 +84,15 @@
             <!-- end row -->
         </div> <!-- container -->
     </div> <!-- content -->
+
+    <script>
+        function showBuildingDetails() {
+            const buildings = @json($buildings);
+            const selectedBuildingId = document.getElementById('building_id').value;
+            const building = buildings.find(b => b.id == selectedBuildingId);
+
+            document.getElementById('building_id_display').innerText = building.building_id;
+            document.getElementById('building_type_display').innerText = building.type;
+        }
+    </script>
 @endsection

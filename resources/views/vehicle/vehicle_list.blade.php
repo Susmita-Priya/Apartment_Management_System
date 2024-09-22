@@ -1,7 +1,7 @@
 @extends('master')
 
 @push('title')
-    <title>Blocks List</title>
+    <title>Units List</title>
 @endpush
 
 @section('content')
@@ -10,12 +10,12 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box">
-                        <h4 class="page-title float-left">Blocks List</h4>
+                        <h4 class="page-title float-left">Units</h4>
 
                         <ol class="breadcrumb float-right">
                             <li class="breadcrumb-item"><a href="{{ url('/index') }}">Admin</a></li>
-                            <li class="breadcrumb-item"><a href="#">Blocks</a></li>
-                            <li class="breadcrumb-item active">Blocks List</li>
+                            <li class="breadcrumb-item"><a href="#">Units</a></li>
+                            <li class="breadcrumb-item active">Units list</li>
                         </ol>
 
                         <div class="clearfix"></div>
@@ -27,46 +27,46 @@
             <div class="row">
                 <div class="col-12">
                     <div class="card-box">
-                        <h4 class="header-title m-b-15 m-t-0">Blocks List</h4>
+                        <h4 class="header-title m-b-15 m-t-0">Units List</h4>
                         <div class="row">
                             <div class="col-sm-12">
                                 <div class="text-right m-b-20">
                                     <button type="button" class="btn waves-effect waves-light greenbtn"
-                                        onclick="window.location.href='{{ route('block.create') }}'">
-                                        <i class="mdi mdi-plus m-r-5"></i> Add Block
+                                        onclick="window.location.href='{{ route('vehicle.create') }}'">
+                                        <i class="mdi mdi-plus m-r-5"></i> Add Vehicle
                                     </button>
                                 </div>
                             </div>
                         </div>
-                        <table class="table table-hover m-0 table-actions-bar dt-responsive nowrap" cellspacing="0"
-                            width="100%" id="datatable">
+
+                        <table class="table table-hover m-0 tickets-list table-actions-bar dt-responsive nowrap"
+                            cellspacing="0" width="100%" id="datatable">
                             <thead>
                                 <tr>
-                                    <th>Block ID</th>
-                                    <th>Block Name</th>
-                                    <th>Building Name</th>
-                                    <th>Building ID</th>
-                                    <th>Building Type</th>
-                                    <th>Building Status</th>
-                                    <th class="hidden-sm">Action</th>
+                                    <th>Vehicle No</th>
+                                    <th>Vehicle Name</th>
+                                    <th>Vehicle Type</th>
+                                    <th>Owner Name</th>
+                                    <th>Stall No</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
-                            @php
-                                $typeFullForm = [
-                                    'RESB' => 'Residential',
-                                    'COMB' => 'Commercial',
-                                    'RECB' => 'Residential-Commercial',
-                                ];
-                            @endphp
                             <tbody>
-                                @foreach ($blocks as $block)
+                                @foreach ($vehicles as $vehicle)
                                     <tr>
-                                        <td scope="row">{{ $block->block_id }}</td>
-                                        <td>{{ $block->name }}</td>
-                                        <td>{{ $block->building->name }}</td>
-                                        <td>{{ $block->building->building_id }}</td>
-                                        <td>{{ $typeFullForm[$block->building->type] ?? 'Other' }}</td>
-                                        <td>{{ $block->building->status }}</td>
+                                        <td>{{ $vehicle->vehicle_no }}</td>
+                                        <td>{{ $vehicle->vehicle_name }}</td>
+                                        <td>{{ $vehicle->vehicle_type }}</td>
+                                        <td>{{ $vehicle->owner_name }}</td>
+                                        <td>{{ $vehicle->stall_no }}</td>
+                                        <td>
+                                            @if ($vehicle->status === 'assigned')
+                                                <span class="badge badge-success">{{ $vehicle->status }}</span>
+                                            @else
+                                                <span class="badge badge-danger">{{ $vehicle->status }}</span>
+                                            @endif                                      
+                                        </td> <!-- Display status -->
                                         <td>
                                             <div class="btn-group dropdown">
                                                 <a href="javascript: void(0);" class="table-action-btn dropdown-toggle"
@@ -74,22 +74,22 @@
                                                         class="mdi mdi-dots-horizontal"></i></a>
                                                 <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
                                                     <a class="dropdown-item"
-                                                        href="{{ route('block.show', ['id' => $block->id]) }}"><i
+                                                        href="{{ route('vehicle.show', ['id' => $vehicle->id]) }}"><i
                                                             class="mdi mdi-eye m-r-10 font-18 text-muted vertical-middle"></i>View
                                                         Details</a>
                                                     <a class="dropdown-item"
-                                                        href="{{ route('block.edit', ['id' => $block->id]) }}"><i
+                                                        href="{{ route('vehicle.edit', ['id' => $vehicle->id]) }}"
+                                                        type="submit"><i
                                                             class="mdi mdi-pencil m-r-10 text-muted font-18 vertical-middle"></i>Edit
-                                                        Block</a>
-
+                                                        vehicle</a>
                                                     <a class="dropdown-item"
-                                                        onclick="confirmDelete('{{ route('block.delete', ['id' => $block->id]) }}')"><i
+                                                        onclick="confirmDelete('{{ route('vehicle.delete', ['id' => $vehicle->id]) }}')"><i
                                                             class="mdi mdi-delete m-r-10 text-muted font-18 vertical-middle"></i>
                                                         Delete
                                                     </a>
                                                     <!-- Hidden form for deletion -->
                                                     <form id="delete-form"
-                                                        action="{{ route('block.delete', ['id' => $block->id]) }}"
+                                                        action="{{ route('vehicle.delete', ['id' => $vehicle->id]) }}"
                                                         method="GET" style="display: none;">
                                                         @csrf
                                                         @method('DELETE')

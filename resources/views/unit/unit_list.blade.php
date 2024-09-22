@@ -28,6 +28,16 @@
                 <div class="col-12">
                     <div class="card-box">
                         <h4 class="header-title m-b-15 m-t-0">Units List</h4>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="text-right m-b-20">
+                                    <button type="button" class="btn waves-effect waves-light greenbtn"
+                                        onclick="window.location.href='{{ route('unit.create') }}'">
+                                        <i class="mdi mdi-plus m-r-5"></i> Add Unit
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
 
                         <table class="table table-hover m-0 tickets-list table-actions-bar dt-responsive nowrap"
                             cellspacing="0" width="100%" id="datatable">
@@ -49,9 +59,9 @@
                             <tbody>
                                 @foreach ($units as $unit)
                                     <tr>
-                                        <td>{{ $unit->unit_no }}</td>
+                                        <td>Unit - {{ $unit->unit_no }}</td>
                                         <td>{{ $unit->type }}</td>
-                                        <td>{{ $unit->floor->floor_no }}</td>
+                                        <td>{{ $unit->floor->type }}-{{ $unit->floor->floor_no }}</td>
                                         <td>{{ $unit->floor->name }}</td>
                                         <td>{{ $unit->floor->block->block_id }}</td>
                                         <td>{{ $unit->floor->block->name }}</td>

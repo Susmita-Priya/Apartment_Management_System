@@ -121,7 +121,7 @@
     </div> <!-- content -->
 
 
-    {{-- this portion for image instant change --}}
+    {{-- this portion for image instant change
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const imageInput = document.getElementById('image');
@@ -144,5 +144,5 @@
                 }
             });
         });
-    </script>
+    </script> --}}
 @endsection

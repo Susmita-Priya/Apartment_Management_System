@@ -142,9 +142,24 @@
                         <div class="col-sm-12">
                             <div class="text-right m-b-20">
                                 <button type="button" class="btn waves-effect waves-light greenbtn"
-                                    onclick="window.location.href='{{ route('asset.create', ['id' => $comroom->id, 'count' => $roomTypeDetails, 'room_type' => $room_type]) }}'">
+                                    onclick="submitAssetForm()">
                                     <i class="mdi mdi-plus m-r-5"></i> Add Asset
                                 </button>
+
+                                <!-- Hidden form -->
+                                <form id="asset-form" action="{{ route('asset.create') }}" method="GET">
+                                    @csrf
+                                    <input type="hidden" name="id" value="{{ $comroom->id }}">
+                                    <input type="hidden" name="room_type" value="{{ $room_type }}">    <!-- bedroom,bathroom -->
+                                    <input type="hidden" name="count" value="{{ $roomTypeDetails }}">
+                                    <input type="hidden" name="room" value="comroom">
+                                </form>
+
+                                <script>
+                                    function submitAssetForm() {
+                                        document.getElementById('asset-form').submit();
+                                    }
+                                </script>
 
                             </div>
                         </div>

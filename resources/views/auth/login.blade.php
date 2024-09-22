@@ -10,6 +10,7 @@
         <title>Login</title>
     @endpush
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    {{-- <link rel="icon" href="{{ asset('image/bytecarelogo-sm.png') }}" type="image/png"> --}}
     <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />
     <meta content="Coderthemes" name="author" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -45,13 +46,14 @@
                                     <h2 class="text-uppercase text-center">
                                         @if(!empty($general_setting->company_logo))
                                         <a href="{{ route('index') }}" class="text-success">
-                                            <span><img src="{{ asset('setting/company_logo/' . $general_setting->company_logo) }}" alt=""
-                                                    height="60"></span>
+                                            {{-- <span><img src="{{ asset('setting/company_logo/' . $general_setting->company_logo) }}" alt=""
+                                                    height="60"></span> --}}
+                                                    <p style="color: rgb(100, 197, 177);"> Property Management </p>
                                         </a>
                                         @endif
                                     </h2>
                                     <h5 class="text-uppercase font-bold m-b-5 m-t-50">Sign In</h5>
-                                    <p class="m-b-0">Login to your Admin account</p>
+                                    <p class="m-b-0">Login to your Account</p>
                                 </div>
                                 <div class="account-content">
                                     <form class="form-horizontal" action="{{ route('do_login') }}" method="post">

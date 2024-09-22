@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Block;
+use App\Models\Building;
 use App\Models\Floor;
 use App\Models\Unit;
 use Illuminate\Http\Request;
@@ -16,20 +18,47 @@ class UnitController extends Controller
         $units = Unit::with(['floor.block', 'floor.block.building'])->get();
 
         return view('unit.unit_list', compact('units'));
-    }
+    }     
+    //l
 
     /**
      * Show the form for creating a new resource.
      */
     public function create(Request $request)
     {
+        // Fetch all buildings
+        $buildings = Building::all();
+        // Fetch all blocks and their related buildings
+        $blocks = Block::with('building')->get();
+
+        $floors = Floor::with('block')->get();
 
         $floorId = $request->query('floor_id');
-        $floor = Floor::findOrFail($floorId);
-        $block = $floor->block;
-        $building = $floor->block->building;
 
-        return view('unit.unit_add', compact('floor', 'block', 'building'));
+        // Initialize $block and $building to null
+        $block = null;
+        $building = null;
+        $floor = null;
+
+        // If a floorId is provided and valid, fetch the Block and related Building
+        if ($floorId) {
+            $floor = Floor::find($floorId);
+            if ($floor) {
+                $block = $floor->block;
+                $building = $floor->block->building;
+            }
+        }
+
+        // Define type full form array
+        $typeFullForm = [
+            'RESB' => 'Residential Building',
+            'COMB' => 'Commercial Building',
+            'RECB' => 'Residential-Commercial Building',
+            // Add other types if needed
+        ];
+
+        // Pass all variables to the view
+        return view('unit.unit_add', compact('buildings', 'building', 'blocks', 'block', 'floors', 'floor', 'typeFullForm'));
     }
 
     /**
@@ -43,6 +72,7 @@ class UnitController extends Controller
             'unit_no' => 'required',
         ]);
 
+        $floorId = $request->input('floor_id'); // Change from query to input
         // Fetch the floor using the provided floor_id
         $floor = Floor::find($request->floor_id);
 
@@ -50,15 +80,7 @@ class UnitController extends Controller
             return redirect()->back()->withErrors('Floor not found.');
         }
 
-        // Combine floor_id with user-provided unit_no to generate the unit_id
-        // $unitNo = $request->unit_no;
-        // $unitId = $floor->floor_no . '-UNIT' . $unitNo;
-
-        // // Check for uniqueness
-        // if (Unit::where('unit_id', $unitId)->exists()) {
-        //     return redirect()->back()->withErrors('Unit ID already exists.');
-        // }
-
+       
         // Check for uniqueness, ignoring the current record
         $exists = Unit::where('floor_id', $request->floor_id)
             ->where('unit_no', $request->unit_no)
@@ -70,14 +92,14 @@ class UnitController extends Controller
 
         // Create a new unit with the generated unit_id
         $unit = new Unit();
-        $unit->floor_id = $floor->id;
+        $unit->floor_id = $floorId;
         $unit->unit_no = $request->unit_no;
         $unit->type = $request['type'];
         // Add other fields as needed
         $unit->save();
 
-        return redirect()->route('floor.show', $request->floor_id)
-            ->with('success', 'Unit added successfully.');
+        // return redirect()->route('floor.show', $request->floor_id)->with('success', 'Unit added successfully.');
+        return redirect()->back()->with('success', 'Unit added successfully.');
     }
 
     /**
@@ -100,18 +122,37 @@ class UnitController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(string $id,Request $request)
     {
+
+        // Initialize $block and $building to null
+         $block = null;
+         $building = null;
+         $floor = null;
 
         $unit = Unit::findOrFail($id);
         $floor = $unit->floor;
         $block = $floor->block;
         $building = $block->building;
 
-        // Debugging: Check the data
-        //  dd($unit);
+         // Fetch all buildings
+         $buildings = Building::all();
+         // Fetch all blocks and their related buildings
+         $blocks = Block::with('building')->get();
+ 
+         $floors = Floor::with('block')->get();
+ 
+         // Define type full form array
+         $typeFullForm = [
+             'RESB' => 'Residential Building',
+             'COMB' => 'Commercial Building',
+             'RECB' => 'Residential-Commercial Building',
+             // Add other types if needed
+         ];
+ 
+         // Pass all variables to the view
+         return view('unit.unit_edit', compact('unit','buildings', 'building', 'blocks', 'block', 'floors', 'floor', 'typeFullForm'));
 
-        return view('unit.unit_edit', compact('unit', 'floor', 'block', 'building'));
     }
 
     /**
@@ -134,13 +175,6 @@ class UnitController extends Controller
             return redirect()->back()->withErrors('Floor not found.');
         }
 
-        // Combine floor_id with user-provided unit_no to generate the unit_id
-        // $unitNo = $request->unit_no;
-        // $unitId = $floor->floor_no . '-UNIT' . $unitNo;
-        // // Check for uniqueness
-        // if ($unit->unit_id !== $unitId && Unit::where('unit_id', $unitId)->exists()) {
-        //     return redirect()->back()->withErrors('Unit ID already exists.');
-        // }
         // Check for uniqueness, ignoring the current record
         $exists = Unit::where('floor_id', $request->floor_id)
             ->where('unit_no', $request->unit_no)
@@ -148,16 +182,21 @@ class UnitController extends Controller
             ->exists();
 
         if ($exists) {
-            return redirect()->back()->with('error', 'This Stall/Locker NO already exists on this floor.');
+            return redirect()->back()->with('error', 'This Unit NO already exists on this floor.');
         }
+
         // Update the unit
-        $unit->unit_no = $request->unit_no;;
+        $unit->floor_id = $request->floor_id;
+        $unit->unit_no = $request->unit_no;
         $unit->type = $request->type;
         // Add other fields as needed
         $unit->save();
 
-        return redirect()->route('floor.show', $request->floor_id)
-            ->with('success', 'Unit updated successfully.');
+        // return redirect()->route('floor.show', $request->floor_id)
+        //     ->with('success', 'Unit updated successfully.');
+
+        return redirect()->back()
+        ->with('success', 'Unit updated successfully.');
     }
 
     /**
@@ -166,11 +205,13 @@ class UnitController extends Controller
     public function destroy($id)
     {
         $unit = Unit::findOrFail($id);
-        $floorId = $unit->floor_id;
 
         $unit->delete();
 
-        return redirect()->route('floor.show', $floorId)
-            ->with('delete', 'Unit deleted successfully.');
+        // return redirect()->route('floor.show', $floorId)
+        //     ->with('delete', 'Unit deleted successfully.');
+
+        return redirect()->back()
+        ->with('delete', 'Unit deleted successfully.');
     }
 }

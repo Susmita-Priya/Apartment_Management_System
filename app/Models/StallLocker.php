@@ -25,8 +25,26 @@ class StallLocker extends Model
         return $this->belongsTo(Floor::class);
     }
 
-    public function assets()
+    // Access the building through the block
+    public function block()
     {
-        return $this->hasMany(Asset::class, 'stall_locker_id');
+        return $this->floor->block();
     }
+
+    // Access the building through the block
+    public function building()
+    {
+        return $this->floor->block->building();
+    }
+
+    // public function assets()
+    // {
+    //     return $this->hasMany(Asset::class, 'stall_locker_id');
+    // }
+
+    public function vehicles()
+    {
+        return $this->hasMany(Vehicle::class, 'stall_no');
+    }
+    
 }

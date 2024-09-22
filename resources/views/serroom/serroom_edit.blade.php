@@ -174,8 +174,7 @@
                                     @endforeach
                                 </div>
 
-                                <button type="submit" class="btn waves-effect waves-light greenbtn"
-                                    style="background-color: rgb(100, 197, 177); border-color: rgb(100, 197, 177); color: white;">Update</button>
+                                <button type="submit" class="btn waves-effect waves-light submitbtn">Update</button>
                             </form>
                         @else
                             <p>This page is only applicable for Service Units.</p>
