@@ -15,7 +15,8 @@ class StallLockerController extends Controller
      */
     public function index()
     {
-        // Code for listing all stalls/lockers, if needed
+        // $stalls = StallLocker::with(['vehicles', 'parkers'])->get();
+        // return view('stall.stall_locker_list', compact('stalls'));
     }
 
     /**
@@ -57,7 +58,6 @@ class StallLockerController extends Controller
 
         // Pass all variables to the view
         return view('stall.stall_locker_add', compact('buildings', 'building', 'blocks', 'block', 'floors', 'floor', 'typeFullForm'));
-       
     }
 
     /**
@@ -145,7 +145,7 @@ class StallLockerController extends Controller
         ];
 
         // Pass all variables to the view
-        return view('stall.stall_locker_edit', compact('stallLocker','buildings', 'building', 'blocks', 'block', 'floors', 'floor', 'typeFullForm'));
+        return view('stall.stall_locker_edit', compact('stallLocker', 'buildings', 'building', 'blocks', 'block', 'floors', 'floor', 'typeFullForm'));
     }
 
     /**

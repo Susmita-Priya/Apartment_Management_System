@@ -14,7 +14,7 @@ class VehicleController extends Controller
     public function index()
     {
         $vehicles = Vehicle::all();
-       return view('vehicle.vehicle_list', compact('vehicles'));
+        return view('vehicle.vehicle_list', compact('vehicles'));
     }
 
     /**
@@ -33,28 +33,30 @@ class VehicleController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'vehicle_no' => 'required|unique:vehicles,vehicle_no|max:255',
             'vehicle_name' => 'required|max:255',
             'vehicle_type' => 'required|max:255',
             'owner_name' => 'required|max:255',
         ]);
 
         // Determine vehicle type
-    $vehicleType = $request->vehicle_type === 'new' ? $request->new_vehicle_type : $request->vehicle_type;
+        $vehicleType = $request->vehicle_type === 'new' ? $request->new_vehicle_type : $request->vehicle_type;
 
-    // Create new vehicle entry
-    Vehicle::create([
-        'vehicle_no' => $request->vehicle_no,
-        'vehicle_name' => $request->vehicle_name,
-        'vehicle_type' =>  $vehicleType,
-        'owner_name' => $request->owner_name,
-        'stall_no' => $request->stall_no,
-        'status' => 'not_assigned', // Set status to assigned
-    ]);
+        // Generate the vehicle ID
+        $lastVehicle = Vehicle::orderBy('created_at', 'desc')->first();
+        $newVehicleId = 'V' . str_pad(($lastVehicle ? intval(substr($lastVehicle->vehicle_no, 1)) + 1 : 1), 4, '0', STR_PAD_LEFT);
 
-    // Redirect to a success page or the vehicle listing page
-    return redirect()->back()->with('success', 'Vehicle added successfully');
+        // Create new vehicle entry
+        Vehicle::create([
+            'vehicle_no' => $newVehicleId, // Set the generated vehicle number
+            'vehicle_name' => $request->vehicle_name,
+            'vehicle_type' =>  $vehicleType,
+            'owner_name' => $request->owner_name,
+            'stall_no' => $request->stall_no,
+            'status' => 'not_assigned', // Set status to assigned
+        ]);
 
+        // Redirect to a success page or the vehicle listing page
+        return redirect()->back()->with('success', 'Vehicle added successfully');
     }
 
     /**
@@ -71,17 +73,39 @@ class VehicleController extends Controller
     public function edit(String $id)
     {
         $vehicle = Vehicle::findOrFail($id);
-    $stalls = StallLocker::all(); // Fetch all available stalls
+        $stalls = StallLocker::all(); // Fetch all available stalls
 
-    return view('vehicle.vehicle_edit', compact('vehicle', 'stalls'));
+        return view('vehicle.vehicle_edit', compact('vehicle', 'stalls'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Vehicle $vehicle)
+    public function update(Request $request, $id)
     {
-        //
+        // Validate the request data
+        $request->validate([
+            'vehicle_name' => 'required|max:255',
+            'vehicle_type' => 'required|max:255',
+            'owner_name' => 'required|max:255',
+        ]);
+
+        // Find the existing vehicle
+        $vehicle = Vehicle::findOrFail($id);
+
+        // Determine vehicle type
+        $vehicleType = $request->vehicle_type === 'new' ? $request->new_vehicle_type : $request->vehicle_type;
+
+        // Update vehicle entry
+        $vehicle->update([
+            'vehicle_name' => $request->vehicle_name,
+            'vehicle_type' => $vehicleType,
+            'owner_name' => $request->owner_name,
+            'stall_no' => $request->stall_no, // Ensure the field name matches your database column
+        ]);
+
+        // Redirect or respond as needed
+        return redirect()->back()->with('success', 'Vehicle updated successfully.');
     }
 
     /**
@@ -97,6 +121,6 @@ class VehicleController extends Controller
         //     ->with('delete', 'vehicle deleted successfully.');
 
         return redirect()->back()
-        ->with('delete', 'vehicle deleted successfully.');
+            ->with('delete', 'vehicle deleted successfully.');
     }
 }

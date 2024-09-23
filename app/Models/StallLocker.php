@@ -46,5 +46,15 @@ class StallLocker extends Model
     {
         return $this->hasMany(Vehicle::class, 'stall_no');
     }
+
+    public function parkers()
+    {
+        return $this->hasMany(Parker::class, 'stall_no'); // Assuming the foreign key is 'stall_id'
+    }
+
+    public function parking()
+    {
+        return $this->hasOne(Parking::class, 'stall_no');
+    }
     
 }

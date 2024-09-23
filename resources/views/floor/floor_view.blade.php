@@ -120,8 +120,8 @@
                                     class="m-l-15">{{ $floor->supporting_service_room ? 'Yes' : 'No' }}</p>
                             <p class="text-muted font-15"><strong>Parking Lot:</strong> <span
                                     class="m-l-15">{{ $floor->parking_lot ? 'Yes' : 'No' }}</p>
-                            <p class="text-muted font-15"><strong>Bike Lot:</strong> <span
-                                    class="m-l-15">{{ $floor->bike_lot ? 'Yes' : 'No' }}</p>
+                            {{-- <p class="text-muted font-15"><strong>Bike Lot:</strong> <span
+                                    class="m-l-15">{{ $floor->bike_lot ? 'Yes' : 'No' }}</p> --}}
                             <p class="text-muted font-15"><strong>Storage Lot:</strong> <span
                                     class="m-l-15">{{ $floor->storage_lot ? 'Yes' : 'No' }}</p>
                             <p class="text-muted font-15"><strong>Common Area:</strong> <span
@@ -142,7 +142,7 @@
                         <div class="col-sm-12">
                             <div class="text-right m-b-20">
 
-                                @if ($floor->parking_lot || $floor->bike_lot)
+                                @if ($floor->parking_lot)
                                     <button type="button" class="btn waves-effect waves-light greenbtn"
                                         style="position: absolute; "
                                         onclick="window.location.href='{{ route('stall_locker.create', ['floor_id' => $floor->id]) }}'">
@@ -152,7 +152,7 @@
                                             style="position: absolute; "
                                             onclick="window.location.href='{{ route('stall_locker.create', ['floor_id' => $floor->id]) }}'">
                                             <i class="mdi mdi-plus m-r-5"></i> Add Locker
-                                        @elseif($floor->parking_lot || $floor->bike_lot || $floor->storage_lot)
+                                        @elseif($floor->parking_lot|| $floor->storage_lot)
                                             <button type="button" class="btn waves-effect waves-light greenbtn"
                                                 style="position: absolute; "
                                                 onclick="window.location.href='{{ route('stall_locker.create', ['floor_id' => $floor->id]) }}'">

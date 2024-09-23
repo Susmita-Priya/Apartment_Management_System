@@ -26,10 +26,10 @@
             <div class="row">
                 <div class="col-12">
                     <div class="card-box">
-                        <form action="{{ route('vehicle.store') }}" method="POST">
+                        <form action="{{ route('vehicle.store') }}" enctype="multipart/form-data" method="POST">
                             @csrf
 
-                            <!-- Vehicle Number -->
+                            {{-- <!-- Vehicle Number -->
                             <div class="form-group">
                                 <label for="vehicle_no">Vehicle Number</label>
                                 <input type="text" name="vehicle_no" id="vehicle_no" class="form-control" required>
@@ -38,7 +38,7 @@
                                         {{ $message }}
                                     @enderror
                                 </span>
-                            </div>
+                            </div> --}}
 
                             <!-- Vehicle Name -->
                             <div class="form-group">
@@ -152,7 +152,7 @@
         // Update the vehicle status based on stall selection
         document.getElementById('stall_no').addEventListener('change', function() {
             const stallNo = this.value;
-            document.getElementById('status').value = stallNo ? 'assigned' : 'unassigned';
+            document.getElementById('status').value = stallNo ? 'assigned' : 'not_assigned';
         });
     </script>
 @endsection

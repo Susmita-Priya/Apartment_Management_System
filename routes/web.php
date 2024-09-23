@@ -12,6 +12,8 @@ use App\Http\Controllers\ComroomController;
 use App\Http\Controllers\FloorController;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\MechroomController;
+use App\Http\Controllers\ParkerController;
+use App\Http\Controllers\ParkingController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ResroomController;
 use App\Http\Controllers\RoleController;
@@ -26,6 +28,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\VehicleController;
 use App\Http\Middleware\AdminUserMiddleware;
 use App\Models\Asset;
+use App\Models\Parker;
 use App\Models\Permission;
 use App\Models\Vehicle;
 use Illuminate\Support\Facades\Auth;
@@ -287,6 +290,8 @@ Route::get('serroom/delete/{id}', [SerroomController::class, 'destroy'])->name("
 
 
 
+Route::get('stall_locker/index', [StallLockerController::class, 'index'])->name("stall_locker.index");
+
 Route::get('stall_locker/create', [StallLockerController::class, 'create'])->name("stall_locker.create");
 
 Route::post('stall_locker/create', [StallLockerController::class, 'store'])->name("stall_locker.store");
@@ -298,6 +303,7 @@ Route::get('stall_locker/edit/{id}', [StallLockerController::class, 'edit'])->na
 Route::post('stall_locker/edit/{id}', [StallLockerController::class, 'update'])->name("stall_locker.update");
 
 Route::get('stall_locker/delete/{id}', [StallLockerController::class, 'destroy'])->name("stall_locker.delete");
+
 
 
 
@@ -344,6 +350,35 @@ Route::get('vehicle/edit/{id}', [VehicleController::class, 'edit'])->name("vehic
 Route::post('vehicle/edit/{id}', [VehicleController::class, 'update'])->name("vehicle.update");
 
 Route::get('vehicle/delete/{id}', [VehicleController::class, 'destroy'])->name("vehicle.delete");
+
+
+
+Route::get('parker/index', [ParkerController::class, 'index'])->name("parker.index");
+
+Route::get('parker/create', [ParkerController::class, 'create'])->name("parker.create");
+
+Route::post('parker/store', [ParkerController::class, 'store'])->name("parker.store");
+
+// Route::get('parker/show/{id}', [ParkerController::class, 'show'])->name("parker.show");
+
+Route::get('parker/edit/{id}', [ParkerController::class, 'edit'])->name("parker.edit");
+
+Route::post('parker/edit/{id}', [ParkerController::class, 'update'])->name("parker.update");
+
+Route::get('parker/delete/{id}', [ParkerController::class, 'destroy'])->name("parker.delete");
+
+
+
+// Route::get('parking', [ParkingController::class, 'listparking'])->name('parking.list');
+
+// Route::post('parking/assign', [ParkingController::class, 'assignParking'])->name('parking.assign');
+
+Route::get('parkings', [ParkingController::class, 'listparking'])->name('parking.list');
+
+Route::get('parking/{id}/assign', [ParkingController::class, 'create'])->name('parking.create');
+
+Route::post('parking/{id}/assign', [ParkingController::class, 'store'])->name('parking.store');
+
 
 
 

@@ -17,7 +17,6 @@
                             <li class="breadcrumb-item"><a href="{{ route('building') }}">Buildings</a></li>
                             <li class="breadcrumb-item"><a href="{{ route('block.index') }}">Blocks</a></li>
                             <li class="breadcrumb-item"><a href="{{ route('floor.index') }}">Floors</a></li>
-                            <li class="breadcrumb-item"><a href="{{ route('unit.index') }}">Units</a></li>
                             <li class="breadcrumb-item active">Add Stall/Locker</li>
                         </ol>
 
