@@ -17,7 +17,6 @@
                             <li class="breadcrumb-item"><a href="{{ route('building') }}">Buildings</a></li>
                             <li class="breadcrumb-item"><a href="{{ route('block.index') }}">Blocks</a></li>
                             <li class="breadcrumb-item"><a href="{{ route('floor.index') }}">Floors</a></li>
-                            <li class="breadcrumb-item"><a href="{{ route('unit.index') }}">Units</a></li>
                             <li class="breadcrumb-item active">Add Stall/Locker</li>
                         </ol>
 
@@ -120,6 +119,12 @@
                             <!-- Selectbox placeholders -->
                             <div id="dynamic-selectboxs"></div>
 
+                            <!-- Stall/Locker capacity-->
+                            <div class="form-group">
+                                <label for="capacity">Capacity</label>
+                                <input type="number" name="capacity" id="capacity" class="form-control" required>
+                            </div>
+
                             <button type="submit" class="btn waves-effect waves-light btn-sm submitbtn"> Add
 
                             </button>
@@ -220,12 +225,12 @@
                      <label for="stall_locker_no">
                     `;
 
-                    // Generate the appropriate options for the select box
-                    if (floor.parking_lot) {
-                        TextBoxContent += `
-                             Stall NO
-                            `;
-                    }
+                    // // Generate the appropriate options for the select box
+                    // if (floor.parking_lot) {
+                    //     TextBoxContent += `
+                    //          Stall NO
+                    //         `;
+                    // }
 
                     if (floor.storage_lot) {
                         TextBoxContent += `
@@ -257,14 +262,14 @@
         <label for="type">Type</label>
         <select name="type" id="type" class="form-control" required>
         `;
-                if (floor.parking_lot || floor.storage_lot) {
+                if (floor.storage_lot) {
                     // Generate the appropriate options for the select box
-                    if (floor.parking_lot) {
-                        selectBoxContent += `
-        <option value="Car Parking Stall">Car Parking Stall</option>
-        <option value="Bike Parking Stall">Bike Parking Stall</option>
-        `;
-                    }
+        //             if (floor.parking_lot) {
+        //                 selectBoxContent += `
+        // <option value="Car Parking Stall">Car Parking Stall</option>
+        // <option value="Bike Parking Stall">Bike Parking Stall</option>
+        // `;
+        //             }
 
                     if (floor.storage_lot) {
                         selectBoxContent += `

@@ -83,7 +83,6 @@ class FloorController extends Controller
         $floor->commercial_unit = $request->has('commercial_unit');
         $floor->supporting_service_room = $request->has('supporting_service_room');
         $floor->parking_lot = $request->has('parking_lot');
-        $floor->bike_lot = $request->has('bike_lot');
         $floor->storage_lot = $request->has('storage_lot');
         $floor->save();
 
@@ -154,7 +153,6 @@ class FloorController extends Controller
         $floor->commercial_unit = $request->has('commercial_unit');
         $floor->supporting_service_room = $request->has('supporting_service_room');
         $floor->parking_lot = $request->has('parking_lot');
-        $floor->bike_lot = $request->has('bike_lot');
         $floor->storage_lot = $request->has('storage_lot');
         $floor->save();
 

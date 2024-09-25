@@ -15,6 +15,7 @@ class StallLocker extends Model
         'floor_id',
         'stall_locker_no',
         'type',
+        'capacity',
     ];
 
     /**
@@ -25,17 +26,16 @@ class StallLocker extends Model
         return $this->belongsTo(Floor::class);
     }
 
-    // Access the building through the block
     public function block()
     {
-        return $this->floor->block();
+        return $this->floor ? $this->floor->block() : null;
     }
 
-    // Access the building through the block
     public function building()
     {
-        return $this->floor->block->building();
+        return $this->floor ? $this->floor->block->building() : null;
     }
+
 
     // public function assets()
     // {
@@ -46,5 +46,14 @@ class StallLocker extends Model
     {
         return $this->hasMany(Vehicle::class, 'stall_no');
     }
-    
+
+    public function parkers()
+    {
+        return $this->hasMany(Parker::class, 'stall_no'); // Assuming the foreign key is 'stall_id'
+    }
+
+    public function parking()
+    {
+        return $this->hasOne(Parking::class, 'stall_no');
+    }
 }

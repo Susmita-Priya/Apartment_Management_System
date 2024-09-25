@@ -5,21 +5,21 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Vehicle extends Model
+class Parker extends Model
 {
     use HasFactory;
 
     // Define the table associated with this model
-    protected $table = 'vehicles';
+    protected $table = 'parkers';
 
     // The attributes that are mass assignable
     protected $fillable = [
-        'vehicle_no',        // Vehicle Number
-        'vehicle_name',      // Vehicle Name
-        'vehicle_type',      // Vehicle Type (Car, Bike, or custom)
-        'owner_name',        // Owner's Name
-        'stall_no',          // Stall ID (if assigned to a stall)
-        'status',            // Status to indicate if assigned to a stall
+        'parker_no',        
+        'parker_name',      
+        'email',
+        'phn',     
+        'stall_no',          
+        'status',            
     ];
 
     /**
@@ -31,8 +31,13 @@ class Vehicle extends Model
         return $this->belongsTo(StallLocker::class, 'stall_no');
     }
 
+    // public function parkers()
+    // {
+    //     return $this->hasMany(Parker::class, 'stall_no');
+    // }
+
     public function parkings()
     {
-        return $this->hasMany(Parking::class, 'vehicle_no');
+        return $this->hasMany(Parking::class, 'parker_no');
     }
 }

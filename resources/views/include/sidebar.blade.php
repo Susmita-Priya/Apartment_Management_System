@@ -103,9 +103,10 @@
                     @endif --}}
                             <li><a href="{{ route('stall_locker.create') }}">New Stall</a></li>
                             <li><a href="{{ route('vehicle.index') }}">Vehicles</a></li>
-                            <li><a href="{{ route('stall_locker.index') }}">Parking List</a></li>
-                            {{--<li><a href="{{ route('comarea.index') }}">View Common Area</a></li>
-                            <li><a href="{{ route('unit.index') }}">View unit</a></li> --}}
+                            <li><a href="{{ route('parker.index') }}">Parkers</a></li>
+                            <li><a href="{{ route('parking.list') }}">Parking List</a></li>
+                            
+                            {{-- <li><a href="{{ route('unit.index') }}">View unit</a></li> --}}
                         </ul>
                     </li>
                 @endif

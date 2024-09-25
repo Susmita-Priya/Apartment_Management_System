@@ -19,7 +19,6 @@ class Floor extends Model
         'commercial_unit',
         'supporting_service_room',
         'parking_lot',
-        'bike_lot',
         'storage_lot',
     ];
 

@@ -1,0 +1,122 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Parker;
+use App\Models\StallLocker;
+use Illuminate\Http\Request;
+
+class ParkerController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
+    {
+        $parkers = Parker::with('stallLocker')->get(); // Get parkers with their assigned stall
+        return view('parker.parker_list', compact('parkers'));
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        $stalls = StallLocker::all(); // Fetch available stalls
+        return view('parker.parker_add', compact('stalls'));
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:parkers,email',
+            'phn' => 'required|string',
+            'stall_no' => 'nullable',
+        ]);
+
+        // Determine the status based on stall assignment
+        // $status = $request->stall_no ? 'assigned' : 'not_assigned';
+ 
+        // Generate the vehicle ID
+        $lastParker = Parker::orderBy('created_at', 'desc')->first();
+        $newParkerId = 'P' . str_pad(($lastParker ? intval(substr($lastParker->parker_no, 1)) + 1 : 1), 4, '0', STR_PAD_LEFT);
+      
+        // Create new parker
+        Parker::create([
+            'parker_no' => $newParkerId,
+            'parker_name' => $request->name,
+            'email' => $request->email,
+            'phn' => $request->phn,
+            'stall_no' => $request->stall_no,
+            'status' => 'not_assigned',
+        ]);
+
+        return redirect()->back()->with('success', 'Parker added successfully');
+
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(Parker $parker)
+    {
+        
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit($id)
+    {
+        $parker = Parker::findOrFail($id);
+        $stalls = StallLocker::all(); // Fetch all available stalls
+
+        return view('parker.parker_edit', compact('parker', 'stalls'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email',
+            'phn' => 'required|string',
+            'stall_no' => 'nullable',
+        ]);
+
+        // Find the existing vehicle
+        $parker = Parker::findOrFail($id);
+
+        // Create new parker
+        $parker->update([
+            'parker_no' => $request->parker_no,
+            'parker_name' => $request->name,
+            'email' => $request->email,
+            'phn' => $request->phn,
+            'stall_no' => $request->stall_no,
+            'status' => 'not_assigned',
+        ]);
+
+        return redirect()->back()->with('success', 'Parker updated successfully');
+
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy($id)
+    {
+        $parker = Parker::findOrFail($id);
+
+        $parker->delete();
+
+        return redirect()->back()
+            ->with('delete', 'parker deleted successfully.');
+    }
+}

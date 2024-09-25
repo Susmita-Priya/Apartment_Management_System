@@ -15,7 +15,8 @@ class StallLockerController extends Controller
      */
     public function index()
     {
-        // Code for listing all stalls/lockers, if needed
+        // $stalls = StallLocker::with(['vehicles', 'parkers'])->get();
+        // return view('stall.stall_locker_list', compact('stalls'));
     }
 
     /**
@@ -23,7 +24,6 @@ class StallLockerController extends Controller
      */
     public function create(Request $request)
     {
-
         // Initialize $block and $building to null
         $block = null;
         $building = null;
@@ -54,10 +54,13 @@ class StallLockerController extends Controller
             'RECB' => 'Residential-Commercial Building',
             // Add other types if needed
         ];
-
-        // Pass all variables to the view
-        return view('stall.stall_locker_add', compact('buildings', 'building', 'blocks', 'block', 'floors', 'floor', 'typeFullForm'));
-       
+        if ($floor) {
+            return view('stall.locker_add', compact('buildings', 'building', 'blocks', 'block', 'floors', 'floor', 'typeFullForm'));
+        
+        } else {
+            // Handle the case when $floor is null (e.g., return an error or redirect)
+            return view('stall.stall_add', compact('buildings', 'building', 'blocks', 'block', 'floors', 'floor', 'typeFullForm'));
+        }  
     }
 
     /**
@@ -92,7 +95,7 @@ class StallLockerController extends Controller
         $stallLocker->floor_id = $request->floor_id;
         $stallLocker->stall_locker_no = $request['stall_locker_no'];
         $stallLocker->type = $request['type'];
-        // Add other fields as needed
+        $stallLocker->capacity = $request['capacity'];
         $stallLocker->save();
 
         // return redirect()->route('floor.show', $request->floor_id)
@@ -106,12 +109,12 @@ class StallLockerController extends Controller
      */
     public function show($id)
     {
-        $stallLocker = StallLocker::with('floor.block.building')->findOrFail($id);
-        // Check if the related data is available
-        $floor = $stallLocker->floor;
-        $block = $floor ? $floor->block : null;
-        $building = $block ? $block->building : null;
-        return view('stall.stall_locker_view', compact('stallLocker', 'floor', 'block', 'building'));
+        // $stallLocker = StallLocker::with('floor.block.building')->findOrFail($id);
+        // // Check if the related data is available
+        // $floor = $stallLocker->floor;
+        // $block = $floor ? $floor->block : null;
+        // $building = $block ? $block->building : null;
+        // return view('stall.stall_locker_view', compact('stallLocker', 'floor', 'block', 'building'));
     }
 
     /**
@@ -123,6 +126,7 @@ class StallLockerController extends Controller
         $block = null;
         $building = null;
         $floor = null;
+        
 
         $stallLocker = StallLocker::findOrFail($id);
         $floor = $stallLocker->floor;
@@ -134,7 +138,7 @@ class StallLockerController extends Controller
         // Fetch all blocks and their related buildings
         $blocks = Block::with('building')->get();
 
-        $floors = Floor::with('block')->get();
+        $floors = Floor::with('block')->get();                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
 
         // Define type full form array
         $typeFullForm = [
@@ -144,8 +148,14 @@ class StallLockerController extends Controller
             // Add other types if needed
         ];
 
+        if($floor->storage_lot){
+            return view('stall.locker_edit', compact('stallLocker', 'buildings', 'building', 'blocks', 'block', 'floors', 'floor', 'typeFullForm'));
+        }
+        if($floor->parking_lot){
+            return view('stall.stall_edit', compact('stallLocker', 'buildings', 'building', 'blocks', 'block', 'floors', 'floor', 'typeFullForm'));
+        }
         // Pass all variables to the view
-        return view('stall.stall_locker_edit', compact('stallLocker','buildings', 'building', 'blocks', 'block', 'floors', 'floor', 'typeFullForm'));
+        
     }
 
     /**
@@ -180,6 +190,7 @@ class StallLockerController extends Controller
         $stallLocker->update([
             'floor_id' => $request->floor_id,
             'stall_locker_no' => $request->stall_locker_no,
+            'capacity' => $request->capacity,
             'type' => $request->type,
         ]);
 

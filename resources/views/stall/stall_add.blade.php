@@ -2,7 +2,7 @@
 
 @section('content')
     @push('title')
-        <title>Edit Unit/Suite</title>
+        <title>Add Stall/Locker</title>
     @endpush
 
     <div class="content">
@@ -10,15 +10,14 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box">
-                        <h4 class="page-title float-left">Edit Unit/Suite</h4>
+                        <h4 class="page-title float-left">Add Stall/Locker</h4>
 
                         <ol class="breadcrumb float-right">
                             <li class="breadcrumb-item"><a href="{{ route('index') }}">Dashboard</a></li>
                             <li class="breadcrumb-item"><a href="{{ route('building') }}">Buildings</a></li>
                             <li class="breadcrumb-item"><a href="{{ route('block.index') }}">Blocks</a></li>
                             <li class="breadcrumb-item"><a href="{{ route('floor.index') }}">Floors</a></li>
-                            <li class="breadcrumb-item"><a href="{{ route('unit.index') }}">Units</a></li>
-                            <li class="breadcrumb-item active">Edit Unit/Suite</li>
+                            <li class="breadcrumb-item active">Add Stall/Locker</li>
                         </ol>
 
                         <div class="clearfix"></div>
@@ -29,8 +28,9 @@
             <div class="row">
                 <div class="col-12">
                     <div class="card-box">
-                        <form action="{{ route('unit.update', $unit->id) }}" enctype="multipart/form-data" method="POST">
+                        <form action="{{ route('stall_locker.store') }}" enctype="multipart/form-data" method="POST">
                             @csrf
+                            {{-- <input type="hidden" name="floor_id" value="{{ $floor->id }}"> --}}
 
                             <!-- Building Selection -->
                             <div class="form-group">
@@ -113,19 +113,21 @@
                                 </table>
                             </div>
 
-                            <!-- Unit/Suite Number -->
-                            <div class="form-group">
-                                <label for="unit_no">Unit/Suite NO</label>
-                                <input type="number" name="unit_no" id="unit_no" class="form-control"
-                                    value="{{ $unit->unit_no }}" required>
-                            </div>
+                            <!-- Textbox placeholders -->
+                            <div id="dynamic-textbox"></div>
 
-                            <!-- Checkbox placeholders -->
+                            <!-- Selectbox placeholders -->
                             <div id="dynamic-selectboxs"></div>
 
-                            <button type="submit" class="btn waves-effect waves-light btn-sm"
-                                style="background-color: rgb(100, 197, 177); border-color: rgb(100, 197, 177); color: white;">
-                                Update Unit/Suite</button>
+                            <!-- Stall/Locker capacity-->
+                            <div class="form-group">
+                                <label for="capacity">Capacity</label>
+                                <input type="number" name="capacity" id="capacity" class="form-control" required>
+                            </div>
+
+                            <button type="submit" class="btn waves-effect waves-light btn-sm submitbtn"> Add
+
+                            </button>
                         </form>
                     </div>
                 </div>
@@ -153,7 +155,7 @@
 
                 buildingBlocks.forEach(block => {
                     blockSelect.innerHTML += `
-                       <option value="${block.id}" ${block.id == '{{ $block->id ?? '' }}' ? 'selected' : ''}>${block.name}</option>
+                    <option value="${block.id}" ${block.id == '{{ $block->id ?? '' }}' ? 'selected' : ''}>${block.name}</option>
                 `;
                 });
 
@@ -193,6 +195,10 @@
                 if (blockFloors.length === 0) {
                     floorSelect.innerHTML = '<option value="">No floors available for the selected block.</option>';
                 }
+
+                // // Clear previous select box if it exists
+                // const dynamicSelectBox = document.getElementById('dynamic-selectboxs');
+                // dynamicSelectBox.innerHTML = '';
             } else {
                 document.getElementById('block_id_display').innerText = '';
                 document.getElementById('floor_id').innerHTML = '<option value="">Select a block to see floors.</option>';
@@ -207,54 +213,89 @@
             if (floor) {
                 document.getElementById('floor_name_display').innerText = floor.name;
 
+                // Clear previous select box if it exists
+                const dynamicTextBox = document.getElementById('dynamic-textbox');
+
+                // Clear previous select box content
+                dynamicTextBox.innerHTML = '';
+
+                // Start the select box
+                let TextBoxContent = `
+                    <div class="form-group">
+                     <label for="stall_locker_no">
+                    `;
+
+                    // Generate the appropriate options for the select box
+                    if (floor.parking_lot) {
+                        TextBoxContent += `
+                             Stall NO
+                            `;
+                    }
+
+
+                // Close the select box
+                TextBoxContent += `
+                    </label>
+                    <input type="text" name="stall_locker_no" id="stall_locker_no" class="form-control"
+                        required>
+                    </div>
+                    `;
+
+                // Set the innerHTML of dynamicSelectBox to the complete content
+                dynamicTextBox.innerHTML = TextBoxContent;
+
+
+                // Clear previous select box if it exists
                 const dynamicSelectBox = document.getElementById('dynamic-selectboxs');
+
+                // Clear previous select box content
                 dynamicSelectBox.innerHTML = '';
 
+                // Start the select box
                 let selectBoxContent = `
-                    <div class="form-group">
-                        <label for="type">Unit/Suite Type</label>
-                        <select name="type" id="type" class="form-control" required>
-                `;
+        <div class="form-group">
+        <label for="type">Type</label>
+        <select name="type" id="type" class="form-control" required>
+        `;
+                if (floor.parking_lot ) {
+                    // Generate the appropriate options for the select box
+                    if (floor.parking_lot) {
+                        selectBoxContent += `
+        <option value="Car Parking Stall">Car Parking Stall</option>
+        <option value="Bike Parking Stall">Bike Parking Stall</option>
+        `;
+                    }
 
-                if (floor.residential_suite) {
+        //             if (floor.storage_lot) {
+        //                 selectBoxContent += `
+        // <option value="Storage Locker">Storage Locker</option>
+        // `;
+        //             }
+
+                } else {
                     selectBoxContent += `
-                        <option value="Residential Suite"
-                                            {{ old('type', $unit->type) === 'Residential Suite' ? 'selected' : '' }}>
-                                            Residential Suite</option>
-                    `;
+        <option value="">Please Select Parking Level. </option>
+        `;
                 }
 
-                if (floor.commercial_unit) {
-                    selectBoxContent += `
-                        <option value="Commercial Unit"
-                                            {{ old('type', $unit->type) === 'Commercial Unit' ? 'selected' : '' }}>
-                                            Commercial Unit</option>
-                    `;
-                }
-
-                if (floor.supporting_service_room) {
-                    selectBoxContent += `
-                        <option value="Supporting and Servicing Unit"
-                                            {{ old('type', $unit->type) === 'Supporting and Servicing Unit' ? 'selected' : '' }}>
-                                            Supporting & Service Room</option>
-                    `;
-                }
-
+                // Close the select box
                 selectBoxContent += `
-                        </select>
-                    </div>
-                `;
-
+        </select>
+        </div>
+        `;
+                // Set the innerHTML of dynamicSelectBox to the complete content
                 dynamicSelectBox.innerHTML = selectBoxContent;
+
             } else {
                 document.getElementById('floor_name_display').innerText = '';
             }
         }
 
-        window.onload = function() {
-            showBuildingDetails();
-            showBlockDetails();
-            showFloorDetails();
-        }
+        document.addEventListener('DOMContentLoaded', function() {
+            showFloorDetails(); // Show initial floor details if a floor is pre-selected
+            showBuildingDetails(); // Show initial building details if a building is pre-selected
+            showBlockDetails(); // Show initial block details if a block is pre-selected
+
+        });
     </script>
 @endsection
