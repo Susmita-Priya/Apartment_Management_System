@@ -7,6 +7,11 @@
                 <div class="col-12">
                     <div class="page-title-box">
                         <h4 class="page-title float-left">Stalls</h4>
+                        <ol class="breadcrumb float-right">
+                            <li class="breadcrumb-item"><a href="{{ route('index') }}">Admin</a></li>
+      
+                            <li class="breadcrumb-item active">Stalls list</li>
+                        </ol>
                         <div class="clearfix"></div>
                     </div>
                 </div>
@@ -79,12 +84,13 @@
                                                             class="mdi mdi-eye m-r-10 font-18 text-muted vertical-middle"></i>View
                                                         Details</a> --}}
                                                         <a class="dropdown-item" href="{{ route('parking.create', $stall->id) }}"
-                                                            class="btn btn-sm btn-primary">Assign Vehicle / Parker</a>
+                                                            type="submit"><i
+                                                            class="mdi mdi-pencil m-r-10 text-muted font-18 vertical-middle"></i>Assign Vehicle / Parker</a>
                                                     <a class="dropdown-item"
-                                                        href="{{ route('parker.edit', ['id' => $parker->id]) }}"
+                                                        href="{{ route('stall_locker.edit', $stall->id) }}"
                                                         type="submit"><i
                                                             class="mdi mdi-pencil m-r-10 text-muted font-18 vertical-middle"></i>Edit
-                                                        parker</a>
+                                                        Stall info</a>
                                                     <a class="dropdown-item"
                                                         onclick="confirmDelete('{{ route('parker.delete', ['id' => $parker->id]) }}')"><i
                                                             class="mdi mdi-delete m-r-10 text-muted font-18 vertical-middle"></i>

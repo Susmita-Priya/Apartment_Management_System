@@ -116,7 +116,8 @@
                             <!-- Unit/Suite Number -->
                             <div class="form-group">
                                 <label for="unit_no">Unit/Suite NO</label>
-                                <input type="number" name="unit_no" id="unit_no" class="form-control" value="{{ $unit->unit_no }}" required>
+                                <input type="number" name="unit_no" id="unit_no" class="form-control"
+                                    value="{{ $unit->unit_no }}" required>
                             </div>
 
                             <!-- Checkbox placeholders -->
@@ -250,7 +251,7 @@
             }
         }
 
-        window.onload = function () {
+        window.onload = function() {
             showBuildingDetails();
             showBlockDetails();
             showFloorDetails();

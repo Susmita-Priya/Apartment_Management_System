@@ -1,7 +1,7 @@
 @extends('master')
 
 @push('title')
-    <title>Units List</title>
+    <title>Parkers List</title>
 @endpush
 
 @section('content')
@@ -13,8 +13,8 @@
                         <h4 class="page-title float-left">Parkers</h4>
 
                         <ol class="breadcrumb float-right">
-                            <li class="breadcrumb-item"><a href="{{ url('/index') }}">Admin</a></li>
-                            {{-- <li class="breadcrumb-item"><a href="#">Units</a></li> --}}
+                            <li class="breadcrumb-item"><a href="{{ route('index') }}">Admin</a></li>
+      
                             <li class="breadcrumb-item active">Parkers list</li>
                         </ol>
 

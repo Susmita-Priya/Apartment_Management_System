@@ -2,7 +2,7 @@
 
 @section('content')
     @push('title')
-        <title>Add Stall/Locker</title>
+        <title>Edit Locker</title>
     @endpush
 
     <div class="content">
@@ -10,14 +10,15 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box">
-                        <h4 class="page-title float-left">Add Stall/Locker</h4>
+                        <h4 class="page-title float-left">Edit Locker</h4>
 
                         <ol class="breadcrumb float-right">
                             <li class="breadcrumb-item"><a href="{{ route('index') }}">Dashboard</a></li>
                             <li class="breadcrumb-item"><a href="{{ route('building') }}">Buildings</a></li>
                             <li class="breadcrumb-item"><a href="{{ route('block.index') }}">Blocks</a></li>
                             <li class="breadcrumb-item"><a href="{{ route('floor.index') }}">Floors</a></li>
-                            <li class="breadcrumb-item active">Add Stall/Locker</li>
+                            {{-- <li class="breadcrumb-item"><a href="{{ route('parking.list') }}">Stall</a></li> --}}
+                            <li class="breadcrumb-item active">Edit Locker</li>
                         </ol>
 
                         <div class="clearfix"></div>
@@ -28,9 +29,9 @@
             <div class="row">
                 <div class="col-12">
                     <div class="card-box">
-                        <form action="{{ route('stall_locker.store') }}" enctype="multipart/form-data" method="POST">
+                        <form action="{{ route('stall_locker.update', $stallLocker->id) }}" enctype="multipart/form-data"
+                            method="POST">
                             @csrf
-                            {{-- <input type="hidden" name="floor_id" value="{{ $floor->id }}"> --}}
 
                             <!-- Building Selection -->
                             <div class="form-group">
@@ -58,8 +59,7 @@
                                 <select name="block_id" id="block_id" class="form-control" onchange="showBlockDetails()">
                                     <option value="">Select Block</option>
                                     @foreach ($blocks as $blk)
-                                        <option value="{{ $blk->id }}"
-                                            {{ $block && $block->id == $blk->id ? 'selected' : '' }}>
+                                        <option value="{{ $blk->id }}" {{ $block && $block->id == $blk->id ? 'selected' : '' }}>
                                             {{ $blk->name }}
                                         </option>
                                     @endforeach
@@ -70,7 +70,6 @@
                                     @enderror
                                 </span>
                             </div>
-
                             <!-- Floor Selection -->
                             <div class="form-group">
                                 <label for="floor_id">Select Floor</label>
@@ -78,7 +77,7 @@
                                     <option value="">Select Floor</option>
                                     @foreach ($floors as $flr)
                                         <option value="{{ $flr->id }}"
-                                            {{ $floor && $floor->id == $flr->id ? 'selected' : '' }}>
+                                            {{ $floor && $floor->floor_id == $flr->id ? 'selected' : '' }}>
                                             {{ $flr->type }}-{{ $flr->floor_no }}
                                         </option>
                                     @endforeach
@@ -113,21 +112,33 @@
                                 </table>
                             </div>
 
-                            <!-- Textbox placeholders -->
-                            <div id="dynamic-textbox"></div>
-
-                            <!-- Selectbox placeholders -->
-                            <div id="dynamic-selectboxs"></div>
-
-                            <!-- Stall/Locker capacity-->
+                            <!-- Stall/Locker No -->
                             <div class="form-group">
-                                <label for="capacity">Capacity</label>
-                                <input type="number" name="capacity" id="capacity" class="form-control" required>
+                                <label for="stall_locker_no">Stall/Locker No</label>
+                                <input type="text" name="stall_locker_no" id="stall_locker_no" class="form-control"
+                                    value="{{ $stallLocker->stall_locker_no }}" required>
                             </div>
 
-                            <button type="submit" class="btn waves-effect waves-light btn-sm submitbtn"> Add
+                            <!-- Type Selection -->
+                            <div class="form-group">
+                                <label for="type">Type</label>
+                                <select name="type" id="type" class="form-control" required>
+                                    @if ($stallLocker->floor->storage_lot)
+                                        <option value="Storage Locker"
+                                            {{ $stallLocker->type == 'Storage Locker' ? 'selected' : '' }}>Storage Locker
+                                        </option>
+                                    @endif
+                                </select>
+                            </div>
 
-                            </button>
+                            <!-- Stall/Locker Capacity -->
+                            <div class="form-group">
+                                <label for="capacity">Capacity</label>
+                                <input type="number" name="capacity" id="capacity" class="form-control"
+                                    value="{{ $stallLocker->capacity }}" required>
+                            </div>
+
+                            <button type="submit" class="btn waves-effect waves-light btn-sm submitbtn"> Update </button>
                         </form>
                     </div>
                 </div>
@@ -297,10 +308,10 @@
         }
 
         document.addEventListener('DOMContentLoaded', function() {
-            showFloorDetails(); // Show initial floor details if a floor is pre-selected
+           
             showBuildingDetails(); // Show initial building details if a building is pre-selected
-            showBlockDetails(); // Show initial block details if a block is pre-selected
-
+            showBlockDetails(); // Show initial block details if a block is pre-selected    
+            showFloorDetails(); // Show initial floor details if a floor is pre-selected
         });
     </script>
 @endsection
