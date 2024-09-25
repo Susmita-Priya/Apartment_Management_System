@@ -40,6 +40,18 @@
                                 </span>
                             </div>
 
+                            <!-- Stall No -->
+                            <div class="form-group">
+                                <label for="stall_no">Stall Number</label>
+                                <input type="text" name="stall_no" id="stall_no" class="form-control"
+                                    value="{{ $vehicle->stall_no ?? 'No Stall Assigned' }}" readonly required>
+                                <span class="text-danger">
+                                    @error('stall_no')
+                                        {{ $message }}
+                                    @enderror
+                                </span>
+                            </div>
+
                              <!-- Parker Name -->
                              <div class="form-group">
                                 <label for="name">Parker Name</label>
@@ -73,7 +85,7 @@
                                 </span>
                             </div>
 
-                            <!-- Stall Number -->
+                            {{-- <!-- Stall Number -->
                             <div class="form-group">
                                 <label for="stall_no">Stall Number</label>
                                 <select name="stall_no" id="stall_no" class="form-control">
@@ -90,7 +102,7 @@
                                     @enderror
                                 </span>
                                 <small class="form-text text-muted">If no stall is selected, the parker will be unassigned from any stall.</small>
-                            </div>
+                            </div> --}}
 
                             <!-- Vehicle Status -->
                             <input type="hidden" name="status" value="{{ $parker->status }}" id="status">

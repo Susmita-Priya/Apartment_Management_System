@@ -31,10 +31,10 @@ class Parker extends Model
         return $this->belongsTo(StallLocker::class, 'stall_no');
     }
 
-    public function parkers()
-    {
-        return $this->hasMany(Parker::class, 'stall_no');
-    }
+    // public function parkers()
+    // {
+    //     return $this->hasMany(Parker::class, 'stall_no');
+    // }
 
     public function parkings()
     {

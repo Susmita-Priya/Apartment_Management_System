@@ -21,12 +21,17 @@
                             @csrf
 
                             <div class="form-group">
-                                <label for="vehicle_no">Select Vehicle</label>
-                                <select name="vehicle_no" class="form-control">
+                                <label for="vehicle_no">Select Vehicles</label>
+                                <div>
                                     @foreach ($vehicles as $vehicle)
-                                        <option value="{{ $vehicle->id }}">{{ $vehicle->vehicle_no }} ({{ $vehicle->vehicle_name }})</option>
+                                        <div class="form-check">
+                                            <input type="checkbox" name="vehicle_no[]" value="{{ $vehicle->id }}" id="vehicle_{{ $vehicle->id }}" class="form-check-input">
+                                            <label class="form-check-label" for="vehicle_{{ $vehicle->id }}">
+                                                {{ $vehicle->vehicle_no }} ({{ $vehicle->vehicle_name }})
+                                            </label>
+                                        </div>
                                     @endforeach
-                                </select>
+                                </div>
                             </div>
 
                             <div class="form-group">

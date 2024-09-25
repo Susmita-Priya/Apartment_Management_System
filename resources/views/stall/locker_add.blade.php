@@ -119,6 +119,12 @@
                             <!-- Selectbox placeholders -->
                             <div id="dynamic-selectboxs"></div>
 
+                            <!-- Stall/Locker capacity-->
+                            <div class="form-group">
+                                <label for="capacity">Capacity</label>
+                                <input type="number" name="capacity" id="capacity" class="form-control" required>
+                            </div>
+
                             <button type="submit" class="btn waves-effect waves-light btn-sm submitbtn"> Add
 
                             </button>

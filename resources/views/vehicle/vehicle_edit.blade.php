@@ -14,7 +14,7 @@
 
                         <ol class="breadcrumb float-right">
                             <li class="breadcrumb-item"><a href="{{ route('index') }}">Dashboard</a></li>
-                                                        <li class="breadcrumb-item"><a href="{{ route('vehicle.index') }}">Vehicles</a></li>
+                            <li class="breadcrumb-item"><a href="{{ route('vehicle.index') }}">Vehicles</a></li>
                             <li class="breadcrumb-item active">Edit Vehicle</li>
                         </ol>
 
@@ -26,14 +26,28 @@
             <div class="row">
                 <div class="col-12">
                     <div class="card-box">
-                        <form action="{{ route('vehicle.update', $vehicle->id) }}" enctype="multipart/form-data" method="POST">
+                        <form action="{{ route('vehicle.update', $vehicle->id) }}" enctype="multipart/form-data"
+                            method="POST">
                             @csrf
                             <!-- Vehicle Number -->
                             <div class="form-group">
                                 <label for="vehicle_no">Vehicle Number</label>
-                                <input type="text" name="vehicle_no" id="vehicle_no" class="form-control" readonly value="{{ $vehicle->vehicle_no }}" required>
+                                <input type="text" name="vehicle_no" id="vehicle_no" class="form-control" readonly
+                                    value="{{ $vehicle->vehicle_no }}" required>
                                 <span class="text-danger">
                                     @error('vehicle_no')
+                                        {{ $message }}
+                                    @enderror
+                                </span>
+                            </div>
+
+                            <!-- Stall No -->
+                            <div class="form-group">
+                                <label for="stall_no">Stall Number</label>
+                                <input type="text" name="stall_no" id="stall_no" class="form-control"
+                                    value="{{ $vehicle->stall_no ?? 'No Stall Assigned' }}" readonly required>
+                                <span class="text-danger">
+                                    @error('stall_no')
                                         {{ $message }}
                                     @enderror
                                 </span>
@@ -42,7 +56,8 @@
                             <!-- Vehicle Name -->
                             <div class="form-group">
                                 <label for="vehicle_name">Vehicle Name</label>
-                                <input type="text" name="vehicle_name" id="vehicle_name" class="form-control" value="{{ $vehicle->vehicle_name }}" required>
+                                <input type="text" name="vehicle_name" id="vehicle_name" class="form-control"
+                                    value="{{ $vehicle->vehicle_name }}" required>
                                 <span class="text-danger">
                                     @error('vehicle_name')
                                         {{ $message }}
@@ -55,8 +70,10 @@
                                 <label for="vehicle_type">Vehicle Type</label>
                                 <div class="input-group">
                                     <select name="vehicle_type" id="vehicle_type" class="form-control" required>
-                                        <option value="Car" {{ $vehicle->vehicle_type == 'Car' ? 'selected' : '' }}>Car</option>
-                                        <option value="Bike" {{ $vehicle->vehicle_type == 'Bike' ? 'selected' : '' }}>Bike</option>
+                                        <option value="Car" {{ $vehicle->vehicle_type == 'Car' ? 'selected' : '' }}>Car
+                                        </option>
+                                        <option value="Bike" {{ $vehicle->vehicle_type == 'Bike' ? 'selected' : '' }}>
+                                            Bike</option>
                                     </select>
                                 </div>
                                 <span class="text-danger">
@@ -69,7 +86,8 @@
                             <!-- Owner Name -->
                             <div class="form-group">
                                 <label for="owner_name">Owner Name</label>
-                                <input type="text" name="owner_name" id="owner_name" class="form-control" value="{{ $vehicle->owner_name }}" required>
+                                <input type="text" name="owner_name" id="owner_name" class="form-control"
+                                    value="{{ $vehicle->owner_name }}" required>
                                 <span class="text-danger">
                                     @error('owner_name')
                                         {{ $message }}
@@ -77,14 +95,15 @@
                                 </span>
                             </div>
 
-                            <!-- Stall Number -->
+
+                            {{-- <!-- Stall Number -->
                             <div class="form-group">
                                 <label for="stall_no">Stall Number</label>
                                 <select name="stall_no" id="stall_no" class="form-control">
                                     <option value="">No Stall Assigned</option>
                                     @foreach ($stalls as $stall)
-                                        <option value="{{ $stall->id }}" {{ $vehicle->stall_id == $stall->id ? 'selected' : '' }}>
-                                            {{ $stall->stall_number }}
+                                        <option value="{{ $stall->id }}" {{ $vehicle->stall_no == $stall->id ? 'selected' : '' }}>
+                                            {{ $vehicle->stall_no }}
                                         </option>
                                     @endforeach
                                 </select>
@@ -94,12 +113,13 @@
                                     @enderror
                                 </span>
                                 <small class="form-text text-muted">If no stall is selected, the vehicle will be unassigned from any stall.</small>
-                            </div>
+                            </div> --}}
 
                             <!-- Vehicle Status -->
                             <input type="hidden" name="status" value="{{ $vehicle->status }}" id="status">
 
-                            <button type="submit" class="btn waves-effect waves-light btn-sm submitbtn">Update Vehicle</button>
+                            <button type="submit" class="btn waves-effect waves-light btn-sm submitbtn">Update
+                                Vehicle</button>
                         </form>
                     </div>
                 </div>

@@ -59,7 +59,7 @@
                                         <td>{{ $vehicle->vehicle_name }}</td>
                                         <td>{{ $vehicle->vehicle_type }}</td>
                                         <td>{{ $vehicle->owner_name }}</td>
-                                        <td>{{ $vehicle->stall_no }}</td>
+                                        <td>Stall - {{ $vehicle->stall_no }}</td>
                                         <td>
                                             @if ($vehicle->status === 'assigned')
                                                 <span class="badge badge-success">{{ $vehicle->status }}</span>

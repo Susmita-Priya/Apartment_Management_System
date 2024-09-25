@@ -15,6 +15,7 @@ class StallLocker extends Model
         'floor_id',
         'stall_locker_no',
         'type',
+        'capacity',
     ];
 
     /**
@@ -25,17 +26,16 @@ class StallLocker extends Model
         return $this->belongsTo(Floor::class);
     }
 
-    // Access the building through the block
     public function block()
     {
-        return $this->floor->block();
+        return $this->floor ? $this->floor->block() : null;
     }
 
-    // Access the building through the block
     public function building()
     {
-        return $this->floor->block->building();
+        return $this->floor ? $this->floor->block->building() : null;
     }
+
 
     // public function assets()
     // {
@@ -56,5 +56,4 @@ class StallLocker extends Model
     {
         return $this->hasOne(Parking::class, 'stall_no');
     }
-    
 }
