@@ -379,6 +379,7 @@ Route::get('parking/{id}/assign', [ParkingController::class, 'create'])->name('p
 
 Route::post('parking/{id}/assign', [ParkingController::class, 'store'])->name('parking.store');
 
+Route::post('parking/removeVehicle/{vehicleId}', [ParkingController::class, 'removeVehicle'])->name('vehicle.remove');
 
 
 

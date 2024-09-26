@@ -45,7 +45,7 @@
                             <div class="form-group">
                                 <label for="stall_no">Stall Number</label>
                                 <input type="text" name="stall_no" id="stall_no" class="form-control"
-                                    value="{{ $vehicle->stall_no ?? 'No Stall Assigned' }}" readonly required>
+                                    value="{{ $vehicle->stall_no ?? null }}" readonly>
                                 <span class="text-danger">
                                     @error('stall_no')
                                         {{ $message }}
@@ -83,6 +83,30 @@
                                 </span>
                             </div>
 
+                            <!-- Previous Image -->
+                            <div class="form-group">
+                                <label for="vehicle_image">Previous Image</label>
+                                @if ($vehicle->vehicle_image)
+                                    <div>
+                                        <img src="{{ asset($vehicle->vehicle_image) }}" alt="Vehicle Image"
+                                            style="max-width: 200px; max-height: 200px;">
+                                    </div>
+                                @else
+                                    <p>No image uploaded.</p>
+                                @endif
+                            </div>
+
+                            <!-- New Image Upload -->
+                            <div class="form-group">
+                                <label for="vehicle_image">Change Vehicle Image</label>
+                                <input type="file" name="vehicle_image" id="vehicle_image" class="form-control">
+                                <span class="text-danger">
+                                    @error('vehicle_image')
+                                        {{ $message }}
+                                    @enderror
+                                </span>
+                            </div>
+
                             <!-- Owner Name -->
                             <div class="form-group">
                                 <label for="owner_name">Owner Name</label>
@@ -90,6 +114,42 @@
                                     value="{{ $vehicle->owner_name }}" required>
                                 <span class="text-danger">
                                     @error('owner_name')
+                                        {{ $message }}
+                                    @enderror
+                                </span>
+                            </div>
+
+                            <!-- Owner Phone -->
+                            <div class="form-group">
+                                <label for="owner_phn">Owner Phone</label>
+                                <input type="text" name="owner_phn" id="owner_phn" class="form-control"
+                                    value="{{ $vehicle->owner_phn }}" required>
+                                <span class="text-danger">
+                                    @error('owner_phn')
+                                        {{ $message }}
+                                    @enderror
+                                </span>
+                            </div>
+
+                            <!-- Driver Name -->
+                            <div class="form-group">
+                                <label for="driver_name">Driver Name</label>
+                                <input type="text" name="driver_name" id="driver_name" class="form-control"
+                                    value="{{ $vehicle->driver_name }}" required>
+                                <span class="text-danger">
+                                    @error('driver_name')
+                                        {{ $message }}
+                                    @enderror
+                                </span>
+                            </div>
+
+                            <!-- Driver Phone -->
+                            <div class="form-group">
+                                <label for="driver_phn">Driver Phone</label>
+                                <input type="text" name="driver_phn" id="driver_phn" class="form-control"
+                                    value="{{ $vehicle->driver_phn }}" required>
+                                <span class="text-danger">
+                                    @error('driver_phn')
                                         {{ $message }}
                                     @enderror
                                 </span>
@@ -132,5 +192,22 @@
             const stallNo = this.value;
             document.getElementById('status').value = stallNo ? 'assigned' : 'not_assigned';
         });
+
+        // // Preview the selected image
+        // document.getElementById('vehicle_image').addEventListener('change', function(event) {
+        //     const imagePreview = document.getElementById('imagePreview');
+        //     const file = event.target.files[0];
+
+        //     if (file) {
+        //         const reader = new FileReader();
+        //         reader.onload = function(e) {
+        //             imagePreview.src = e.target.result;
+        //             imagePreview.style.display = 'block';
+        //         }
+        //         reader.readAsDataURL(file);
+        //     } else {
+        //         imagePreview.style.display = 'none';
+        //     }
+        // });
     </script>
 @endsection

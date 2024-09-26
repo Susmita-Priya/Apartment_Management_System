@@ -232,7 +232,6 @@
                             `;
                     }
 
-
                 // Close the select box
                 TextBoxContent += `
                     </label>
