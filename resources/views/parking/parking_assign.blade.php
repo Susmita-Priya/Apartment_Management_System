@@ -11,7 +11,7 @@
                     <div class="page-title-box">
                         <h4 class="page-title float-left">Assign Vehicle and Parker</h4>
                         <ol class="breadcrumb float-right">
-                            <li class="breadcrumb-item"><a href="{{ route('index') }}">Admin</a></li>
+                            <li class="breadcrumb-item"><a href="{{ route('index') }}">Dashboard</a></li>
                             <li class="breadcrumb-item active"><a href="{{ route('parking.list') }}">Stalls list</a></li>
                             <li class="breadcrumb-item active">Assign</li>
                         </ol>
@@ -36,6 +36,7 @@
                                     <tr>
                                         <th>Vehicle No</th>
                                         <th>Vehicle Name</th>
+                                        <th>Image</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
@@ -44,6 +45,8 @@
                                         <tr>
                                             <td>{{ $vehicle->vehicle_no }}</td>
                                             <td>{{ $vehicle->vehicle_name }}</td>
+                                            <td><img src="{{ asset($vehicle->vehicle_image) }}" alt="Vehicle Image"
+                                                style="max-width: 100px; max-height: 100px;"></td>
                                             <td>
                                                 <!-- Remove vehicle form -->
                                                 <form action="{{ route('vehicle.remove', $vehicle->id) }}" method="POST" style="display:inline;">
@@ -61,13 +64,17 @@
                             <table class="table table-bordered">
                                 <thead>
                                     <tr>
+                                        <th>Parker No</th>
                                         <th>Parker Name</th>
+                                        <th>Contact No</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @if ($stall->parkers->isNotEmpty())
                                         <tr>
+                                            <td>{{ $stall->parkers->first()->parker_no }}</td>
                                             <td name="parker_no">{{ $stall->parkers->first()->parker_name }}</td>
+                                            <td>{{ $stall->parkers->first()->phn }}</td>
                                         </tr>
                                     @else
                                         <tr>

@@ -13,7 +13,7 @@
                         <h4 class="page-title float-left">Vehicles</h4>
 
                         <ol class="breadcrumb float-right">
-                            <li class="breadcrumb-item"><a href="{{ url('/index') }}">Admin</a></li>
+                            <li class="breadcrumb-item"><a href="{{ route('index') }}">Admin</a></li>
                             {{-- <li class="breadcrumb-item"><a href="#">Vehicles</a></li> --}}
                             <li class="breadcrumb-item active">Vehicles list</li>
                         </ol>

@@ -13,7 +13,7 @@
                         <h4 class="page-title float-left">Parkers</h4>
 
                         <ol class="breadcrumb float-right">
-                            <li class="breadcrumb-item"><a href="{{ route('index') }}">Admin</a></li>
+                            <li class="breadcrumb-item"><a href="{{ route('index') }}">Dashboard</a></li>
       
                             <li class="breadcrumb-item active">Parkers list</li>
                         </ol>
