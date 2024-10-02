@@ -36,8 +36,4 @@ class Parker extends Model
     //     return $this->hasMany(Parker::class, 'stall_no');
     // }
 
-    public function parkings()
-    {
-        return $this->hasMany(Parking::class, 'parker_no');
-    }
 }

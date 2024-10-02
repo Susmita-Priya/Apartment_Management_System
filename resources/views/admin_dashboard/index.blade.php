@@ -16,7 +16,6 @@
                         <h4 class="page-title float-left">Dashboard</h4>
 
                         <ol class="breadcrumb float-right">
-                            <li class="breadcrumb-item"><a href="{{ route('index') }}">Admin</a></li>
                             <li class="breadcrumb-item active">Dashboard</li>
                         </ol>
 

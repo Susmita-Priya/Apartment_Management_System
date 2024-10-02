@@ -14,8 +14,7 @@ class BuildingController extends Controller
     {
         // Fetch all buildings from the database
 
-        $data['search_property']=$search_property = $request->search_property ?? '';
-
+        $data['search_property'] = $search_property = $request->search_property ?? '';
 
         $data['buildings'] = Building::orderBy('id', 'asc')
             ->when($search_property != '', function ($query) use ($search_property) {
@@ -23,7 +22,7 @@ class BuildingController extends Controller
             })
             ->get();
         // return $buildings;
-       
+
         // Pass the buildings data to the view
         return view('building.building_list', $data);
     }

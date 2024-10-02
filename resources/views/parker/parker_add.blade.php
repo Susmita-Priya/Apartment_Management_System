@@ -26,6 +26,13 @@
             <div class="row">
                 <div class="col-12">
                     <div class="card-box">
+                        <div class="card-head">
+                            <div class="kt-portlet__head-label">
+                                <h1 class="text-center">
+                                    Add New Parker
+                                </h1>
+                            </div>
+                        </div>
                         <form action="{{ route('parker.store') }}" enctype="multipart/form-data" method="POST">
                             @csrf
 

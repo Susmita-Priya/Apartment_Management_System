@@ -26,6 +26,13 @@
             <div class="row">
                 <div class="col-12">
                     <div class="card-box">
+                        <div class="card-head">
+                            <div class="kt-portlet__head-label">
+                                <h1 class="text-center">
+                                    Add New Vehicle
+                                </h1>
+                            </div>
+                        </div>
                         <form action="{{ route('vehicle.store') }}" enctype="multipart/form-data" method="POST">
                             @csrf
 
@@ -82,12 +89,57 @@
                                 </div>
                             </div>
 
+                             <!-- Vehicle Image -->
+                             <div class="form-group">
+                                <label for="vehicle_image">Vehicle Image</label>
+                                <input type="file" name="vehicle_image" id="vehicle_image" class="form-control" accept="image/*" required>
+                                <span class="text-danger">
+                                    @error('vehicle_image')
+                                        {{ $message }}
+                                    @enderror
+                                </span>
+                                <img id="imagePreview" src="#" alt="Image Preview" style="display: none; margin-top: 10px; max-width: 200px;">
+                            </div>
+
                             <!-- Owner Name -->
                             <div class="form-group">
                                 <label for="owner_name">Owner Name</label>
                                 <input type="text" name="owner_name" id="owner_name" class="form-control" required>
                                 <span class="text-danger">
                                     @error('owner_name')
+                                        {{ $message }}
+                                    @enderror
+                                </span>
+                            </div>
+
+                            <!-- Owner Phone -->
+                            <div class="form-group">
+                                <label for="owner_phn">Owner Phone</label>
+                                <input type="text" name="owner_phn" id="owner_phn" class="form-control" required>
+                                <span class="text-danger">
+                                    @error('owner_phn')
+                                        {{ $message }}
+                                    @enderror
+                                </span>
+                            </div>
+                            
+                            <!-- Driver Name -->
+                            <div class="form-group">
+                                <label for="driver_name">Driver Name</label>
+                                <input type="text" name="driver_name" id="driver_name" class="form-control" required>
+                                <span class="text-danger">
+                                    @error('driver_name')
+                                        {{ $message }}
+                                    @enderror
+                                </span>
+                            </div>
+
+                            <!-- Driver Phone -->
+                            <div class="form-group">
+                                <label for="driver_phn">Driver Phone</label>
+                                <input type="text" name="driver_phn" id="driver_phn" class="form-control" required>
+                                <span class="text-danger">
+                                    @error('driver_phn')
                                         {{ $message }}
                                     @enderror
                                 </span>
@@ -154,5 +206,23 @@
             const stallNo = this.value;
             document.getElementById('status').value = stallNo ? 'assigned' : 'not_assigned';
         });
+
+        // Preview the selected image
+        document.getElementById('vehicle_image').addEventListener('change', function(event) {
+            const imagePreview = document.getElementById('imagePreview');
+            const file = event.target.files[0];
+
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    imagePreview.src = e.target.result;
+                    imagePreview.style.display = 'block';
+                }
+                reader.readAsDataURL(file);
+            } else {
+                imagePreview.style.display = 'none';
+            }
+        });
+        
     </script>
 @endsection

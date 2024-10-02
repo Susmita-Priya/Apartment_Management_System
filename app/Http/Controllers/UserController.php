@@ -14,7 +14,8 @@ class UserController extends Controller
 {
     public function index()
     {
-        $users = User::with('role', 'subscription_package')->get();
+        // $users = User::with('role', 'subscription_package')->get();
+        $users = User::with('role')->get();
         return view('user.user_list', ['users' => $users]);
     }
 
@@ -82,114 +83,114 @@ class UserController extends Controller
         return redirect()->route('user.index')->with('delete', 'User deleted successfully!');
     }
 
-    public function add_subscription_form(string $id)
-    {
-        $data['user'] = User::findOrFail($id);
-        $data['latest_user_subscription'] = SubscriptionUserInfo::where('user_id', $id)->orderByDesc('id')->first();
+    // public function add_subscription_form(string $id)
+    // {
+    //     $data['user'] = User::findOrFail($id);
+    //     $data['latest_user_subscription'] = SubscriptionUserInfo::where('user_id', $id)->orderByDesc('id')->first();
 
-        $data['roles'] = Role::all();
-        $data['page_title'] = 'user subscription';
+    //     $data['roles'] = Role::all();
+    //     $data['page_title'] = 'user subscription';
 
-        $data['subscription_packages'] = SubscriptionPackage::orderBy('sl_no', 'asc')
-            ->where('status', 1)
-            ->get();
-        $data['subscription_package_durations'] = SubscriptionPackageDuration::orderBy('type', 'asc')
-            ->where('status', 1)
-            ->get();
-        return view('user.add_subscription', $data);
-    }
+    //     $data['subscription_packages'] = SubscriptionPackage::orderBy('sl_no', 'asc')
+    //         ->where('status', 1)
+    //         ->get();
+    //     $data['subscription_package_durations'] = SubscriptionPackageDuration::orderBy('type', 'asc')
+    //         ->where('status', 1)
+    //         ->get();
+    //     return view('user.add_subscription', $data);
+    // }
 
-    public function store_subscription(Request $request, string $id)
-    {
-        // return $request;
+    // public function store_subscription(Request $request, string $id)
+    // {
+    //     // return $request;
 
-        $data = $request->all();
+    //     $data = $request->all();
 
-        $package = SubscriptionPackage::find($request->subscription_package_id);
-        $duration = SubscriptionPackageDuration::where('id', $package->subscription_package_duration_id)->first();
+    //     $package = SubscriptionPackage::find($request->subscription_package_id);
+    //     $duration = SubscriptionPackageDuration::where('id', $package->subscription_package_duration_id)->first();
 
-        $duration_value = $duration->value;
+    //     $duration_value = $duration->value;
 
-        if ($duration->type == 1) {
-            $expire_date = Carbon::parse($request->subcription_date)->addDay($duration_value)->format('Y-m-d');
-        } elseif ($duration->type == 2) {
-            $expire_date = Carbon::parse($request->subcription_date)->addWeek($duration_value)->format('Y-m-d');
-        } elseif ($duration->type == 3) {
-            $expire_date = Carbon::parse($request->subcription_date)->addMonth($duration_value)->format('Y-m-d');
-        } elseif ($duration->type == 4) {
-            $expire_date = Carbon::parse($request->subcription_date)->addYear($duration_value)->format('Y-m-d');
-        } else {
-            return back()->with('error', "Something went wrong.");
-        }
-        // return $expire_date;
+    //     if ($duration->type == 1) {
+    //         $expire_date = Carbon::parse($request->subcription_date)->addDay($duration_value)->format('Y-m-d');
+    //     } elseif ($duration->type == 2) {
+    //         $expire_date = Carbon::parse($request->subcription_date)->addWeek($duration_value)->format('Y-m-d');
+    //     } elseif ($duration->type == 3) {
+    //         $expire_date = Carbon::parse($request->subcription_date)->addMonth($duration_value)->format('Y-m-d');
+    //     } elseif ($duration->type == 4) {
+    //         $expire_date = Carbon::parse($request->subcription_date)->addYear($duration_value)->format('Y-m-d');
+    //     } else {
+    //         return back()->with('error', "Something went wrong.");
+    //     }
+    //     // return $expire_date;
 
-        $data['subscription_package_duration_id'] = $duration->id;
-        $data['subcription_date'] = $request->subcription_date;
-        $data['expire_date'] = $expire_date;
-
-
-        SubscriptionUserInfo::create($data);
-        return redirect()->route('user.index')->with('success', 'Subscription added successfully!');
-    }
-
-    public function view_subscription(string $id)
-    {
-        $data['subscription_infos'] = SubscriptionUserInfo::where('user_id', $id)->get();
-        return view('user.view_subscription', $data);
-    }
-
-    public function delete_subscription(string $id)
-    {
-        $data['subscription_infos'] = SubscriptionUserInfo::where('id', $id)->delete();
-        return redirect()->back()->with('error', 'Subscription deleted successfully!');
-    }
+    //     $data['subscription_package_duration_id'] = $duration->id;
+    //     $data['subcription_date'] = $request->subcription_date;
+    //     $data['expire_date'] = $expire_date;
 
 
-    public function edit_subscription_form(string $id)
-    {
-        $data['page_title'] = 'user subscription update';
-        $data['subscription_info'] = SubscriptionUserInfo::find($id);
+    //     SubscriptionUserInfo::create($data);
+    //     return redirect()->route('user.index')->with('success', 'Subscription added successfully!');
+    // }
 
-        $data['subscription_packages'] = SubscriptionPackage::orderBy('sl_no', 'asc')
-            ->where('status', 1)
-            ->get();
-        $data['subscription_package_durations'] = SubscriptionPackageDuration::orderBy('type', 'asc')
-            ->where('status', 1)
-            ->get();
+    // public function view_subscription(string $id)
+    // {
+    //     $data['subscription_infos'] = SubscriptionUserInfo::where('user_id', $id)->get();
+    //     return view('user.view_subscription', $data);
+    // }
 
-        return view('user.edit_subscription', $data);
-    }
+    // public function delete_subscription(string $id)
+    // {
+    //     $data['subscription_infos'] = SubscriptionUserInfo::where('id', $id)->delete();
+    //     return redirect()->back()->with('error', 'Subscription deleted successfully!');
+    // }
 
-    public function update_subscription(Request $request, string $id)
-    {
 
-        $subscription_user_info = SubscriptionUserInfo::find($id);
-        $data = $request->all();
+    // public function edit_subscription_form(string $id)
+    // {
+    //     $data['page_title'] = 'user subscription update';
+    //     $data['subscription_info'] = SubscriptionUserInfo::find($id);
 
-        $package = SubscriptionPackage::find($request->subscription_package_id);
-        $duration = SubscriptionPackageDuration::where('id', $package->subscription_package_duration_id)->first();
+    //     $data['subscription_packages'] = SubscriptionPackage::orderBy('sl_no', 'asc')
+    //         ->where('status', 1)
+    //         ->get();
+    //     $data['subscription_package_durations'] = SubscriptionPackageDuration::orderBy('type', 'asc')
+    //         ->where('status', 1)
+    //         ->get();
 
-        $duration_value = $duration->value;
+    //     return view('user.edit_subscription', $data);
+    // }
 
-        if ($duration->type == 1) {
-            $expire_date = Carbon::parse($request->subcription_date)->addDay($duration_value)->format('Y-m-d');
-        } elseif ($duration->type == 2) {
-            $expire_date = Carbon::parse($request->subcription_date)->addWeek($duration_value)->format('Y-m-d');
-        } elseif ($duration->type == 3) {
-            $expire_date = Carbon::parse($request->subcription_date)->addMonth($duration_value)->format('Y-m-d');
-        } elseif ($duration->type == 4) {
-            $expire_date = Carbon::parse($request->subcription_date)->addYear($duration_value)->format('Y-m-d');
-        } else {
-            return back()->with('error', "Something went wrong.");
-        }
-        // return $expire_date;
+    // public function update_subscription(Request $request, string $id)
+    // {
 
-        $data['subcription_date'] = $request->subcription_date;
-        $data['expire_date'] = $expire_date;
-        $data['subscription_package_duration_id'] = $duration->id;
+    //     $subscription_user_info = SubscriptionUserInfo::find($id);
+    //     $data = $request->all();
 
-        $subscription_user_info->update($data);
+    //     $package = SubscriptionPackage::find($request->subscription_package_id);
+    //     $duration = SubscriptionPackageDuration::where('id', $package->subscription_package_duration_id)->first();
 
-        return redirect()->route('user_subscription.view', $subscription_user_info->user_id)->with('success', 'Subscription added successfully!');
-    }
+    //     $duration_value = $duration->value;
+
+    //     if ($duration->type == 1) {
+    //         $expire_date = Carbon::parse($request->subcription_date)->addDay($duration_value)->format('Y-m-d');
+    //     } elseif ($duration->type == 2) {
+    //         $expire_date = Carbon::parse($request->subcription_date)->addWeek($duration_value)->format('Y-m-d');
+    //     } elseif ($duration->type == 3) {
+    //         $expire_date = Carbon::parse($request->subcription_date)->addMonth($duration_value)->format('Y-m-d');
+    //     } elseif ($duration->type == 4) {
+    //         $expire_date = Carbon::parse($request->subcription_date)->addYear($duration_value)->format('Y-m-d');
+    //     } else {
+    //         return back()->with('error', "Something went wrong.");
+    //     }
+    //     // return $expire_date;
+
+    //     $data['subcription_date'] = $request->subcription_date;
+    //     $data['expire_date'] = $expire_date;
+    //     $data['subscription_package_duration_id'] = $duration->id;
+
+    //     $subscription_user_info->update($data);
+
+    //     return redirect()->route('user_subscription.view', $subscription_user_info->user_id)->with('success', 'Subscription added successfully!');
+    // }
 }

@@ -17,7 +17,11 @@ class Vehicle extends Model
         'vehicle_no',        // Vehicle Number
         'vehicle_name',      // Vehicle Name
         'vehicle_type',      // Vehicle Type (Car, Bike, or custom)
-        'owner_name',        // Owner's Name
+        'vehicle_image',
+        'owner_name',      
+        'owner_phn',       
+        'driver_name',     
+        'driver_phn',      
         'stall_no',          // Stall ID (if assigned to a stall)
         'status',            // Status to indicate if assigned to a stall
     ];
@@ -29,10 +33,5 @@ class Vehicle extends Model
     public function stalllocker()
     {
         return $this->belongsTo(StallLocker::class, 'stall_no');
-    }
-
-    public function parkings()
-    {
-        return $this->hasMany(Parking::class, 'vehicle_no');
     }
 }

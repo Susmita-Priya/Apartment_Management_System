@@ -14,7 +14,7 @@
                         <h4 class="page-title float-left">Blocks</h4>
 
                         <ol class="breadcrumb float-right">
-                            <li class="breadcrumb-item"><a href="{{ route('index') }}">Admin</a></li>
+                            <li class="breadcrumb-item"><a href="{{ route('index') }}">Dashboard</a></li>
                             <li class="breadcrumb-item"><a href="{{ route('building') }}">Buildings</a></li>
                             <li class="breadcrumb-item"><a
                                     href="{{ route('block.index') }}">Blocks</a></li>

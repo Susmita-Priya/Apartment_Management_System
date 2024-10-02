@@ -43,6 +43,32 @@
                                         <li><a href="{{ route('unit.create') }}" >New Unit</a></li>
                                     </ul>
                                 </li>
+
+                                <li>
+                                    <a href="javascript: void(0);">
+                                        <i class="fa fa-plus"></i>
+                                        <span> Tenant </span>
+                                        <span class="menu-arrow"></span>
+                                    </a>
+                                    @if (App\Models\Permission::hasPermission('add_tenants', $role_id))
+                                        <ul class="nav-third-level" aria-expanded="false">
+                                            <li><a href="{{ route('tenants.create') }}" >New Tenant</a></li>
+                                        </ul>
+                                    @endif
+                                    
+                                </li>
+                                <li>
+                                    <a href="javascript: void(0);">
+                                        <i class="fa fa-plus"></i>
+                                        <span> Parking </span>
+                                        <span class="menu-arrow"></span>
+                                    </a>
+                                    <ul class="nav-third-level" aria-expanded="false">
+                                        <li><a href="{{ route('stall_locker.create') }}" >New Stall</a></li>
+                                        <li><a href="{{ route('vehicle.create') }}" >New Vehicle</a></li>
+                                        <li><a href="{{ route('parker.create') }}" >New Parker</a></li>
+                                    </ul>
+                                </li>
                             </ul>
                         </li>
                     @endif
@@ -53,10 +79,8 @@
                             <a href="javascript: void(0);"><i class="fa fa-user"></i> <span> Tenants </span> <span
                                     class="menu-arrow"></span></a>
                             <ul class="nav-second-level " aria-expanded="false">
-                                {{-- @if (App\Models\Permission::hasPermission('add_tenants', $role_id))
-                                    <li><a href="{{ url('/tenants/create') }}">Add Tenants</a></li>
-                                @endif --}}
-                                <li><a href="{{ route('tenant.index') }}">Tenant List</a></li>
+                                <li><a href="{{ route('tenants.index') }}">Tenants list</a></li>
+                                {{-- <li><a href="{{ route('tenant.index') }}">Tenant List</a></li> --}}
                             </ul>
                         </li>
                     @endif
@@ -101,10 +125,9 @@
                             {{-- @if (App\Models\Permission::hasPermission('add_property', $role_id))
                         <li><a href="{{ url('/building/create') }}">Add Property</a></li>
                     @endif --}}
-                            <li><a href="{{ route('stall_locker.create') }}">New Stall</a></li>
                             <li><a href="{{ route('vehicle.index') }}">Vehicles</a></li>
                             <li><a href="{{ route('parker.index') }}">Parkers</a></li>
-                            <li><a href="{{ route('parking.list') }}">Parking List</a></li>
+                            <li><a href="{{ route('parking.list') }}">Stall List</a></li>
                             
                             {{-- <li><a href="{{ route('unit.index') }}">View unit</a></li> --}}
                         </ul>
@@ -169,7 +192,7 @@
                         </ul>
                     </li>
 
-
+{{-- 
                     <!------------------ SAAS Management -------------------->
                     <li>
                         <a href="javascript: void(0);"><i class="fa fa-book"></i> <span> SAAS Management </span> <span
@@ -180,7 +203,7 @@
                             </li>
                             <li><a href="{{ route('customer.index') }}">Customer List</a></li>
                         </ul>
-                    </li>
+                    </li> --}}
 
 
                     <!-- Access Management -->
@@ -189,10 +212,10 @@
                             <a href="javascript: void(0);"><i class="mdi mdi-lock-open"></i> <span> Access </span> <span
                                     class="menu-arrow"></span></a>
                             <ul class="nav-second-level " aria-expanded="false">
-                                <li><a href="{{ route('setting.create_edit') }}">Setting</a></li>
-                                <li><a href="{{ url('/user') }}">User Management</a></li>
-                                <li><a href="{{ url('/role') }}">Role Management</a></li>
-                                <li><a href="{{ url('/permission') }}">Permission Management</a></li>
+                                {{-- <li><a href="{{ route('setting.create_edit') }}">Setting</a></li> --}}
+                                <li><a href="{{ route('user.index') }}">User Management</a></li>
+                                <li><a href="{{ route('role.index') }}">Role Management</a></li>
+                                <li><a href="{{ route('permission.index') }}">Permission Management</a></li>
                             </ul>
                         </li>
                     @endif

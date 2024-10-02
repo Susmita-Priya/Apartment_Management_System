@@ -1,6 +1,5 @@
 <?php
 
-
 use App\Http\Controllers\AdroomController;
 use App\Http\Controllers\AmroomController;
 use App\Http\Controllers\AssetController;
@@ -11,6 +10,7 @@ use App\Http\Controllers\ComareaController;
 use App\Http\Controllers\ComroomController;
 use App\Http\Controllers\FloorController;
 use App\Http\Controllers\IndexController;
+use App\Http\Controllers\LandlordController;
 use App\Http\Controllers\MechroomController;
 use App\Http\Controllers\ParkerController;
 use App\Http\Controllers\ParkingController;
@@ -28,15 +28,14 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\VehicleController;
 use App\Http\Middleware\AdminUserMiddleware;
 use App\Models\Asset;
+use App\Models\Landlord;
 use App\Models\Parker;
 use App\Models\Permission;
+use App\Models\Tenant;
 use App\Models\Vehicle;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-// Route::get('/', function () {
-//     return view('welcome');
-// }); 
 
 
 // Route::group(['middleware' => 'useradmin'],function(){
@@ -47,64 +46,43 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/index', [IndexController::class, 'index'])->name("index");
 
-
-// Route::get('/dashboard', function () {
-//     return view('dashboard');
-// })->middleware(['auth', 'verified'])->name('dashboard');
-
-// Route::middleware('auth')->group(function () {
-//     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-//     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-//     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-// });
-
-// require __DIR__.'/auth.php';
-
-// old
-// Route::post('/logout', [AuthController::class, 'logout'])->name("logout");
-// Route::get('/', [AuthController::class, 'login'])->name("login");
-// Route::post('/', [AuthController::class, 'auth_login']);
-
-
 // new
 
-Route::get('/', [WebsiteController::class, 'website'])->name("website");
+// Route::get('/', [WebsiteController::class, 'website'])->name("website");
 Route::post('/logout', [AuthController::class, 'logout'])->name("logout");
-Route::get('/login', [AuthController::class, 'login'])->name("login");
+Route::get('/', [AuthController::class, 'login'])->name("login");
 Route::post('login/form/submit', [AuthController::class, 'doLogin'])->name("do_login");
 
 
 
+// // tenant list
 
-// tenant list
+// Route::resource('tenant', TenantController::class);
 
-Route::resource('tenant', TenantController::class);
-
-Route::get('/view-renter', 'TenantController@viewRenter')->name('view-renter');
-Route::get('/make/renter/active/{id}', 'TenantController@makeActive')->name('make-renter-active');
-Route::get('/make/renter/inactive/{id}', 'TenantController@inActive')->name('make-renter-in-active');
-// Route::get('/edit-renter/{id}', 'TenantController@editRenter')->name('edit-renter');
-Route::post('/delete-renter/{id}', 'TenantController@deleteRenter')->name('delete-renter');
+// Route::get('/view-renter', 'TenantController@viewRenter')->name('view-renter');
+// Route::get('/make/renter/active/{id}', 'TenantController@makeActive')->name('make-renter-active');
+// Route::get('/make/renter/inactive/{id}', 'TenantController@inActive')->name('make-renter-in-active');
+// // Route::get('/edit-renter/{id}', 'TenantController@editRenter')->name('edit-renter');
+// Route::post('/delete-renter/{id}', 'TenantController@deleteRenter')->name('delete-renter');
 
 
 
 // user
 Route::get('user', [UserController::class, 'index'])->name("user.index");
 Route::get('user/create', [UserController::class, 'create'])->name("user.create");
-Route::post('user/create', [UserController::class, 'store']);
+Route::post('user/create', [UserController::class, 'store'])->name("user.create");
 Route::get('user/show/{id}', [UserController::class, 'show'])->name("user.show");
 Route::get('user/edit/{id}', [UserController::class, 'edit'])->name("user.edit");
 Route::post('user/edit/{id}', [UserController::class, 'update'])->name("user.update");
 Route::get('user/delete/{id}', [UserController::class, 'destroy'])->name("user.delete");
 
-// user subscription
-Route::get('user/add/subscription/{id}', [UserController::class, 'add_subscription_form'])->name("user_subscription.add");
-Route::post('user/store/subscription/{id}', [UserController::class, 'store_subscription'])->name("user_subscription.store");
-Route::get('user/subscription/view/{id}', [UserController::class, 'view_subscription'])->name("user_subscription.view");
-Route::get('user/edit/subscription/{id}', [UserController::class, 'edit_subscription_form'])->name("user_subscription.edit");
-Route::post('user/update/subscription/{id}', [UserController::class, 'update_subscription'])->name("user_subscription.update");
-Route::get('user/delete/subscription/{id}', [UserController::class, 'delete_subscription'])->name("user_subscription.delete");
-
+// // user subscription
+// Route::get('user/add/subscription/{id}', [UserController::class, 'add_subscription_form'])->name("user_subscription.add");
+// Route::post('user/store/subscription/{id}', [UserController::class, 'store_subscription'])->name("user_subscription.store");
+// Route::get('user/subscription/view/{id}', [UserController::class, 'view_subscription'])->name("user_subscription.view");
+// Route::get('user/edit/subscription/{id}', [UserController::class, 'edit_subscription_form'])->name("user_subscription.edit");
+// Route::post('user/update/subscription/{id}', [UserController::class, 'update_subscription'])->name("user_subscription.update");
+// Route::get('user/delete/subscription/{id}', [UserController::class, 'delete_subscription'])->name("user_subscription.delete");
 
 
 
@@ -113,7 +91,7 @@ Route::get('role', [RoleController::class, 'index'])->name("role.index");
 
 Route::get('role/create', [RoleController::class, 'create'])->name("role.create");
 
-Route::post('role/create', [RoleController::class, 'store']);
+Route::post('role/create', [RoleController::class, 'store'])->name("role.store");
 
 Route::get('role/show/{id}', [RoleController::class, 'show'])->name("role.show");
 
@@ -130,9 +108,7 @@ Route::get('permission', [PermissionController::class, 'index'])->name("permissi
 
 Route::get('permission/create', [PermissionController::class, 'create'])->name("permission.create");
 
-Route::post('permission/create', [PermissionController::class, 'store']);
-
-// Route::get('role/show/{id}', [AccessController::class,'show'])->name("role.show");
+Route::post('permission/create', [PermissionController::class, 'store'])->name("permission.store");
 
 Route::get('permission/edit/{id}', [PermissionController::class, 'edit'])->name("permission.edit");
 
@@ -159,6 +135,7 @@ Route::get('building/delete/{id}', [BuildingController::class, 'destroy'])->name
 
 
 
+
 Route::get('block/index', [BlockController::class, 'index'])->name("block.index");
 
 Route::get('block/create', [BlockController::class, 'create'])->name("block.create");
@@ -172,6 +149,7 @@ Route::get('block/edit/{id}', [BlockController::class, 'edit'])->name("block.edi
 Route::post('block/edit/{id}', [BlockController::class, 'update'])->name("block.update");
 
 Route::get('block/delete/{id}', [BlockController::class, 'destroy'])->name("block.delete");
+
 
 
 
@@ -191,6 +169,7 @@ Route::get('floor/delete/{id}', [FloorController::class, 'destroy'])->name("floo
 
 
 
+
 Route::get('unit/index', [UnitController::class, 'index'])->name("unit.index");
 
 Route::get('unit/create', [UnitController::class, 'create'])->name("unit.create");
@@ -204,6 +183,7 @@ Route::get('unit/edit/{id}', [UnitController::class, 'edit'])->name("unit.edit")
 Route::post('unit/edit/{id}', [UnitController::class, 'update'])->name("unit.update");
 
 Route::get('unit/delete/{id}', [UnitController::class, 'destroy'])->name("unit.delete");
+
 
 
 
@@ -221,6 +201,7 @@ Route::get('resroom/delete/{id}', [ResroomController::class, 'destroy'])->name("
 
 
 
+
 Route::get('comroom/create', [ComroomController::class, 'create'])->name("comroom.create");
 
 Route::post('comroom/create', [ComroomController::class, 'store'])->name("comroom.store");
@@ -232,6 +213,7 @@ Route::get('comroom/edit/{id}', [ComroomController::class, 'edit'])->name("comro
 Route::post('comroom/edit/{id}', [ComroomController::class, 'update'])->name("comroom.update");
 
 Route::get('comroom/delete/{id}', [ComroomController::class, 'destroy'])->name("comroom.delete");
+
 
 
 
@@ -249,6 +231,7 @@ Route::get('mechroom/delete/{id}', [MechroomController::class, 'destroy'])->name
 
 
 
+
 Route::get('adroom/create', [AdroomController::class, 'create'])->name("adroom.create");
 
 Route::post('adroom/create', [AdroomController::class, 'store'])->name("adroom.store");
@@ -260,6 +243,8 @@ Route::get('adroom/edit/{id}', [AdroomController::class, 'edit'])->name("adroom.
 Route::post('adroom/edit/{id}', [AdroomController::class, 'update'])->name("adroom.update");
 
 Route::get('adroom/delete/{id}', [AdroomController::class, 'destroy'])->name("adroom.delete");
+
+
 
 
 Route::get('amroom/create', [AmroomController::class, 'create'])->name("amroom.create");
@@ -276,6 +261,7 @@ Route::get('amroom/delete/{id}', [AmroomController::class, 'destroy'])->name("am
 
 
 
+
 Route::get('serroom/create', [SerroomController::class, 'create'])->name("serroom.create");
 
 Route::post('serroom/create', [SerroomController::class, 'store'])->name("serroom.store");
@@ -287,22 +273,6 @@ Route::get('serroom/edit/{id}', [SerroomController::class, 'edit'])->name("serro
 Route::post('serroom/edit/{id}', [SerroomController::class, 'update'])->name("serroom.update");
 
 Route::get('serroom/delete/{id}', [SerroomController::class, 'destroy'])->name("serroom.delete");
-
-
-
-Route::get('stall_locker/index', [StallLockerController::class, 'index'])->name("stall_locker.index");
-
-Route::get('stall_locker/create', [StallLockerController::class, 'create'])->name("stall_locker.create");
-
-Route::post('stall_locker/create', [StallLockerController::class, 'store'])->name("stall_locker.store");
-
-Route::get('stall_locker/show/{id}', [StallLockerController::class, 'show'])->name("stall_locker.show");
-
-Route::get('stall_locker/edit/{id}', [StallLockerController::class, 'edit'])->name("stall_locker.edit");
-
-Route::post('stall_locker/edit/{id}', [StallLockerController::class, 'update'])->name("stall_locker.update");
-
-Route::get('stall_locker/delete/{id}', [StallLockerController::class, 'destroy'])->name("stall_locker.delete");
 
 
 
@@ -323,6 +293,7 @@ Route::get('comarea/delete/{id}', [ComareaController::class, 'destroy'])->name("
 
 
 
+
 Route::get('asset/create', [AssetController::class, 'create'])->name("asset.create");
 
 Route::post('asset/store', [AssetController::class, 'store'])->name("asset.store");
@@ -334,6 +305,24 @@ Route::get('asset/edit/{id}', [AssetController::class, 'edit'])->name("asset.edi
 Route::post('asset/edit/{id}', [AssetController::class, 'update'])->name("asset.update");
 
 Route::get('asset/delete/{id}', [AssetController::class, 'destroy'])->name("asset.delete");
+
+
+
+
+Route::get('stall_locker/index', [StallLockerController::class, 'index'])->name("stall_locker.index");
+
+Route::get('stall_locker/create', [StallLockerController::class, 'create'])->name("stall_locker.create");
+
+Route::post('stall_locker/create', [StallLockerController::class, 'store'])->name("stall_locker.store");
+
+Route::get('stall_locker/show/{id}', [StallLockerController::class, 'show'])->name("stall_locker.show");
+
+Route::get('stall_locker/edit/{id}', [StallLockerController::class, 'edit'])->name("stall_locker.edit");
+
+Route::post('stall_locker/edit/{id}', [StallLockerController::class, 'update'])->name("stall_locker.update");
+
+Route::get('stall_locker/delete/{id}', [StallLockerController::class, 'destroy'])->name("stall_locker.delete");
+
 
 
 
@@ -353,13 +342,12 @@ Route::get('vehicle/delete/{id}', [VehicleController::class, 'destroy'])->name("
 
 
 
+
 Route::get('parker/index', [ParkerController::class, 'index'])->name("parker.index");
 
 Route::get('parker/create', [ParkerController::class, 'create'])->name("parker.create");
 
 Route::post('parker/store', [ParkerController::class, 'store'])->name("parker.store");
-
-// Route::get('parker/show/{id}', [ParkerController::class, 'show'])->name("parker.show");
 
 Route::get('parker/edit/{id}', [ParkerController::class, 'edit'])->name("parker.edit");
 
@@ -369,9 +357,6 @@ Route::get('parker/delete/{id}', [ParkerController::class, 'destroy'])->name("pa
 
 
 
-// Route::get('parking', [ParkingController::class, 'listparking'])->name('parking.list');
-
-// Route::post('parking/assign', [ParkingController::class, 'assignParking'])->name('parking.assign');
 
 Route::get('parkings', [ParkingController::class, 'listparking'])->name('parking.list');
 
@@ -379,6 +364,39 @@ Route::get('parking/{id}/assign', [ParkingController::class, 'create'])->name('p
 
 Route::post('parking/{id}/assign', [ParkingController::class, 'store'])->name('parking.store');
 
+Route::post('parking/removeVehicle/{vehicleId}', [ParkingController::class, 'removeVehicle'])->name('vehicle.remove');
+
+
+
+Route::get('tenants/index', [TenantController::class, 'index'])->name("tenants.index");
+
+Route::get('tenants/create', [TenantController::class, 'create'])->name("tenants.create");
+
+Route::post('tenants/store', [TenantController::class, 'store'])->name("tenants.store");
+
+// Route::get('tenants/show/{id}', [TenantController::class, 'show'])->name("tenants.show");
+
+Route::get('tenants/edit/{id}', [TenantController::class, 'edit'])->name("tenants.edit");
+
+Route::post('tenants/edit/{id}', [TenantController::class, 'update'])->name("tenants.update");
+
+Route::get('tenants/delete/{id}', [TenantController::class, 'destroy'])->name("tenants.delete");
+
+
+
+Route::get('landlord/index', [LandlordController::class, 'index'])->name("landlord.index");
+
+Route::get('landlord/create', [LandlordController::class, 'create'])->name("landlord.create");
+
+Route::post('landlord/store', [LandlordController::class, 'store'])->name("landlord.store");
+
+// Route::get('tenants/show/{id}', [TenantController::class, 'show'])->name("tenants.show");
+
+Route::get('landlord/edit/{id}', [LandlordController::class, 'edit'])->name("landlord.edit");
+
+Route::post('landlord/edit/{id}', [LandlordController::class, 'update'])->name("landlord.update");
+
+Route::get('landlord/delete/{id}', [LandlordController::class, 'destroy'])->name("landlord.delete");
 
 
 

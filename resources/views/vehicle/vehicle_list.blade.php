@@ -1,7 +1,7 @@
 @extends('master')
 
 @push('title')
-    <title>Units List</title>
+    <title>Vehicles List</title>
 @endpush
 
 @section('content')
@@ -10,10 +10,10 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box">
-                        <h4 class="page-title float-left">Units</h4>
+                        <h4 class="page-title float-left">Vehicles</h4>
 
                         <ol class="breadcrumb float-right">
-                            <li class="breadcrumb-item"><a href="{{ url('/index') }}">Admin</a></li>
+                            <li class="breadcrumb-item"><a href="{{ route('index') }}">Admin</a></li>
                             {{-- <li class="breadcrumb-item"><a href="#">Vehicles</a></li> --}}
                             <li class="breadcrumb-item active">Vehicles list</li>
                         </ol>
@@ -46,7 +46,11 @@
                                     <th>Vehicle No</th>
                                     <th>Vehicle Name</th>
                                     <th>Vehicle Type</th>
+                                    <th>Vehicle Image</th>
                                     <th>Owner Name</th>
+                                    <th>Owner Phone</th>
+                                    <th>Driver Name</th>
+                                    <th>Driver Phone</th>
                                     <th>Stall No</th>
                                     <th>Status</th>
                                     <th>Action</th>
@@ -58,8 +62,15 @@
                                         <td>{{ $vehicle->vehicle_no }}</td>
                                         <td>{{ $vehicle->vehicle_name }}</td>
                                         <td>{{ $vehicle->vehicle_type }}</td>
+                                        <td>
+                                            <img src="{{ asset($vehicle->vehicle_image) }}" alt="{{ $vehicle->vehicle_name }}" style="width: 80px; height: auto;">
+                                        </td>
                                         <td>{{ $vehicle->owner_name }}</td>
-                                        <td>Stall - {{ $vehicle->stall_no }}</td>
+                                        <td>{{ $vehicle->owner_phn }}</td>
+                                        <td>{{ $vehicle->driver_name }}</td>
+                                        <td>{{ $vehicle->driver_phn }}</td>
+                                        <td>{{ $vehicle->stall_no ? "Stall - " . $vehicle->stall_no : '' }}</td>
+
                                         <td>
                                             @if ($vehicle->status === 'assigned')
                                                 <span class="badge badge-success">{{ $vehicle->status }}</span>

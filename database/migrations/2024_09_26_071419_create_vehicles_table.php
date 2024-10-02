@@ -16,7 +16,11 @@ return new class extends Migration
             $table->string('vehicle_no')->unique();
             $table->string('vehicle_name');
             $table->string('vehicle_type');
+            $table->string('vehicle_image')->nullable(); // Field to store vehicle image path
             $table->string('owner_name');
+            $table->string('owner_phn');
+            $table->string('driver_name');
+            $table->string('driver_phn');
             $table->unsignedBigInteger('stall_no')->nullable(); // Stall ID (if assigned)
             $table->enum('status', ['assigned', 'not_assigned'])->default('not_assigned'); // Status
             $table->timestamps();

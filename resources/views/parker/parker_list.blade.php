@@ -13,7 +13,7 @@
                         <h4 class="page-title float-left">Parkers</h4>
 
                         <ol class="breadcrumb float-right">
-                            <li class="breadcrumb-item"><a href="{{ route('index') }}">Admin</a></li>
+                            <li class="breadcrumb-item"><a href="{{ route('index') }}">Dashboard</a></li>
       
                             <li class="breadcrumb-item active">Parkers list</li>
                         </ol>
@@ -59,7 +59,7 @@
                                         <td>{{ $parker->parker_name }}</td>
                                         <td>{{ $parker->email }}</td>
                                         <td>{{ $parker->phn }}</td>
-                                        <td>Stall - {{ $parker->stall_no }}</td>
+                                        <td>{{ $parker->stall_no ? "Stall - " . $parker->stall_no : '' }}</td>
                                         <td>
                                             @if ($parker->status === 'assigned')
                                                 <span class="badge badge-success">{{ $parker->status }}</span>

@@ -235,8 +235,6 @@ class AssetController extends Controller
     }
 
 
-
-
     /**
      * Remove the specified asset from storage.
      */

@@ -11,10 +11,17 @@
 
 @if (Session::has('success'))
     <script>
-        swal("Done!!", "{{ Session::get('success') }}", 'success', {
-            button: true,
+        let successMessage = `{!! Session::get('success') !!}`;
+        swal({
+            title: "Done!!",
+            content: (function() {
+                var div = document.createElement("div");
+                div.innerHTML = successMessage; // Render HTML
+                return div;
+            })(),
+            icon: "success",
             button: "OK",
-        })
+        });
     </script>
 @endif
 
