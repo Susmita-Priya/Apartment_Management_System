@@ -3,9 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Tenant;
+use App\Models\User;
+use App\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Str;
+
 
 class TenantController extends Controller
 {
@@ -29,7 +33,7 @@ class TenantController extends Controller
             'father' => 'required',
             'mother' => 'required',
             'phone' => 'required',
-            'email' => 'required|email',
+            'email' => 'required|email|unique:users,email',
             'nid' => 'required|unique:tenants,nid',
             'tax_id' => 'required',
             'dob' => 'required|date',
@@ -70,7 +74,17 @@ class TenantController extends Controller
         }
 
         $tenant->save();
-        return back()->with('success', 'Tenant added successfully');
+
+        $randomPassword = Str::random(10); // Generate a random 10-character password
+        $user = new User();
+        $user->name = $request->input('name');
+        $user->email = $request->input('email');
+        $user->password = bcrypt($randomPassword); // Set the random password
+        $userRole = Role::where('name', 'user')->first();  
+        $user->role_id = $userRole->id; // Store the role_id from the role table where name is 'user'
+        $user->save();
+
+        return back()->with('success', 'Tenant added successfully. </br> User password: <strong style="color: blue;">' . $randomPassword . '</strong>');
     }
 
     public function show($id)
@@ -95,7 +109,7 @@ class TenantController extends Controller
             'father' => 'required',
             'mother' => 'required',
             'phone' => 'required',
-            'email' => 'required|email',
+            'email' => 'required|email|unique:users,email,' . $id,
             'nid' => 'required|unique:tenants,nid,' . $id,
             'tax_id' => 'required',
             'dob' => 'required|date',
@@ -128,44 +142,48 @@ class TenantController extends Controller
         $tenant->family_members = count($familyMembers); // Total count of family members
         $tenant->family_members_details = json_encode($familyMembersDetails);
 
-        
         if ($request->hasfile('image')) {
             $file = $request->file('image');
 
-             // Delete the old image if it exists
-             if ($tenant->image && file_exists(public_path($tenant->image))) {
+            // Delete the old image if it exists
+            if ($tenant->image && file_exists(public_path($tenant->image))) {
                 unlink(public_path($tenant->image));
             }
 
-
             $filename = time() . '_tenant.' . $file->getClientOriginalExtension();
             $file->move(public_path('uploads/tenant'), $filename);
-
-            // // Delete the old image file
-            // if (File::exists(public_path($tenant->image))) {
-            //     File::delete(public_path($tenant->image));
-            // }
-
             $fullPath = 'uploads/tenant/' . $filename;
-        }else {
+        } else {
             // Keep the old image if no new image is uploaded
             $fullPath = $tenant->image;
         }
 
         $tenant->image = $fullPath;
         $tenant->save();
+
+        // Update the corresponding user
+        $user = User::where('email', $tenant->email)->first();
+        if ($user) {
+            $user->name = $request->input('name');
+            $user->email = $request->input('email');
+            $user->save();
+        }
+
         return back()->with('success', 'Tenant updated successfully');
     }
 
-    public function destroy($request,$id)
+    public function destroy($id)
     {
         $tenant = Tenant::find($id);
 
-        if ($request->hasfile('image')) {
-             // Delete the old image if it exists
-             if ($tenant->image && file_exists(public_path($tenant->image))) {
-                unlink(public_path($tenant->image));
-            }
+        if ($tenant->image && file_exists(public_path($tenant->image))) {
+            unlink(public_path($tenant->image));
+        }
+
+        // Delete the corresponding user
+        $user = User::where('email', $tenant->email)->first();
+        if ($user) {
+            $user->delete();
         }
 
         $tenant->delete();

@@ -192,7 +192,7 @@
                         </ul>
                     </li>
 
-
+{{-- 
                     <!------------------ SAAS Management -------------------->
                     <li>
                         <a href="javascript: void(0);"><i class="fa fa-book"></i> <span> SAAS Management </span> <span
@@ -203,7 +203,7 @@
                             </li>
                             <li><a href="{{ route('customer.index') }}">Customer List</a></li>
                         </ul>
-                    </li>
+                    </li> --}}
 
 
                     <!-- Access Management -->
@@ -212,7 +212,7 @@
                             <a href="javascript: void(0);"><i class="mdi mdi-lock-open"></i> <span> Access </span> <span
                                     class="menu-arrow"></span></a>
                             <ul class="nav-second-level " aria-expanded="false">
-                                <li><a href="{{ route('setting.create_edit') }}">Setting</a></li>
+                                {{-- <li><a href="{{ route('setting.create_edit') }}">Setting</a></li> --}}
                                 <li><a href="{{ route('user.index') }}">User Management</a></li>
                                 <li><a href="{{ route('role.index') }}">Role Management</a></li>
                                 <li><a href="{{ route('permission.index') }}">Permission Management</a></li>

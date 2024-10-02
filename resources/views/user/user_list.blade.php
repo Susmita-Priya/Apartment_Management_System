@@ -46,11 +46,12 @@
                                     <th>SL</th>
                                     <th>Name</th>
                                     <th>Email</th>
-                                    <th>phone</th>
-                                    <th>company name</th>
+                                    <th>Role</th>
+                                    {{--<th>phone</th>
+                                     <th>company name</th>
                                     <th>Package</th>
                                     <th>Role</th>
-                                    <th>Expire Date</th>
+                                    <th>Expire Date</th> --}}
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -60,20 +61,20 @@
                                         <td>{{ ++$key }}</td>
                                         <td>{{ $user->name }}</td>
                                         <td>{{ $user->email }}</td>
-                                        <td>{{ $user->phone ?? '' }}</td>
-                                        <td>{{ $user->company_name ?? '' }}</td>
-                                        <td>{{ $user->subscription_package->name ?? '' }}</td>
+                                        {{--<td>{{ $user->phone ?? '' }}</td>
+                                         <td>{{ $user->company_name ?? '' }}</td>
+                                        <td>{{ $user->subscription_package->name ?? '' }}</td> --}}
                                         <td>
                                             <span class="badge badge-success">{{ $user->role->name }}</span>
                                         </td>
-                                        <td>{{ $user->expire_date ?? '' }}</td>
+                                        {{-- <td>{{ $user->expire_date ?? '' }}</td> --}}
                                         <td>
                                             <div class="btn-group dropdown">
                                                 <a href="javascript: void(0);" class="table-action-btn dropdown-toggle"
                                                     data-toggle="dropdown" aria-expanded="false"><i
                                                         class="mdi mdi-dots-horizontal"></i></a>
                                                 <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                                                    <a class="dropdown-item"
+                                                    {{-- <a class="dropdown-item"
                                                         href="{{ route('user_subscription.add', $user->id) }}">
                                                         <i
                                                             class="mdi mdi-pencil m-r-10 text-muted font-18 vertical-middle"></i>
@@ -84,7 +85,7 @@
                                                         <i
                                                             class="mdi mdi-eye m-r-10 text-muted font-18 vertical-middle"></i>
                                                         View Subscription
-                                                    </a>
+                                                    </a> --}}
 
                                                     <a class="dropdown-item"
                                                         href="{{ route('user.show', ['id' => $user->id]) }}">
@@ -98,19 +99,32 @@
                                                             class="mdi mdi-pencil m-r-10 text-muted font-18 vertical-middle"></i>
                                                         Edit
                                                     </a>
-                                                    <a class="dropdown-item"
+                                                    {{-- <a class="dropdown-item"
                                                         href="{{ route('user.delete', ['id' => $user->id]) }}"
                                                         onclick="return confirm('Are you sure to delete it ?')">
                                                         <i
                                                             class="mdi mdi-delete m-r-10 text-muted font-18 vertical-middle"></i>
                                                         Delete
+                                                    </a> --}}
+
+
+                                                    <a class="dropdown-item"
+                                                    href="#"
+                                                        onclick="confirmDelete('{{ route('user.delete', ['id' => $user->id]) }}')"><i
+                                                            class="mdi mdi-delete m-r-10 text-muted font-18 vertical-middle"></i>
+                                                        Delete
                                                     </a>
+                                                    <!-- Hidden form for deletion -->
+                                                    <form id="delete-form"
+                                                        action="{{ route('user.delete', ['id' => $user->id]) }}"
+                                                        method="GET" style="display: none;">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                    </form>
                                                 </div>
                                             </div>
                                         </td>
-                                    </tr>
-
-                                  
+                                    </tr>                                  
                                 @endforeach
                             </tbody>
                         </table>

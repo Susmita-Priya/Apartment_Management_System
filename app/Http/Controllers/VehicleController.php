@@ -180,6 +180,6 @@ class VehicleController extends Controller
         $vehicle->delete();
 
         // Redirect back with a success message
-        return redirect()->back()->with('delete', 'Vehicle and its image deleted successfully.');
+        return redirect()->back()->with('delete', 'Vehicle deleted successfully.');
     }
 }

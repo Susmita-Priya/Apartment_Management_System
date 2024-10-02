@@ -10,6 +10,7 @@ use App\Http\Controllers\ComareaController;
 use App\Http\Controllers\ComroomController;
 use App\Http\Controllers\FloorController;
 use App\Http\Controllers\IndexController;
+use App\Http\Controllers\LandlordController;
 use App\Http\Controllers\MechroomController;
 use App\Http\Controllers\ParkerController;
 use App\Http\Controllers\ParkingController;
@@ -27,6 +28,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\VehicleController;
 use App\Http\Middleware\AdminUserMiddleware;
 use App\Models\Asset;
+use App\Models\Landlord;
 use App\Models\Parker;
 use App\Models\Permission;
 use App\Models\Tenant;
@@ -34,9 +36,6 @@ use App\Models\Vehicle;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-// Route::get('/', function () {
-//     return view('welcome');
-// }); 
 
 
 // Route::group(['middleware' => 'useradmin'],function(){
@@ -49,11 +48,10 @@ Route::get('/index', [IndexController::class, 'index'])->name("index");
 
 // new
 
-Route::get('/', [WebsiteController::class, 'website'])->name("website");
+// Route::get('/', [WebsiteController::class, 'website'])->name("website");
 Route::post('/logout', [AuthController::class, 'logout'])->name("logout");
-Route::get('/login', [AuthController::class, 'login'])->name("login");
+Route::get('/', [AuthController::class, 'login'])->name("login");
 Route::post('login/form/submit', [AuthController::class, 'doLogin'])->name("do_login");
-
 
 
 
@@ -78,13 +76,13 @@ Route::get('user/edit/{id}', [UserController::class, 'edit'])->name("user.edit")
 Route::post('user/edit/{id}', [UserController::class, 'update'])->name("user.update");
 Route::get('user/delete/{id}', [UserController::class, 'destroy'])->name("user.delete");
 
-// user subscription
-Route::get('user/add/subscription/{id}', [UserController::class, 'add_subscription_form'])->name("user_subscription.add");
-Route::post('user/store/subscription/{id}', [UserController::class, 'store_subscription'])->name("user_subscription.store");
-Route::get('user/subscription/view/{id}', [UserController::class, 'view_subscription'])->name("user_subscription.view");
-Route::get('user/edit/subscription/{id}', [UserController::class, 'edit_subscription_form'])->name("user_subscription.edit");
-Route::post('user/update/subscription/{id}', [UserController::class, 'update_subscription'])->name("user_subscription.update");
-Route::get('user/delete/subscription/{id}', [UserController::class, 'delete_subscription'])->name("user_subscription.delete");
+// // user subscription
+// Route::get('user/add/subscription/{id}', [UserController::class, 'add_subscription_form'])->name("user_subscription.add");
+// Route::post('user/store/subscription/{id}', [UserController::class, 'store_subscription'])->name("user_subscription.store");
+// Route::get('user/subscription/view/{id}', [UserController::class, 'view_subscription'])->name("user_subscription.view");
+// Route::get('user/edit/subscription/{id}', [UserController::class, 'edit_subscription_form'])->name("user_subscription.edit");
+// Route::post('user/update/subscription/{id}', [UserController::class, 'update_subscription'])->name("user_subscription.update");
+// Route::get('user/delete/subscription/{id}', [UserController::class, 'delete_subscription'])->name("user_subscription.delete");
 
 
 
@@ -383,6 +381,22 @@ Route::get('tenants/edit/{id}', [TenantController::class, 'edit'])->name("tenant
 Route::post('tenants/edit/{id}', [TenantController::class, 'update'])->name("tenants.update");
 
 Route::get('tenants/delete/{id}', [TenantController::class, 'destroy'])->name("tenants.delete");
+
+
+
+Route::get('landlord/index', [LandlordController::class, 'index'])->name("landlord.index");
+
+Route::get('landlord/create', [LandlordController::class, 'create'])->name("landlord.create");
+
+Route::post('landlord/store', [LandlordController::class, 'store'])->name("landlord.store");
+
+// Route::get('tenants/show/{id}', [TenantController::class, 'show'])->name("tenants.show");
+
+Route::get('landlord/edit/{id}', [LandlordController::class, 'edit'])->name("landlord.edit");
+
+Route::post('landlord/edit/{id}', [LandlordController::class, 'update'])->name("landlord.update");
+
+Route::get('landlord/delete/{id}', [LandlordController::class, 'destroy'])->name("landlord.delete");
 
 
 
