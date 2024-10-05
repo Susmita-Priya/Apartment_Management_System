@@ -131,6 +131,7 @@
     <script>
         function viewInfo(tenant) {
             let infoContent = `
+                <p><strong>Name:</strong> ${tenant.name}</p>
                 <p><strong>Father:</strong> ${tenant.father}</p>
                 <p><strong>Mother:</strong> ${tenant.mother}</p>
                 <p><strong>Phone:</strong> ${tenant.phone}</p>

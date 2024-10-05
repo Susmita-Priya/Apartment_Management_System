@@ -121,7 +121,7 @@
                                         Email <b style="color: red">*</b>
                                     </label>
                                     <div class="col-10">
-                                        <input class="form-control" type="email" name="email" value="{{ old('email', $tenant->email) }}" required>
+                                        <input class="form-control" type="email" name="email" value="{{ old('email', $tenant->email) }}" required readonly>
                                     </div>
                                 </div>
                                 <!--NID number-->

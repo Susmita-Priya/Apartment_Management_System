@@ -14,7 +14,7 @@
 
                         <ol class="breadcrumb float-right">
                             <li class="breadcrumb-item"><a href="{{ url('/index') }}">Admin</a></li>
-                            <li class="breadcrumb-item"><a href="#">Common Areas</a></li>
+                            {{-- <li class="breadcrumb-item"><a href="#">Common Areas</a></li> --}}
                             <li class="breadcrumb-item active">Common Areas List</li>
                         </ol>
 
@@ -83,7 +83,7 @@
                                                         href="{{ route('comarea.edit', ['id' => $comarea->id]) }}"><i
                                                             class="mdi mdi-pencil m-r-10 text-muted font-18 vertical-middle"></i>Edit
                                                         Common Area</a>
-                                                    <a class="dropdown-item"
+                                                    <a class="dropdown-item" href="#"
                                                         onclick="confirmDelete('{{ route('comarea.delete', ['id' => $comarea->id]) }}')"><i
                                                             class="mdi mdi-delete m-r-10 text-muted font-18 vertical-middle"></i>
                                                         Delete

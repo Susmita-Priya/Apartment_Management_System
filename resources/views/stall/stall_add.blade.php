@@ -2,7 +2,7 @@
 
 @section('content')
     @push('title')
-        <title>Add Stall/Locker</title>
+        <title>Add Stall</title>
     @endpush
 
     <div class="content">
@@ -10,14 +10,15 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box">
-                        <h4 class="page-title float-left">Add Stall/Locker</h4>
+                        <h4 class="page-title float-left">Add Stall</h4>
 
                         <ol class="breadcrumb float-right">
                             <li class="breadcrumb-item"><a href="{{ route('index') }}">Dashboard</a></li>
                             <li class="breadcrumb-item"><a href="{{ route('building') }}">Buildings</a></li>
                             <li class="breadcrumb-item"><a href="{{ route('block.index') }}">Blocks</a></li>
                             <li class="breadcrumb-item"><a href="{{ route('floor.index') }}">Floors</a></li>
-                            <li class="breadcrumb-item active">Add Stall/Locker</li>
+                            <li class="breadcrumb-item"><a href="{{ route('parking.list') }}">Stall</a></li>
+                            <li class="breadcrumb-item active">Add Stall</li>
                         </ol>
 
                         <div class="clearfix"></div>

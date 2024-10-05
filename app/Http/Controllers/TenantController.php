@@ -80,7 +80,7 @@ class TenantController extends Controller
         $user->name = $request->input('name');
         $user->email = $request->input('email');
         $user->password = bcrypt($randomPassword); // Set the random password
-        $userRole = Role::where('name', 'user')->first();  
+        $userRole = Role::where('name', 'User')->first();  
         $user->role_id = $userRole->id; // Store the role_id from the role table where name is 'user'
         $user->save();
 

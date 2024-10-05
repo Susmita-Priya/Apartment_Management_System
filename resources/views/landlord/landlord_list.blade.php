@@ -48,36 +48,20 @@
                                     <th>Email</th>
                                     <th>Address</th>
                                     <th>NID</th>
-                                    <th>Tax ID</th>
-                                    <th>Passport</th>
-                                    <th>Driving License</th>
-                                    <th>DOB</th>
-                                    <th>Marital Status</th>
-                                    <th>Occupation</th>
-                                    <th>Company</th>
-                                    <th>Religion</th>
-                                    <th>Qualification</th>
                                     <th class="text-center">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($landlords as $landlord)
                                     <tr>
+                                        
+                                        
                                         <td><img src="{{ asset($landlord->image) }}" alt="{{ $landlord->name }}" style="width: 80px; height: auto;"></td>
                                         <td>{{ $landlord->name }}</td>
                                         <td>{{ $landlord->phone }}</td>
                                         <td>{{ $landlord->email }}</td>
                                         <td>{{ $landlord->per_address }}</td>
                                         <td>{{ $landlord->nid }}</td>
-                                        <td>{{ $landlord->tax_id }}</td>
-                                        <td>{{ $landlord->passport }}</td>
-                                        <td>{{ $landlord->driving_license }}</td>
-                                        <td>{{ $landlord->dob }}</td>
-                                        <td>{{ $landlord->marital_status }}</td>
-                                        <td>{{ $landlord->occupation }}</td>
-                                        <td>{{ $landlord->company }}</td>
-                                        <td>{{ $landlord->religion }}</td>
-                                        <td>{{ $landlord->qualification }}</td>
                                         <td class="text-center">
                                             <div class="btn-group dropdown">
                                                 <a href="javascript: void(0);" class="table-action-btn dropdown-toggle"
@@ -92,19 +76,19 @@
                                                     View Info
                                                 </a>
                                                     <a class="dropdown-item"
-                                                        href="{{ route('landlords.edit', ['id' => $landlord->id]) }}"
+                                                        href="{{ route('landlord.edit', ['id' => $landlord->id]) }}"
                                                         type="submit"><i
                                                             class="mdi mdi-pencil m-r-10 text-muted font-18 vertical-middle"></i>Edit
                                                         landlord</a>
                                                     <a class="dropdown-item"
                                                     href="#"
-                                                        onclick="confirmDelete('{{ route('landlords.delete', ['id' => $landlord->id]) }}')"><i
+                                                        onclick="confirmDelete('{{ route('landlord.delete', ['id' => $landlord->id]) }}')"><i
                                                             class="mdi mdi-delete m-r-10 text-muted font-18 vertical-middle"></i>
                                                         Delete
                                                     </a>
                                                     <!-- Hidden form for deletion -->
                                                     <form id="delete-form"
-                                                        action="{{ route('landlords.delete', ['id' => $landlord->id]) }}"
+                                                        action="{{ route('landlord.delete', ['id' => $landlord->id]) }}"
                                                         method="GET" style="display: none;">
                                                         @csrf
                                                         @method('DELETE')
@@ -149,6 +133,7 @@
     <script>
         function viewInfo(landlord) {
             let infoContent = `
+                <p><strong>Name:</strong> ${landlord.name}</p>
                 <p><strong>Phone:</strong> ${landlord.phone}</p>
                 <p><strong>Email:</strong> ${landlord.email}</p>
                 <p><strong>NID:</strong> ${landlord.nid}</p>

@@ -14,7 +14,7 @@
 
                         <ol class="breadcrumb float-right">
                             <li class="breadcrumb-item"><a href="{{ url('/index') }}">Admin</a></li>
-                            <li class="breadcrumb-item"><a href="#">Blocks</a></li>
+                            {{-- <li class="breadcrumb-item"><a href="#">Blocks</a></li> --}}
                             <li class="breadcrumb-item active">Blocks List</li>
                         </ol>
 
@@ -47,7 +47,7 @@
                                     <th>Building Name</th>
                                     <th>Building ID</th>
                                     <th>Building Type</th>
-                                    <th>Building Status</th>
+                                    {{-- <th>Building Status</th> --}}
                                     <th class="hidden-sm">Action</th>
                                 </tr>
                             </thead>
@@ -66,7 +66,7 @@
                                         <td>{{ $block->building->name }}</td>
                                         <td>{{ $block->building->building_id }}</td>
                                         <td>{{ $typeFullForm[$block->building->type] ?? 'Other' }}</td>
-                                        <td>{{ $block->building->status }}</td>
+                                        {{-- <td>{{ $block->building->status }}</td> --}}
                                         <td>
                                             <div class="btn-group dropdown">
                                                 <a href="javascript: void(0);" class="table-action-btn dropdown-toggle"
@@ -82,7 +82,7 @@
                                                             class="mdi mdi-pencil m-r-10 text-muted font-18 vertical-middle"></i>Edit
                                                         Block</a>
 
-                                                    <a class="dropdown-item"
+                                                    <a class="dropdown-item" href="#"
                                                         onclick="confirmDelete('{{ route('block.delete', ['id' => $block->id]) }}')"><i
                                                             class="mdi mdi-delete m-r-10 text-muted font-18 vertical-middle"></i>
                                                         Delete

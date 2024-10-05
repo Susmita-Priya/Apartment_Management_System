@@ -23,6 +23,7 @@ use App\Http\Controllers\SettingController;
 use App\Http\Controllers\StallLockerController;
 use App\Http\Controllers\TenantController;
 use App\Http\Controllers\TenantsController;
+use App\Http\Controllers\UnitAssignController;
 use App\Http\Controllers\UnitController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VehicleController;
@@ -183,6 +184,12 @@ Route::get('unit/edit/{id}', [UnitController::class, 'edit'])->name("unit.edit")
 Route::post('unit/edit/{id}', [UnitController::class, 'update'])->name("unit.update");
 
 Route::get('unit/delete/{id}', [UnitController::class, 'destroy'])->name("unit.delete");
+
+
+
+Route::get('unit/{id}/assign', [UnitAssignController::class, 'create'])->name('assign.create');
+
+Route::post('unit/{id}/assign', [UnitAssignController::class, 'store'])->name('assign.store');
 
 
 
@@ -366,6 +373,9 @@ Route::post('parking/{id}/assign', [ParkingController::class, 'store'])->name('p
 
 Route::post('parking/removeVehicle/{vehicleId}', [ParkingController::class, 'removeVehicle'])->name('vehicle.remove');
 
+Route::post('parking/removeParker/{parkerId}', [ParkingController::class, 'removeParker'])->name('parker.remove');
+
+
 
 
 Route::get('tenants/index', [TenantController::class, 'index'])->name("tenants.index");
@@ -389,8 +399,6 @@ Route::get('landlord/index', [LandlordController::class, 'index'])->name("landlo
 Route::get('landlord/create', [LandlordController::class, 'create'])->name("landlord.create");
 
 Route::post('landlord/store', [LandlordController::class, 'store'])->name("landlord.store");
-
-// Route::get('tenants/show/{id}', [TenantController::class, 'show'])->name("tenants.show");
 
 Route::get('landlord/edit/{id}', [LandlordController::class, 'edit'])->name("landlord.edit");
 

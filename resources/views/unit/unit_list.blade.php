@@ -14,7 +14,7 @@
 
                         <ol class="breadcrumb float-right">
                             <li class="breadcrumb-item"><a href="{{ url('/index') }}">Admin</a></li>
-                            <li class="breadcrumb-item"><a href="#">Units</a></li>
+                            {{-- <li class="breadcrumb-item"><a href="#">Units</a></li> --}}
                             <li class="breadcrumb-item active">Units list</li>
                         </ol>
 
@@ -85,7 +85,7 @@
                                                         type="submit"><i
                                                             class="mdi mdi-pencil m-r-10 text-muted font-18 vertical-middle"></i>Edit
                                                         Unit</a>
-                                                    <a class="dropdown-item"
+                                                    <a class="dropdown-item" href="#"
                                                         onclick="confirmDelete('{{ route('unit.delete', ['id' => $unit->id]) }}')"><i
                                                             class="mdi mdi-delete m-r-10 text-muted font-18 vertical-middle"></i>
                                                         Delete

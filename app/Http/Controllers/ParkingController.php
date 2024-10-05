@@ -29,27 +29,12 @@ class ParkingController extends Controller
     {
         // Find the stall with related vehicles and parkers
         $stall = StallLocker::with(['vehicles', 'parkers'])->findOrFail($stallId);
+
         // Fetch only the vehicles and parkers that are not assigned
         $vehicles = Vehicle::where('status', 'not_assigned')->get();
         $parkers = Parker::where('status', 'not_assigned')->get();
 
         return view('parking.parking_assign', compact('stall', 'vehicles', 'parkers'));
-    }
-
-    // Method to remove vehicle assignment
-    public function removeVehicle($vehicleId)
-    {
-        // Find the vehicle
-        $vehicle = Vehicle::findOrFail($vehicleId);
-        // $parking = Parking::findOrFail($vehicleId);
-
-        // $parking->vehicle_no = null;
-        // Unassign the vehicle by setting stall_no to null and updating status
-        $vehicle->stall_no = null;
-        $vehicle->status = 'not_assigned';
-        $vehicle->save();
-
-        return back()->with('success', 'Vehicle unassigned successfully.');
     }
 
     // Method to store vehicle and parker assignments
@@ -113,4 +98,33 @@ class ParkingController extends Controller
 
         return redirect()->back()->with('success', 'Assigned successfully.');
     }
+
+    // Method to remove vehicle assignment
+    public function removeVehicle($vehicleId)
+    {
+        // Find the vehicle
+        $vehicle = Vehicle::findOrFail($vehicleId);
+        // $parking = Parking::findOrFail($vehicleId);
+
+        // $parking->vehicle_no = null;
+        // Unassign the vehicle by setting stall_no to null and updating status
+        $vehicle->stall_no = null;
+        $vehicle->status = 'not_assigned';
+        $vehicle->save();
+
+        return back()->with('success', 'Vehicle unassigned successfully.');
+    }
+
+    // Method to remove vehicle assignment
+    public function removeParker($parkerId)
+    {
+        // Find the vehicle
+        $parker = Parker::findOrFail($parkerId);
+        $parker->stall_no = null;
+        $parker->status = 'not_assigned';
+        $parker->save();
+
+        return back()->with('success', 'Parker unassigned successfully.');
+    }
+
 }

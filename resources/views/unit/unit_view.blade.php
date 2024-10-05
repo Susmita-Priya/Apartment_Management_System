@@ -220,7 +220,7 @@
                                                             </button> --}}
 
                                                     {{-- <a class="dropdown-item"
-                                                        onclick="confirmDelete('{{ route($roomType . '.delete', ['id' => $roomInstance->id]) }}')"
+ href="#"                                                       onclick="confirmDelete('{{ route($roomType . '.delete', ['id' => $roomInstance->id]) }}')"
                                                         type="submit">
                                                         <i
                                                             class="mdi mdi-delete m-r-10 text-muted font-18 vertical-middle"></i>
