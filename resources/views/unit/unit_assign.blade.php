@@ -53,7 +53,8 @@
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
-                                    <th>Tenant Name</th>
+                                    {{-- name --}}
+                                    <th>Tenant Name</th>   
                                     <th>Tenant Email</th>
                                     <th>Tenant Phone</th>
                                     <th>Tenant Image</th>
