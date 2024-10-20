@@ -11,6 +11,7 @@ use App\Http\Controllers\ComroomController;
 use App\Http\Controllers\FloorController;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\LandlordController;
+use App\Http\Controllers\LeaseRequestController;
 use App\Http\Controllers\MechroomController;
 use App\Http\Controllers\ParkerController;
 use App\Http\Controllers\ParkingController;
@@ -25,6 +26,8 @@ use App\Http\Controllers\TenantController;
 use App\Http\Controllers\TenantsController;
 use App\Http\Controllers\UnitAssignController;
 use App\Http\Controllers\UnitController;
+use App\Http\Controllers\UnitLandlordController;
+use App\Http\Controllers\UnitLeaseController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VehicleController;
 use App\Http\Middleware\AdminUserMiddleware;
@@ -33,6 +36,7 @@ use App\Models\Landlord;
 use App\Models\Parker;
 use App\Models\Permission;
 use App\Models\Tenant;
+use App\Models\Unit_landlord;
 use App\Models\Vehicle;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -186,11 +190,20 @@ Route::post('unit/edit/{id}', [UnitController::class, 'update'])->name("unit.upd
 Route::get('unit/delete/{id}', [UnitController::class, 'destroy'])->name("unit.delete");
 
 
+// assign landlord to unit
 
-Route::get('unit/{id}/assign', [UnitAssignController::class, 'create'])->name('assign.create');
+Route::get('unit/{id}/assign', [UnitLandlordController::class, 'create'])->name('assign.create');
 
-Route::post('unit/{id}/assign', [UnitAssignController::class, 'store'])->name('assign.store');
+Route::post('unit/{id}/assign', [UnitLandlordController::class, 'store'])->name('assign.store');
 
+Route::get('unit/removeLandlord/{Id}', [UnitLandlordController::class, 'removeLandlord'])->name('landlord.remove');
+
+
+
+
+// assign tenant to unit
+
+Route::post('/lease-request', [LeaseRequestController::class, 'store'])->name('lease-request.store');  
 
 
 

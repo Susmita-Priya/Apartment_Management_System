@@ -123,6 +123,27 @@
                             <!-- Checkbox placeholders -->
                             <div id="dynamic-selectboxs"></div>
 
+                            <!-- Rent -->
+                            <div class="form-group">
+                                <label for="rent">Rent</label>
+                                <input type="number" name="rent" id="rent" class="form-control" value="{{ $unit->rent }}"
+                                    required>
+                                <span class="text-danger">
+                                    @error('rent')
+                                        {{ $message }}
+                                    @enderror
+                                </span>
+                            </div>
+
+                            <!-- Status -->
+                            <div class="form-group">
+                                <label for="status">Status</label>
+                                <select name="status" id="status" class="form-control" required>
+                                    <option value="Vacant" {{ $unit->status === 'Vacant' ? 'selected' : '' }}>Vacant</option>
+                                    <option value="Occupied" {{ $unit->status === 'Occupied' ? 'selected' : '' }}>Occupied</option>
+                                </select>
+                            </div>
+
                             <button type="submit" class="btn waves-effect waves-light btn-sm"
                                 style="background-color: rgb(100, 197, 177); border-color: rgb(100, 197, 177); color: white;">
                                 Update Unit/Suite</button>

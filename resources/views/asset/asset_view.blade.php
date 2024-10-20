@@ -1,4 +1,4 @@
-{{-- resources/views/assets/show.blade.php --}}
+
 <div class="modal-body">
     @if ($details)
         @foreach ($details as $detail)

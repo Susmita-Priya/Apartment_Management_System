@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Block;
 use App\Models\Building;
 use App\Models\Floor;
+use App\Models\Landlord;
 use App\Models\Unit;
+use App\Models\Unit_landlord;
 use Illuminate\Http\Request;
 
 class UnitController extends Controller
@@ -13,12 +15,13 @@ class UnitController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index() {
+    public function index()
+    {
         // Fetch units with their related floor, block, and building details
-        $units = Unit::with(['floor.block', 'floor.block.building'])->get();
+        $units = Unit::with(['floor.block', 'floor.block.building','landlords'])->get();
 
         return view('unit.unit_list', compact('units'));
-    }     
+    }
     //l
 
     /**
@@ -80,7 +83,6 @@ class UnitController extends Controller
             return redirect()->back()->withErrors('Floor not found.');
         }
 
-       
         // Check for uniqueness, ignoring the current record
         $exists = Unit::where('floor_id', $request->floor_id)
             ->where('unit_no', $request->unit_no)
@@ -94,6 +96,7 @@ class UnitController extends Controller
         $unit = new Unit();
         $unit->floor_id = $floorId;
         $unit->unit_no = $request->unit_no;
+        $unit->rent = $request->rent;
         $unit->type = $request['type'];
         // Add other fields as needed
         $unit->save();
@@ -108,13 +111,12 @@ class UnitController extends Controller
     public function show(string $id)
     {
         // Retrieve the unit along with its related data
-        $unit = Unit::with(['floor.block.building', 'resRoom.extraRooms'])->findOrFail($id);
+        $unit = Unit::with(['floor.block.building', 'resRoom.extraRooms','landlords'])->findOrFail($id);
 
         // Check if the related data is available
         $floor = $unit->floor;
         $block = $floor ? $floor->block : null;
         $building = $block ? $block->building : null;
-
         // Return the view with data
         return view('unit.unit_view', compact('unit', 'floor', 'block', 'building'));
     }
@@ -122,37 +124,36 @@ class UnitController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id,Request $request)
+    public function edit(string $id, Request $request)
     {
 
         // Initialize $block and $building to null
-         $block = null;
-         $building = null;
-         $floor = null;
+        $block = null;
+        $building = null;
+        $floor = null;
 
         $unit = Unit::findOrFail($id);
         $floor = $unit->floor;
         $block = $floor->block;
         $building = $block->building;
 
-         // Fetch all buildings
-         $buildings = Building::all();
-         // Fetch all blocks and their related buildings
-         $blocks = Block::with('building')->get();
- 
-         $floors = Floor::with('block')->get();
- 
-         // Define type full form array
-         $typeFullForm = [
-             'RESB' => 'Residential Building',
-             'COMB' => 'Commercial Building',
-             'RECB' => 'Residential-Commercial Building',
-             // Add other types if needed
-         ];
- 
-         // Pass all variables to the view
-         return view('unit.unit_edit', compact('unit','buildings', 'building', 'blocks', 'block', 'floors', 'floor', 'typeFullForm'));
+        // Fetch all buildings
+        $buildings = Building::all();
+        // Fetch all blocks and their related buildings
+        $blocks = Block::with('building')->get();
 
+        $floors = Floor::with('block')->get();
+
+        // Define type full form array
+        $typeFullForm = [
+            'RESB' => 'Residential Building',
+            'COMB' => 'Commercial Building',
+            'RECB' => 'Residential-Commercial Building',
+            // Add other types if needed
+        ];
+
+        // Pass all variables to the view
+        return view('unit.unit_edit', compact('unit', 'buildings', 'building', 'blocks', 'block', 'floors', 'floor', 'typeFullForm'));
     }
 
     /**
@@ -189,6 +190,8 @@ class UnitController extends Controller
         $unit->floor_id = $request->floor_id;
         $unit->unit_no = $request->unit_no;
         $unit->type = $request->type;
+        $unit->rent = $request->rent;
+        $unit->status = $request->status;
         // Add other fields as needed
         $unit->save();
 
@@ -196,7 +199,7 @@ class UnitController extends Controller
         //     ->with('success', 'Unit updated successfully.');
 
         return redirect()->back()
-        ->with('success', 'Unit updated successfully.');
+            ->with('success', 'Unit updated successfully.');
     }
 
     /**
@@ -212,6 +215,6 @@ class UnitController extends Controller
         //     ->with('delete', 'Unit deleted successfully.');
 
         return redirect()->back()
-        ->with('delete', 'Unit deleted successfully.');
+            ->with('delete', 'Unit deleted successfully.');
     }
 }

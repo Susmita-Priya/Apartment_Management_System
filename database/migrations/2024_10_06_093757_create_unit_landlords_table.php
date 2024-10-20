@@ -11,21 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('unit_assigns', function (Blueprint $table) {
+        Schema::create('unit_landlords', function (Blueprint $table) {
             $table->id();
             $table->foreignId('unit_id')->constrained('units')->onDelete('cascade');
-            $table->foreignId('tenant_id')->constrained('tenants')->onDelete('cascade');
             $table->foreignId('landlord_id')->constrained('landlords')->onDelete('cascade');
-            $table->string('status')->default('active');
             $table->timestamps();
         });
     }
-    
+
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::dropIfExists('unit_assigns');
+        Schema::dropIfExists('unit_landlords');
     }
 };

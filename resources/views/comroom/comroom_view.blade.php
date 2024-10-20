@@ -150,7 +150,8 @@
                                 <form id="asset-form" action="{{ route('asset.create') }}" method="GET">
                                     @csrf
                                     <input type="hidden" name="id" value="{{ $comroom->id }}">
-                                    <input type="hidden" name="room_type" value="{{ $room_type }}">    <!-- bedroom,bathroom -->
+                                    <input type="hidden" name="room_type" value="{{ $room_type }}">
+                                    <!-- bedroom,bathroom -->
                                     <input type="hidden" name="count" value="{{ $roomTypeDetails }}">
                                     <input type="hidden" name="room" value="comroom">
                                 </form>
@@ -165,78 +166,77 @@
                         </div>
                     </div>
 
-                <div class="row">
-                    <div class="col-md-12">
-                    @for ($i = 1; $i <= $roomTypeDetails; $i++)
-                        @php
-                            // Generate a unique ID for each room card
-                            $roomId = $room_type . $i;
-                            $assetId = $comroom->assets
+                    <div class="row">
+                        <div class="col-md-12">
+                            @for ($i = 1; $i <= $roomTypeDetails; $i++)
+                                @php
+                                    // Generate a unique ID for each room card
+                                    $roomId = $room_type . $i;
+                                    $assetId = $comroom->assets
                                         ? $comroom->assets->where('room_no', $roomId)->first()->id ?? null
                                         : null;
 
-                        @endphp
+                                @endphp
 
-                        @if ($i % 3 == 1)
-                            <div class="row">
+                                @if ($i % 3 == 1)
+                                    <div class="row">
+                                @endif
+                                <div class="col-md-4">
+                                    <div class="card-box room-card" data-toggle="modal" data-target="#assetModal"
+                                        data-roomid="{{ $roomId }}" data-roomtype="{{ $room_type }}"
+                                        data-assetid="{{ $assetId }}">
+                                        <h4 class="header-title mt-0 m-b-20">
+                                            {{ ucfirst(str_replace('_', ' ', $room_type)) }} {{ $i }}
+                                        </h4>
+                                        <div class="panel-body">
+                                            <p class="text-muted font-15"><strong>ID:</strong><span
+                                                    class="m-l-15">{{ $roomId }}</span></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                @if ($i % 3 == 0 || $i == $roomTypeDetails)
+                        </div> <!-- End row -->
                         @endif
-                        <div class="col-md-4">
-                            <div class="card-box room-card" data-toggle="modal" data-target="#assetModal"
-                                data-roomid="{{ $roomId }}" data-roomtype="{{ $room_type }}"
-                                data-assetid="{{ $assetId }}">
-                                <h4 class="header-title mt-0 m-b-20">{{ ucfirst(str_replace('_', ' ', $room_type)) }} {{ $i }}
-                                </h4>
-                                <div class="panel-body">
-                                    <p class="text-muted font-15"><strong>ID:</strong><span
-                                            class="m-l-15">{{ $roomId }}</span></p>
+                        @endfor
+                    </div>
+                </div>
+
+                <!-- Modal for viewing assets -->
+                <div class="modal fade" id="assetModal" tabindex="-1" role="dialog" aria-labelledby="assetModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="assetModalLabel">Room Assets</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div id="assetContent">
+                                    <!-- Asset content will be dynamically loaded here -->
                                 </div>
                             </div>
-                        </div>
-                        @if ($i % 3 == 0 || $i == $roomTypeDetails)
-                </div> <!-- End row -->
-                @endif
-                @endfor
-            </div>
-        </div>
-        
-        <!-- Modal for viewing assets -->
-        <div class="modal fade" id="assetModal" tabindex="-1" role="dialog" aria-labelledby="assetModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog modal-lg" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="assetModalLabel">Room Assets</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div id="assetContent">
-                            <!-- Asset content will be dynamically loaded here -->
+                            <div class ="modal-footer">
+                                <a id="edit-button" href="#" class="btn btn-primary">
+                                    Edit Asset
+                                </a>
+
+                                <!-- Delete button -->
+                                <button type="button" class="btn btn-danger" id="delete-button">
+                                    Delete Asset
+                                </button>
+
+                            </div>
+
                         </div>
                     </div>
-                    <div class ="modal-footer">
-                        <a id="edit-button" href="#" class="btn btn-primary">
-                            Edit Asset
-                        </a>
-
-                        <!-- Delete button -->
-                        <button type="button" class="btn btn-danger" id="delete-button">
-                            Delete Asset
-                        </button>
-
-                    </div>
-
                 </div>
+                <!-- Hidden Delete Form -->
+                <form id="delete-form" method="GET" style="display: none;">
+                    @csrf
+                    @method('DELETE')
+                </form>
             </div>
         </div>
-        <!-- Hidden Delete Form -->
-        <form id="delete-form" method="GET" style="display: none;">
-            @csrf
-            @method('DELETE')
-        </form>
-            </div>
-    </div>
-@endsection
-
-
+    @endsection

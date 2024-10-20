@@ -13,7 +13,7 @@
                         <h4 class="page-title float-left">Units</h4>
 
                         <ol class="breadcrumb float-right">
-                            <li class="breadcrumb-item"><a href="{{ url('/index') }}">Admin</a></li>
+                            <li class="breadcrumb-item"><a href="{{ route('index') }}">Admin</a></li>
                             {{-- <li class="breadcrumb-item"><a href="#">Units</a></li> --}}
                             <li class="breadcrumb-item active">Units list</li>
                         </ol>
@@ -46,11 +46,12 @@
                                     <th>Unit NO</th>
                                     <th>Type</th>
                                     <th>Floor NO</th>
-                                    <th>Floor Name</th>
+                                    {{-- <th>Floor Name</th> --}}
                                     <th>Block ID</th>
-                                    <th>Block Name</th>
                                     <th>Building ID</th>
                                     <th>Building Name</th>
+                                    <th>Rent</th>
+                                    <th>Landlord</th>
                                     <th>Status</th>
                                     <th class="hidden-sm">Action</th>
                                 </tr>
@@ -62,14 +63,21 @@
                                         <td>Unit - {{ $unit->unit_no }}</td>
                                         <td>{{ $unit->type }}</td>
                                         <td>{{ $unit->floor->type }}-{{ $unit->floor->floor_no }}</td>
-                                        <td>{{ $unit->floor->name }}</td>
+                                        {{-- <td>{{ $unit->floor->name }}</td> --}}
                                         <td>{{ $unit->floor->block->block_id }}</td>
-                                        <td>{{ $unit->floor->block->name }}</td>
                                         <td>{{ $unit->floor->block->building->building_id }}</td>
                                         <td>{{ $unit->floor->block->building->name }}</td>
+                                        <td>{{ $unit->rent }}</td>
                                         <td>
-                                            <!-- Add status logic here -->
+                                            @if ($unit->landlords->isEmpty())
+                                                No Landlord
+                                            @else
+                                                @foreach ($unit->landlords as $landlord)
+                                                    {{ $landlord->name }} <br>
+                                                @endforeach
+                                            @endif
                                         </td>
+                                        <td> <span class="badge bg-success">{{ $unit->status }}</span> </td>
                                         <td>
                                             <div class="btn-group dropdown">
                                                 <a href="javascript: void(0);" class="table-action-btn dropdown-toggle"
@@ -80,6 +88,58 @@
                                                         href="{{ route('unit.show', ['id' => $unit->id]) }}"><i
                                                             class="mdi mdi-eye m-r-10 font-18 text-muted vertical-middle"></i>View
                                                         Details</a>
+                                                    <a class="dropdown-item"
+                                                        href="{{ route('assign.create', ['id' => $unit->id]) }}"><i
+                                                            class="mdi mdi-clipboard-check m-r-10 font-18 text-muted vertical-middle"></i>Assign
+                                                        Landlords</a>
+                                                    @if ($unit->status == 'Vacant')
+                                                        
+                                                                {{-- <form action="{{ route('lease-request.store') }}" method="POST">
+                                                            @csrf
+                                                            <input type="hidden" name="unit_id"
+                                                                value="{{ $unit->id }}">
+                                                            <input type="hidden" name="landlord_id"
+                                                                value="{{ $unit->landlord_id }}">
+                                                            <a class="dropdown-item" href=""><i
+                                                                class="mdi mdi-home-variant m-r-10 font-18 text-muted vertical-middle"></i>Request to Lease
+                                                        </form>
+                                                                </a> --}}
+                                                                <a href="#" class="dropdown-item" data-toggle="modal" data-target="#leaseModal-{{ $unit->id }}">
+                                                                    <i class="mdi mdi-home-variant m-r-10 font-18 text-muted vertical-middle"></i> Request to Lease
+                                                                </a>
+                                                                
+                                                                <!-- Modal -->
+                                                                <div class="modal fade" id="leaseModal-{{ $unit->id }}" tabindex="-1" role="dialog" aria-labelledby="leaseModalLabel-{{ $unit->id }}" aria-hidden="true">
+                                                                    <div class="modal-dialog" role="document">
+                                                                        <div class="modal-content">
+                                                                            <div class="modal-header">
+                                                                                <h5 class="modal-title" id="leaseModalLabel-{{ $unit->id }}">Request to Lease - Unit-{{ $unit->unit_no }}</h5>
+                                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                                    <span aria-hidden="true">&times;</span>
+                                                                                </button>
+                                                                            </div>
+                                                                            <form action="{{ route('lease-request.store') }}" method="POST">
+                                                                                @csrf
+                                                                                <input type="hidden" name="unit_id" value="{{ $unit->id }}">
+                                                                                <input type="hidden" name="landlord_id" value="{{ $unit->landlord_id }}">
+                                                                                <div class="modal-body">
+                                                                                    <div class="form-group">
+                                                                                        <label for="start_date">Start Date</label>
+                                                                                        <input type="date" class="form-control" id="start_date" name="start_date" required>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="modal-footer">
+                                                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                                                    <button type="submit" class="btn btn-primary">Submit Request</button>
+                                                                                </div>
+                                                                            </form>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                
+                                                        
+                                                    @endif
+
                                                     <a class="dropdown-item"
                                                         href="{{ route('unit.edit', ['id' => $unit->id]) }}"
                                                         type="submit"><i

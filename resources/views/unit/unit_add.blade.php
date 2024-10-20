@@ -117,11 +117,21 @@
                             {{-- unit info --}}
                             <div class="form-group">
                                 <label for="unit_no">Unit/Suite NO</label>
-                                <input type="number" name="unit_no" id="unit_no" class="form-control" required>
+                                <input type="number" name="unit_no" id="unit_no" class="form-control"
+                                    placeholder="Enter Suite/Unit No" required>
                             </div>
+
 
                             <!-- Checkbox placeholders -->
                             <div id="dynamic-selectboxs"></div>
+
+                            <div class="form-group">
+                                <label for="rent">Rent</label>
+                                <input type="number" name="rent" id="rent" class="form-control"
+                                    placeholder="Enter amount in TK" required>
+                            </div>
+
+
 
                             <button type="submit" class="btn waves-effect waves-light btn-sm  submitbtn">
                                 Add Unit/Suite</button>
@@ -222,26 +232,26 @@
         <label for="type">Unit/Suite Type</label>
         <select name="type" id="type" class="form-control" required>
         `;
-        if (floor.residential_suite || floor.commercial_unit || floor.supporting_service_room) {
-                // Generate the appropriate options for the select box
-                if (floor.residential_suite) {
-                    selectBoxContent += `
+                if (floor.residential_suite || floor.commercial_unit || floor.supporting_service_room) {
+                    // Generate the appropriate options for the select box
+                    if (floor.residential_suite) {
+                        selectBoxContent += `
         <option value="Residential Suite">Residential Suite</option>
         `;
-                }
+                    }
 
-                if (floor.commercial_unit) {
-                    selectBoxContent += `
+                    if (floor.commercial_unit) {
+                        selectBoxContent += `
         <option value="Commercial Unit">Commercial Unit</option>
         `;
-                }
+                    }
 
-                if (floor.supporting_service_room) {
-                    selectBoxContent += `
+                    if (floor.supporting_service_room) {
+                        selectBoxContent += `
         <option value="Supporting and Servicing Unit">Supporting & Service Unit</option>
         `;
-                }
-            }else {
+                    }
+                } else {
                     selectBoxContent += `
         <option value="">Please Select Residential, Commercial or Supporting Level. </option>
         `;
