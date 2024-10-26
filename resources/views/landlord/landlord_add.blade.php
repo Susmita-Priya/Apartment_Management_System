@@ -152,8 +152,8 @@
                                         </div>
                                     </div>
 
-                                     <!--Occupation-->
-                                     <div class="form-group row">
+                                    <!--Occupation-->
+                                    <div class="form-group row">
                                         <label class="col-2 col-form-label">
                                             Occupation <b style="color: red">*</b>
                                         </label>
@@ -181,24 +181,24 @@
                                         </div>
                                     </div>
 
-<!--religion-->
-<div class="form-group row">
-    <label class="col-2 col-form-label">
-        Religion <b style="color: red">*</b>
-    </label>
-    <div class=" col-10">
-        <select class="form-control" name="religion" required="">
-            <option value="">-- Select One --</option>
-            <option value="Islam">Islam</option>
-            <option value="Hinduism">Hinduism</option>
-            <option value="Buddhism">Buddhism</option>
-            <option value="Christianity">Christianity</option>
-        </select>
-    </div>
-</div>
+                                    <!--religion-->
+                                    <div class="form-group row">
+                                        <label class="col-2 col-form-label">
+                                            Religion <b style="color: red">*</b>
+                                        </label>
+                                        <div class=" col-10">
+                                            <select class="form-control" name="religion" required="">
+                                                <option value="">-- Select One --</option>
+                                                <option value="Islam">Islam</option>
+                                                <option value="Hinduism">Hinduism</option>
+                                                <option value="Buddhism">Buddhism</option>
+                                                <option value="Christianity">Christianity</option>
+                                            </select>
+                                        </div>
+                                    </div>
 
-                                     <!--Qualification-->
-                                     <div class="form-group row">
+                                    <!--Qualification-->
+                                    <div class="form-group row">
                                         <label class="col-2 col-form-label">
                                             Qualification
                                         </label>
@@ -218,6 +218,14 @@
                                             </select>
                                         </div>
                                     </div>
+
+                                    <!-- Password Confirmation -->
+                                <div class="form-group row">
+                                    <label class="col-2 col-form-label">Password <b style="color: red">*</b></label>
+                                    <div class="col-10">
+                                        <input class="form-control" type="password" name="password" required>
+                                    </div>
+                                </div>
 
 
                                     <button type="submit" class="btn submitbtn">Submit</button>

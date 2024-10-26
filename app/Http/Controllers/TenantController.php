@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\LeaseRequest;
 use App\Models\Tenant;
 use App\Models\User;
 use App\Models\Role;
@@ -16,7 +17,7 @@ class TenantController extends Controller
 
     public function index()
     {
-        $tenants = Tenant::all();
+        $tenants = Tenant::with('units')->get();
         return view('tenant.tenant_list', compact('tenants'));
     }
 
@@ -42,7 +43,10 @@ class TenantController extends Controller
             'occupation' => 'required',
             'religion' => 'required',
             'new_house_start_date' => 'nullable|date',
+            'password' => 'required|min:4', // Add password validation
         ]);
+
+        // dd($request->all());
 
         $data = $request->all();
 
@@ -75,16 +79,15 @@ class TenantController extends Controller
 
         $tenant->save();
 
-        $randomPassword = Str::random(10); // Generate a random 10-character password
         $user = new User();
         $user->name = $request->input('name');
         $user->email = $request->input('email');
-        $user->password = bcrypt($randomPassword); // Set the random password
-        $userRole = Role::where('name', 'User')->first();  
+        $user->password = bcrypt($request->input('password')); // Use the provided password
+        $userRole = Role::where('name', 'Tenant')->first();  
         $user->role_id = $userRole->id; // Store the role_id from the role table where name is 'user'
         $user->save();
 
-        return back()->with('success', 'Tenant added successfully. </br> User password: <strong style="color: blue;">' . $randomPassword . '</strong>');
+        return back()->with('success', 'Tenant added successfully.');
     }
 
     public function show($id)
@@ -96,9 +99,9 @@ class TenantController extends Controller
     public function edit($id)
     {
         $tenant = Tenant::find($id);
-
+        $user = User::where('email', $tenant->email)->first();
         $familyMembersDetails = json_decode($tenant->family_members_details, true);
-        return view('tenant.tenant_edit', compact('tenant', 'familyMembersDetails'));
+        return view('tenant.tenant_edit', compact('tenant', 'familyMembersDetails', 'user'));
     }
 
     public function update(Request $request, $id)
@@ -118,6 +121,7 @@ class TenantController extends Controller
             'occupation' => 'required',
             'religion' => 'required',
             'new_house_start_date' => 'nullable|date',
+            'password' => 'nullable',
         ]);
 
         $data = $request->all();
@@ -166,6 +170,10 @@ class TenantController extends Controller
         if ($user) {
             $user->name = $request->input('name');
             $user->email = $request->input('email');
+            // Update password if provided, otherwise keep the existing one
+        if ($request->filled('password')) {
+            $user->password = bcrypt($request->input('password'));
+        }
             $user->save();
         }
 

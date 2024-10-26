@@ -130,6 +130,23 @@
                         </li>
                     @endif
 
+                    <!-- Tenants -->
+                   
+                        <li>
+                            <a href="javascript: void(0);"><i class="fa fa-user"></i> <span> Leases </span> <span
+                                    class="menu-arrow"></span></a>
+                            <ul class="nav-second-level " aria-expanded="false">
+                                @if (App\Models\Permission::hasPermission('view_leases', $role_id))
+                                <li><a href="{{ route('lease.index') }}">Leases Request</a></li>
+                                @endif
+                                 @if (App\Models\Permission::hasPermission('agreement', $role_id))
+                                 <li><a href="{{ route('lease.agreement') }}">Agreement</a></li>
+                            @endif 
+                                
+                            </ul>
+                        </li>
+                    
+
                     @if (App\Models\Permission::hasPermission('view_parking', $role_id))
                         <li>
                             <a href="javascript: void(0);"><i class="fa fa-car"></i> <span>Parking Management</span>

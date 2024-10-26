@@ -33,6 +33,7 @@ use App\Http\Controllers\VehicleController;
 use App\Http\Middleware\AdminUserMiddleware;
 use App\Models\Asset;
 use App\Models\Landlord;
+use App\Models\LeaseRequest;
 use App\Models\Parker;
 use App\Models\Permission;
 use App\Models\Tenant;
@@ -190,8 +191,8 @@ Route::post('unit/edit/{id}', [UnitController::class, 'update'])->name("unit.upd
 Route::get('unit/delete/{id}', [UnitController::class, 'destroy'])->name("unit.delete");
 
 
-// assign landlord to unit
 
+// assign landlord to unit
 Route::get('unit/{id}/assign', [UnitLandlordController::class, 'create'])->name('assign.create');
 
 Route::post('unit/{id}/assign', [UnitLandlordController::class, 'store'])->name('assign.store');
@@ -204,6 +205,10 @@ Route::get('unit/removeLandlord/{Id}', [UnitLandlordController::class, 'removeLa
 // assign tenant to unit
 
 Route::post('/lease-request', [LeaseRequestController::class, 'store'])->name('lease-request.store');  
+
+Route::get('/lease-rqst-list', [LeaseRequestController::class, 'index'])->name('lease.index');
+
+Route::get('/lease-aggrement', [LeaseRequestController::class, 'agreement'])->name('lease.agreement');
 
 
 
@@ -218,7 +223,6 @@ Route::get('resroom/edit/{id}', [ResroomController::class, 'edit'])->name("resro
 Route::post('resroom/edit/{id}', [ResroomController::class, 'update'])->name("resroom.update");
 
 Route::get('resroom/delete/{id}', [ResroomController::class, 'destroy'])->name("resroom.delete");
-
 
 
 

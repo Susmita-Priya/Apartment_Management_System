@@ -13,7 +13,7 @@
                         <h4 class="page-title float-left">Units</h4>
 
                         <ol class="breadcrumb float-right">
-                            <li class="breadcrumb-item"><a href="{{ route('index') }}">Admin</a></li>
+                            <li class="breadcrumb-item"><a href="{{ route('index') }}">Dashboard</a></li>
                             {{-- <li class="breadcrumb-item"><a href="#">Units</a></li> --}}
                             <li class="breadcrumb-item active">Units list</li>
                         </ol>
@@ -67,7 +67,7 @@
                                         <td>{{ $unit->floor->block->block_id }}</td>
                                         <td>{{ $unit->floor->block->building->building_id }}</td>
                                         <td>{{ $unit->floor->block->building->name }}</td>
-                                        <td>{{ $unit->rent }}</td>
+                                        <td>{{ $unit->rent }} TK</td>
                                         <td>
                                             @if ($unit->landlords->isEmpty())
                                                 No Landlord
@@ -77,7 +77,15 @@
                                                 @endforeach
                                             @endif
                                         </td>
-                                        <td> <span class="badge bg-success">{{ $unit->status }}</span> </td>
+                                        <td>
+                                            @if ($unit->status == 'Vacant')
+                                                <span class="badge bg-danger">{{ $unit->status }}</span>
+                                            @elseif ($unit->status == 'Occupied')
+                                                <span class="badge bg-success">{{ $unit->status }}</span>
+                                            @elseif ($unit->status == 'Pending')
+                                                <span class="badge bg-primary">{{ $unit->status }}</span>
+                                            @endif
+                                        </td>
                                         <td>
                                             <div class="btn-group dropdown">
                                                 <a href="javascript: void(0);" class="table-action-btn dropdown-toggle"
@@ -92,52 +100,14 @@
                                                         href="{{ route('assign.create', ['id' => $unit->id]) }}"><i
                                                             class="mdi mdi-clipboard-check m-r-10 font-18 text-muted vertical-middle"></i>Assign
                                                         Landlords</a>
+
                                                     @if ($unit->status == 'Vacant')
-                                                        
-                                                                {{-- <form action="{{ route('lease-request.store') }}" method="POST">
-                                                            @csrf
-                                                            <input type="hidden" name="unit_id"
-                                                                value="{{ $unit->id }}">
-                                                            <input type="hidden" name="landlord_id"
-                                                                value="{{ $unit->landlord_id }}">
-                                                            <a class="dropdown-item" href=""><i
-                                                                class="mdi mdi-home-variant m-r-10 font-18 text-muted vertical-middle"></i>Request to Lease
-                                                        </form>
-                                                                </a> --}}
-                                                                <a href="#" class="dropdown-item" data-toggle="modal" data-target="#leaseModal-{{ $unit->id }}">
-                                                                    <i class="mdi mdi-home-variant m-r-10 font-18 text-muted vertical-middle"></i> Request to Lease
-                                                                </a>
-                                                                
-                                                                <!-- Modal -->
-                                                                <div class="modal fade" id="leaseModal-{{ $unit->id }}" tabindex="-1" role="dialog" aria-labelledby="leaseModalLabel-{{ $unit->id }}" aria-hidden="true">
-                                                                    <div class="modal-dialog" role="document">
-                                                                        <div class="modal-content">
-                                                                            <div class="modal-header">
-                                                                                <h5 class="modal-title" id="leaseModalLabel-{{ $unit->id }}">Request to Lease - Unit-{{ $unit->unit_no }}</h5>
-                                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                                    <span aria-hidden="true">&times;</span>
-                                                                                </button>
-                                                                            </div>
-                                                                            <form action="{{ route('lease-request.store') }}" method="POST">
-                                                                                @csrf
-                                                                                <input type="hidden" name="unit_id" value="{{ $unit->id }}">
-                                                                                <input type="hidden" name="landlord_id" value="{{ $unit->landlord_id }}">
-                                                                                <div class="modal-body">
-                                                                                    <div class="form-group">
-                                                                                        <label for="start_date">Start Date</label>
-                                                                                        <input type="date" class="form-control" id="start_date" name="start_date" required>
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="modal-footer">
-                                                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                                                    <button type="submit" class="btn btn-primary">Submit Request</button>
-                                                                                </div>
-                                                                            </form>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                
-                                                        
+                                                        <a href="#" class="dropdown-item" data-toggle="modal"
+                                                            data-target="#leaseModal-{{ $unit->id }}">
+                                                            <i
+                                                                class="mdi mdi-home-variant m-r-10 font-18 text-muted vertical-middle"></i>
+                                                            Request to Lease
+                                                        </a>
                                                     @endif
 
                                                     <a class="dropdown-item"
@@ -160,6 +130,55 @@
                                                 </div>
                                             </div>
                                         </td>
+
+
+
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="leaseModal-{{ $unit->id }}" tabindex="-1"
+                                            role="dialog" aria-labelledby="leaseModalLabel-{{ $unit->id }}"
+                                            aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="leaseModalLabel-{{ $unit->id }}">
+                                                            Request to Lease - Unit-{{ $unit->unit_no }}
+                                                        </h5>
+                                                        <button type="button" class="close" data-dismiss="modal"
+                                                            aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <form action="{{ route('lease-request.store') }}" method="POST">
+                                                        @csrf
+                                                        
+                                                        <input type="hidden" name="unit_id" value="{{ $unit->id }}">
+                                                        @if ($unit->landlords->isEmpty())
+                                                        <input type="hidden" name="landlord_id"
+                                                        value="null">
+                                                        @else
+                                                            @foreach ($unit->landlords as $landlord)
+                                                            <input type="hidden" name="landlord_id"
+                                                            value="{{ $landlord->id }}">
+                                                            @endforeach
+                                                        @endif
+                                                       
+                                                        <div class="modal-body">
+                                                            <div class="form-group">
+                                                                <label for="start_date">Start Date</label>
+                                                                <input type="date" class="form-control" id="start_date"
+                                                                    name="start_date" required>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary"
+                                                                data-dismiss="modal">Close</button>
+                                                            <button type="submit" class="btn btn-primary">Submit
+                                                                Request</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </tr>
                                 @endforeach
                             </tbody>
