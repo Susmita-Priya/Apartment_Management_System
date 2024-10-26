@@ -22,10 +22,10 @@
                 </div>
             </div>
             <!-- end row -->
-
+{{-- jhf --}}
             <div class="row">
                 <div class="col-12">
-                    <div class="card-box">
+                    <div class="card-box">           
                         <h4 class="header-title m-b-15 m-t-0">Aggrement</h4>
                         {{-- <div class="row">
                             <div class="col-sm-12">
@@ -75,7 +75,7 @@
             </div>
         </div>
     </div>
-
+   
     <script>
         document.getElementById('acceptConditionsCheckbox').addEventListener('change', function() {
             if (this.checked) {
