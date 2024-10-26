@@ -56,7 +56,13 @@ class Tenant extends Model
         'family_members_details' => 'array',
     ];
 
-
-
+    public function units()
+    {
+        return $this->belongsToMany(Unit::class, 'lease_requests', 'tenant_id', 'unit_id');
+    }
     
+    public function leaseRequests()
+    {
+        return $this->hasMany(LeaseRequest::class, 'tenant_id');
+    }
 }

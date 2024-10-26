@@ -75,4 +75,10 @@ class Unit extends Model
         return $this->belongsToMany(Landlord::class, 'unit_landlords', 'unit_id', 'landlord_id');
     }
 
+    // Define relationship with LeaseRequest
+    public function leaseRequests()
+    {
+        return $this->hasMany(LeaseRequest::class, 'unit_id');
+    }
+
 }

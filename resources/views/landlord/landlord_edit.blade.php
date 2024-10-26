@@ -245,6 +245,14 @@
                                     </div>
                                 </div>
 
+                                <!-- Password (optional) -->
+                                <div class="form-group row">
+                                    <label class="col-2 col-form-label">New Password (optional)</label>
+                                    <div class="col-10">
+                                        <input class="form-control" type="password" name="password" placeholder="Leave blank if not changing">
+                                    </div>
+                                </div>
+
                                     <button type="submit" class="btn submitbtn">Update</button>
                                 </form>
                             </div>

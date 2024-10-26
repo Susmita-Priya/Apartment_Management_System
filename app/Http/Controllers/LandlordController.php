@@ -48,6 +48,7 @@ class LandlordController extends Controller
             'driving_license' => 'nullable|string|max:20',
             'company' => 'nullable|string|max:100',
             'qualification' => 'nullable|string|max:100',
+            'password' => 'required|min:4', // Add password validation
         ]);
         $landlord = new Landlord($request->all());
 
@@ -60,16 +61,15 @@ class LandlordController extends Controller
 
         $landlord->save();
 
-        $randomPassword = Str::random(10); // Generate a random 10-character password
         $user = new User();
         $user->name = $request->input('name');
         $user->email = $request->input('email');
-        $user->password = bcrypt($randomPassword); // Set the random password
+        $user->password = bcrypt($request->input('password')); // Use the provided password
         $userRole = Role::where('name', 'Landlord')->first();  
         $user->role_id = $userRole->id; // Store the role_id from the role table where name is 'user'
         $user->save();
 
-        return redirect()->back()->with('success', 'Landlord created successfully. </br> User password: <strong style="color: blue;">' . $randomPassword . '</strong>');
+        return redirect()->back()->with('success', 'Landlord created successfully.');
     }
 
     /**
@@ -110,6 +110,7 @@ class LandlordController extends Controller
             'driving_license' => 'nullable|string|max:20',
             'company' => 'nullable|string|max:100',
             'qualification' => 'nullable|string|max:100',
+            'password' => 'nullable', // Add password validation
         ]);
 
         $landlord = Landlord::find($id);
@@ -139,6 +140,10 @@ class LandlordController extends Controller
         if ($user) {
             $user->name = $request->input('name');
             $user->email = $request->input('email');
+             // Update password if provided, otherwise keep the existing one
+        if ($request->filled('password')) {
+            $user->password = bcrypt($request->input('password'));
+        }
             $user->save();
         }
 

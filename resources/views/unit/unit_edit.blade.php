@@ -135,14 +135,16 @@
                                 </span>
                             </div>
 
-                            <!-- Status -->
+                            {{-- <!-- Status -->
                             <div class="form-group">
                                 <label for="status">Status</label>
                                 <select name="status" id="status" class="form-control" required>
                                     <option value="Vacant" {{ $unit->status === 'Vacant' ? 'selected' : '' }}>Vacant</option>
+                                    <option value="Under Maintenance"
+                                        {{ $unit->status === 'Under Maintenance' ? 'selected' : '' }}>Under Maintenance
                                     <option value="Occupied" {{ $unit->status === 'Occupied' ? 'selected' : '' }}>Occupied</option>
                                 </select>
-                            </div>
+                            </div> --}}
 
                             <button type="submit" class="btn waves-effect waves-light btn-sm"
                                 style="background-color: rgb(100, 197, 177); border-color: rgb(100, 197, 177); color: white;">

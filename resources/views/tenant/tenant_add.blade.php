@@ -454,9 +454,17 @@
                                         </div>
                                     </div>
 
+                                     <!-- Password Confirmation -->
+                                <div class="form-group row">
+                                    <label class="col-2 col-form-label">Password <b style="color: red">*</b></label>
+                                    <div class="col-10">
+                                        <input class="form-control" type="password" name="password" required>
+                                    </div>
+                                </div>
+
                                     <!-- Submit Button -->
-                                    <button type="submit" class="btn waves-effect waves-light btn-sm submitbtn">Add
-                                        Tenant</button>
+                                    <button type="submit" class="btn waves-effect waves-light btn-sm submitbtn" data-toggle="modal" data-target="#passwordModal">Add Tenant</button>
+ 
                                 </form>
                             </div>
                         </div>
