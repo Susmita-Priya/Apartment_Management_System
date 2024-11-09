@@ -31,7 +31,9 @@
                 </div>
             </div>
             <!-- end row -->
-
+            @php
+                $i = 1;
+            @endphp
             <div class="row">
                 <div class="col-sm-12">
                     <div class="profile-bg-picture" style="background-image:url('{{ asset('image/unit.webp') }}')">
@@ -118,6 +120,39 @@
                                     class="m-l-15">{{ $typeFullForm[$unit->floor->block->building->type] ?? 'Other' }}</span>
                             </p>
 
+
+
+                        </div>
+                        <hr>
+                        <h4 class="header-title mt-0 m-b-20">Landlord Information</h4>
+                        <div class="panel-body">
+
+                            {{-- <p class="text-muted font-15"><strong>
+                                    name
+                                </strong> <span class="m-l-15">{{ $unit->unit_no }}</span></p> --}}
+                            @if ($unit->landlords->isEmpty())
+                                No Landlord
+                            @else
+                                @foreach ($unit->landlords as $landlord) <hr>
+                                   <h5 class="header-title mt-0 m-b-20">Landlord {{ $i++ }} </h5>
+                                  
+                                    <p class="text-muted font-15"><strong>Name:</strong> <span class="m-l-15">{{ $landlord->name }}</span></p>
+                                    <p class="text-muted font-15"><strong>Phone:</strong> <span class="m-l-15">{{ $landlord->phone }}</span></p>
+                                    <p class="text-muted font-15"><strong>Email:</strong> <span class="m-l-15">{{ $landlord->email }}</span></p>
+                                    {{-- <p class="text-muted font-15"><strong>NID:</strong> <span class="m-l-15">{{ $landlord->nid }}</span></p>
+                                    <p class="text-muted font-15"><strong>Tax ID:</strong> <span class="m-l-15">{{ $landlord->tax_id }}</span></p>
+                                    <p class="text-muted font-15"><strong>Passport:</strong> <span class="m-l-15">{{ $landlord->passport }}</span></p>
+                                    <p class="text-muted font-15"><strong>Driving License:</strong> <span class="m-l-15">{{ $landlord->driving_license }}</span></p>
+                                    <p class="text-muted font-15"><strong>DOB:</strong> <span class="m-l-15">{{ $landlord->dob }}</span></p>
+                                    <p class="text-muted font-15"><strong>Marital Status:</strong> <span class="m-l-15">{{ $landlord->marital_status }}</span></p>
+                                    <p class="text-muted font-15"><strong>Address:</strong> <span class="m-l-15">{{ $landlord->per_address }}</span></p>
+                                    <p class="text-muted font-15"><strong>Occupation:</strong> <span class="m-l-15">{{ $landlord->occupation }}</span></p>
+                                    <p class="text-muted font-15"><strong>Company:</strong> <span class="m-l-15">{{ $landlord->company }}</span></p>
+                                    <p class="text-muted font-15"><strong>Religion:</strong> <span class="m-l-15">{{ $landlord->religion }}</span></p>
+                                    <p class="text-muted font-15"><strong>Qualification:</strong> <span class="m-l-15">{{ $landlord->qualification }}</span></p> --}}
+                                @endforeach
+                            @endif
+
                         </div>
                     </div>
                     <!-- Block-Information -->
@@ -199,7 +234,8 @@
                                         <!-- Dropdown button for Edit and Delete Room -->
                                         @if ($roomInstance)
                                             <div class="btn-group">
-                                                <button type="button" class="btn waves-effect waves-light dropdown-toggle greenbtn"
+                                                <button type="button"
+                                                    class="btn waves-effect waves-light dropdown-toggle greenbtn"
                                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     Manage Room <span class="caret"></span>
                                                 </button>
@@ -220,7 +256,7 @@
                                                             </button> --}}
 
                                                     {{-- <a class="dropdown-item"
-                                                        onclick="confirmDelete('{{ route($roomType . '.delete', ['id' => $roomInstance->id]) }}')"
+ href="#"                                                       onclick="confirmDelete('{{ route($roomType . '.delete', ['id' => $roomInstance->id]) }}')"
                                                         type="submit">
                                                         <i
                                                             class="mdi mdi-delete m-r-10 text-muted font-18 vertical-middle"></i>
@@ -293,7 +329,8 @@
                                 'washroom' => 'Washroom',
                             ];
 
-                            $roomTypes = $unit->type == 'Residential Suite' ? $residentialRoomTypes : $commercialRoomTypes;
+                            $roomTypes =
+                                $unit->type == 'Residential Suite' ? $residentialRoomTypes : $commercialRoomTypes;
                             $roomData = $unit->type == 'Residential Suite' ? $unit->resRoom : $unit->comRoom;
                             $roomurl = $unit->type == 'Residential Suite' ? 'resroom' : 'comroom';
                         @endphp
@@ -314,7 +351,7 @@
                                                     <a href="{{ route($roomurl . '.show', ['id' => $roomData->id, 'room_type' => $key]) }}"
                                                         class="btn btn-sm custom-btn">
                                                         <i class="mdi mdi-arrow-right"></i> Enter
-                                                     </a>                                                    
+                                                    </a>
                                                 </div>
                                             </div>
                                         </div>

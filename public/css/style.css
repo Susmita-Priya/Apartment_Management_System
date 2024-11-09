@@ -44,3 +44,32 @@
     margin-right: 5px;
     /* Space between the icon and text */
 }
+
+
+.agreement-container {
+    border: 1px solid #333;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+h1, h2 {
+    text-align: center;
+}
+.agreement-details {
+    margin-top: 20px;
+}
+.agreement-details p {
+    line-height: 1.6;
+}
+.print-button {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+.btn-print {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+}

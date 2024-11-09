@@ -15,7 +15,7 @@ class LandlordController extends Controller
      */
     public function index()
     {
-        $landlords = Landlord::all();
+        $landlords = Landlord::withCount('units')->get();
         return view('landlord.landlord_list', compact('landlords'));
     }
 
@@ -34,7 +34,7 @@ class LandlordController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'phone' => 'required|string|max:15',
+            'phone' => 'required',
             'email' => 'required|email|max:255',
             'nid' => 'required|string|max:20',
             'tax_id' => 'required|string|max:20',
@@ -43,34 +43,33 @@ class LandlordController extends Controller
             'per_address' => 'required|string|max:255',
             'occupation' => 'required|string|max:100',
             'religion' => 'required|string|max:50',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
             'passport' => 'nullable|string|max:20',
             'driving_license' => 'nullable|string|max:20',
             'company' => 'nullable|string|max:100',
             'qualification' => 'nullable|string|max:100',
+            'password' => 'required|min:4', // Add password validation
         ]);
-
         $landlord = new Landlord($request->all());
 
         if ($request->hasFile('image')) {
             $file = $request->file('image');
-            $imageName = time().'_landlord.'.$file->extension();
-            $request->image->move(public_path('uploads/landlord'), $imageName);
-            $landlord->image = 'uploads/landlord'.$imageName;
+            $imageName = time().'_landlord.'.$file->getClientOriginalExtension();
+            $file->move(public_path('uploads/landlord'), $imageName);
+            $landlord->image = 'uploads/landlord/'.$imageName;
         }
 
         $landlord->save();
 
-        $randomPassword = Str::random(10); // Generate a random 10-character password
         $user = new User();
         $user->name = $request->input('name');
         $user->email = $request->input('email');
-        $user->password = bcrypt($randomPassword); // Set the random password
-        $userRole = Role::where('name', 'lanlord')->first();  
+        $user->password = bcrypt($request->input('password')); // Use the provided password
+        $userRole = Role::where('name', 'Landlord')->first();  
         $user->role_id = $userRole->id; // Store the role_id from the role table where name is 'user'
         $user->save();
 
-        return redirect()->route('landlord.index')->with('success', 'Landlord created successfully. </br> User password: <strong style="color: blue;">' . $randomPassword . '</strong>');
+        return redirect()->back()->with('success', 'Landlord created successfully.');
     }
 
     /**
@@ -84,53 +83,92 @@ class LandlordController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Landlord $landlord)
+    public function edit($id)
     {
-        // return view('landlords.edit', compact('landlord'));
+        $landlord = Landlord::find($id);
+        return view('landlord.landlord_edit', compact('landlord'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Landlord $landlord)
+    public function update(Request $request, $id)
     {
-        // $request->validate([
-        //     'name' => 'required|string|max:255',
-        //     'phone' => 'required|string|max:15',
-        //     'email' => 'required|email|max:255',
-        //     'nid' => 'required|string|max:20',
-        //     'tax_id' => 'required|string|max:20',
-        //     'dob' => 'required|date',
-        //     'marital_status' => 'required|string|max:50',
-        //     'per_address' => 'required|string|max:255',
-        //     'occupation' => 'required|string|max:100',
-        //     'religion' => 'required|string|max:50',
-        //     'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-        //     'passport' => 'nullable|string|max:20',
-        //     'driving_license' => 'nullable|string|max:20',
-        //     'company' => 'nullable|string|max:100',
-        //     'qualification' => 'nullable|string|max:100',
-        // ]);
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'phone' => 'required',
+            'email' => 'required|email|max:255',
+            'nid' => 'required|string|max:20',
+            'tax_id' => 'required|string|max:20',
+            'dob' => 'required|date',
+            'marital_status' => 'required|string|max:50',
+            'per_address' => 'required|string|max:255',
+            'occupation' => 'required|string|max:100',
+            'religion' => 'required|string|max:50',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
+            'passport' => 'nullable|string|max:20',
+            'driving_license' => 'nullable|string|max:20',
+            'company' => 'nullable|string|max:100',
+            'qualification' => 'nullable|string|max:100',
+            'password' => 'nullable', // Add password validation
+        ]);
 
-        // $landlord->fill($request->all());
+        $landlord = Landlord::find($id);
+        $landlord->fill($request->all());
 
-        // if ($request->hasFile('image')) {
-        //     $imageName = time().'.'.$request->image->extension();
-        //     $request->image->move(public_path('images'), $imageName);
-        //     $landlord->image = $imageName;
-        // }
+        if ($request->hasfile('image')) {
+            $file = $request->file('image');
 
-        // $landlord->save();
+            // Delete the old image if it exists
+            if ($landlord->image && file_exists(public_path($landlord->image))) {
+                unlink(public_path($landlord->image));
+            }
 
-        // return redirect()->route('landlord.index')->with('success', 'Landlord updated successfully.');
+            $filename = time() . '_landlord.' . $file->getClientOriginalExtension();
+            $file->move(public_path('uploads/landlord'), $filename);
+            $fullPath = 'uploads/landlord/' . $filename;
+        } else {
+            // Keep the old image if no new image is uploaded
+            $fullPath = $landlord->image;
+        }
+
+        $landlord->image = $fullPath;
+        $landlord->save();
+
+        // Update the corresponding user
+        $user = User::where('email', $landlord->email)->first();
+        if ($user) {
+            $user->name = $request->input('name');
+            $user->email = $request->input('email');
+             // Update password if provided, otherwise keep the existing one
+        if ($request->filled('password')) {
+            $user->password = bcrypt($request->input('password'));
+        }
+            $user->save();
+        }
+
+        return redirect()->back()->with('success', 'Landlord updated successfully.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Landlord $landlord)
+    public function destroy($id)
     {
-        // $landlord->delete();
-        // return redirect()->route('landlord.index')->with('success', 'Landlord deleted successfully.');
+        $landlord = Landlord::find($id);
+
+        if ($landlord->image && file_exists(public_path($landlord->image))) {
+            unlink(public_path($landlord->image));
+        }
+
+        // Delete the corresponding user
+        $user = User::where('email', $landlord->email)->first();
+        if ($user) {
+            $user->delete();
+        }
+
+        $landlord->delete();
+        return back()->with('success', 'Landlord deleted successfully');
+        
     }
 }

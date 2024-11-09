@@ -15,6 +15,8 @@ class Unit extends Model
         'floor_id',
         'unit_id',
         'type',
+        'rent',
+        'status',
     ];
 
     // Define relationship with Floor
@@ -66,4 +68,17 @@ class Unit extends Model
     {
         return $this->floor->block->building();
     }
+
+    // Define relationship with Unit_landlord
+    public function landlords()
+    {
+        return $this->belongsToMany(Landlord::class, 'unit_landlords', 'unit_id', 'landlord_id');
+    }
+
+    // Define relationship with LeaseRequest
+    public function leaseRequests()
+    {
+        return $this->hasMany(LeaseRequest::class, 'unit_id');
+    }
+
 }

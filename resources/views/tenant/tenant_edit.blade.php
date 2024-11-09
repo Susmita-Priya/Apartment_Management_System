@@ -121,7 +121,7 @@
                                         Email <b style="color: red">*</b>
                                     </label>
                                     <div class="col-10">
-                                        <input class="form-control" type="email" name="email" value="{{ old('email', $tenant->email) }}" required>
+                                        <input class="form-control" type="email" name="email" value="{{ old('email', $tenant->email) }}" required readonly>
                                     </div>
                                 </div>
                                 <!--NID number-->
@@ -468,6 +468,14 @@
                                     </label>
                                     <div class="col-10">
                                         <input class="form-control" type="date" name="new_house_start_date" value="{{ old('new_house_start_date', $tenant->new_house_start_date) }}" required>
+                                    </div>
+                                </div>
+
+                                <!-- Password (optional) -->
+                                <div class="form-group row">
+                                    <label class="col-2 col-form-label">New Password (Optional)</label>
+                                    <div class="col-10">
+                                        <input class="form-control" type="password" name="password" placeholder="Leave blank if not changing">
                                     </div>
                                 </div>
 

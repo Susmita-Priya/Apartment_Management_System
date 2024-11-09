@@ -31,4 +31,11 @@ class Landlord extends Model
         'religion',
         'qualification',
     ];
+
+    public function units()
+    {
+        return $this->belongsToMany(Unit::class, 'unit_landlords', 'landlord_id', 'unit_id');   
+        
+        //landlord model has many-to-many relationship with unit model and unit_landlords is pivot table , where landlord_id and unit_id are foreign keys
+    }
 }

@@ -1,9 +1,9 @@
 @extends('master')
 
 @section('content')
-@push('title')
-<title>Parkiing List</title>
-@endpush
+    @push('title')
+        <title>Parkiing List</title>
+    @endpush
 
     <div class="content">
         <div class="container-fluid">
@@ -52,27 +52,34 @@
                                         <td>Stall-{{ $stall->stall_locker_no }}</td>
                                         <td>{{ $stall->type }}</td>
                                         <td>{{ $stall->capacity }}</td>
-                                        <td>{{ $stall->capacity - $stall->vehicles->count() }}</td> <!-- Calculating available spaces -->
+                                        <td>{{ $stall->capacity - $stall->vehicles->count() }}</td>
+                                        <!-- Calculating available spaces -->
                                         <td>
                                             <div class="btn-group dropdown">
                                                 <a href="javascript: void(0);" class="table-action-btn dropdown-toggle"
                                                     data-toggle="dropdown" aria-expanded="false"><i
                                                         class="mdi mdi-dots-horizontal"></i></a>
                                                 <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                                                    <a class="dropdown-item" href="javascript:void(0);"
-                                                       data-toggle="modal" data-target="#infoModal-{{ $stall->id }}">
-                                                        <i class="mdi mdi-eye m-r-10 text-muted font-18 vertical-middle"></i>View Full Info
+                                                    <a class="dropdown-item" href="javascript:void(0);" data-toggle="modal"
+                                                        data-target="#infoModal-{{ $stall->id }}">
+                                                        <i
+                                                            class="mdi mdi-eye m-r-10 text-muted font-18 vertical-middle"></i>View
+                                                        Full Info
                                                     </a>
                                                     <a class="dropdown-item"
-                                                       href="{{ route('parking.create', $stall->id) }}">
-                                                       <i class="mdi mdi-clipboard-check m-r-10 text-muted font-18 vertical-middle"></i>Assign Vehicle / Parker
+                                                        href="{{ route('parking.create', $stall->id) }}">
+                                                        <i
+                                                            class="mdi mdi-clipboard-check m-r-10 text-muted font-18 vertical-middle"></i>Assign
+                                                        Vehicle / Parker
                                                     </a>
                                                     <a class="dropdown-item"
-                                                       href="{{ route('stall_locker.edit', $stall->id) }}">
-                                                       <i class="mdi mdi-pencil m-r-10 text-muted font-18 vertical-middle"></i>Edit Stall Info
+                                                        href="{{ route('stall_locker.edit', $stall->id) }}">
+                                                        <i
+                                                            class="mdi mdi-pencil m-r-10 text-muted font-18 vertical-middle"></i>Edit
+                                                        Stall Info
                                                     </a>
-                                                    
-                                                    <a class="dropdown-item"
+
+                                                    <a class="dropdown-item" href="#"
                                                         onclick="confirmDelete('{{ route('stall_locker.delete', ['id' => $stall->id]) }}')"><i
                                                             class="mdi mdi-delete m-r-10 text-muted font-18 vertical-middle"></i>
                                                         Delete Stall
@@ -83,20 +90,23 @@
                                                         method="GET" style="display: none;">
                                                         @csrf
                                                         @method('DELETE')
-                                                    </form>    
+                                                    </form>
                                                 </div>
                                             </div>
                                         </td>
                                     </tr>
 
                                     <!-- Modal for showing full info -->
-                                    <div class="modal fade" id="infoModal-{{ $stall->id }}" tabindex="-1" role="dialog"
-                                         aria-labelledby="infoModalLabel-{{ $stall->id }}" aria-hidden="true">
+                                    <div class="modal fade" id="infoModal-{{ $stall->id }}" tabindex="-1"
+                                        role="dialog" aria-labelledby="infoModalLabel-{{ $stall->id }}"
+                                        aria-hidden="true">
                                         <div class="modal-dialog" role="document">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h5 class="modal-title" id="infoModalLabel-{{ $stall->id }}">Stall Details</h5>
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <h5 class="modal-title" id="infoModalLabel-{{ $stall->id }}">Stall
+                                                        Details</h5>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
                                                         <span aria-hidden="true">&times;</span>
                                                     </button>
                                                 </div>
@@ -108,7 +118,8 @@
                                                         @if ($stall->vehicles->isNotEmpty())
                                                             <ul>
                                                                 @foreach ($stall->vehicles as $vehicle)
-                                                                    <li>{{ $vehicle->vehicle_no }} ({{ $vehicle->vehicle_name }})</li>
+                                                                    <li>{{ $vehicle->vehicle_no }}
+                                                                        ({{ $vehicle->vehicle_name }})</li>
                                                                 @endforeach
                                                             </ul>
                                                         @else
@@ -119,20 +130,27 @@
                                                         @if ($stall->parkers->isNotEmpty())
                                                             <ul>
                                                                 @foreach ($stall->parkers as $parker)
-                                                                    <li>{{ $parker->parker_no }} ({{ $parker->parker_name }})</li>
+                                                                    <li>{{ $parker->parker_no }}
+                                                                        ({{ $parker->parker_name }})</li>
                                                                 @endforeach
                                                             </ul>
                                                         @else
                                                             No parkers assigned
                                                         @endif
                                                     </p>
-                                                    <p><strong>Floor No:</strong> {{ $stall->floor->type ?? 'N/A' }}-{{ $stall->floor->floor_no ?? 'N/A' }}</p>
-                                                    <p><strong>Block ID:</strong> {{ $stall->floor->block->block_id ?? 'N/A' }}</p>
-                                                    <p><strong>Block Name:</strong> {{ $stall->floor->block->name ?? 'N/A' }}</p>
-                                                    <p><strong>Building Name:</strong> {{ $stall->floor->block->building->name ?? 'N/A' }}</p>
+                                                    <p><strong>Floor No:</strong>
+                                                        {{ $stall->floor->type ?? 'N/A' }}-{{ $stall->floor->floor_no ?? 'N/A' }}
+                                                    </p>
+                                                    <p><strong>Block ID:</strong>
+                                                        {{ $stall->floor->block->block_id ?? 'N/A' }}</p>
+                                                    <p><strong>Block Name:</strong>
+                                                        {{ $stall->floor->block->name ?? 'N/A' }}</p>
+                                                    <p><strong>Building Name:</strong>
+                                                        {{ $stall->floor->block->building->name ?? 'N/A' }}</p>
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-dismiss="modal">Close</button>
                                                 </div>
                                             </div>
                                         </div>

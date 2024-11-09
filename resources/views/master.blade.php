@@ -29,6 +29,8 @@
         type="text/css" />
     <link href="{{ asset('admin_dashboard') }}/plugins/datatables/responsive.bootstrap4.min.css" rel="stylesheet"
         type="text/css" />
+<!-- Add Bootstrap CSS -->
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- App css -->
     <link href="{{ asset('admin_dashboard') }}/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
@@ -59,6 +61,8 @@
         @include('include.footer')
 
     </div>
+
+
 
     <!-- jQuery  -->
     <script src="{{ asset('admin_dashboard') }}/assets/js/jquery.min.js"></script>

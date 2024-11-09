@@ -11,6 +11,7 @@ use App\Http\Controllers\ComroomController;
 use App\Http\Controllers\FloorController;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\LandlordController;
+use App\Http\Controllers\LeaseRequestController;
 use App\Http\Controllers\MechroomController;
 use App\Http\Controllers\ParkerController;
 use App\Http\Controllers\ParkingController;
@@ -23,15 +24,20 @@ use App\Http\Controllers\SettingController;
 use App\Http\Controllers\StallLockerController;
 use App\Http\Controllers\TenantController;
 use App\Http\Controllers\TenantsController;
+use App\Http\Controllers\UnitAssignController;
 use App\Http\Controllers\UnitController;
+use App\Http\Controllers\UnitLandlordController;
+use App\Http\Controllers\UnitLeaseController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VehicleController;
 use App\Http\Middleware\AdminUserMiddleware;
 use App\Models\Asset;
 use App\Models\Landlord;
+use App\Models\LeaseRequest;
 use App\Models\Parker;
 use App\Models\Permission;
 use App\Models\Tenant;
+use App\Models\Unit_landlord;
 use App\Models\Vehicle;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -186,6 +192,36 @@ Route::get('unit/delete/{id}', [UnitController::class, 'destroy'])->name("unit.d
 
 
 
+// assign landlord to unit
+Route::get('unit/{id}/assign', [UnitLandlordController::class, 'create'])->name('assign.create');
+
+Route::post('unit/{id}/assign', [UnitLandlordController::class, 'store'])->name('assign.store');
+
+Route::get('unit/removeLandlord/{Id}', [UnitLandlordController::class, 'removeLandlord'])->name('landlord.remove');
+
+
+
+
+// assign tenant to unit
+
+Route::post('/lease-request', [LeaseRequestController::class, 'store'])->name('lease-request.store');
+
+Route::get('/lease-rqst-list', [LeaseRequestController::class, 'index'])->name('lease.index');
+
+Route::get('/lease-aggrement', [LeaseRequestController::class, 'agreement'])->name('lease.agreement');
+
+Route::get('/send-aggrement/{id}', [LeaseRequestController::class, 'sendagreement'])->name('send.agreement');
+
+Route::post('/aggrement-form/{id}', [LeaseRequestController::class, 'agreementform'])->name('agreement.form');
+
+Route::get('/agreement/download/{id}', [LeaseRequestController::class, 'downloadAgreement'])->name('download.agreement');
+
+Route::get('/agreement/accept/{id}', [LeaseRequestController::class, 'accept'])->name('agreement.accept');
+
+Route::get('/agreement/reject/{id}', [LeaseRequestController::class, 'reject'])->name('agreement.reject');
+
+
+
 
 Route::get('resroom/create', [ResroomController::class, 'create'])->name("resroom.create");
 
@@ -198,7 +234,6 @@ Route::get('resroom/edit/{id}', [ResroomController::class, 'edit'])->name("resro
 Route::post('resroom/edit/{id}', [ResroomController::class, 'update'])->name("resroom.update");
 
 Route::get('resroom/delete/{id}', [ResroomController::class, 'destroy'])->name("resroom.delete");
-
 
 
 
@@ -366,6 +401,9 @@ Route::post('parking/{id}/assign', [ParkingController::class, 'store'])->name('p
 
 Route::post('parking/removeVehicle/{vehicleId}', [ParkingController::class, 'removeVehicle'])->name('vehicle.remove');
 
+Route::post('parking/removeParker/{parkerId}', [ParkingController::class, 'removeParker'])->name('parker.remove');
+
+
 
 
 Route::get('tenants/index', [TenantController::class, 'index'])->name("tenants.index");
@@ -389,8 +427,6 @@ Route::get('landlord/index', [LandlordController::class, 'index'])->name("landlo
 Route::get('landlord/create', [LandlordController::class, 'create'])->name("landlord.create");
 
 Route::post('landlord/store', [LandlordController::class, 'store'])->name("landlord.store");
-
-// Route::get('tenants/show/{id}', [TenantController::class, 'show'])->name("tenants.show");
 
 Route::get('landlord/edit/{id}', [LandlordController::class, 'edit'])->name("landlord.edit");
 

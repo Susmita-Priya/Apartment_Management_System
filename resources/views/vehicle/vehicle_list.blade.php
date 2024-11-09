@@ -93,7 +93,7 @@
                                                         type="submit"><i
                                                             class="mdi mdi-pencil m-r-10 text-muted font-18 vertical-middle"></i>Edit
                                                         vehicle</a>
-                                                    <a class="dropdown-item"
+                                                    <a class="dropdown-item" href="#"
                                                         onclick="confirmDelete('{{ route('vehicle.delete', ['id' => $vehicle->id]) }}')"><i
                                                             class="mdi mdi-delete m-r-10 text-muted font-18 vertical-middle"></i>
                                                         Delete

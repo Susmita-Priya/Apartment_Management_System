@@ -14,7 +14,7 @@
 
                         <ol class="breadcrumb float-right">
                             <li class="breadcrumb-item"><a href="{{ url('/index') }}">Admin</a></li>
-                            <li class="breadcrumb-item"><a href="#">Floors</a></li>
+                            {{-- <li class="breadcrumb-item"><a href="#">Floors</a></li> --}}
                             <li class="breadcrumb-item active">Floors List</li>
                         </ol>
 
@@ -49,7 +49,7 @@
                                     <th>Block Name</th>
                                     <th>Building ID</th>
                                     <th>Building Name</th>
-                                    <th>Status</th>
+                                    {{-- <th>Status</th> --}}
                                     <th class="hidden-sm">Action</th>
                                 </tr>
                             </thead>
@@ -64,8 +64,8 @@
                                         <td>{{ $floor->block->name }}</td>
                                         <td>{{ $floor->block->building->building_id }}</td>
                                         <td>{{ $floor->block->building->name }}</td>
-                                        <td>
-                                            {{-- @if ($floor->residential_suite)
+                                       {{--  <td>
+                                            @if ($floor->residential_suite)
                                                 Residential Suite
                                             @elseif ($floor->commercial_unit)
                                                 Commercial Unit
@@ -79,8 +79,8 @@
                                                 Storage Lot
                                             @else
                                                 N/A
-                                            @endif --}}
-                                        </td>
+                                            @endif
+                                        </td> --}}
                                         <td>
                                             <div class="btn-group dropdown">
                                                 <a href="javascript: void(0);" class="table-action-btn dropdown-toggle"
@@ -94,7 +94,7 @@
                                                     <a class="dropdown-item"
                                                         href="{{ route('floor.edit', ['id' => $floor->id]) }}"><i
                                                             class="mdi mdi-pencil m-r-10 text-muted font-18 vertical-middle"></i>Edit</a>
-                                                    <a class="dropdown-item"
+                                                    <a class="dropdown-item" href="#"
                                                         onclick="confirmDelete('{{ route('floor.delete', ['id' => $floor->id]) }}')"><i
                                                             class="mdi mdi-delete m-r-10 text-muted font-18 vertical-middle"></i>
                                                         Delete

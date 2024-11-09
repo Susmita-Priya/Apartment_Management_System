@@ -47,19 +47,26 @@
                                     <th>Phone</th>
                                     <th>Email</th>
                                     <th>Address</th>
-                                    <th>NID</th>
+                                    <th>Leases</th>
                                     <th class="text-center">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($tenants as $tenant)
                                     <tr>
-                                        <td><img src="{{ asset($tenant->image) }}" alt="{{ $tenant->name }}" style="width: 80px; height: auto;"></td>
+                                        <td><img src="{{ asset($tenant->image) }}" alt="{{ $tenant->name }}"
+                                                style="width: 80px; height: auto;"></td>
                                         <td>{{ $tenant->name }}</td>
                                         <td>{{ $tenant->phone }}</td>
                                         <td>{{ $tenant->email }}</td>
                                         <td>{{ $tenant->per_address }}</td>
-                                        <td>{{ $tenant->nid }}</td>
+                                        <td>
+                                            @if ($tenant->units->where('status', 'Occupied')->count() > 0)
+                                                Unit(s): {{ $tenant->units->where('status', 'Occupied')->count() }}
+                                            @else
+                                                No units available
+                                            @endif
+                                        </td>
                                         <td class="text-center">
                                             <div class="btn-group dropdown">
                                                 <a href="javascript: void(0);" class="table-action-btn dropdown-toggle"
@@ -67,19 +74,24 @@
                                                         class="mdi mdi-dots-horizontal"></i></a>
                                                 <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
 
-                                                    <a class="dropdown-item"
-                                                    href="#"
-                                                    onclick="viewInfo({{ $tenant }})"><i
-                                                        class="mdi mdi-eye m-r-10 text-muted font-18 vertical-middle"></i>
-                                                    View Info
-                                                </a>
+                                                    <a class="dropdown-item" href="#"
+                                                        onclick="viewInfo({{ $tenant }})"><i
+                                                            class="mdi mdi-eye m-r-10 text-muted font-18 vertical-middle"></i>
+                                                        View Info
+                                                    </a>
+                                                    <!-- View Unit Button -->
+                                                    <a class="dropdown-item" href="#" data-toggle="modal"
+                                                        data-target="#Modalunit-{{ $tenant->id }}">
+                                                        <i
+                                                            class="mdi mdi-eye m-r-10 text-muted font-18 vertical-middle"></i>
+                                                        View Unit
+                                                    </a>
                                                     <a class="dropdown-item"
                                                         href="{{ route('tenants.edit', ['id' => $tenant->id]) }}"
                                                         type="submit"><i
                                                             class="mdi mdi-pencil m-r-10 text-muted font-18 vertical-middle"></i>Edit
                                                         tenant</a>
-                                                    <a class="dropdown-item"
-                                                    href="#"
+                                                    <a class="dropdown-item" href="#"
                                                         onclick="confirmDelete('{{ route('tenants.delete', ['id' => $tenant->id]) }}')"><i
                                                             class="mdi mdi-delete m-r-10 text-muted font-18 vertical-middle"></i>
                                                         Delete
@@ -108,7 +120,8 @@
     </div> <!-- content -->
 
     <!-- Modal -->
-    <div class="modal fade" id="tenantInfoModal" tabindex="-1" role="dialog" aria-labelledby="tenantInfoModalLabel" aria-hidden="true">
+    <div class="modal fade" id="tenantInfoModal" tabindex="-1" role="dialog" aria-labelledby="tenantInfoModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -128,9 +141,70 @@
         </div>
     </div>
 
+<!-- Modal for viewing units, create one modal per tenant -->
+@foreach ($tenants as $tenant)
+    <div class="modal fade" id="Modalunit-{{ $tenant->id }}" tabindex="-1" role="dialog"
+         aria-labelledby="ModalunitLabel-{{ $tenant->id }}" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="ModalunitLabel-{{ $tenant->id }}">
+                        Units Information for {{ $tenant->name }}
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- Units information will be populated here -->
+                    @if ($tenant->units && $tenant->units->isNotEmpty())
+                        <ul class="list-group">
+                            @forelse ($tenant->units as $unit)
+                            @if ($unit->status == 'Occupied')
+                                
+                            <ul class="list-group">
+                                <a href="{{ route('unit.show', ['id' => $unit->id]) }}">
+                                    <li class="list-group-item text-center" style="cursor: pointer;">
+                                        <strong>Unit-{{ $unit->unit_no }}:</strong> {{ $unit->type }}
+                                    </li>
+                                </a>
+                                                               
+                                <li class="list-group-item"><strong>Floor:
+                                    </strong>{{ $unit->floor->type }}-{{ $unit->floor->floor_no }}</li>
+                                <li class="list-group-item"><strong>Block: </strong>{{ $unit->floor->block->name }}
+                                    ({{ $unit->floor->block->block_id }})</li>
+                                <li class="list-group-item"><strong>Building:
+                                    </strong>{{ $unit->floor->block->building->name }}
+                                    ({{ $unit->floor->block->building->building_id }})</li>
+                            </ul>
+                            @else
+                            <ul class="list-group">
+                                <li class="list-group-item">No units available</li>
+                            </ul>
+
+                            @endif
+                        @empty
+                            <ul class="list-group">
+                                <li class="list-group-item">No units available</li>
+                            </ul>
+                        @endforelse
+
+                        @endif
+                       
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+@endforeach
+
+
     <script>
         function viewInfo(tenant) {
             let infoContent = `
+                <p><strong>Name:</strong> ${tenant.name}</p>
                 <p><strong>Father:</strong> ${tenant.father}</p>
                 <p><strong>Mother:</strong> ${tenant.mother}</p>
                 <p><strong>Phone:</strong> ${tenant.phone}</p>
@@ -153,7 +227,7 @@
                         $i = 1;
                         $familyMembersDetails = json_decode($tenant->family_members_details, true); // Decoding the JSON data
                     @endphp
-                    @foreach($familyMembersDetails as $member)
+                    @foreach ($familyMembersDetails as $member)
                         <li>
                             <p><strong>Family Member {{ $i }}</strong></p>
                             <p><strong>Name:</strong> {{ $member['name'] ?? 'N/A' }}</p>

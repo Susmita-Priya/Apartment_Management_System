@@ -48,7 +48,7 @@
                                         <a href="{{ route('index') }}" class="text-success">
                                             {{-- <span><img src="{{ asset('setting/company_logo/' . $general_setting->company_logo) }}" alt=""
                                                     height="60"></span> --}}
-                                                    <p style="color: rgb(100, 197, 177);"> Property Management </p>
+                                                <p style="color: rgb(100, 197, 177);"> Apartment Management </p>
                                         </a>
                                         @endif
                                     </h2>

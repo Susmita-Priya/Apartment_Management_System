@@ -11,7 +11,7 @@
                 @else
                     <img src="{{ asset('image') }}/bytecarelogodark.png" alt="" height="45">
                 @endif --}}
-                <p style="color: rgb(100, 197, 177);"> Property Management </p>
+                <p style="color: rgb(100, 197, 177);"> Apartment Management </p>
             </span>
             {{-- <i>
                 <img src="{{ asset('image') }}/bytecarelogo_sm.png" alt="" height="28">

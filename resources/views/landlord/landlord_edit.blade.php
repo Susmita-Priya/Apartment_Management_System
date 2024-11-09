@@ -101,7 +101,7 @@
                                             Email <b style="color: red">*</b>
                                         </label>
                                         <div class="col-10">
-                                            <input class="form-control" type="email" name="email" value="{{ $landlord->email }}" required>
+                                            <input class="form-control" type="email" name="email" value="{{ $landlord->email }}" required readonly>
                                         </div>
                                     </div>
 
@@ -155,15 +155,18 @@
                                         </div>
                                     </div>
 
-                                    <!-- Marital Status -->
-                                    <div class="form-group row">
-                                        <label class="col-2 col-form-label">
-                                            Marital Status <b style="color: red">*</b>
-                                        </label>
-                                        <div class="col-10">
-                                            <input class="form-control" type="text" name="marital_status" value="{{ $landlord->marital_status }}" required>
+                                    <!--Marital Status-->
+                                <div class="form-group row">
+                                    <label for="status" class="col-2 ">
+                                        Marital Status
+                                    </label>
+                                    <div class="col-10">
+                                        <div class="form-group">
+                                            <input type="radio" name="marital_status" value="Married" {{ old('marital_status', $landlord->marital_status) == 'Married' ? 'checked' : '' }}> Married
+                                            &nbsp;&nbsp;&nbsp;<input type="radio" name="marital_status" value="Unmarried" {{ old('marital_status', $landlord->marital_status) == 'Unmarried' ? 'checked' : '' }}> Unmarried
                                         </div>
                                     </div>
+                                </div>
 
                                     <!-- Permanent Address -->
                                     <div class="form-group row">
@@ -175,15 +178,24 @@
                                         </div>
                                     </div>
 
-                                    <!-- Occupation -->
-                                    <div class="form-group row">
-                                        <label class="col-2 col-form-label">
-                                            Occupation <b style="color: red">*</b>
-                                        </label>
-                                        <div class="col-10">
-                                            <input class="form-control" type="text" name="occupation" value="{{ $landlord->occupation }}" required>
-                                        </div>
+                                   <!--Occupation-->
+                                <div class="form-group row">
+                                    <label class="col-2 col-form-label">
+                                        Occupation <b style="color: red">*</b>
+                                    </label>
+                                    <div class=" col-10">
+                                        <select class="form-control" name="occupation" required="">
+                                            <option value="">-- Select One --</option>
+                                            <option value="Businessman" id="busy" {{ old('occupation', $landlord->occupation) == 'Businessman' ? 'selected' : '' }}>Businessman</option>
+                                            <option value="Job Holder" id="job" {{ old('occupation', $landlord->occupation) == 'Job Holder' ? 'selected' : '' }}>Job Holder</option>
+                                            <option value="Self Employed" id="self" {{ old('occupation', $landlord->occupation) == 'Self Employed' ? 'selected' : '' }}>Self Employed</option>
+                                            <option value="Service Holder" id="service" {{ old('occupation', $landlord->occupation) == 'Service Holder' ? 'selected' : '' }}>Service Holder</option>
+                                            <option value="Housewife" id="house" {{ old('occupation', $landlord->occupation) == 'Housewife' ? 'selected' : '' }}>Housewife</option>
+                                            <option value="Student" id="stu" {{ old('occupation', $landlord->occupation) == 'Student' ? 'selected' : '' }}>Student</option>
+                                            <option value="Unemployed" id="un" {{ old('occupation', $landlord->occupation) == 'Unemployed' ? 'selected' : '' }}>Unemployed</option>
+                                        </select>
                                     </div>
+                                </div>
 
                                     <!-- Company -->
                                     <div class="form-group row">
@@ -195,27 +207,53 @@
                                         </div>
                                     </div>
 
-                                    <!-- Religion -->
-                                    <div class="form-group row">
-                                        <label class="col-2 col-form-label">
-                                            Religion <b style="color: red">*</b>
-                                        </label>
-                                        <div class="col-10">
-                                            <input class="form-control" type="text" name="religion" value="{{ $landlord->religion }}" required>
-                                        </div>
+                                    <!--religion-->
+                                <div class="form-group row">
+                                    <label class="col-2 col-form-label">
+                                        Religion <b style="color: red">*</b>
+                                    </label>
+                                    <div class=" col-10">
+                                        <select class="form-control" name="religion" required="">
+                                            <option value="">-- Select One --</option>
+                                            <option value="Islam" {{ old('religion', $landlord->religion) == 'Islam' ? 'selected' : '' }}>Islam</option>
+                                            <option value="Hinduism" {{ old('religion', $landlord->religion) == 'Hinduism' ? 'selected' : '' }}>Hinduism</option>
+                                            <option value="Buddhism" {{ old('religion', $landlord->religion) == 'Buddhism' ? 'selected' : '' }}>Buddhism</option>
+                                            <option value="Christianity" {{ old('religion', $landlord->religion) == 'Christianity' ? 'selected' : '' }}>Christianity</option>
+                                        </select>
                                     </div>
+                                </div>
 
-                                    <!-- Qualification -->
-                                    <div class="form-group row">
-                                        <label class="col-2 col-form-label">
-                                            Qualification
-                                        </label>
-                                        <div class="col-10">
-                                            <input class="form-control" type="text" name="qualification" value="{{ $landlord->qualification }}">
-                                        </div>
+                                    <!--Qualification-->
+                                <div class="form-group row">
+                                    <label class="col-2 col-form-label">
+                                        Qualification
+                                    </label>
+                                    <div class=" col-10">
+                                        <select class="form-control" name="qualification">
+                                            <option value="N/A" {{ old('qualification', $landlord->qualification) == 'N/A' ? 'selected' : '' }}>N/A</option>
+                                            <option value="SSC" {{ old('qualification', $landlord->qualification) == 'SSC' ? 'selected' : '' }}>SSC</option>
+                                            <option value="HSC" {{ old('qualification', $landlord->qualification) == 'HSC' ? 'selected' : '' }}>HSC</option>
+                                            <option value="Bachelors" {{ old('qualification', $landlord->qualification) == 'Bachelors' ? 'selected' : '' }}>Bachelor's</option>
+                                            <option value="Honours" {{ old('qualification', $landlord->qualification) == 'Honours' ? 'selected' : '' }}>Honours</option>
+                                            <option value="BBA" {{ old('qualification', $landlord->qualification) == 'BBA' ? 'selected' : '' }}>BBA</option>
+                                            <option value="LLB" {{ old('qualification', $landlord->qualification) == 'LLB' ? 'selected' : '' }}>LLB</option>
+                                            <option value="MBBS" {{ old('qualification', $landlord->qualification) == 'MBBS' ? 'selected' : '' }}>MBBS</option>
+                                            <option value="Masters" {{ old('qualification', $landlord->qualification) == 'Masters' ? 'selected' : '' }}>Master's</option>
+                                            <option value="MBA" {{ old('qualification', $landlord->qualification) == 'MBA' ? 'selected' : '' }}>MBA</option>
+                                            <option value="Ph.D" {{ old('qualification', $landlord->qualification) == 'Ph.D' ? 'selected' : '' }}>Ph.D</option>
+                                        </select>
                                     </div>
+                                </div>
 
-                                    <button type="submit" class="btn btn-primary">Update</button>
+                                <!-- Password (optional) -->
+                                <div class="form-group row">
+                                    <label class="col-2 col-form-label">New Password (optional)</label>
+                                    <div class="col-10">
+                                        <input class="form-control" type="password" name="password" placeholder="Leave blank if not changing">
+                                    </div>
+                                </div>
+
+                                    <button type="submit" class="btn submitbtn">Update</button>
                                 </form>
                             </div>
                         </div>

@@ -127,13 +127,18 @@
                                         </div>
                                     </div>
 
-                                    <!-- Marital Status -->
+                                    <!--Marital Status-->
                                     <div class="form-group row">
-                                        <label class="col-2 col-form-label">
-                                            Marital Status <b style="color: red">*</b>
+                                        <label for="status" class="col-2 ">
+                                            Marital Status
                                         </label>
                                         <div class="col-10">
-                                            <input class="form-control" type="text" name="marital_status" required>
+                                            <div class="form-group">
+                                                <input type="radio" name="marital_status" value="Married"> Married
+                                                &nbsp;&nbsp;&nbsp;<input type="radio" name="marital_status"
+                                                    value="Unmarried">
+                                                Unmarried
+                                            </div>
                                         </div>
                                     </div>
 
@@ -147,13 +152,22 @@
                                         </div>
                                     </div>
 
-                                    <!-- Occupation -->
+                                    <!--Occupation-->
                                     <div class="form-group row">
                                         <label class="col-2 col-form-label">
                                             Occupation <b style="color: red">*</b>
                                         </label>
-                                        <div class="col-10">
-                                            <input class="form-control" type="text" name="occupation" required>
+                                        <div class=" col-10">
+                                            <select class="form-control" name="occupation" required="">
+                                                <option value="">-- Select One --</option>
+                                                <option value="Businessman" id="busy">Businessman</option>
+                                                <option value="Job Holder" id="job">Job Holder</option>
+                                                <option value="Self Employed" id="self">Self Employed</option>
+                                                <option value="Service Holder" id="service">Service Holder</option>
+                                                <option value="Housewife" id="house">Housewife</option>
+                                                <option value="Student" id="stu">Student</option>
+                                                <option value="Unemployed" id="un">Unemployed</option>
+                                            </select>
                                         </div>
                                     </div>
 
@@ -167,27 +181,54 @@
                                         </div>
                                     </div>
 
-                                    <!-- Religion -->
+                                    <!--religion-->
                                     <div class="form-group row">
                                         <label class="col-2 col-form-label">
                                             Religion <b style="color: red">*</b>
                                         </label>
-                                        <div class="col-10">
-                                            <input class="form-control" type="text" name="religion" required>
+                                        <div class=" col-10">
+                                            <select class="form-control" name="religion" required="">
+                                                <option value="">-- Select One --</option>
+                                                <option value="Islam">Islam</option>
+                                                <option value="Hinduism">Hinduism</option>
+                                                <option value="Buddhism">Buddhism</option>
+                                                <option value="Christianity">Christianity</option>
+                                            </select>
                                         </div>
                                     </div>
 
-                                    <!-- Qualification -->
+                                    <!--Qualification-->
                                     <div class="form-group row">
                                         <label class="col-2 col-form-label">
                                             Qualification
                                         </label>
-                                        <div class="col-10">
-                                            <input class="form-control" type="text" name="qualification">
+                                        <div class=" col-10">
+                                            <select class="form-control" name="qualification">
+                                                <option value="N/A">N/A</option>
+                                                <option value="SSC">SSC</option>
+                                                <option value="HSC">HSC</option>
+                                                <option value="Bachelors">Bachelor's</option>
+                                                <option value="Honours">Honours</option>
+                                                <option value="BBA">BBA</option>
+                                                <option value="LLB">LLB</option>
+                                                <option value="MBBS">MBBS</option>
+                                                <option value="Masters">Master's</option>
+                                                <option value="MBA">MBA</option>
+                                                <option value="Ph.D">Ph.D</option>
+                                            </select>
                                         </div>
                                     </div>
 
-                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                    <!-- Password Confirmation -->
+                                <div class="form-group row">
+                                    <label class="col-2 col-form-label">Password <b style="color: red">*</b></label>
+                                    <div class="col-10">
+                                        <input class="form-control" type="password" name="password" required>
+                                    </div>
+                                </div>
+
+
+                                    <button type="submit" class="btn submitbtn">Submit</button>
                                 </form>
                             </div>
                         </div>

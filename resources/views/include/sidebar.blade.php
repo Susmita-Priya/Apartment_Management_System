@@ -36,11 +36,11 @@
                                         <span class="menu-arrow"></span>
                                     </a>
                                     <ul class="nav-third-level" aria-expanded="false">
-                                        <li><a href="{{ route('building.create') }}" >New Building</a></li>
-                                        <li><a href="{{ route('block.create') }}" >New Block</a></li>
-                                        <li><a href="{{ route('floor.create') }}" >New Floor</a></li>
-                                        <li><a href="{{ route('comarea.create') }}" >New Common Area</a></li>
-                                        <li><a href="{{ route('unit.create') }}" >New Unit</a></li>
+                                        <li><a href="{{ route('building.create') }}">New Building</a></li>
+                                        <li><a href="{{ route('block.create') }}">New Block</a></li>
+                                        <li><a href="{{ route('floor.create') }}">New Floor</a></li>
+                                        <li><a href="{{ route('comarea.create') }}">New Common Area</a></li>
+                                        <li><a href="{{ route('unit.create') }}">New Unit</a></li>
                                     </ul>
                                 </li>
 
@@ -52,10 +52,23 @@
                                     </a>
                                     @if (App\Models\Permission::hasPermission('add_tenants', $role_id))
                                         <ul class="nav-third-level" aria-expanded="false">
-                                            <li><a href="{{ route('tenants.create') }}" >New Tenant</a></li>
+                                            <li><a href="{{ route('tenants.create') }}">New Tenant</a></li>
                                         </ul>
                                     @endif
-                                    
+
+                                </li>
+                                <li>
+                                    <a href="javascript: void(0);">
+                                        <i class="fa fa-plus"></i>
+                                        <span> Landlord </span>
+                                        <span class="menu-arrow"></span>
+                                    </a>
+                                    @if (App\Models\Permission::hasPermission('add_landlords', $role_id))
+                                        <ul class="nav-third-level" aria-expanded="false">
+                                            <li><a href="{{ route('landlord.create') }}">Add Landlords</a></li>
+                                        </ul>
+                                    @endif
+
                                 </li>
                                 <li>
                                     <a href="javascript: void(0);">
@@ -64,9 +77,9 @@
                                         <span class="menu-arrow"></span>
                                     </a>
                                     <ul class="nav-third-level" aria-expanded="false">
-                                        <li><a href="{{ route('stall_locker.create') }}" >New Stall</a></li>
-                                        <li><a href="{{ route('vehicle.create') }}" >New Vehicle</a></li>
-                                        <li><a href="{{ route('parker.create') }}" >New Parker</a></li>
+                                        <li><a href="{{ route('stall_locker.create') }}">New Stall</a></li>
+                                        <li><a href="{{ route('vehicle.create') }}">New Vehicle</a></li>
+                                        <li><a href="{{ route('parker.create') }}">New Parker</a></li>
                                     </ul>
                                 </li>
                             </ul>
@@ -79,25 +92,25 @@
                             <a href="javascript: void(0);"><i class="fa fa-user"></i> <span> Tenants </span> <span
                                     class="menu-arrow"></span></a>
                             <ul class="nav-second-level " aria-expanded="false">
-                                <li><a href="{{ route('tenants.index') }}">Tenants list</a></li>
+                                <li><a href="{{ route('tenants.index') }}">Tenants List</a></li>
                                 {{-- <li><a href="{{ route('tenant.index') }}">Tenant List</a></li> --}}
                             </ul>
                         </li>
                     @endif
 
                     <!-- Landlords -->
-                    {{-- @if (App\Models\Permission::hasPermission('view_landlords', $role_id))
+                    @if (App\Models\Permission::hasPermission('view_landlords', $role_id))
                         <li>
                             <a href="javascript: void(0);"><i class="fa fa-user"></i> <span> Landlords </span> <span
                                     class="menu-arrow"></span></a>
                             <ul class="nav-second-level " aria-expanded="false">
-                                @if (App\Models\Permission::hasPermission('add_landlords', $role_id))
-                                    <li><a href="{{ url('/landlord/create') }}">Add Landlords</a></li>
-                                @endif
-                                <li><a href="{{ url('/landlord') }}">View Landlords</a></li>
+                                {{-- @if (App\Models\Permission::hasPermission('add_landlords', $role_id))
+                                    <li><a href="{{ route('landlord.create') }}">Add Landlords</a></li>
+                                @endif --}}
+                                <li><a href="{{ route('landlord.index') }}">Landlords List</a></li>
                             </ul>
                         </li>
-                    @endif --}}
+                    @endif
 
                     <!-- Property -->
                     @if (App\Models\Permission::hasPermission('view_property', $role_id))
@@ -117,22 +130,39 @@
                         </li>
                     @endif
 
+                    <!-- Tenants -->
+                   
+                        <li>
+                            <a href="javascript: void(0);"><i class="fa fa-user"></i> <span> Leases </span> <span
+                                    class="menu-arrow"></span></a>
+                            <ul class="nav-second-level " aria-expanded="false">
+                                @if (App\Models\Permission::hasPermission('view_leases', $role_id))
+                                <li><a href="{{ route('lease.index') }}">Leases Request</a></li>
+                                @endif
+                                 @if (App\Models\Permission::hasPermission('agreement', $role_id))
+                                 <li><a href="{{ route('lease.agreement') }}">Agreement</a></li>
+                            @endif 
+                                
+                            </ul>
+                        </li>
+                    
+
                     @if (App\Models\Permission::hasPermission('view_parking', $role_id))
-                    <li>
-                        <a href="javascript: void(0);"><i class="fa fa-car"></i> <span>Parking Management</span> <span
-                                class="menu-arrow"></span></a>
-                        <ul class="nav-second-level " aria-expanded="false">
-                            {{-- @if (App\Models\Permission::hasPermission('add_property', $role_id))
+                        <li>
+                            <a href="javascript: void(0);"><i class="fa fa-car"></i> <span>Parking Management</span>
+                                <span class="menu-arrow"></span></a>
+                            <ul class="nav-second-level " aria-expanded="false">
+                                {{-- @if (App\Models\Permission::hasPermission('add_property', $role_id))
                         <li><a href="{{ url('/building/create') }}">Add Property</a></li>
                     @endif --}}
-                            <li><a href="{{ route('vehicle.index') }}">Vehicles</a></li>
-                            <li><a href="{{ route('parker.index') }}">Parkers</a></li>
-                            <li><a href="{{ route('parking.list') }}">Stall List</a></li>
-                            
-                            {{-- <li><a href="{{ route('unit.index') }}">View unit</a></li> --}}
-                        </ul>
-                    </li>
-                @endif
+                                <li><a href="{{ route('vehicle.index') }}">Vehicles</a></li>
+                                <li><a href="{{ route('parker.index') }}">Parkers</a></li>
+                                <li><a href="{{ route('parking.list') }}">Stall List</a></li>
+
+                                {{-- <li><a href="{{ route('unit.index') }}">View unit</a></li> --}}
+                            </ul>
+                        </li>
+                    @endif
 
                     <!-- Leases / Tenancy -->
                     {{-- @if (App\Models\Permission::hasPermission('view_lease', $role_id))
@@ -192,7 +222,7 @@
                         </ul>
                     </li>
 
-{{-- 
+                    {{-- 
                     <!------------------ SAAS Management -------------------->
                     <li>
                         <a href="javascript: void(0);"><i class="fa fa-book"></i> <span> SAAS Management </span> <span
@@ -209,8 +239,8 @@
                     <!-- Access Management -->
                     @if (App\Models\Permission::hasPermission('manage_access', $role_id))
                         <li>
-                            <a href="javascript: void(0);"><i class="mdi mdi-lock-open"></i> <span> Access </span> <span
-                                    class="menu-arrow"></span></a>
+                            <a href="javascript: void(0);"><i class="mdi mdi-lock-open"></i> <span> Access </span>
+                                <span class="menu-arrow"></span></a>
                             <ul class="nav-second-level " aria-expanded="false">
                                 {{-- <li><a href="{{ route('setting.create_edit') }}">Setting</a></li> --}}
                                 <li><a href="{{ route('user.index') }}">User Management</a></li>
