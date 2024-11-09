@@ -18,7 +18,7 @@ class UnitController extends Controller
     public function index()
     {
         // Fetch units with their related floor, block, and building details
-        $units = Unit::with(['floor.block', 'floor.block.building','landlords'])->get();
+        $units = Unit::with(['floor.block', 'floor.block.building', 'landlords'])->get();
 
         return view('unit.unit_list', compact('units'));
     }

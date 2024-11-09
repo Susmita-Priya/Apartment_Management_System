@@ -204,11 +204,22 @@ Route::get('unit/removeLandlord/{Id}', [UnitLandlordController::class, 'removeLa
 
 // assign tenant to unit
 
-Route::post('/lease-request', [LeaseRequestController::class, 'store'])->name('lease-request.store');  
+Route::post('/lease-request', [LeaseRequestController::class, 'store'])->name('lease-request.store');
 
 Route::get('/lease-rqst-list', [LeaseRequestController::class, 'index'])->name('lease.index');
 
 Route::get('/lease-aggrement', [LeaseRequestController::class, 'agreement'])->name('lease.agreement');
+
+Route::get('/send-aggrement/{id}', [LeaseRequestController::class, 'sendagreement'])->name('send.agreement');
+
+Route::post('/aggrement-form/{id}', [LeaseRequestController::class, 'agreementform'])->name('agreement.form');
+
+Route::get('/agreement/download/{id}', [LeaseRequestController::class, 'downloadAgreement'])->name('download.agreement');
+
+Route::get('/agreement/accept/{id}', [LeaseRequestController::class, 'accept'])->name('agreement.accept');
+
+Route::get('/agreement/reject/{id}', [LeaseRequestController::class, 'reject'])->name('agreement.reject');
+
 
 
 
