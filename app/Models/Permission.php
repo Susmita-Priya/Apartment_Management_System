@@ -28,14 +28,14 @@ class Permission extends Model
     //                 ->exists();
     // }
 
-    public static function hasPermission($slug, $role_id)
-    {
-        return cache()->remember("role_{$role_id}_permission_{$slug}", 60, function () use ($slug, $role_id) {
-            return self::where('slug', $slug)
-                ->whereHas('roles', function ($query) use ($role_id) {
-                    $query->where('role_id', $role_id);
-                })
-                ->exists();
-        });
-    }
+    // public static function hasPermission($slug, $role_id)
+    // {
+    //     return cache()->remember("role_{$role_id}_permission_{$slug}", 60, function () use ($slug, $role_id) {
+    //         return self::where('slug', $slug)
+    //             ->whereHas('roles', function ($query) use ($role_id) {
+    //                 $query->where('role_id', $role_id);
+    //             })
+    //             ->exists();
+    //     });
+    // }
 }

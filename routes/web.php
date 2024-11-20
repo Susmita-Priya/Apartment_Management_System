@@ -110,17 +110,17 @@ Route::get('role/delete/{id}', [RoleController::class, 'destroy'])->name("role.d
 
 
 
-Route::get('permission', [PermissionController::class, 'index'])->name("permission.index");
+// Route::get('permission', [PermissionController::class, 'index'])->name("permission.index");
 
-Route::get('permission/create', [PermissionController::class, 'create'])->name("permission.create");
+// Route::get('permission/create', [PermissionController::class, 'create'])->name("permission.create");
 
-Route::post('permission/create', [PermissionController::class, 'store'])->name("permission.store");
+// Route::post('permission/create', [PermissionController::class, 'store'])->name("permission.store");
 
-Route::get('permission/edit/{id}', [PermissionController::class, 'edit'])->name("permission.edit");
+// Route::get('permission/edit/{id}', [PermissionController::class, 'edit'])->name("permission.edit");
 
-Route::post('permission/edit/{id}', [PermissionController::class, 'update'])->name("permission.update");
+// Route::post('permission/edit/{id}', [PermissionController::class, 'update'])->name("permission.update");
 
-Route::get('permission/delete/{id}', [PermissionController::class, 'destroy'])->name("permission.delete");
+// Route::get('permission/delete/{id}', [PermissionController::class, 'destroy'])->name("permission.delete");
 
 
 

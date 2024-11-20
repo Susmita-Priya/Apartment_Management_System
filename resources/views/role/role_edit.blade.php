@@ -48,21 +48,15 @@
                                 <div class="form-row">
                                     <div class="form-group col-md-12">
                                         <label for="permission" class="col-form-label h5">Permissions</label>
-                                        @php
-                                            $groupCounter = 0; // Counter to track groups
-                                        @endphp
 
-                                        <div class="row">
-                                            @foreach ($permissions as $groupby => $permissionGroup)
-                                                @if ($groupCounter % 3 == 0 && $groupCounter > 0)
-                                        </div>
+                                
                                         <div class="row"> <!-- Close the previous row and start a new row -->
-                                            @endif
+                                     
 
                                             <div class="col-md-4">
-                                                <h4>{{ $groupby }}</h4> <!-- This displays the groupby value -->
-                                                <ul class="list-unstyled"> <!-- Remove bullet points -->
-                                                    @foreach ($permissionGroup as $permission)
+                                                
+                                                <ul class="list-none"> <!-- Remove bullet points -->
+                                                    @foreach ($permissions as $permission)
                                                         <li>
                                                             <label class="h6"> <!-- Apply larger text size -->
                                                                 <input type="checkbox" name="permissions[]"
@@ -76,10 +70,7 @@
                                                 </ul>
                                             </div>
 
-                                            @php
-                                                $groupCounter++; // Increment the group counter
-                                            @endphp
-                                            @endforeach
+                                            
                                         </div>
                                     </div>
                                 </div>
@@ -94,7 +85,6 @@
 
 
                         </div>
-                </div>
 
                 </form>
 

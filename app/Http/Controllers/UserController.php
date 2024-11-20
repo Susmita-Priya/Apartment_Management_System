@@ -2,16 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\verifyMail;
 use App\Models\User;
 use App\Models\Role;
 use App\Models\SaasPlatform\SubscriptionPackage;
 use App\Models\SaasPlatform\SubscriptionPackageDuration;
 use App\Models\SaasPlatform\SubscriptionUserInfo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use Spatie\Permission\Traits\HasRoles;
 
 class UserController extends Controller
 {
+    use HasRoles;
+    
     public function index()
     {
         // $users = User::with('role', 'subscription_package')->get();
@@ -30,9 +37,29 @@ class UserController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8',
+            'password' => 'required|string|min:4',
             'role_id' => 'required|exists:roles,id',
         ]);
+
+        $input = $request->all();
+        $input['password'] = Hash::make($input['password']);
+        $verificationCode = rand(100000, 999999);
+
+        $user = User::create([
+            'name' => $input['name'],
+            'email' => $input['email'],
+            'phone' => $input['phone'],
+            'address' => $input['address'],
+            'profile' => $input['profile'],
+            'trade_license' => $input['trade_license'],
+            'password' => $input['password'],
+            'verification_code' => $verificationCode,
+            'role_id' => $input['role_id'],
+        ]);
+                                                                       
+        // Send verification email
+        Mail::to($request->email)->send(new verifyMail($user));
+
 
         $user = new User();
         $user->name = $request->name;
@@ -66,13 +93,16 @@ class UserController extends Controller
             'password' => 'nullable',
             'role_id' => 'required|exists:roles,id',
         ]);
-        $user = User::findOrFail($id);
-        $user->update($request->only(['name', 'email']));
-        $user->role_id = $request->input('role_id');
-        if ($request->filled('password')) {
-            $user->password = bcrypt($request->input('password'));
+        $input = $request->all();
+        if(!empty($input['password'])){
+            $input['password'] = Hash::make($input['password']);
+        }else{
+            $input = Arr::except($input,array('password'));
         }
-        $user->save();
+
+        $user = User::find($id);
+        $user->update($input);
+
         return redirect()->route('user.index')->with('success', 'User updated successfully!');
     }
 

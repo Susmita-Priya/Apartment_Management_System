@@ -16,10 +16,7 @@ class RoleController extends Controller
     {
         $roles =  Role::all();
 
-        return view(
-            'role.role_list',
-            ['roles' => $roles]
-        );
+        return view('role.role_list', ['roles' => $roles]);
     }
 
     /**
@@ -31,7 +28,7 @@ class RoleController extends Controller
         // ->groupBy('groupby')
         // ->get();
 
-        $permissions = Permission::all()->groupBy('groupby');
+        $permissions = Permission::all();
 
         return view('role.role_add', [
             'permissions' => $permissions,
@@ -93,7 +90,7 @@ class RoleController extends Controller
             return redirect('/role');
         }
 
-        $permissions = Permission::all()->groupBy('groupby'); // Retrieve and group permissions by 'groupby'
+        $permissions = Permission::all(); // Retrieve and group permissions by 'groupby'
 
         return view('role.role_edit', [
             'role' => $role,
@@ -140,9 +137,9 @@ class RoleController extends Controller
             $role->delete();
 
             // If the role has an associated iddoc, delete the file
-            if ($role->iddoc && file_exists(public_path($role->iddoc))) {
-                unlink(public_path($role->iddoc));
-            }
+            // if ($role->iddoc && file_exists(public_path($role->iddoc))) {
+            //     unlink(public_path($role->iddoc));
+            // }
         }
 
         return redirect('role')->with('delete', "Delete Successful!");

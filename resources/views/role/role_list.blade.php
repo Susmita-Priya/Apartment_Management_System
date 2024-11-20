@@ -29,11 +29,13 @@
                     <div class="card-box">
                         <h4 class="header-title m-b-15 m-t-0" style="position: relative;">
                             Roles List
-                            <a href="{{ route('role.create') }}" class="btn waves-effect waves-light btn-sm"
-                                style="background-color: rgb(100, 197, 177); border-color: rgb(100, 197, 177); color: white; 
+                            @can('create-role')
+                                <a href="{{ route('role.create') }}" class="btn waves-effect waves-light btn-sm"
+                                    style="background-color: rgb(100, 197, 177); border-color: rgb(100, 197, 177); color: white; 
                                   position: absolute; right: 10px; top: 50%; transform: translateY(-50%);  text-decoration: none;">
-                                ADD ROLE
-                            </a>
+                                    ADD ROLE
+                                </a>
+                            @endcan
                         </h4>
 
                         <hr>
@@ -82,21 +84,30 @@
                                                         class="mdi mdi-dots-horizontal"></i></a>
                                                 <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
 
-                                                    <a class="dropdown-item "
-                                                        href="{{ route('role.show', ['id' => $role->id]) }}"
-                                                        type="submit"><i
-                                                            class="mdi mdi-eye m-r-10 font-18 text-muted vertical-middle"></i>Full
-                                                        Information</a>
-                                                    <a class="dropdown-item "
-                                                        href="{{ route('role.edit', ['id' => $role->id]) }}"
-                                                        type="submit"><i
-                                                            class="mdi mdi-pencil m-r-10 text-muted font-18 vertical-middle"></i>Edit
-                                                        Role</a>
-                                                    <a class="dropdown-item "
-                                                        href="{{ route('role.delete', ['id' => $role->id]) }}"
-                                                        type="submit"><i
-                                                            class="mdi mdi-delete m-r-10 text-muted font-18 vertical-middle"></i>Delete
-                                                        Role</a>
+                                                    @can('view-role')
+                                                        <a class="dropdown-item "
+                                                            href="{{ route('role.show', ['id' => $role->id]) }}"><i
+                                                                class="mdi mdi-eye m-r-10 font-18 text-muted vertical-middle"></i>Full
+                                                            Information</a>
+                                                        
+                                                    @endcan
+                                                    
+                                                    @can('edit-role')
+                                                        <a class="dropdown-item "
+                                                            href="{{ route('role.edit', ['id' => $role->id]) }}"><i
+                                                                class="mdi mdi-pencil m-r-10 text-muted font-18 vertical-middle"></i>Edit
+                                                            Role</a>
+                                                        
+                                                    @endcan
+                                                    @can('delete-role')
+                                                        <a class="dropdown-item "
+                                                            href="{{ route('role.delete', ['id' => $role->id]) }}"
+
+                                                            type="submit"><i
+                                                                class="mdi mdi-delete m-r-10 text-muted font-18 vertical-middle"></i>Delete
+                                                            Role</a>
+                                                        
+                                                    @endcan
                                                 </div>
                                             </div>
                                         </td>

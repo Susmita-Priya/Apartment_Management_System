@@ -12,11 +12,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('permissions', function (Blueprint $table) {
-            $table->id('id');
-            $table->string('name',255);
-            $table->string('slug',255);
-            $table->string('groupby',255);; 
+            //$table->engine('InnoDB');
+            $table->bigIncrements('id'); // permission id
+            $table->string('name');       // For MyISAM use string('name', 225); // (or 166 for InnoDB with Redundant/Compact row format)
+            $table->string('guard_name'); // For MyISAM use string('guard_name', 25);
             $table->timestamps();
+
+            $table->unique(['name', 'guard_name']);
+
         });
     }
 

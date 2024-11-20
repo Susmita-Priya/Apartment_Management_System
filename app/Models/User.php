@@ -36,21 +36,33 @@ class User extends Authenticatable // Extend Authenticatable
 
     protected $table = 'users';
 
-    protected $fillable = ['name', 'email', 'password', 'role_id', 'expire_date', 'subscription_package_id', 'customer_id', 'phone', 'company_name', 'registration_date'];
+    protected $fillable = [
+        'name', 
+        'email', 
+        'phone',
+        'email_verified_at',
+        'address',
+        'profile',
+        'trade_license',
+        'password', 
+        'role_id', 
+        'verification_code',
+        'status',];
 
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
+    protected $casts = [
+        //'email_verified_at' => 'datetime',
+        'password' => 'hashed',
+    ];
+
+
     public function role()
     {
         return $this->belongsTo(Role::class);
     }
 
-
-    public function subscription_package()
-    {
-        return $this->hasOne(SubscriptionPackage::class, 'id', 'subscription_package_id');
-    }
 }
