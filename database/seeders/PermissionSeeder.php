@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Spatie\Permission\Models\Permission;
 
 class PermissionSeeder extends Seeder
 {
@@ -14,30 +15,28 @@ class PermissionSeeder extends Seeder
     public function run(): void
     {
         $permissions = [
-            //user management
 
-            'list-user',
-            'create-user',
-            'edit-user',
-            'delete-user',
-            'view-user',
+            //For User
+            'user-list',
+            'user-create',
+            'user-edit',
+            'user-delete',
 
-            'list-role',
-            'create-role',
-            'edit-role',
-            'delete-role',
-            'view-role',
+              //For roll and permission
+            'role-list',
+            'role-create',
+            'role-edit',
+            'role-delete',
 
-            'assign-permission',
+             //For Role and permission
+            'role-and-permission-list',
 
 
             //dashboard
-
             'dashboard',
 
 
             //add new
-
             'add-new',
 
 
@@ -45,80 +44,88 @@ class PermissionSeeder extends Seeder
 
             'property-management',
 
-            'list-building',
-            'create-building',
-            'edit-building',
-            'delete-building',
-            'enter-building',
+            'building-list',
+            'building-create',
+            'building-edit',
+            'building-delete',
+            'building-view',
 
-            'list-block',
-            'create-block',
-            'edit-block',
-            'delete-block',
-            'view-block',
 
-            'list-floor',
-            'create-floor',
-            'edit-floor',
-            'delete-floor',
-            'view-floor',
+            'block-list',
+            'block-create',
+            'block-edit',
+            'block-delete',
+            'block-view',
 
-            'list-unit',
-            'create-unit',
-            'edit-unit',
-            'delete-unit',
-            'view-unit',
 
-            'list-common-area',
-            'create-common-area',
-            'edit-common-area',
-            'delete-common-area',
-            'view-common-area',
+            'floor-list',
+            'floor-create',
+            'floor-edit',
+            'floor-delete',
+            'floor-view',
+
+
+            'unit-list',
+            'unit-create',
+            'unit-edit',
+            'unit-delete',
+            'unit-view',
+
+
+            'common-area-list',
+            'common-area-create',
+            'common-area-edit',
+            'common-area-delete',
+            'common-area-view',
 
 
             // parking management
 
             'parking-management',
 
-            'create-vehicle',
-            'edit-vehicle',
-            'delete-vehicle',
-            'assign-vehicle',
+            'vehicle-list',
+            'vehicle-create',
+            'vehicle-edit',
+            'vehicle-delete',
+            'vehicle-assign',
 
-            'create-parker',
-            'edit-parker',
-            'delete-parker',
-            'assign-parker',
 
-            'create-stall',
-            'edit-stall',
-            'delete-stall',
-            'view-stall',
-            'assign-vehicle-parker',
+            'parker-list',
+            'parker-create',
+            'parker-edit',
+            'parker-delete',
+            'parker-assign',
+
+
+            'stall-list',
+            'stall-create',
+            'stall-edit',
+            'stall-delete',
+            'stall-view',
+            'stall-assign-vehicle-parker',
 
 
             //tenant management
 
             'tenant-management',
 
-            'list-tenant',
-            'create-tenant',
-            'edit-tenant',
-            'delete-tenant',
-            'view-tenant',
-            'view-tenant-unit',
-
+            'tenant-list',
+            'tenant-create',
+            'tenant-edit',
+            'tenant-delete',
+            'tenant-view',
+            'tenant-view-unit',
 
             //landlord management
 
             'landlord-management',
 
-            'list-landlord',
-            'create-landlord',
-            'edit-landlord',
-            'delete-landlord',
-            'view-landlord',
-            'view-landlord-unit',
+            'landlord-list',
+            'landlord-create',
+            'landlord-edit',
+            'landlord-delete',
+            'landlord-view',
+            'landlord-view-unit',
 
 
             //access control
@@ -128,10 +135,9 @@ class PermissionSeeder extends Seeder
         ];
 
         foreach ($permissions as $permission) {
-            DB::table('permissions')->updateOrInsert(
-                ['name' => $permission, 'guard_name' => 'web'], // Unique identifier
-                ['created_at' => now(), 'updated_at' => now()]   // Additional fields
-            );
+            if (!Permission::where('name', $permission)->exists()) {
+                Permission::create(['name' => $permission]);
+            }
         }
  
     }

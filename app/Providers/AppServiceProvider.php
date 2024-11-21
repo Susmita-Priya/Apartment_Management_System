@@ -22,11 +22,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        $this->registerPolicies();
 
-        // Dynamically check permissions using the name passed to the @can directive
-        Gate::before(function (User $user, $ability) {
-            return $user->role && $user->role->permissions()->where('name', $ability)->exists();
-        });
     }
 }

@@ -44,13 +44,7 @@
                             <div class="account-box">
                                 <div class="account-logo-box">
                                     <h2 class="text-uppercase text-center">
-                                        @if(!empty($general_setting->company_logo))
-                                        <a href="{{ route('index') }}" class="text-success">
-                                            {{-- <span><img src="{{ asset('setting/company_logo/' . $general_setting->company_logo) }}" alt=""
-                                                    height="60"></span> --}}
-                                                <p style="color: rgb(100, 197, 177);"> Apartment Management </p>
-                                        </a>
-                                        @endif
+                                        <p style="color: rgb(100, 197, 177);"> Apartment Management </p>
                                     </h2>
                                     <h5 class="text-uppercase font-bold m-b-5 m-t-50">Sign In</h5>
                                     <p class="m-b-0">Login to your Account</p>
@@ -131,7 +125,5 @@
     <script src="{{ asset('admin_dashboard') }}/assets/js/jquery.app.js"></script>
 
 </body>
-
-
 
 </html>

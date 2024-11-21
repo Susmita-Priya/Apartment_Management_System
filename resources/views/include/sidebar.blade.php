@@ -14,7 +14,7 @@
                     <li class="menu-title">Navigation</li>
 
                     <li>
-                        <a href="{{ url('/index') }}">
+                        <a href="{{ route('index') }}">
                             <i class="fi-air-play"></i><span class="badge badge-success pull-right">2</span> <span>
                                 Dashboard </span>
                         </a>
@@ -38,19 +38,19 @@
                                             <span class="menu-arrow"></span>
                                         </a>
                                         <ul class="nav-third-level" aria-expanded="false">
-                                            @can('create-building')
+                                            @can('building-create')
                                                 <li><a href="{{ route('building.create') }}">New Building</a></li>
                                             @endcan
-                                            @can('create-block')
+                                            @can('block-create')
                                                 <li><a href="{{ route('block.create') }}">New Block</a></li>
                                             @endcan
-                                            @can('create-floor')
+                                            @can('floor-create')
                                                 <li><a href="{{ route('floor.create') }}">New Floor</a></li>
                                             @endcan
-                                            @can('create-common-area')
+                                            @can('common-area-create')
                                                 <li><a href="{{ route('comarea.create') }}">New Common Area</a></li>
                                             @endcan
-                                            @can('create-unit')
+                                            @can('unit-create')
                                                 <li><a href="{{ route('unit.create') }}">New Unit</a></li>
                                             @endcan
                                         </ul>
@@ -64,11 +64,10 @@
                                             <span> Tenant </span>
                                             <span class="menu-arrow"></span>
                                         </a>
-                                        @can('create-tenant')
+                                        @can('tenant-create')
                                             <ul class="nav-third-level" aria-expanded="false">
                                                 <li><a href="{{ route('tenants.create') }}">New Tenant</a></li>
                                             </ul>
-
                                         @endcan
                                     </li>
                                 @endcan
@@ -82,7 +81,7 @@
                                             <span> Landlord </span>
                                             <span class="menu-arrow"></span>
                                         </a>
-                                        @can('create-landlord')
+                                        @can('landlord-create')
                                             <ul class="nav-third-level" aria-expanded="false">
                                                 <li><a href="{{ route('landlord.create') }}">New Landlord</a></li>
                                             </ul>
@@ -99,13 +98,13 @@
                                             <span class="menu-arrow"></span>
                                         </a>
                                         <ul class="nav-third-level" aria-expanded="false">
-                                            @can('create-stall')
+                                            @can('stall-create')
                                                 <li><a href="{{ route('stall_locker.create') }}">New Stall</a></li>
                                             @endcan
-                                            @can('create-vehicle')
+                                            @can('vehicle-create')
                                                 <li><a href="{{ route('vehicle.create') }}">New Vehicle</a></li>
                                             @endcan
-                                            @can('create-parker')
+                                            @can('parker-create')
                                                 <li><a href="{{ route('parker.create') }}">New Parker</a></li>
                                             @endcan
 
@@ -123,7 +122,7 @@
                                 <a href="javascript: void(0);"><i class="fa fa-user"></i> <span> Tenants </span> <span
                                         class="menu-arrow"></span></a>
                                 <ul class="nav-second-level " aria-expanded="false">
-                                    @can('list-tenant')
+                                    @can('tenant-list')
                                         <li><a href="{{ route('tenants.index') }}">Tenants List</a></li>
                                     @endcan
                                 </ul>
@@ -137,7 +136,7 @@
                                 <a href="javascript: void(0);"><i class="fa fa-user"></i> <span> Landlords </span> <span
                                         class="menu-arrow"></span></a>
                                 <ul class="nav-second-level " aria-expanded="false">
-                                    @can('list-landlord')
+                                    @can('landlord-list')
                                         <li><a href="{{ route('landlord.index') }}">Landlords List</a></li>
                                     @endcan
                                 </ul>
@@ -150,19 +149,19 @@
                                 <a href="javascript: void(0);"><i class="fa fa-home"></i> <span> Property </span> <span
                                         class="menu-arrow"></span></a>
                                 <ul class="nav-second-level " aria-expanded="false">
-                                    @can('list-building')
+                                    @can('building-list')
                                         <li><a href="{{ route('building') }}">View Buildings</a></li>
                                     @endcan
-                                    @can('list-block')
+                                    @can('block-list')
                                         <li><a href="{{ route('block.index') }}">View blocks</a></li>
                                     @endcan
-                                    @can('list-floor')
+                                    @can('floor-list')
                                         <li><a href="{{ route('floor.index') }}">View floors</a></li>
                                     @endcan
-                                    @can('list-common-area')
+                                    @can('common-area-list')
                                         <li><a href="{{ route('comarea.index') }}">View Common Areas</a></li>
                                     @endcan
-                                    @can('list-unit')
+                                    @can('unit-list')
                                         <li><a href="{{ route('unit.index') }}">View units</a></li>
                                     @endcan
                                 </ul>
@@ -190,13 +189,13 @@
                                 <a href="javascript: void(0);"><i class="fa fa-car"></i> <span>Parking Management</span>
                                     <span class="menu-arrow"></span></a>
                                 <ul class="nav-second-level " aria-expanded="false">
-                                    @can('list-vehicle')
+                                    @can('vehicle-list')
                                         <li><a href="{{ route('vehicle.index') }}">Vehicles</a></li>
                                     @endcan
-                                    @can('list-parker')
+                                    @can('parker-list')
                                         <li><a href="{{ route('parker.index') }}">Parkers</a></li>
                                     @endcan
-                                    @can('list-stall')
+                                    @can('stall-list')
                                         <li><a href="{{ route('parking.list') }}">Stall List</a></li>
                                     @endcan
                                 </ul>
@@ -282,11 +281,11 @@
                                 <a href="javascript: void(0);"><i class="mdi mdi-lock-open"></i> <span> Access </span>
                                     <span class="menu-arrow"></span></a>
                                 <ul class="nav-second-level " aria-expanded="false">
-                                    @can('list-user')
-                                        <li><a href="{{ route('user.index') }}">User Management</a></li>
+                                    @can('user-list')
+                                        <li><a href="{{ route('users.index') }}">User Management</a></li>
                                     @endcan
-                                    @can('list-role')
-                                        <li><a href="{{ route('role.index') }}">Role Management</a></li>
+                                    @can('role-list')
+                                        <li><a href="{{ route('roles.index') }}">Role Management</a></li>
                                     @endcan
                                 </ul>
                             </li>
