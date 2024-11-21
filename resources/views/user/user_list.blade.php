@@ -29,11 +29,15 @@
                     <div class="card-box">
                         <h4 class="header-title m-b-15 m-t-0" style="position: relative;">
                             Users List
-                            <a href="{{ route('user.create') }}" class="btn waves-effect waves-light btn-sm"
-                                style="background-color: rgb(100, 197, 177); border-color: rgb(100, 197, 177); color: white; 
+
+                            @can('create-user')
+                                <a href="{{ route('user.create') }}" class="btn waves-effect waves-light btn-sm"
+                                    style="background-color: rgb(100, 197, 177); border-color: rgb(100, 197, 177); color: white; 
                                   position: absolute; right: 10px; top: 50%; transform: translateY(-50%);  text-decoration: none;">
-                                ADD USER
-                            </a>
+                                    ADD USER
+                                </a>
+                                
+                            @endcan
                         </h4>
 
                         <hr>
@@ -87,18 +91,25 @@
                                                         View Subscription
                                                     </a> --}}
 
-                                                    <a class="dropdown-item"
-                                                        href="{{ route('user.show', ['id' => $user->id]) }}">
-                                                        <i
-                                                            class="mdi mdi-book m-r-10 font-18 text-muted vertical-middle"></i>
-                                                        Full Information
-                                                    </a>
-                                                    <a class="dropdown-item"
-                                                        href="{{ route('user.edit', ['id' => $user->id]) }}">
-                                                        <i
-                                                            class="mdi mdi-pencil m-r-10 text-muted font-18 vertical-middle"></i>
-                                                        Edit
-                                                    </a>
+                                                    @can('view-user')
+                                                        <a class="dropdown-item"
+                                                            href="{{ route('user.show', ['id' => $user->id]) }}">
+                                                            <i
+                                                                class="mdi mdi-eye m-r-10 text-muted font-18 vertical-middle"></i>
+                                                                Full Information
+                                                        </a>
+                                                        
+                                                    @endcan
+                                                    @can('edit-user')
+                                                        <a class="dropdown-item"
+                                                            href="{{ route('user.edit', ['id' => $user->id]) }}">
+                                                            <i
+                                                                class="mdi mdi-pencil m-r-10 text-muted font-18 vertical-middle"></i>
+                                                                Edit
+                                                        </a>
+                                                        
+                                                    @endcan
+
                                                     {{-- <a class="dropdown-item"
                                                         href="{{ route('user.delete', ['id' => $user->id]) }}"
                                                         onclick="return confirm('Are you sure to delete it ?')">
@@ -107,7 +118,7 @@
                                                         Delete
                                                     </a> --}}
 
-
+                                                    @can('delete-user')
                                                     <a class="dropdown-item"
                                                     href="#"
                                                         onclick="confirmDelete('{{ route('user.delete', ['id' => $user->id]) }}')"><i
@@ -121,6 +132,7 @@
                                                         @csrf
                                                         @method('DELETE')
                                                     </form>
+                                                    @endcan
                                                 </div>
                                             </div>
                                         </td>

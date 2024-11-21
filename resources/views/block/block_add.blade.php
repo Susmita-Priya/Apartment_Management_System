@@ -16,8 +16,7 @@
                         <ol class="breadcrumb float-right">
                             <li class="breadcrumb-item"><a href="{{ route('index') }}">Dashboard</a></li>
                             <li class="breadcrumb-item"><a href="{{ route('building') }}">Buildings</a></li>
-                            <li class="breadcrumb-item"><a
-                                    href="{{ route('block.index') }}">Blocks</a></li>
+                            <li class="breadcrumb-item"><a href="{{ route('block.index') }}">Blocks</a></li>
                             <li class="breadcrumb-item active">Add Block</li>
                         </ol>
 
@@ -48,26 +47,28 @@
                                 </div>
 
                                 <!-- Building Selection -->
-                                    <div class="form-group col-md-12">
-                                        <label for="building_id" class="col-form-label">Select Building</label>
-                                        <select name="building_id" id="building_id" class="form-control" onchange="showBuildingDetails()">
-                                            <option value="">Select Building</option>
-                                            @foreach ($buildings as $bldg)
-                                                <option value="{{ $bldg->id }}" {{ $building && $building->id == $bldg->id ? 'selected' : '' }}>
-                                                    {{ $bldg->name }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                        <span class="text-danger">
-                                            @error('building_id')
-                                                {{ $message }}
-                                            @enderror
-                                        </span>
-                                    </div>
+                                <div class="form-group col-md-12">
+                                    <label for="building_id" class="col-form-label">Select Building</label>
+                                    <select name="building_id" id="building_id" class="form-control"
+                                        onchange="showBuildingDetails()">
+                                        <option value="">Select Building</option>
+                                        @foreach ($buildings as $bldg)
+                                            <option value="{{ $bldg->id }}"
+                                                {{ $building && $building->id == $bldg->id ? 'selected' : '' }}>
+                                                {{ $bldg->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    <span class="text-danger">
+                                        @error('building_id')
+                                            {{ $message }}
+                                        @enderror
+                                    </span>
+                                </div>
 
                                 <!-- Display Building ID and Type -->
-                                
-                                    
+
+
                                 <div class="form-group col-md-12">
                                     <label class="col-form-label">Building Details</label>
                                     <table class="table table-bordered">
@@ -80,19 +81,19 @@
                                             <td id="building_type_display"></td>
                                         </tr>
                                     </table>
-                                </div>   
-                            </div>                            
-
-                                <button type="submit" class="btn waves-effect waves-light btn-sm submitbtn">
-                                    Add Block
-                                </button>
+                                </div>
                             </div>
+
+                            <button type="submit" class="btn waves-effect waves-light btn-sm submitbtn">
+                                Add Block
+                            </button>
                         </div>
-                    </form>
                 </div>
+                </form>
             </div>
-            <!-- end row -->
-        </div> <!-- container -->
+        </div>
+        <!-- end row -->
+    </div> <!-- container -->
     </div> <!-- content -->
 
     <script>
@@ -102,7 +103,7 @@
             const buildings = @json($buildings);
             const selectedBuildingId = document.getElementById('building_id').value;
             const building = buildings.find(b => b.id == selectedBuildingId);
-            
+
             if (building) {
                 document.getElementById('building_id_display').innerText = building.building_id;
                 document.getElementById('building_type_display').innerText = typeFullForm[building.type] || 'Other';

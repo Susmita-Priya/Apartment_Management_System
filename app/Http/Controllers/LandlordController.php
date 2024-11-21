@@ -15,7 +15,7 @@ class LandlordController extends Controller
      */
     public function index()
     {
-        $landlords = Landlord::withCount('units')->get();
+        $landlords = Landlord::withCount('units')->latest()->get();
         return view('landlord.landlord_list', compact('landlords'));
     }
 
