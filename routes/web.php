@@ -63,7 +63,7 @@ Route::middleware('auth')->group(callback: function () {
 
 
 
-        Route::get('building', [BuildingController::class, 'index'])->name("building");
+        Route::get('building/index', [BuildingController::class, 'index'])->name("building");
 
         Route::get('building/create', [BuildingController::class, 'create'])->name("building.create");
 
@@ -94,6 +94,9 @@ Route::middleware('auth')->group(callback: function () {
 
         Route::get('block/delete/{id}', [BlockController::class, 'destroy'])->name("block.delete");
 
+        
+        Route::get('/blocks/{id}', [BlockController::class, 'getBlocks'])->name('blocks.get');
+
 
 
 
@@ -110,6 +113,9 @@ Route::middleware('auth')->group(callback: function () {
         Route::post('floor/edit/{id}', [FloorController::class, 'update'])->name("floor.update");
 
         Route::get('floor/delete/{id}', [FloorController::class, 'destroy'])->name("floor.delete");
+
+        Route::get('/blocks/{block}/floors', [FloorController::class, 'getFloors']);
+
 
 
 

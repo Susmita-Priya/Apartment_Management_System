@@ -9,23 +9,21 @@ class Block extends Model
 {
     use HasFactory;
 
-    protected $table = "blocks";
-
-    protected $fillable = ['block_id', 'name', 'building_id'];
+    protected $fillable = ['company_id','block_no', 'name', 'building_id', 'total_upper_floors', 'total_underground_floors'];
 
     public function building()
     {
-        return $this->belongsTo(Building::class, 'building_id');
+        return $this->belongsTo(Building::class);
     }
 
-    public function floors()
-    {
-        return $this->hasMany(Floor::class, 'block_id');
-    }
+    // public function floors()
+    // {
+    //     return $this->hasMany(Floor::class, 'block_id');
+    // }
 
-    public function commonArea()
-    {
-        return $this->hasOne(Comarea::class, 'block_id');
-    }
+    // public function commonArea()
+    // {
+    //     return $this->hasOne(Comarea::class, 'block_id');
+    // }
     
 }

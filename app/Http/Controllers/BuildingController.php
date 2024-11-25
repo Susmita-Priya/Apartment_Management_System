@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Block;
 use App\Models\Building;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class BuildingController extends Controller
 {
@@ -14,17 +16,21 @@ class BuildingController extends Controller
     {
         // Fetch all buildings from the database
 
-        $data['search_property'] = $search_property = $request->search_property ?? '';
+        // $data['search_property'] = $search_property = $request->search_property ?? '';
 
-        $data['buildings'] = Building::orderBy('id', 'asc')
-            ->when($search_property != '', function ($query) use ($search_property) {
-                $query->where('name', 'like', "%$search_property%");
-            })
-            ->get();
+        // $data['buildings'] = Building::orderBy('id', 'asc')
+        //     ->when($search_property != '', function ($query) use ($search_property) {
+        //         $query->where('name', 'like', "%$search_property%");
+        //     })
+        //     ->get();
         // return $buildings;
 
         // Pass the buildings data to the view
-        return view('building.building_list', $data);
+        // return view('building.building_list', $data);
+
+
+        $buildings = Building::where('company_id', Auth::user()->id)->latest()->get();
+        return view('building.building_list', compact('buildings'));
     }
 
     /**
@@ -41,11 +47,13 @@ class BuildingController extends Controller
     public function store(Request $request)
     {
 
+        // dd($request->all());
+
         // Validate the request data
         $request->validate([
             'name' => 'required',
             'type' => 'required',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp', // max size is now 100KB
+            'image' => 'nullable|image', 
         ]);
 
         // Handle the image upload if present
@@ -67,19 +75,20 @@ class BuildingController extends Controller
 
         // Generate the building ID
         $buildingType = $request->type; // 'RESB', 'COMB', 'RECB'
-        $lastBuilding = Building::where('type', $buildingType)->orderBy('building_id', 'desc')->first();
-        $newBuildingId = $buildingType . str_pad(($lastBuilding ? intval(substr($lastBuilding->building_id, 4)) + 1 : 1), 4, '0', STR_PAD_LEFT);
+        $lastBuilding = Building::where('type', $buildingType)->orderBy('building_no', 'desc')->first();
+        $newBuildingNo = $buildingType . str_pad(($lastBuilding ? intval(substr($lastBuilding->building_no, 4)) + 1 : 1), 4, '0', STR_PAD_LEFT);
 
         // Create a new Building entry using the detailed approach
         $building = new Building;
-        $building->building_id = $newBuildingId;
+        $building->company_id = Auth::user()->id;
+        $building->building_no = $newBuildingNo;
         $building->name = $request->name;
         $building->type = $buildingType;
         $building->image = $fullPath;
         $building->save();
 
         // Redirect with a success message
-        return redirect('building')->with('success', "New Building Created Successfully!");
+        return redirect()->route('building')->with('success', "New Building Created Successfully!");
     }
 
     /**
@@ -87,14 +96,14 @@ class BuildingController extends Controller
      */
     public function show(string $id)
     {
-        $building = Building::withCount('blocks')->findOrFail($id);
+        $building = Building::findOrFail($id);
 
-        // $building = Building::with('blocks')->find($id);
+        $blocks = Block::where('building_id', $id)->latest()->get();
 
         if (is_null($building)) {
-            return redirect('/building');
+            return redirect()->route('building');
         } else {
-            return view('building.building_view', compact('building'));
+            return view('building.building_view', compact('building', 'blocks'));
         }
     }
 
@@ -105,7 +114,7 @@ class BuildingController extends Controller
     {
         $building = Building::find($id);
         if (is_null($building)) {
-            return redirect('/building');
+            return redirect()->route('building');
         } else {
             $data = compact('building');
             return view('building.building_edit')->with($data);
@@ -120,8 +129,8 @@ class BuildingController extends Controller
         // Validate the request data
         $request->validate([
             'name' => 'required',
-            'type' => 'required|in:RESB,COMB,RECB',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:100', // max size is now 100KB
+            'type' => 'required',
+            'image' => 'nullable|image', 
         ]);
 
         // Find the building to update
@@ -158,7 +167,7 @@ class BuildingController extends Controller
         $building->save();
 
         // Redirect with a success message
-        return redirect('building')->with('success', "Building Updated Successfully!");
+        return redirect()->route('building')->with('success', "Building Updated Successfully!");
     }
 
     /**
@@ -178,8 +187,7 @@ class BuildingController extends Controller
                 unlink(public_path($building->image));
             }
         }
-
         // Redirect with a success message
-        return redirect('building')->with('delete', 'Delete Successful!');
+        return redirect()->route('building')->with('delete', 'Delete Successful!');
     }
 }

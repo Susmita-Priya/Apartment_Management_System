@@ -33,21 +33,9 @@
                             <div class="card-box">
                                 <h1 class="d-flex justify-content-center mt-4">ADD BLOCK</h1>
 
+                                <!-- Building Selection -->
                                 <div class="form-row">
                                     <div class="form-group col-md-12">
-                                        <label for="name" class="col-form-label">Block Name</label>
-                                        <input type="text" class="form-control" name="name" id="name"
-                                            placeholder="Enter Block Name">
-                                        <span class="text-danger">
-                                            @error('name')
-                                                {{ $message }}
-                                            @enderror
-                                        </span>
-                                    </div>
-                                </div>
-
-                                <!-- Building Selection -->
-                                <div class="form-group col-md-12">
                                     <label for="building_id" class="col-form-label">Select Building</label>
                                     <select name="building_id" id="building_id" class="form-control"
                                         onchange="showBuildingDetails()">
@@ -65,6 +53,46 @@
                                         @enderror
                                     </span>
                                 </div>
+                            </div>
+
+                                <div class="form-row">
+                                    <div class="form-group col-md-12">
+                                        <label for="name" class="col-form-label">Block Name</label>
+                                        <input type="text" class="form-control" name="name" id="name"
+                                            placeholder="Enter Block Name">
+                                        <span class="text-danger">
+                                            @error('name')
+                                                {{ $message }}
+                                            @enderror
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group col-md-12">
+                                        <label for="total_upper_floors" class="col-form-label">Total Upper Floors</label>
+                                        <input type="number" class="form-control" name="total_upper_floors" id="total_upper_floors"
+                                            placeholder="Enter Total Upper Floor Count">
+                                        <span class="text-danger">
+                                            @error('total_upper_floors')
+                                                {{ $message }}
+                                            @enderror
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group col-md-12">
+                                        <label for="total_underground_floors" class="col-form-label">Total Underground Floors</label>
+                                        <input type="number" class="form-control" name="total_underground_floors" id="total_underground_floors"
+                                            placeholder="Total Underground Floors Count">
+                                        <span class="text-danger">
+                                            @error('total_underground_floors')
+                                                {{ $message }}
+                                            @enderror
+                                        </span>
+                                    </div>
+                                </div>
 
                                 <!-- Display Building ID and Type -->
 
@@ -73,8 +101,8 @@
                                     <label class="col-form-label">Building Details</label>
                                     <table class="table table-bordered">
                                         <tr>
-                                            <th>Building ID</th>
-                                            <td id="building_id_display"></td>
+                                            <th>Building No</th>
+                                            <td id="building_no_display"></td>
                                         </tr>
                                         <tr>
                                             <th>Building Type</th>
@@ -105,10 +133,10 @@
             const building = buildings.find(b => b.id == selectedBuildingId);
 
             if (building) {
-                document.getElementById('building_id_display').innerText = building.building_id;
+                document.getElementById('building_no_display').innerText = building.building_no;
                 document.getElementById('building_type_display').innerText = typeFullForm[building.type] || 'Other';
             } else {
-                document.getElementById('building_id_display').innerText = '';
+                document.getElementById('building_no_display').innerText = '';
                 document.getElementById('building_type_display').innerText = '';
             }
         }

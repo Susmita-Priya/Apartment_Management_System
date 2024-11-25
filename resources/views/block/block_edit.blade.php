@@ -38,61 +38,102 @@
                                     <div class="form-group col-md-12">
                                         <label for="name" class="col-form-label">Block Name</label>
                                         <input type="text" class="form-control" name="name" id="name"
-                                            value="{{ old('name', $block->name) }}" placeholder="Enter Block Name">
+                                            value="{{ $block->name }}">
                                         <span class="text-danger">
                                             @error('name')
                                                 {{ $message }}
                                             @enderror
                                         </span>
                                     </div>
+                                </div>
 
+                                <div class="form-row">
                                     <div class="form-group col-md-12">
-                                        <label for="building_id" class="col-form-label">Building</label>
-                                        <select class="form-control" name="building_id" id="building_id" onchange="showBuildingDetails()">
-                                            @foreach($buildings as $building)
-                                                <option value="{{ $building->id }}" {{ $block->building_id == $building->id ? 'selected' : '' }}>
-                                                    {{ $building->name }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-
-                                    <!-- Display selected building details -->
-                                    <div class="form-group col-md-12">
-                                        <label class="col-form-label">Building Details</label>
-                                        <table class="table table-bordered">
-                                            <tr>
-                                                <th>Building ID</th>
-                                                <td id="building_id_display">{{ $block->building->building_id }}</td>
-                                            </tr>
-                                            <tr>
-                                                <th>Building Type</th>
-                                                <td id="building_type_display">{{ $typeFullForm[$block->building->type] ?? 'Other' }}</td>
-                                            </tr>
-                                        </table>
+                                        <label for="total_upper_floors" class="col-form-label">Total Upper Floors</label>
+                                        <input type="number" class="form-control" name="total_upper_floors"
+                                            id="total_upper_floors" value="{{ $block->total_upper_floors }}">
+                                        <span class="text-danger">
+                                            @error('total_upper_floors')
+                                                {{ $message }}
+                                            @enderror
+                                        </span>
                                     </div>
                                 </div>
 
-                                <button type="submit" class="btn waves-effect waves-light btn-sm submitbtn">        
-                                    UPDATE
-                                </button>
+                                <div class="form-row">
+                                    <div class="form-group col-md-12">
+                                        <label for="total_underground_floors" class="col-form-label">Total Underground
+                                            Floors</label>
+                                        <input type="number" class="form-control" name="total_underground_floors"
+                                            id="total_underground_floors" value="{{ $block->total_underground_floors }}">
+                                        <span class="text-danger">
+                                            @error('total_underground_floors')
+                                                {{ $message }}
+                                            @enderror
+                                        </span>
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group col-md-12">
+                                    <label for="building_id" class="col-form-label">Building</label>
+                                    <select class="form-control" name="building_id" id="building_id"
+                                        onchange="showBuildingDetails()">
+                                        @foreach ($buildings as $building)
+                                            <option value="{{ $building->id }}"
+                                                {{ $block->building_id == $building->id ? 'selected' : '' }}>
+                                                {{ $building->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <!-- Display selected building details -->
+                                <div class="form-group col-md-12">
+                                    <label class="col-form-label">Building Details</label>
+                                    <table class="table table-bordered">
+                                        <tr>
+                                            <th>Building No</th>
+                                            <td id="building_no_display"></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Building Type</th>
+                                            <td id="building_type_display"></td>
+                                        </tr>
+                                    </table>
+                                </div>
                             </div>
+
+                            <button type="submit" class="btn waves-effect waves-light btn-sm submitbtn">
+                                UPDATE
+                            </button>
                         </div>
-                    </form>
                 </div>
+                </form>
             </div>
-            <!-- end row -->
-        </div> <!-- container -->
+        </div>
+        <!-- end row -->
+    </div> <!-- container -->
     </div> <!-- content -->
 
     <script>
+        const typeFullForm = @json($typeFullForm); // Encode PHP array to JSON
+
         function showBuildingDetails() {
             const buildings = @json($buildings);
             const selectedBuildingId = document.getElementById('building_id').value;
             const building = buildings.find(b => b.id == selectedBuildingId);
 
-            document.getElementById('building_id_display').innerText = building.building_id;
-            document.getElementById('building_type_display').innerText = building.type;
+            if (building) {
+                document.getElementById('building_no_display').innerText = building.building_no;
+                document.getElementById('building_type_display').innerText = typeFullForm[building.type] || 'Other';
+            } else {
+                document.getElementById('building_no_display').innerText = '';
+                document.getElementById('building_type_display').innerText = '';
+            }
         }
+
+        // Call the function on page load to show the initial building details if selected
+        window.onload = showBuildingDetails;
     </script>
 @endsection

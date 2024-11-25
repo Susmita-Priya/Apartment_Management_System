@@ -13,10 +13,12 @@ return new class extends Migration
     {
         Schema::create('blocks', function (Blueprint $table) {
             $table->id();
-            $table->string('block_id')->unique();
+            $table->foreignId('company_id')->references('id')->on('users');
+            $table->foreignId('building_id')->references('id')->on('buildings')->onDelete('cascade');
+            $table->string('block_no')->unique();
             $table->string('name');
-            $table->unsignedBigInteger('building_id');
-            $table->foreign('building_id')->references('id')->on('buildings')->onDelete('cascade');
+            $table->integer('total_upper_floors');
+            $table->integer('total_underground_floors');
             $table->timestamps();
         });
     }
