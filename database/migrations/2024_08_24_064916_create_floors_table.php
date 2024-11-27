@@ -13,15 +13,17 @@ return new class extends Migration
     {
         Schema::create('floors', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('block_id')->constrained()->onDelete('cascade');
+            $table->foreignId('company_id')->references('id')->on('users');
+            $table->foreignId('block_id')->references('id')->on('blocks')->onDelete('cascade');
             $table->string('floor_no');
             $table->string('name')->nullable();
-            $table->enum('type', ['rooftop', 'upper', 'ground', 'underground']);
-            $table->boolean('residential_suite')->nullable();
-            $table->boolean('commercial_unit')->nullable();
-            $table->boolean('supporting_service_room')->nullable();
-            $table->boolean('parking_lot')->nullable();
-            $table->boolean('storage_lot')->nullable();
+            $table->string('type')->nullable();
+            $table->boolean('is_residential_unit_exist')->nullable();
+            $table->boolean('is_commercial_unit_exist')->nullable();
+            $table->boolean('is_supporting_room_exist')->nullable();
+            $table->boolean('is_parking_lot_exist')->nullable();
+            $table->boolean('is_storage_lot_exist')->nullable();
+            $table->string('status');
             $table->timestamps();
         });
     }

@@ -17,7 +17,6 @@ class AuthController extends Controller
 
     public function doLogin(Request $request)
     {
-
         // dd($request->all());
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
             return redirect('/index')->with('successlogin', 'Login Successfull!');
@@ -31,7 +30,7 @@ class AuthController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-
+ 
         return redirect('/');
     }
 }

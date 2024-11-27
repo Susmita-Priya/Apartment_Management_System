@@ -33,7 +33,7 @@
 
                             <!-- Building Selection -->
                             <div class="form-group">
-                                <label for="building_id">Select Building</label>
+                                <label for="building_id">Building</label>
                                 <select name="building_id" id="building_id" class="form-control"
                                     onchange="showBuildingDetails()">
                                     <option value="">Select Building</option>
@@ -53,12 +53,11 @@
 
                             <!-- Block Selection -->
                             <div class="form-group">
-                                <label for="block_id">Select Block</label>
+                                <label for="block_id">Block</label>
                                 <select name="block_id" id="block_id" class="form-control" onchange="showBlockDetails()">
                                     <option value="">Select Block</option>
                                     @foreach ($blocks as $blk)
-                                        <option value="{{ $blk->id }}"
-                                            {{ $block->id == $blk->id ? 'selected' : '' }}>
+                                        <option value="{{ $blk->id }}" {{ $block->id == $blk->id ? 'selected' : '' }}>
                                             {{ $blk->name }}
                                         </option>
                                     @endforeach
@@ -70,13 +69,44 @@
                                 </span>
                             </div>
 
+                            <div class="form-group">
+                                <label for="type">Floor Type</label>
+                                <select name="type" id="type" class="form-control" required>
+                                    <option value="upper" {{ $floor->type == 'upper' ? 'selected' : '' }}>Upper</option>
+                                    <option value="underground" {{ $floor->type == 'underground' ? 'selected' : '' }}>
+                                        Underground</option>
+                                </select>
+                            </div>
+
+                            <!-- Floor info -->
+                            <div class="form-group">
+                                <label for="floor_no">Floor No</label>
+                                <select name="floor_no" id="floor_no" class="form-control" required>
+                                    {{-- <option value="{{ $floor->floor_no }}" selected>{{ $floor->floor_no }} th</option> --}}
+                                </select>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label for="name">Floor Name</label>
+                                <input type="text" name="name" id="name" class="form-control"
+                                    value="{{ $floor->name }}" placeholder="Enter Floor name">
+                            </div>
+
+
+                            <label> Floor Features </label>
+
+                            <div id="dynamic-checkboxes">
+                                <!-- Dynamic checkboxes will be added here -->
+                            </div>
+
                             <!-- Building Details -->
                             <div class="form-group col-md-12">
                                 <label class="col-form-label">Building Details</label>
                                 <table class="table table-bordered">
                                     <tr>
                                         <th>Building ID</th>
-                                        <td id="building_id_display"></td>
+                                        <td id="building_no_display"></td>
                                     </tr>
                                     <tr>
                                         <th>Building Type</th>
@@ -84,71 +114,9 @@
                                     </tr>
                                     <tr>
                                         <th>Block ID</th>
-                                        <td id="block_id_display"></td>
+                                        <td id="block_no_display"></td>
                                     </tr>
                                 </table>
-                            </div>
-
-                            <!-- Floor info -->
-                            <div class="form-group">
-                                <label for="floor_no">Floor Number</label>
-                                <input type="number" name="floor_no" id="floor_no" class="form-control" value="{{ $floor->floor_no }}" required>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="name">Floor Name</label>
-                                <input type="text" name="name" id="name" class="form-control" value="{{ $floor->name }}">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="type">Floor Type</label>
-                                <select name="type" id="type" class="form-control" required>
-                                    <option value="rooftop" {{ $floor->type == 'rooftop' ? 'selected' : '' }}>Rooftop</option>
-                                    <option value="upper" {{ $floor->type == 'upper' ? 'selected' : '' }}>Upper</option>
-                                    <option value="ground" {{ $floor->type == 'ground' ? 'selected' : '' }}>Ground</option>
-                                    <option value="underground" {{ $floor->type == 'underground' ? 'selected' : '' }}>Underground</option>
-                                </select>
-                            </div>
-                            <label> Floor Features </label>
-                            <div class="alert alert-primary">
-                                <ul>
-                                    <li>{{ 'Please select one of the following: Residential Suite, Commercial Unit, or Supporting & Service Room.' }}</li>
-                                    <li>{{ 'Alternatively, you may select Parking Lot or Storage options.' }}</li>
-                                </ul>
-                            </div>
-
-                            <!-- Checkbox placeholders -->
-                            <div id="dynamic-checkboxes">
-                                @if ($floor->building->type === 'RESB')
-                                    <div class="form-group">
-                                        <label><input type="checkbox" name="residential_suite" {{ $floor->residential_suite ? 'checked' : '' }}> Residential Suite</label>
-                                    </div>
-                                @elseif ($floor->building->type === 'COMB')
-                                    <div class="form-group">
-                                        <label><input type="checkbox" name="commercial_unit" {{ $floor->commercial_unit ? 'checked' : '' }}> Commercial Unit</label>
-                                    </div>
-                                @elseif ($floor->building->type === 'RECB')
-                                    <div class="form-group">
-                                        <label><input type="checkbox" name="residential_suite" {{ $floor->residential_suite ? 'checked' : '' }}> Residential Suite</label>
-                                    </div>
-                                    <div class="form-group">
-                                        <label><input type="checkbox" name="commercial_unit" {{ $floor->commercial_unit ? 'checked' : '' }}> Commercial Unit</label>
-                                    </div>
-                                @endif
-                            </div>
-
-                            <!-- Supporting checkboxes -->
-                            <div class="form-group">
-                                <label><input type="checkbox" name="supporting_service_room" {{ $floor->supporting_service_room ? 'checked' : '' }}> Supporting & Service Room</label>
-                            </div>
-                            <div class="form-group">
-                                <label><input type="checkbox" name="parking_lot" {{ $floor->parking_lot ? 'checked' : '' }}> Parking Lot</label>
-                            </div>
-                            {{-- <div class="form-group">
-                                <label><input type="checkbox" name="bike_lot" {{ $floor->bike_lot ? 'checked' : '' }}> Bike Lot</label>
-                            </div> --}}
-                            <div class="form-group">
-                                <label><input type="checkbox" name="storage_lot" {{ $floor->storage_lot ? 'checked' : '' }}> Storage Lot</label>
                             </div>
 
                             <button type="submit" class="btn waves-effect waves-light btn-sm"
@@ -166,13 +134,17 @@
         const typeFullForm = @json($typeFullForm);
         const buildings = @json($buildings);
         const blocks = @json($blocks);
+        const existingFloorType = @json($floor->type);
+        let existingFloors = []; // Initialize as an empty array
+        console.log(existingFloorType);
+
 
         function showBuildingDetails() {
             const selectedBuildingId = document.getElementById('building_id').value;
             const building = buildings.find(b => b.id == selectedBuildingId);
 
             if (building) {
-                document.getElementById('building_id_display').innerText = building.building_id;
+                document.getElementById('building_no_display').innerText = building.building_no;
                 document.getElementById('building_type_display').innerText = typeFullForm[building.type] || 'Other';
 
                 const buildingBlocks = blocks.filter(b => b.building_id == selectedBuildingId);
@@ -189,38 +161,13 @@
                     blockSelect.innerHTML = '<option value="">No blocks available for the selected building.</option>';
                 }
 
-                document.getElementById('block_id_display').innerText = '';
+                document.getElementById('block_no_display').innerText = '';
 
-                const dynamicCheckboxes = document.getElementById('dynamic-checkboxes');
-                dynamicCheckboxes.innerHTML = '';
-
-                if (building.type === 'RESB') {
-                    dynamicCheckboxes.innerHTML = `
-                        <div class="form-group">
-                            <label><input type="checkbox" name="residential_suite" ${'{{ $floor->residential_suite }}' ? 'checked' : ''}> Residential Suite</label>
-                        </div>
-                    `;
-                } else if (building.type === 'COMB') {
-                    dynamicCheckboxes.innerHTML = `
-                        <div class="form-group">
-                            <label><input type="checkbox" name="commercial_unit" ${'{{ $floor->commercial_unit }}' ? 'checked' : ''}> Commercial Unit</label>
-                        </div>
-                    `;
-                } else if (building.type === 'RECB') {
-                    dynamicCheckboxes.innerHTML = `
-                        <div class="form-group">
-                            <label><input type="checkbox" name="residential_suite" ${'{{ $floor->residential_suite }}' ? 'checked' : ''}> Residential Suite</label>
-                        </div>
-                        <div class="form-group">
-                            <label><input type="checkbox" name="commercial_unit" ${'{{ $floor->commercial_unit }}' ? 'checked' : ''}> Commercial Unit</label>
-                        </div>
-                    `;
-                }
             } else {
-                document.getElementById('building_id_display').innerText = '';
+                document.getElementById('building_no_display').innerText = '';
                 document.getElementById('building_type_display').innerText = '';
                 document.getElementById('block_id').innerHTML = '<option value="">Select Block</option>';
-                document.getElementById('block_id_display').innerText = '';
+                document.getElementById('block_no_display').innerText = '';
             }
         }
 
@@ -229,9 +176,93 @@
             const block = blocks.find(b => b.id == selectedBlockId);
 
             if (block) {
-                document.getElementById('block_id_display').innerText = block.block_id;
+                document.getElementById('block_no_display').innerText = block.block_no;
+                const upperFloorCount = block.total_upper_floors ?? 0;
+                const undergroundFloorCount = block.total_underground_floors ?? 0;
+
+                const typeSelect = document.getElementById('type');
+                typeSelect.removeEventListener('change', handleTypeChange); // Remove old listeners to avoid duplication
+                typeSelect.addEventListener('change', handleTypeChange);
+
+                function handleTypeChange() {
+                    const selectedType = this.value;
+
+                    fetch(`/blocks/${selectedBlockId}/floorsno?type=${selectedType}`) // Pass type as query parameter
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.error) {
+                                console.error(data.error); // Handle errors
+                                return;
+                            }
+
+                            existingFloors = data.existingFloors; // Update existingFloors with fetched data
+                            // Example call
+                            const currentFloorNo =
+                            {{ $floor->floor_no }}; // Get current floor number from Blade variable
+
+                            const floorCount = selectedType === 'upper' ? upperFloorCount : undergroundFloorCount;
+                            populateFloorOptions(floorCount, selectedType, currentFloorNo);
+                        })
+                        .catch(error => console.error('Error fetching floors:', error));
+                }
+
+                typeSelect.dispatchEvent(new Event('change')); // Trigger change to initialize dropdowns
             } else {
-                document.getElementById('block_id_display').innerText = '';
+                document.getElementById('block_no_display').innerText = '';
+            }
+        }
+
+        function populateFloorOptions(floorCount, type, currentFloorNo) {
+            const floorNoSelect = document.getElementById('floor_no');
+            floorNoSelect.innerHTML = '';
+
+            if (type === existingFloorType) {
+                if (currentFloorNo) {
+                    let suffix = 'th';
+                    if (currentFloorNo === 1) suffix = 'st';
+                    else if (currentFloorNo === 2) suffix = 'nd';
+                    else if (currentFloorNo === 3) suffix = 'rd';
+                    floorNoSelect.innerHTML += `<option value="${currentFloorNo}" selected>${currentFloorNo}<sup>${suffix}</sup> </option>`;
+                }
+            } else {
+                floorNoSelect.innerHTML = '<option value="">Select Floor No</option>';
+            }
+
+
+            // Dynamic checkboxes based on type
+            const dynamicCheckboxes = document.getElementById('dynamic-checkboxes');
+            dynamicCheckboxes.innerHTML = ''; // Clear previous checkboxes
+
+            if (type === 'upper') {
+                dynamicCheckboxes.innerHTML = `
+        <div class="form-group">
+            <label><input type="checkbox" name="is_residential_unit_exist" {{ $floor->is_residential_unit_exist ? 'checked' : '' }}> Residential Suite </label>
+        </div>
+        <div class="form-group">
+            <label><input type="checkbox" name="is_commercial_unit_exist" {{ $floor->is_commercial_unit_exist ? 'checked' : '' }}> Commercial Unit </label>
+        </div>
+        <div class="form-group">
+            <label><input type="checkbox" name="is_supporting_room_exist" {{ $floor->is_supporting_room_exist ? 'checked' : '' }}> Supporting & Service Room </label>
+        </div>
+        `;
+            } else if (type === 'underground') {
+                dynamicCheckboxes.innerHTML = `
+        <div class="form-group">
+            <label><input type="checkbox" name="is_parking_lot_exist" {{ $floor->is_parking_lot_exist ? 'checked' : '' }}> Parking Lot</label>
+        </div>
+        <div class="form-group">
+            <label><input type="checkbox" name="is_storage_lot_exist" {{ $floor->is_storage_lot_exist ? 'checked' : '' }}> Storage Lot</label>
+        </div>
+        `;
+            } // Populate floor numbers excluding the existing ones
+            for (let i = 1; i <= floorCount; i++) {
+                if (!existingFloors.includes(i.toString())) { // Exclude selected and existing floors
+                    let suffix = 'th';
+                    if (i === 1) suffix = 'st';
+                    else if (i === 2) suffix = 'nd';
+                    else if (i === 3) suffix = 'rd';
+                    floorNoSelect.innerHTML += `<option value="${i}">${i}<sup>${suffix}</sup></option>`;
+                }
             }
         }
 

@@ -78,16 +78,16 @@
                             </p>
 
 
-                            <p class="text-muted font-15"><strong>Building ID:</strong> <span
-                                    class="m-l-15">{{ $building->building_id }}</span></p>
+                            <p class="text-muted font-15"><strong>Building No:</strong> <span
+                                    class="m-l-15">{{ $building->building_no }}</span></p>
 
                             <p class="text-muted font-15"><strong>Building Name:</strong> <span
                                     class="m-l-15">{{ $building->name }}</span></p>
 
                             {{-- <p class="text-muted font-13"><strong>Number of Floors:</strong> <span class="m-l-15">{{ $building->floors }}</span></p> --}}
 
-                            <p class="text-muted font-15"><strong>Number of Blocks:</strong> <span
-                                    class="m-l-15">{{ $building->blocks_count }}</span></p>
+                            {{-- <p class="text-muted font-15"><strong>Number of Blocks:</strong> <span
+                                    class="m-l-15">{{ $building->blocks_count }}</span></p> --}}
 
                             <p class="text-muted font-15"><strong>Date Added:</strong> <span
                                     class="m-l-15">{{ $building->created_at->format('d M, Y') }}</span></p>
@@ -116,11 +116,11 @@
 
                     <!-- Blocks List -->
                     <div class="row">
-                        @foreach ($building->blocks as $block)
+                        @foreach ($blocks as $block)
                             <div class="col-md-4">
                                 <div class="card-box">
                                     <h4 class="header-title mt-0 m-b-20">{{ $block->name }}</h4>
-                                    <p class="text-muted font-15"><strong>Block ID: </strong>{{ $block->block_id }}</p>
+                                    <p class="text-muted font-15"><strong>Block No: </strong>{{ $block->block_no }}</p>
                                     {{-- <p class="text-muted font-13"><strong>Building: </strong>{{ $block->building->name }}</p> --}}
 
                                     <button type="button"

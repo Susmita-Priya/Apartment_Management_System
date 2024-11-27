@@ -62,24 +62,6 @@
                                     </div>
                                 </div>
 
-                                {{-- <div class="form-row">
-                                <div class="form-group col-md-12">
-                                    <label for="property_id" class="col-form-label">Property</label>
-                                    <select class="form-control" name="property_id" id="property_id">
-                                        <option value="">Select Property</option>
-                                        <!-- Assuming you have a collection of properties available -->
-                                        @foreach ($properties as $property)
-                                            <option value="{{ $property->id }}">{{ $property->name }}</option>
-                                        @endforeach
-                                    </select>
-                                    <span class="text-danger">
-                                        @error('property_id')
-                                            {{ $message }}
-                                        @enderror
-                                    </span>
-                                </div>
-                            </div> --}}
-
                                 <!-- Display error messages if any -->
                                 
                                     <div class="alert alert-primary">
@@ -120,29 +102,4 @@
         </div> <!-- container -->
     </div> <!-- content -->
 
-
-    {{-- this portion for image instant change
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const imageInput = document.getElementById('image');
-            const imagePreview = document.getElementById('imagePreview');
-
-            imageInput.addEventListener('change', function() {
-                const file = this.files[0];
-                if (file) {
-                    const reader = new FileReader();
-
-                    reader.onload = function(e) {
-                        imagePreview.src = e.target.result;
-                        imagePreview.style.display = 'block'; // Show the image
-                    };
-
-                    reader.readAsDataURL(file);
-                } else {
-                    imagePreview.src = '';
-                    imagePreview.style.display = 'none'; // Hide the image if no file is selected
-                }
-            });
-        });
-    </script> --}}
 @endsection
