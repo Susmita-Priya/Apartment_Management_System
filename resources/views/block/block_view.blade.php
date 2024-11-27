@@ -130,111 +130,46 @@
                     <!-- end row -->
 
                     <!-- Floors List -->
-                    {{-- <div class="row">
-
-                        @php
-                            $sortedFloors = $floors->sortBy('floor_no');
-                        @endphp
-
-                        @php
-                            $sections = [
-                                'RESB' => 'Residential & Supporting Level',
-                                'COMB' => 'Commercial & Supporting Level',
-                                'RECB' => 'Residential, Commercial & Supporting Level',
-                            ];
-                        @endphp
-
-                        @foreach ($sections as $type => $title)
-                            @if ($building->type === $type)
-                                <div class="col-12">
-                                    <h4 class="header-title mt-0 m-b-20">{{ $title }}</h4>
-                                    @foreach ($sortedFloors->filter(function ($floor) use ($type) {
-                                return ($type === 'RESB' && ($floor->residential_suite || $floor->supporting_service_room || $floor->mailroom)) || ($type === 'COMB' && ($floor->commercial_unit || $floor->supporting_service_room || $floor->mailroom)) || ($type === 'RECB' && ($floor->residential_suite || $floor->commercial_unit || $floor->supporting_service_room || $floor->mailroom));
-                                            })->chunk(3) as $chunk)
-                                        <div class="row">
-                                            @foreach ($chunk as $floor)
-                                                <div class="col-md-4 mb-4">
-                                                    <div class="card-box">
-                                                        <h4 class="header-title mt-0 m-b-20">{{ $floor->name }} FLOOR</h4>
-                                                        <p class="text-muted font-15"><strong>Floor No:
-                                                            </strong>{{ $floor->type }}-{{ $floor->floor_no }}</p>
-                                                        <button type="button"
-                                                            onclick="window.location.href='{{ route('floor.show', $floor->id) }}'"
-                                                            class="btn btn-info m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm">
-                                                            Enter
-                                                        </button>
-                                                        <button type="button"
-                                                            class="btn btn-success m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm"
-                                                            onclick="window.location.href='{{ route('floor.edit', $floor->id) }}'">
-                                                            Edit
-                                                        </button>
-                                                        <button type="button"
-                                                            class="btn btn-danger m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm"
-                                                            onclick="confirmDelete('{{ route('floor.delete', ['id' => $floor->id]) }}')">
-                                                            Delete
-                                                        </button>
-                                                        <!-- Hidden form for deletion -->
-                                                        <form id="delete-form"
-                                                            action="{{ route('floor.delete', ['id' => $floor->id]) }}"
-                                                            method="GET" style="display: none;">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                            @endforeach
-                                        </div>
-                                    @endforeach
-                                </div>
-                            @endif
-                        @endforeach
-
-                        <!-- Parking Lot, Bike Lot & Storage Lot (for all buildings) -->
-                        <div class="col-12">
-                            <h4 class="header-title mt-0 m-b-20">Parking, Bike & Storage Level</h4>
-                            @foreach ($sortedFloors->filter(function ($floor) {
-                            return $floor->parking_lot || $floor->bike_lot || $floor->storage_lot;
-                                    })->chunk(3) as $chunk)
-                                <div class="row">
-                                    @foreach ($chunk as $floor)
-                                        <div class="col-md-4 mb-4">
-                                            <div class="card-box">
-                                                <h4 class="header-title mt-0 m-b-20">{{ $floor->name }} LEVEL</h4>
-                                                <p class="text-muted font-15"><strong>Floor No:
-                                                    </strong>{{ $floor->type }}-{{ $floor->floor_no }}</p>
-                                                <button type="button"
-                                                    onclick="window.location.href='{{ route('floor.show', $floor->id) }}'"
-                                                    class="btn btn-info m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm">
-                                                    Enter
-                                                </button>
-                                                <button type="button"
-                                                    class="btn btn-success m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm"
-                                                    onclick="window.location.href='{{ route('floor.edit', $floor->id) }}'">
-                                                    Edit
-                                                </button>
-                                                <button type="button"
-                                                    class="btn btn-danger m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm"
-                                                    onclick="confirmDelete('{{ route('floor.delete', ['id' => $floor->id]) }}')">
-                                                    Delete
-                                                </button>
-                                                <!-- Hidden form for deletion -->
-                                                <form id="delete-form"
-                                                    action="{{ route('floor.delete', ['id' => $floor->id]) }}"
-                                                    method="GET" style="display: none;">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                </form>
-                                            </div>
-                                        </div>
-                                    @endforeach
-                                </div>
-                            @endforeach
-                            
+                    <div class="row">
+                        @foreach ($floors as $floor)
+                        <div class="col-md-4 mb-4">
+                            <div class="card-box">
+                                <h4 class="header-title mt-0 m-b-20">{{ $floor->name }} FLOOR</h4>
+                                <p class="text-muted font-15"><strong>Floor No:
+                                    </strong>{{ $floor->type }}-{{ $floor->floor_no }}</p>
+                                <button type="button"
+                                    onclick="window.location.href='{{ route('floor.show', $floor->id) }}'"
+                                    class="btn btn-info m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm">
+                                    Enter
+                                </button>
+                                <button type="button"
+                                    class="btn btn-success m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm"
+                                    onclick="window.location.href='{{ route('floor.edit', $floor->id) }}'">
+                                    Edit
+                                </button>
+                                <button type="button"
+                                    class="btn btn-danger m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm"
+                                    onclick="confirmDelete('{{ route('floor.delete', ['id' => $floor->id]) }}')">
+                                    Delete
+                                </button>
+                                <!-- Hidden form for deletion -->
+                                <form id="delete-form"
+                                    action="{{ route('floor.delete', ['id' => $floor->id]) }}"
+                                    method="GET" style="display: none;">
+                                    @csrf
+                                    @method('DELETE')
+                                </form>
+                            </div>
                         </div>
+                        @endforeach
+                    </div>
+
+                    <div class="row">
+
 
                         <!-- Display common area names -->
 
-                        <div class="col-12">
+                        {{-- <div class="col-12">
 
                             <h4 class="header-title mt-0 m-b-20">Common Area</h4>
                             <div class="row">
@@ -295,10 +230,10 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
 
 
-                    </div> --}}
+                    </div>
                     <!-- End Floors List -->
 
                 </div>

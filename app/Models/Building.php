@@ -12,8 +12,8 @@ class Building extends Model
     protected $fillable = ['company_id', 'building_no', 'name', 'image', 'type', 'status'];
 
     // // Define the relationship with Block model
-    public function blocks()
-    {
-        return $this->hasMany(Block::class);
-    }
+    // public function blocks()
+    // {
+    //     return $this->hasMany(Block::class);
+    // }
 }

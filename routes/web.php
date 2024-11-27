@@ -94,8 +94,16 @@ Route::middleware('auth')->group(callback: function () {
 
         Route::get('block/delete/{id}', [BlockController::class, 'destroy'])->name("block.delete");
 
-        
+
+
+        // get blocks by building id
         Route::get('/blocks/{id}', [BlockController::class, 'getBlocks'])->name('blocks.get');
+
+        // get registered floors no by block id
+        Route::get('/blocks/{blockId}/floorsno', [FloorController::class, 'getFloorsNo']);
+        
+        //get floors by block id
+        Route::get('/blocks/{blockId}/floors', [FloorController::class, 'getFloors']);
 
 
 
@@ -114,11 +122,7 @@ Route::middleware('auth')->group(callback: function () {
 
         Route::get('floor/delete/{id}', [FloorController::class, 'destroy'])->name("floor.delete");
 
-        Route::get('/blocks/{block}/floors', [FloorController::class, 'getFloors']);
-
-
-
-
+        
 
         Route::get('unit/index', [UnitController::class, 'index'])->name("unit.index");
 

@@ -38,11 +38,11 @@
                     <div class="profile-user-box">
                         <div class="row">
                             <div class="col-sm-6">
-                                <span class="pull-left m-r-15"><img src="{{ asset($block->building->image) }}"
-                                        alt="" class="thumb-lg rounded-circle"></span>
+                                <span class="pull-left m-r-15"><img src="{{ asset($building->image) }}" alt=""
+                                        class="thumb-lg rounded-circle"></span>
                                 <div class="media-body">
                                     <h4 class="m-t-7 font-18">{{ $floor->name }}</h4>
-                                    <p class="text-muted font-15">{{ $floor->block->building->name }} Building</p>
+                                    <p class="text-muted font-15">{{ $building->name }} Building</p>
                                 </div>
                             </div>
                             <div class="col-sm-6">
@@ -67,22 +67,33 @@
                     <div class="card-box">
                         <h4 class="header-title mt-0 m-b-20">Floor Information</h4>
                         <div class="panel-body">
+                            @php
+                                $suffix = '';
+                                if ($floor->floor_no === 1) {
+                                    $suffix = 'st';
+                                } elseif ($floor->floor_no === 2) {
+                                    $suffix = 'nd';
+                                } elseif ($floor->floor_no === 3) {
+                                    $suffix = 'rd';
+                                }
+                                else{
+                                    $suffix = 'th';
+                                }
+                            @endphp
 
                             <p class="text-muted font-15"><strong>Floor No:</strong> <span
-                                    class="m-l-15">{{ $floor->type }}-{{ $floor->floor_no }}</p>
+                                    class="m-l-15">{{ $floor->floor_no }}<sup>{{ $suffix }}</sup> floor</p>
+                            <p class="text-muted font-15"><strong>Type:</strong> <span
+                                    class="m-l-15">{{ ucfirst($floor->type) }}</p>
                             <p class="text-muted font-15"><strong>Floor Name:</strong> <span
                                     class="m-l-15">{{ $floor->name }}</p>
-                            <p class="text-muted font-15"><strong>Type:</strong> <span
-                                    class="m-l-15">{{ ucfirst($floor->type) }} floor</p>
                             <p class="text-muted font-15"><strong>Date Added:</strong> <span
                                     class="m-l-15">{{ $floor->created_at->format('d M, Y') }}</span></p>
-                            <p class="text-muted font-15"><strong>Number of Units:</strong> <span
-                                    class="m-l-15">{{ $floor->units_count }}</span></p>
 
                             <hr>
 
-                            <p class="text-muted font-15"><strong>Block ID:</strong> <span
-                                    class="m-l-15">{{ $block->block_id }}</span></p>
+                            <p class="text-muted font-15"><strong>Block No:</strong> <span
+                                    class="m-l-15">{{ $block->block_no }}</span></p>
                             <p class="text-muted font-15"><strong>Block:</strong> <span
                                     class="m-l-15">{{ $block->name }}</span></p>
                             <hr>
@@ -96,42 +107,27 @@
                             @endphp
 
                             <p class="text-muted font-15"><strong>Building:</strong> <span
-                                    class="m-l-15">{{ $block->building->name }} </span></p>
-                            <p class="text-muted font-15"><strong>Building ID:</strong> <span
-                                    class="m-l-15">{{ $building->building_id }}</span></p>
+                                    class="m-l-15">{{ $building->name }} </span></p>
+                            <p class="text-muted font-15"><strong>Building No:</strong> <span
+                                    class="m-l-15">{{ $building->building_no }}</span></p>
                             <p class="text-muted font-15"><strong>Building Type:</strong> <span
-                                    class="m-l-15">{{ $typeFullForm[$block->building->type] ?? 'Other' }}</span></p>
+                                    class="m-l-15">{{ $typeFullForm[$building->type] ?? 'Other' }}</span></p>
                             <hr>
 
 
-                            @if ($building->type === 'RESB' || $building->type === 'RECB')
-                                {{-- <p class="text-muted font-15"><strong>Residential Suites:</strong><span class="m-l-15">Yes</p> --}}
-                                <p class="text-muted font-15"><strong>Residential Suites:</strong> <span
-                                        class="m-l-15">{{ $floor->residential_suite ? 'Yes' : 'No' }}</p>
-                            @endif
+                            <h4 class="header-title mt-0 m-b-20">Features :</h4>
+                            <p class="text-muted font-15"><strong>Residential Units exist ? </strong> <span
+                                    class="m-l-15">{{ $floor->is_residential_unit_exist ? 'Yes' : 'No' }}</p>
 
-                            @if ($building->type === 'COMB' || $building->type === 'RECB')
-                                {{-- <p class="text-muted font-15"><strong>Commercial Units:</strong><span class="m-l-15">Yes</p> --}}
-                                <p class="text-muted font-15"><strong>Commercial Units:</strong> <span
-                                        class="m-l-15">{{ $floor->commercial_unit ? 'Yes' : 'No' }}</p>
-                            @endif
+                            <p class="text-muted font-15"><strong>Commercial Units exist ?</strong> <span
+                                    class="m-l-15">{{ $floor->is_commercial_unit_exist ? 'Yes' : 'No' }}</p>
 
-                            <p class="text-muted font-15"><strong>Supporting & Service Room:</strong> <span
-                                    class="m-l-15">{{ $floor->supporting_service_room ? 'Yes' : 'No' }}</p>
-                            <p class="text-muted font-15"><strong>Parking Lot:</strong> <span
-                                    class="m-l-15">{{ $floor->parking_lot ? 'Yes' : 'No' }}</p>
-                            {{-- <p class="text-muted font-15"><strong>Bike Lot:</strong> <span
-                                    class="m-l-15">{{ $floor->bike_lot ? 'Yes' : 'No' }}</p> --}}
-                            <p class="text-muted font-15"><strong>Storage Lot:</strong> <span
-                                    class="m-l-15">{{ $floor->storage_lot ? 'Yes' : 'No' }}</p>
-                            <p class="text-muted font-15"><strong>Common Area:</strong> <span
-                                    class="m-l-15">{{ $floor->common_area ? 'Yes' : 'No' }}</p>
-
-
-                            {{-- <p class="text-muted font-13"><strong>Block Image :</strong>
-                            <span class="m-l-15"><img src="{{ asset($block->image) }}" style="width:27%; height:27%" alt="image can't found"></span>
-                        </p> --}}
-
+                            <p class="text-muted font-15"><strong>Supporting & Service Room exist ?</strong> <span
+                                    class="m-l-15">{{ $floor->is_supporting_room_exist ? 'Yes' : 'No' }}</p>
+                            <p class="text-muted font-15"><strong>Parking Lot exist ?</strong> <span
+                                    class="m-l-15">{{ $floor->is_parking_lot_exist ? 'Yes' : 'No' }}</p>
+                            <p class="text-muted font-15"><strong>Storage Lot exist ?</strong> <span
+                                    class="m-l-15">{{ $floor->is_storage_lot_exist ? 'Yes' : 'No' }}</p>
                         </div>
                     </div>
                     <!-- Block-Information -->
@@ -152,7 +148,7 @@
                                             style="position: absolute; "
                                             onclick="window.location.href='{{ route('stall_locker.create', ['floor_id' => $floor->id]) }}'">
                                             <i class="mdi mdi-plus m-r-5"></i> Add Locker
-                                        @elseif($floor->parking_lot|| $floor->storage_lot)
+                                        @elseif($floor->parking_lot || $floor->storage_lot)
                                             <button type="button" class="btn waves-effect waves-light greenbtn"
                                                 style="position: absolute; "
                                                 onclick="window.location.href='{{ route('stall_locker.create', ['floor_id' => $floor->id]) }}'">
@@ -182,7 +178,7 @@
                     <!-- end row -->
 
                     <!-- Units List -->
-                    <div class="row">
+                    {{-- <div class="row">
                         @php
                             // Define unit types for categorization
                             $unitTypes = [
@@ -245,10 +241,10 @@
                                 </div>
                             @endif
                         @endforeach
-                    </div>
+                    </div> --}}
 
                     <!-- Stalls/Lockers List -->
-                    <div class="row mt-4">
+                    {{-- <div class="row mt-4">
                         @php
                             // Define stall/locker types for categorization
                             $stallLockerTypes = [
@@ -322,7 +318,7 @@
                                 </div>
                             @endif
                         @endforeach
-                    </div>
+                    </div> --}}
 
                 </div>
             </div>

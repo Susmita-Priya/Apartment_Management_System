@@ -11,10 +11,10 @@ class Block extends Model
 
     protected $fillable = ['company_id','block_no', 'name', 'building_id', 'total_upper_floors', 'total_underground_floors'];
 
-    public function building()
-    {
-        return $this->belongsTo(Building::class);
-    }
+    // public function building()
+    // {
+    //     return $this->belongsTo(Building::class);
+    // }
 
     // public function floors()
     // {

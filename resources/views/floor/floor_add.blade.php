@@ -33,7 +33,7 @@
 
                             <!-- Building Selection -->
                             <div class="form-group">
-                                <label for="building_id">Select Building</label>
+                                <label for="building_id">Building</label>
                                 <select name="building_id" id="building_id" class="form-control"
                                     onchange="showBuildingDetails()">
                                     <option value="">Select Building</option>
@@ -53,7 +53,7 @@
 
                             <!-- Block Selection -->
                             <div class="form-group">
-                                <label for="block_id">Select Block</label>
+                                <label for="block_id">Block</label>
                                 <select name="block_id" id="block_id" class="form-control" onchange="showBlockDetails()">
                                     <option value="">Select Block</option>
                                     @foreach ($blocks as $blk)
@@ -129,7 +129,6 @@
     </div>
 
 
-
     <script>
         const typeFullForm = @json($typeFullForm); // Encode PHP array to JSON
         const buildings = @json($buildings);
@@ -191,7 +190,7 @@
                 function handleTypeChange() {
                     const selectedType = this.value;
 
-                    fetch(`/blocks/${selectedBlockId}/floors?type=${selectedType}`) // Pass type as query parameter
+                    fetch(`/blocks/${selectedBlockId}/floorsno?type=${selectedType}`) // Pass type as query parameter
                         .then(response => response.json())
                         .then(data => {
                             if (data.error) {
@@ -247,7 +246,11 @@
             // Populate floor numbers excluding existing ones
             for (let i = 1; i <= floorCount; i++) {
                 if (!existingFloors.includes(i.toString())) { // Ensure string-based comparison
-                    floorNoSelect.innerHTML += `<option value="${i}">${i} th</option>`;
+                let suffix = 'th';
+                if (i === 1) suffix = 'st';
+                else if (i === 2) suffix = 'nd';
+                else if (i === 3) suffix = 'rd';
+                floorNoSelect.innerHTML += `<option value="${i}">${i}<sup>${suffix}</sup></option>`;
                 }
             }
         }

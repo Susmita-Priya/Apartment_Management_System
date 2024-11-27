@@ -33,7 +33,20 @@
                         <div class="col-md-12">
                             <div class="card-box">
                                 <h1 class="d-flex justify-content-center mt-4">EDIT BLOCK</h1>
-
+                                
+                                <div class="form-group col-md-12">
+                                    <label for="building_id" class="col-form-label">Building</label>
+                                    <select class="form-control" name="building_id" id="building_id"
+                                        onchange="showBuildingDetails()">
+                                        @foreach ($buildings as $building)
+                                            <option value="{{ $building->id }}"
+                                                {{ $block->building_id == $building->id ? 'selected' : '' }}>
+                                                {{ $building->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                
                                 <div class="form-row">
                                     <div class="form-group col-md-12">
                                         <label for="name" class="col-form-label">Block Name</label>
@@ -75,18 +88,7 @@
                                 </div>
 
 
-                                <div class="form-group col-md-12">
-                                    <label for="building_id" class="col-form-label">Building</label>
-                                    <select class="form-control" name="building_id" id="building_id"
-                                        onchange="showBuildingDetails()">
-                                        @foreach ($buildings as $building)
-                                            <option value="{{ $building->id }}"
-                                                {{ $block->building_id == $building->id ? 'selected' : '' }}>
-                                                {{ $building->name }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
+                                
 
                                 <!-- Display selected building details -->
                                 <div class="form-group col-md-12">

@@ -36,7 +36,7 @@
                                 <!-- Building Selection -->
                                 <div class="form-row">
                                     <div class="form-group col-md-12">
-                                    <label for="building_id" class="col-form-label">Select Building</label>
+                                    <label for="building_id" class="col-form-label">Building</label>
                                     <select name="building_id" id="building_id" class="form-control"
                                         onchange="showBuildingDetails()">
                                         <option value="">Select Building</option>

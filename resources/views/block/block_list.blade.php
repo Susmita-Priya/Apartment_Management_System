@@ -14,7 +14,6 @@
 
                         <ol class="breadcrumb float-right">
                             <li class="breadcrumb-item"><a href="{{ route('index') }}">Admin</a></li>
-                            {{-- <li class="breadcrumb-item"><a href="#">Blocks</a></li> --}}
                             <li class="breadcrumb-item active">Blocks List</li>
                         </ol>
 
@@ -46,7 +45,7 @@
                                 @foreach ($buildings as $building)
                                     <option value="{{ $building->id }}">{{ $building->name }} ( {{ $building->building_no }})</option>
                                 @endforeach
-                            </select>
+                                </select>
                             </div>
                             
                         </div>

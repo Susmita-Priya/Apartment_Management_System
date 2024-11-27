@@ -97,10 +97,10 @@ class BlockController extends Controller
         // $block->load('commonArea.extraFields');
         $building = Building::find($block->building_id);   // Get the building associated with this block
 
-        // $floors = Floor::where('block_id', $id)->latest()->get();
+        $floors = Floor::where('block_id', $id)->orderBy('type')->orderBy('floor_no')->get();
 
         // Pass the data to the view
-        return view('block.block_view', compact('block', 'building'));
+        return view('block.block_view', compact('block', 'building','floors'));
     }
 
     /**
@@ -143,7 +143,6 @@ class BlockController extends Controller
     // Redirect back to the previous page with a success message
     return redirect()->back()->with('success', 'Block updated successfully');
 
-        // return redirect()->route('building.show', $building->id)->with('success', 'Block updated successfully.');
     }
 
     /**
@@ -151,7 +150,6 @@ class BlockController extends Controller
      */
     public function destroy(string $id)
     {
-
         // Find the block to delete
         $block = Block::findOrFail($id);
 
