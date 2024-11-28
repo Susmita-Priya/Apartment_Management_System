@@ -80,10 +80,10 @@
                                 </strong> <span class="m-l-15"> {{ ucfirst($unit->type) }} Unit</span></p>
                                 <p class="text-muted font-15"><strong>
                                     Unit Rent:
-                            </strong> <span class="m-l-15">{{ $unit->rent }}</span></p>
+                            </strong> <span class="m-l-15">{{ $unit->rent }} TK</span></p>
                             <p class="text-muted font-15"><strong>
                                 Unit Price:
-                        </strong> <span class="m-l-15">{{ $unit->price }}</span></p>
+                        </strong> <span class="m-l-15">{{ $unit->price }} TK</span></p>
                             <p class="text-muted font-15"><strong>Date Added:</strong> <span
                                     class="m-l-15">{{ $unit->created_at->format('d M, Y') }}</span></p>
                             <hr>
