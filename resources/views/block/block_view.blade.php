@@ -130,39 +130,94 @@
                     <!-- end row -->
 
                     <!-- Floors List -->
+                    
+                    
                     <div class="row">
-                        @foreach ($floors as $floor)
-                        <div class="col-md-4 mb-4">
-                            <div class="card-box">
-                                <h4 class="header-title mt-0 m-b-20">{{ $floor->name }} FLOOR</h4>
-                                <p class="text-muted font-15"><strong>Floor No:
-                                    </strong>{{ $floor->type }}-{{ $floor->floor_no }}</p>
-                                <button type="button"
-                                    onclick="window.location.href='{{ route('floor.show', $floor->id) }}'"
-                                    class="btn btn-info m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm">
-                                    Enter
-                                </button>
-                                <button type="button"
-                                    class="btn btn-success m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm"
-                                    onclick="window.location.href='{{ route('floor.edit', $floor->id) }}'">
-                                    Edit
-                                </button>
-                                <button type="button"
-                                    class="btn btn-danger m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm"
-                                    onclick="confirmDelete('{{ route('floor.delete', ['id' => $floor->id]) }}')">
-                                    Delete
-                                </button>
-                                <!-- Hidden form for deletion -->
-                                <form id="delete-form"
-                                    action="{{ route('floor.delete', ['id' => $floor->id]) }}"
-                                    method="GET" style="display: none;">
-                                    @csrf
-                                    @method('DELETE')
-                                </form>
-                            </div>
+                        <div class="col-12">
+                            <h4 class="header-title mt-0 m-b-20">Upper Floors</h4>
                         </div>
+                        @foreach ($floors as $floor)
+                            @if($floor->type == 'upper')
+                            @php
+                                $suffix =
+                                    $floor->floor_no == 1? 'st': ($floor->floor_no == 2? 'nd': ($floor->floor_no == 3? 'rd': 'th'));
+                            @endphp
+                                <div class="col-md-4 mb-4">
+                                    <div class="card-box">
+                                        <h4 class="header-title mt-0 m-b-20">{{ $floor->floor_no }}<sup>{{ $suffix }}</sup> floor</h4>
+                                        <p class="text-muted font-15"><strong>Name:
+                                            </strong>{{ $floor->name }}</p>
+                                        <button type="button"
+                                            onclick="window.location.href='{{ route('floor.show', $floor->id) }}'"
+                                            class="btn btn-info m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm">
+                                            Enter
+                                        </button>
+                                        <button type="button"
+                                            class="btn btn-success m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm"
+                                            onclick="window.location.href='{{ route('floor.edit', $floor->id) }}'">
+                                            Edit
+                                        </button>
+                                        <button type="button"
+                                            class="btn btn-danger m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm"
+                                            onclick="confirmDelete('{{ route('floor.delete', ['id' => $floor->id]) }}')">
+                                            Delete
+                                        </button>
+                                        <!-- Hidden form for deletion -->
+                                        <form id="delete-form"
+                                            action="{{ route('floor.delete', ['id' => $floor->id]) }}"
+                                            method="GET" style="display: none;">
+                                            @csrf
+                                            @method('DELETE')
+                                        </form>
+                                    </div>
+                                </div>
+                            @endif
                         @endforeach
                     </div>
+
+                    <div class="row">
+                        <div class="col-12">
+                            <h4 class="header-title mt-0 m-b-20">Underground Floors</h4>
+                        </div>
+                        @foreach ($floors as $floor)
+                            @if($floor->type == 'underground')
+                            @php
+                                $suffix =
+                                    $floor->floor_no == 1? 'st': ($floor->floor_no == 2? 'nd': ($floor->floor_no == 3? 'rd': 'th'));
+                            @endphp
+                                <div class="col-md-4 mb-4">
+                                    <div class="card-box">
+                                        <h4 class="header-title mt-0 m-b-20">{{ $floor->floor_no }}<sup>{{ $suffix }}</sup> floor</h4>
+                                        <p class="text-muted font-15"><strong>Name:
+                                            </strong>{{ $floor->name }}</p>
+                                        <button type="button"
+                                            onclick="window.location.href='{{ route('floor.show', $floor->id) }}'"
+                                            class="btn btn-info m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm">
+                                            Enter
+                                        </button>
+                                        <button type="button"
+                                            class="btn btn-success m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm"
+                                            onclick="window.location.href='{{ route('floor.edit', $floor->id) }}'">
+                                            Edit
+                                        </button>
+                                        <button type="button"
+                                            class="btn btn-danger m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm"
+                                            onclick="confirmDelete('{{ route('floor.delete', ['id' => $floor->id]) }}')">
+                                            Delete
+                                        </button>
+                                        <!-- Hidden form for deletion -->
+                                        <form id="delete-form"
+                                            action="{{ route('floor.delete', ['id' => $floor->id]) }}"
+                                            method="GET" style="display: none;">
+                                            @csrf
+                                            @method('DELETE')
+                                        </form>
+                                    </div>
+                                </div>
+                            @endif
+                        @endforeach
+                    </div>
+
 
                     <div class="row">
 

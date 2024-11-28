@@ -16,12 +16,11 @@
                         <h4 class="page-title float-left">Unit-{{ $unit->unit_no }}</h4>
 
                         <ol class="breadcrumb float-right">
-                            <li class="breadcrumb-item"><a href="{{ url('/index') }}">Dashboard</a></li>
-                            <li class="breadcrumb-item"><a href="{{ url('/building') }}">Buildings</a></li>
+                            <li class="breadcrumb-item"><a href="{{ route('index') }}">Dashboard</a></li>
+                            <li class="breadcrumb-item"><a href="{{ route('building') }}">Buildings</a></li>
                             <li class="breadcrumb-item"><a
-                                    href="{{ route('building.show', $unit->floor->block->building_id) }}">Building</a></li>
-                            <li class="breadcrumb-item"><a
-                                    href="{{ route('block.show', $unit->floor->block_id) }}">Block</a></li>
+                                    href="{{ route('building.show', $block->building_id) }}">Building</a></li>
+                            <li class="breadcrumb-item"><a href="{{ route('block.show', $floor->block_id) }}">Block</a></li>
                             <li class="breadcrumb-item"><a href="{{ route('floor.show', $unit->floor_id) }}">Floor</a></li>
                             <li class="breadcrumb-item active">Unit Details</li>
                         </ol>
@@ -43,11 +42,11 @@
                     <div class="profile-user-box">
                         <div class="row">
                             <div class="col-sm-6">
-                                <span class="pull-left m-r-15"><img src="{{ asset($unit->floor->block->building->image) }}"
+                                <span class="pull-left m-r-15"><img src="{{ asset($building->image) }}"
                                         alt="" class="thumb-lg rounded-circle"></span>
                                 <div class="media-body">
                                     <h4 class="m-t-7 font-18">Unit-{{ $unit->unit_no }}</h4>
-                                    <p class="text-muted font-15">{{ $unit->floor->block->building->name }} Building</p>
+                                    <p class="text-muted font-15">{{ $building->name }} Building</p>
                                 </div>
                             </div>
                             <div class="col-sm-6">
@@ -74,34 +73,43 @@
                         <div class="panel-body">
 
                             <p class="text-muted font-15"><strong>
-                                    @if ($unit->type === 'Residential Suite')
-                                        Suite ID:
-                                    @else
-                                        Unit ID:
-                                    @endif
-                                </strong> <span class="m-l-15">{{ $unit->unit_no }}</span></p>
+                                        Unit:
+                                </strong> <span class="m-l-15">Unit-{{ $unit->unit_no }} </span></p>
                             <p class="text-muted font-15"><strong>
-                                    @if ($unit->type === 'Residential Suite')
-                                        Suite Type:
-                                    @else
                                         Unit Type:
-                                    @endif
-                                </strong> <span class="m-l-15">{{ $unit->type }}</span></p>
+                                </strong> <span class="m-l-15"> {{ ucfirst($unit->type) }} Unit</span></p>
+                                <p class="text-muted font-15"><strong>
+                                    Unit Rent:
+                            </strong> <span class="m-l-15">{{ $unit->rent }}</span></p>
+                            <p class="text-muted font-15"><strong>
+                                Unit Price:
+                        </strong> <span class="m-l-15">{{ $unit->price }}</span></p>
                             <p class="text-muted font-15"><strong>Date Added:</strong> <span
                                     class="m-l-15">{{ $unit->created_at->format('d M, Y') }}</span></p>
                             <hr>
 
+                            @php
+                                $suffix =
+                                    $floor->floor_no == 1
+                                        ? 'st'
+                                        : ($floor->floor_no == 2
+                                            ? 'nd'
+                                            : ($floor->floor_no == 3
+                                                ? 'rd'
+                                                : 'th'));
+                            @endphp
+
                             <p class="text-muted font-15"><strong>Floor No:</strong> <span
-                                    class="m-l-15">{{ $unit->floor->floor_no }}</span></p>
+                                    class="m-l-15">{{ $floor->floor_no }}<sup>{{ $suffix }}</sup> floor</span></p>
                             <p class="text-muted font-15"><strong>Floor Name:</strong> <span
-                                    class="m-l-15">{{ $unit->floor->name }}</span></p>
+                                    class="m-l-15">{{ $floor->name }}</span></p>
 
                             <hr>
 
-                            <p class="text-muted font-15"><strong>Block ID:</strong> <span
-                                    class="m-l-15">{{ $unit->floor->block->block_id }}</span></p>
+                            <p class="text-muted font-15"><strong>Block No:</strong> <span
+                                    class="m-l-15">{{ $block->block_no }}</span></p>
                             <p class="text-muted font-15"><strong>Block:</strong> <span
-                                    class="m-l-15">{{ $unit->floor->block->name }}</span></p>
+                                    class="m-l-15">{{ $block->name }}</span></p>
                             <hr>
 
                             @php
@@ -113,23 +121,18 @@
                             @endphp
 
                             <p class="text-muted font-15"><strong>Building:</strong> <span
-                                    class="m-l-15">{{ $unit->floor->block->building->name }}</span></p>
-                            <p class="text-muted font-15"><strong>Building ID:</strong> <span
-                                    class="m-l-15">{{ $unit->floor->block->building->building_id }}</span></p>
+                                    class="m-l-15">{{ $building->name }}</span></p>
+                            <p class="text-muted font-15"><strong>Building No:</strong> <span
+                                    class="m-l-15">{{ $building->building_no }}</span></p>
                             <p class="text-muted font-15"><strong>Building Type:</strong> <span
-                                    class="m-l-15">{{ $typeFullForm[$unit->floor->block->building->type] ?? 'Other' }}</span>
+                                    class="m-l-15">{{ $typeFullForm[$building->type] ?? 'Other' }}</span>
                             </p>
-
-
 
                         </div>
                         <hr>
                         <h4 class="header-title mt-0 m-b-20">Landlord Information</h4>
-                        <div class="panel-body">
+                        {{-- <div class="panel-body">
 
-                            {{-- <p class="text-muted font-15"><strong>
-                                    name
-                                </strong> <span class="m-l-15">{{ $unit->unit_no }}</span></p> --}}
                             @if ($unit->landlords->isEmpty())
                                 No Landlord
                             @else
@@ -139,7 +142,7 @@
                                     <p class="text-muted font-15"><strong>Name:</strong> <span class="m-l-15">{{ $landlord->name }}</span></p>
                                     <p class="text-muted font-15"><strong>Phone:</strong> <span class="m-l-15">{{ $landlord->phone }}</span></p>
                                     <p class="text-muted font-15"><strong>Email:</strong> <span class="m-l-15">{{ $landlord->email }}</span></p>
-                                    {{-- <p class="text-muted font-15"><strong>NID:</strong> <span class="m-l-15">{{ $landlord->nid }}</span></p>
+                                    <p class="text-muted font-15"><strong>NID:</strong> <span class="m-l-15">{{ $landlord->nid }}</span></p>
                                     <p class="text-muted font-15"><strong>Tax ID:</strong> <span class="m-l-15">{{ $landlord->tax_id }}</span></p>
                                     <p class="text-muted font-15"><strong>Passport:</strong> <span class="m-l-15">{{ $landlord->passport }}</span></p>
                                     <p class="text-muted font-15"><strong>Driving License:</strong> <span class="m-l-15">{{ $landlord->driving_license }}</span></p>
@@ -149,11 +152,11 @@
                                     <p class="text-muted font-15"><strong>Occupation:</strong> <span class="m-l-15">{{ $landlord->occupation }}</span></p>
                                     <p class="text-muted font-15"><strong>Company:</strong> <span class="m-l-15">{{ $landlord->company }}</span></p>
                                     <p class="text-muted font-15"><strong>Religion:</strong> <span class="m-l-15">{{ $landlord->religion }}</span></p>
-                                    <p class="text-muted font-15"><strong>Qualification:</strong> <span class="m-l-15">{{ $landlord->qualification }}</span></p> --}}
+                                    <p class="text-muted font-15"><strong>Qualification:</strong> <span class="m-l-15">{{ $landlord->qualification }}</span></p>
                                 @endforeach
                             @endif
 
-                        </div>
+                        </div> --}}
                     </div>
                     <!-- Block-Information -->
                 </div>

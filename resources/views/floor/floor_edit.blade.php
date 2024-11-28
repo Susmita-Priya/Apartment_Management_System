@@ -219,9 +219,9 @@
             if (type === existingFloorType) {
                 if (currentFloorNo) {
                     let suffix = 'th';
-                    if (currentFloorNo === 1) suffix = 'st';
-                    else if (currentFloorNo === 2) suffix = 'nd';
-                    else if (currentFloorNo === 3) suffix = 'rd';
+                    if (currentFloorNo == 1) suffix = 'st';
+                    else if (currentFloorNo == 2) suffix = 'nd';
+                    else if (currentFloorNo == 3) suffix = 'rd';
                     floorNoSelect.innerHTML += `<option value="${currentFloorNo}" selected>${currentFloorNo}<sup>${suffix}</sup> </option>`;
                 }
             } else {

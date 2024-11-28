@@ -36,7 +36,7 @@
                                 </h1>
                             </div>
                         </div>
-                        <form action="{{ route('stall_locker.update', $stallLocker->id) }}" enctype="multipart/form-data"
+                        <form action="{{ route('stall.update', $stallLocker->id) }}" enctype="multipart/form-data"
                             method="POST">
                             @csrf
 

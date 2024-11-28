@@ -29,7 +29,10 @@ class BuildingController extends Controller
         // return view('building.building_list', $data);
 
 
-        $buildings = Building::where('company_id', Auth::user()->id)->latest()->get();
+        $buildings = Building::where('company_id', Auth::user()->id)
+            ->where('status', 1)
+            ->latest()
+            ->get();
         return view('building.building_list', compact('buildings'));
     }
 

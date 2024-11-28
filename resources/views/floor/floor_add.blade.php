@@ -247,9 +247,9 @@
             for (let i = 1; i <= floorCount; i++) {
                 if (!existingFloors.includes(i.toString())) { // Ensure string-based comparison
                 let suffix = 'th';
-                if (i === 1) suffix = 'st';
-                else if (i === 2) suffix = 'nd';
-                else if (i === 3) suffix = 'rd';
+                if (i == 1) suffix = 'st';
+                else if (i == 2) suffix = 'nd';
+                else if (i == 3) suffix = 'rd';
                 floorNoSelect.innerHTML += `<option value="${i}">${i}<sup>${suffix}</sup></option>`;
                 }
             }

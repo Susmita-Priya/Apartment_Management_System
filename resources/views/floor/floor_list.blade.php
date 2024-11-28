@@ -82,54 +82,62 @@
 
 
     <script>
-        document.getElementById('building-select').addEventListener('change', function () {
-    const buildingId = this.value;
-    const blockSelect = document.getElementById('block-select');
-    const tableBody = document.getElementById('floors-table-body');
+        document.getElementById('building-select').addEventListener('change', function() {
+            const buildingId = this.value;
+            const blockSelect = document.getElementById('block-select');
+            const tableBody = document.getElementById('floors-table-body');
 
-    if (buildingId) {
-        fetch(`/blocks/${buildingId}`)
-            .then(response => response.json())
-            .then(blocks => {
-                if (blocks.length > 0) {
-                    blocks.forEach(block => {
-                        const option = document.createElement('option');
-                        option.value = block.id;
-                        option.textContent = `${block.name} (${block.block_no})`;
-                        blockSelect.appendChild(option);
-                    });
-                } else {
-                    alert('No blocks found for the selected building.');
-                }
-            })
-            .catch(error => console.error('Error fetching blocks:', error));
-    }
-});
+            blockSelect.innerHTML = '<option value="">Select a Block</option>';
+            tableBody.innerHTML = '';
 
-document.getElementById('block-select').addEventListener('change', function () {
-    const blockId = document.getElementById('block-select').value;
-    const tableBody = document.getElementById('floors-table-body');
-  
-    tableBody.innerHTML = '';
+            if (buildingId) {
+                fetch(`/blocks/${buildingId}`)
+                    .then(response => response.json())
+                    .then(blocks => {
+                        if (blocks.length > 0) {
+                            blocks.forEach(block => {
+                                const option = document.createElement('option');
+                                option.value = block.id;
+                                option.textContent = `${block.name} (${block.block_no})`;
+                                blockSelect.appendChild(option);
+                            });
+                        } else {
+                            swal("Oops...", "No blocks found for the selected building.", 'error', {
+                                button: true,
+                                button: "OK",
+                            })
 
-    if (blockId) {
-        fetch(`/blocks/${blockId}/floors`)
-            .then(response => response.json())
-            .then(data => {
-                const floors = data.floors;
-                const block = data.block;
+                            alert('No blocks found for the selected building.');
+                        }
+                    })
+                    .catch(error => console.error('Error fetching blocks:', error));
+            }
+        });
 
-                if (floors.length > 0) {
-                    floors.forEach(floor => {
-                        const row = document.createElement('tr');
+        document.getElementById('block-select').addEventListener('change', function() {
+            const blockId = this.value;
+            const tableBody = document.getElementById('floors-table-body');
 
-                        let suffix = 'th';
-                        console.log(floor.floor_no);
-                        if (floor.floor_no === 1) suffix = 'st';
-                        else if (floor.floor_no === 2) suffix = 'nd';
-                        else if (floor.floor_no === 3) suffix = 'rd';
+            tableBody.innerHTML = '';
 
-                        row.innerHTML = `
+            if (blockId) {
+                fetch(`/blocks/${blockId}/floors`)
+                    .then(response => response.json())
+                    .then(data => {
+                        const floors = data.floors;
+                        const block = data.block;
+
+                        if (floors.length > 0) {
+                            floors.forEach(floor => {
+
+                                let suffix =
+                                    floor.floor_no == 1 ? 'st' :
+                                    (floor.floor_no == 2 ? 'nd' :
+                                        (floor.floor_no == 3 ? 'rd' : 'th'));
+
+                                const row = document.createElement('tr');
+
+                                row.innerHTML = `
                             <td>${floor.floor_no}<sup>${suffix}</sup> floor</td>
                             <td>${floor.type}</td>
                             <td>${floor.name}</td>
@@ -158,17 +166,18 @@ document.getElementById('block-select').addEventListener('change', function () {
                                 </div>
                             </td>
                         `;
-                        tableBody.appendChild(row);
-                    });
-                } else {
-                    tableBody.innerHTML = '<tr><td colspan="5" class="text-center">No floors found for the selected block.</td></tr>';
-                }
-            })
-            .catch(error => console.error('Error fetching floors:', error));
-    } else {
-        tableBody.innerHTML = '<tr><td colspan="5" class="text-center">Select a block to view floors.</td></tr>';
-    }
-});
-
-        </script>
+                                tableBody.appendChild(row);
+                            });
+                        } else {
+                            tableBody.innerHTML =
+                                '<tr><td colspan="5" class="text-center">No floors found for the selected block.</td></tr>';
+                        }
+                    })
+                    .catch(error => console.error('Error fetching floors:', error));
+            } else {
+                tableBody.innerHTML =
+                    '<tr><td colspan="5" class="text-center">Select a block to view floors.</td></tr>';
+            }
+        });
+    </script>
 @endsection

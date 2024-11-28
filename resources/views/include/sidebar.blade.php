@@ -99,7 +99,7 @@
                                         </a>
                                         <ul class="nav-third-level" aria-expanded="false">
                                             @can('stall-create')
-                                                <li><a href="{{ route('stall_locker.create') }}">New Stall</a></li>
+                                                <li><a href="{{ route('stall.create') }}">New Stall</a></li>
                                             @endcan
                                             @can('vehicle-create')
                                                 <li><a href="{{ route('vehicle.create') }}">New Vehicle</a></li>

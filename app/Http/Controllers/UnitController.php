@@ -9,6 +9,7 @@ use App\Models\Landlord;
 use App\Models\Unit;
 use App\Models\Unit_landlord;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UnitController extends Controller
 {
@@ -17,10 +18,10 @@ class UnitController extends Controller
      */
     public function index()
     {
-        // Fetch units with their related floor, block, and building details
-        $units = Unit::with(['floor.block', 'floor.block.building', 'landlords'])->get();
+        // Fetch all blocks with their associated buildings
+        $buildings = Building::where('company_id', Auth::user()->id)->where('status',1)->latest()->get();
 
-        return view('unit.unit_list', compact('units'));
+        return view('unit.unit_list', compact('buildings'));
     }
     //l
 
@@ -29,28 +30,16 @@ class UnitController extends Controller
      */
     public function create(Request $request)
     {
-        // Fetch all buildings
-        $buildings = Building::all();
-        // Fetch all blocks and their related buildings
-        $blocks = Block::with('building')->get();
+        // Fetch all buildings, blocks, and floors
+        $buildings = Building::where('status',1)->get();
+        $blocks = Block::all();
+        $floors = Floor::where('type', 'upper')->get();
 
-        $floors = Floor::with('block')->get();
-
+        // Fetch the floor using the provided floor_id
         $floorId = $request->query('floor_id');
-
-        // Initialize $block and $building to null
-        $block = null;
-        $building = null;
-        $floor = null;
-
-        // If a floorId is provided and valid, fetch the Block and related Building
-        if ($floorId) {
-            $floor = Floor::find($floorId);
-            if ($floor) {
-                $block = $floor->block;
-                $building = $floor->block->building;
-            }
-        }
+        $floor = Floor::find($floorId);
+        $block = Block::find($floor->block_id ?? null);
+        $building = Building::find($block->building_id ?? null);
 
         // Define type full form array
         $typeFullForm = [
@@ -71,11 +60,12 @@ class UnitController extends Controller
     {
         // Validate the request
         $request->validate([
-            'floor_id' => 'required|exists:floors,id',
             'unit_no' => 'required',
+            'type' => 'required',
         ]);
 
-        $floorId = $request->input('floor_id'); // Change from query to input
+        $floorId = $request->input('floor_id'); 
+
         // Fetch the floor using the provided floor_id
         $floor = Floor::find($request->floor_id);
 
@@ -94,11 +84,12 @@ class UnitController extends Controller
 
         // Create a new unit with the generated unit_id
         $unit = new Unit();
+        $unit->company_id = Auth::user()->id;
         $unit->floor_id = $floorId;
         $unit->unit_no = $request->unit_no;
+        $unit->type = $request->type;
         $unit->rent = $request->rent;
-        $unit->type = $request['type'];
-        // Add other fields as needed
+        $unit->price = $request->price;
         $unit->save();
 
         // return redirect()->route('floor.show', $request->floor_id)->with('success', 'Unit added successfully.');
@@ -110,14 +101,11 @@ class UnitController extends Controller
      */
     public function show(string $id)
     {
-        // Retrieve the unit along with its related data
-        $unit = Unit::with(['floor.block.building', 'resRoom.extraRooms','landlords'])->findOrFail($id);
-
-        // Check if the related data is available
-        $floor = $unit->floor;
-        $block = $floor ? $floor->block : null;
-        $building = $block ? $block->building : null;
-        // Return the view with data
+        $unit = Unit::findOrFail($id);
+        $floor = Floor::findOrFail($unit->floor_id);
+        $block = Block::findOrFail($floor->block_id);
+        $building = Building::findOrFail($block->building_id);
+     
         return view('unit.unit_view', compact('unit', 'floor', 'block', 'building'));
     }
 
@@ -127,29 +115,22 @@ class UnitController extends Controller
     public function edit(string $id, Request $request)
     {
 
-        // Initialize $block and $building to null
-        $block = null;
-        $building = null;
-        $floor = null;
+        // Fetch all buildings, blocks, and floors
+        $buildings = Building::where('status',1)->get();
+        $blocks = Block::all();
+        $floors = Floor::where('type', 'upper')->get();
 
+        // Fetch the floor using the provided floor_id
         $unit = Unit::findOrFail($id);
-        $floor = $unit->floor;
-        $block = $floor->block;
-        $building = $block->building;
+        $floor = Floor::find($unit->floor_id ?? null);
+        $block = Block::find($floor->block_id ?? null);
+        $building = Building::find($block->building_id ?? null);
 
-        // Fetch all buildings
-        $buildings = Building::all();
-        // Fetch all blocks and their related buildings
-        $blocks = Block::with('building')->get();
-
-        $floors = Floor::with('block')->get();
-
-        // Define type full form array
         $typeFullForm = [
             'RESB' => 'Residential Building',
             'COMB' => 'Commercial Building',
             'RECB' => 'Residential-Commercial Building',
-            // Add other types if needed
+            
         ];
 
         // Pass all variables to the view

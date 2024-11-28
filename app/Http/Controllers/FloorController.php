@@ -13,39 +13,16 @@ class FloorController extends Controller
 {
     public function index()
     {
-        $buildings = Building::where('company_id', Auth::user()->id)->get();
+        $buildings = Building::where('company_id', Auth::user()->id)->where('status',1)->latest()->get();
         return view('floor.floor_list', compact('buildings'));
-    }
-
-    public function getFloorsNo($blockId, Request $request)
-    {
-        // Validate type input to ensure it's either 'upper' or 'underground'
-        $type = $request->query('type');
-        if (!in_array($type, ['upper', 'underground'])) {
-            return response()->json(['error' => 'Invalid type provided'], 400);
-        }
-    
-        // Fetch floors based on block_id and type
-        $floors = Floor::where('block_id', $blockId)
-            ->where('type', $type) // Assuming the type column exists in the Floor model
-            ->pluck('floor_no');
-    
-        return response()->json(['existingFloors' => $floors]);
-    }
-
-    public function getFloors($id)
-    {
-        $floors = Floor::where('block_id', $id)->get();
-        $block = Block::find($id);
-        return response()->json(['floors' => $floors, 'block' => $block]);
     }
 
     public function create(Request $request)
     {
         // Fetch all blocks and buildings
+        $buildings = Building::where('status',1)->get();
         $blocks = Block::all();
-        $buildings = Building::all();
-    
+        
         $blockId = $request->input('block_id');
         $block = Block::find($blockId);
         $building = Building::find($block->building_id ?? null);
@@ -75,7 +52,7 @@ class FloorController extends Controller
         ]);
 
         // Create a new Floor entry
-        $floor = new Floor;
+        $floor = new Floor; 
         $floor->company_id = Auth::user()->id;
         $floor->block_id = $request->input('block_id');
         $floor->floor_no = $request->input('floor_no');

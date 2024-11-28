@@ -67,18 +67,16 @@
                     <div class="card-box">
                         <h4 class="header-title mt-0 m-b-20">Floor Information</h4>
                         <div class="panel-body">
+
                             @php
-                                $suffix = '';
-                                if ($floor->floor_no === 1) {
-                                    $suffix = 'st';
-                                } elseif ($floor->floor_no === 2) {
-                                    $suffix = 'nd';
-                                } elseif ($floor->floor_no === 3) {
-                                    $suffix = 'rd';
-                                }
-                                else{
-                                    $suffix = 'th';
-                                }
+                                $suffix =
+                                    $floor->floor_no == 1
+                                        ? 'st'
+                                        : ($floor->floor_no == 2
+                                            ? 'nd'
+                                            : ($floor->floor_no == 3
+                                                ? 'rd'
+                                                : 'th'));
                             @endphp
 
                             <p class="text-muted font-15"><strong>Floor No:</strong> <span
@@ -138,37 +136,16 @@
                         <div class="col-sm-12">
                             <div class="text-right m-b-20">
 
-                                @if ($floor->parking_lot)
+                                @if ($floor->type === 'underground')
                                     <button type="button" class="btn waves-effect waves-light greenbtn"
                                         style="position: absolute; "
-                                        onclick="window.location.href='{{ route('stall_locker.create', ['floor_id' => $floor->id]) }}'">
+                                        onclick="window.location.href='{{ route('stall.create', ['floor_id' => $floor->id]) }}'">
                                         <i class="mdi mdi-plus m-r-5"></i> Add Stall
-                                    @elseif($floor->storage_lot)
-                                        <button type="button" class="btn waves-effect waves-light greenbtn"
-                                            style="position: absolute; "
-                                            onclick="window.location.href='{{ route('stall_locker.create', ['floor_id' => $floor->id]) }}'">
-                                            <i class="mdi mdi-plus m-r-5"></i> Add Locker
-                                        @elseif($floor->parking_lot || $floor->storage_lot)
-                                            <button type="button" class="btn waves-effect waves-light greenbtn"
-                                                style="position: absolute; "
-                                                onclick="window.location.href='{{ route('stall_locker.create', ['floor_id' => $floor->id]) }}'">
-                                                <i class="mdi mdi-plus m-r-5"></i> Add Stall / Locker
-                                            @elseif($building->type === 'RESB')
-                                                <button type="button" class="btn waves-effect waves-light greenbtn"
-                                                    style="position: absolute; "
-                                                    onclick="window.location.href='{{ route('unit.create', ['floor_id' => $floor->id]) }}'">
-                                                    <i class="mdi mdi-plus m-r-5"></i> Add Suite
-                                                @elseif($building->type === 'COMB')
-                                                    <button type="button" class="btn waves-effect waves-light greenbtn"
-                                                        style="position: absolute; "
-                                                        onclick="window.location.href='{{ route('unit.create', ['floor_id' => $floor->id]) }}'">
-                                                        <i class="mdi mdi-plus m-r-5"></i> Add Unit
-                                                    @elseif($building->type === 'RECB')
-                                                        <button type="button"
-                                                            class="btn waves-effect waves-light greenbtn"
-                                                            style="position: absolute; "
-                                                            onclick="window.location.href='{{ route('unit.create', ['floor_id' => $floor->id]) }}'">
-                                                            <i class="mdi mdi-plus m-r-5"></i> Add Suite / Unit
+                                @elseif($floor->type === 'upper')
+                                    <button type="button" class="btn waves-effect waves-light greenbtn"
+                                        style="position: absolute; "
+                                        onclick="window.location.href='{{ route('unit.create', ['floor_id' => $floor->id]) }}'">
+                                        <i class="mdi mdi-plus m-r-5"></i> Add Unit
                                 @endif
 
                                 </button>

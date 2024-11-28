@@ -12,6 +12,7 @@ use App\Http\Controllers\BuildingController;
 use App\Http\Controllers\ComareaController;
 use App\Http\Controllers\ComroomController;
 use App\Http\Controllers\FloorController;
+use App\Http\Controllers\GetController;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\LandlordController;
 use App\Http\Controllers\LeaseRequestController;
@@ -97,14 +98,16 @@ Route::middleware('auth')->group(callback: function () {
 
 
         // get blocks by building id
-        Route::get('/blocks/{id}', [BlockController::class, 'getBlocks'])->name('blocks.get');
+        Route::get('/blocks/{id}', [GetController::class, 'getBlocks'])->name('blocks.get');
 
         // get registered floors no by block id
-        Route::get('/blocks/{blockId}/floorsno', [FloorController::class, 'getFloorsNo']);
+        Route::get('/blocks/{blockId}/floorsno', [GetController::class, 'getFloorsNo']);
         
         //get floors by block id
-        Route::get('/blocks/{blockId}/floors', [FloorController::class, 'getFloors']);
+        Route::get('/blocks/{blockId}/floors', [GetController::class, 'getFloors']);
 
+        //get units by floor id
+        Route::get('/floors/{floorId}/units', [GetController::class, 'getUnits']);
 
 
 
@@ -291,19 +294,19 @@ Route::middleware('auth')->group(callback: function () {
 
 
 
-        Route::get('stall_locker/index', [StallLockerController::class, 'index'])->name("stall_locker.index");
+        Route::get('stall/index', [StallLockerController::class, 'index'])->name("stall.index");
 
-        Route::get('stall_locker/create', [StallLockerController::class, 'create'])->name("stall_locker.create");
+        Route::get('stall/create', [StallLockerController::class, 'create'])->name("stall.create");
 
-        Route::post('stall_locker/create', [StallLockerController::class, 'store'])->name("stall_locker.store");
+        Route::post('stall/create', [StallLockerController::class, 'store'])->name("stall.store");
 
-        Route::get('stall_locker/show/{id}', [StallLockerController::class, 'show'])->name("stall_locker.show");
+        Route::get('stall/show/{id}', [StallLockerController::class, 'show'])->name("stall.show");
 
-        Route::get('stall_locker/edit/{id}', [StallLockerController::class, 'edit'])->name("stall_locker.edit");
+        Route::get('stall/edit/{id}', [StallLockerController::class, 'edit'])->name("stall.edit");
 
-        Route::post('stall_locker/edit/{id}', [StallLockerController::class, 'update'])->name("stall_locker.update");
+        Route::post('stall/edit/{id}', [StallLockerController::class, 'update'])->name("stall.update");
 
-        Route::get('stall_locker/delete/{id}', [StallLockerController::class, 'destroy'])->name("stall_locker.delete");
+        Route::get('stall/delete/{id}', [StallLockerController::class, 'destroy'])->name("stall.delete");
 
 
 
