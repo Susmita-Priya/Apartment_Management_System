@@ -30,6 +30,21 @@
                             </a>
                             <ul class="nav-second-level">
 
+                                @can('asset-management')
+                                <li>
+                                    <a href="javascript: void(0);">
+                                        <i class="fa fa-plus"></i>
+                                        <span> Asset</span>
+                                        <span class="menu-arrow"></span>
+                                    </a>
+                                    @can('asset-create')
+                                        <ul class="nav-third-level" aria-expanded="false">
+                                            <li><a href="{{ route('asset.create') }}">New Asset</a></li>
+                                        </ul>
+                                    @endcan
+                                </li>
+                                @endcan
+
                                 @can('property-management')
                                     <li>
                                         <a href="javascript: void(0);">
@@ -115,96 +130,113 @@
                         </li>
                     @endcan
 
-
-                        <!-- Tenants -->
-                        @can('tenant-management')
-                            <li>
-                                <a href="javascript: void(0);"><i class="fa fa-user"></i> <span> Tenants </span> <span
-                                        class="menu-arrow"></span></a>
-                                <ul class="nav-second-level " aria-expanded="false">
-                                    @can('tenant-list')
-                                        <li><a href="{{ route('tenants.index') }}">Tenants List</a></li>
-                                    @endcan
-                                </ul>
-                            </li>
-                        @endcan
-
-
-                        <!-- Landlords -->
-                        @can('landlord-management')
-                            <li>
-                                <a href="javascript: void(0);"><i class="fa fa-user"></i> <span> Landlords </span> <span
-                                        class="menu-arrow"></span></a>
-                                <ul class="nav-second-level " aria-expanded="false">
-                                    @can('landlord-list')
-                                        <li><a href="{{ route('landlord.index') }}">Landlords List</a></li>
-                                    @endcan
-                                </ul>
-                            </li>
-                        @endcan
-
-                        <!-- Property -->
-                        @can('property-management')
-                            <li>
-                                <a href="javascript: void(0);"><i class="fa fa-home"></i> <span> Property </span> <span
-                                        class="menu-arrow"></span></a>
-                                <ul class="nav-second-level " aria-expanded="false">
-                                    @can('building-list')
-                                        <li><a href="{{ route('building') }}">View Buildings</a></li>
-                                    @endcan
-                                    @can('block-list')
-                                        <li><a href="{{ route('block.index') }}">View blocks</a></li>
-                                    @endcan
-                                    @can('floor-list')
-                                        <li><a href="{{ route('floor.index') }}">View floors</a></li>
-                                    @endcan
-                                    @can('common-area-list')
-                                        <li><a href="{{ route('comarea.index') }}">View Common Areas</a></li>
-                                    @endcan
-                                    @can('unit-list')
-                                        <li><a href="{{ route('unit.index') }}">View units</a></li>
-                                    @endcan
-                                </ul>
-                            </li>
-                        @endif
-
-                        <!-- lease -->
-
+                    <!-- Asset -->
+                    @can('asset-management')
                         <li>
-                            <a href="javascript: void(0);"><i class="fa fa-user"></i> <span> Leases </span> <span
+                            <a href="javascript: void(0);"><i class="fa fa-cube"></i> <span> Asset </span> <span
                                     class="menu-arrow"></span></a>
                             <ul class="nav-second-level " aria-expanded="false">
-
-                                <li><a href="{{ route('lease.index') }}">Leases Request</a></li>
-
-                                <li><a href="{{ route('lease.agreement') }}">Agreement</a></li>
-
-
+                                @can('asset-list')
+                                    <li><a href="{{ route('asset.index') }}">Asset List</a></li>
+                                @endcan
                             </ul>
                         </li>
+                    @endcan
 
 
-                        @can('parking-management')
-                            <li>
-                                <a href="javascript: void(0);"><i class="fa fa-car"></i> <span>Parking Management</span>
-                                    <span class="menu-arrow"></span></a>
-                                <ul class="nav-second-level " aria-expanded="false">
-                                    @can('vehicle-list')
-                                        <li><a href="{{ route('vehicle.index') }}">Vehicles</a></li>
-                                    @endcan
-                                    @can('parker-list')
-                                        <li><a href="{{ route('parker.index') }}">Parkers</a></li>
-                                    @endcan
-                                    @can('stall-list')
-                                        <li><a href="{{ route('parking.list') }}">Stall List</a></li>
-                                    @endcan
-                                </ul>
-                            </li>
+                    <!-- Property -->
+                    @can('property-management')
+                        <li>
+                            <a href="javascript: void(0);"><i class="fa fa-home"></i> <span> Property </span> <span
+                                    class="menu-arrow"></span></a>
+                            <ul class="nav-second-level " aria-expanded="false">
+                                @can('building-list')
+                                    <li><a href="{{ route('building') }}">View Buildings</a></li>
+                                @endcan
+                                @can('block-list')
+                                    <li><a href="{{ route('block.index') }}">View blocks</a></li>
+                                @endcan
+                                @can('floor-list')
+                                    <li><a href="{{ route('floor.index') }}">View floors</a></li>
+                                @endcan
+                                @can('common-area-list')
+                                    <li><a href="{{ route('comarea.index') }}">View Common Areas</a></li>
+                                @endcan
+                                @can('unit-list')
+                                    <li><a href="{{ route('unit.index') }}">View units</a></li>
+                                @endcan
+                            </ul>
+                        </li>
+                    @endif
 
-                        @endcan
 
-                        <!-- Leases / Tenancy -->
-                        {{-- @if (App\Models\Permission::hasPermission('view_lease', $role_id))
+
+
+                    <!-- Tenants -->
+                    @can('tenant-management')
+                        <li>
+                            <a href="javascript: void(0);"><i class="fa fa-user"></i> <span> Tenants </span> <span
+                                    class="menu-arrow"></span></a>
+                            <ul class="nav-second-level " aria-expanded="false">
+                                @can('tenant-list')
+                                    <li><a href="{{ route('tenants.index') }}">Tenants List</a></li>
+                                @endcan
+                            </ul>
+                        </li>
+                    @endcan
+
+
+                    <!-- Landlords -->
+                    @can('landlord-management')
+                        <li>
+                            <a href="javascript: void(0);"><i class="fa fa-user"></i> <span> Landlords </span> <span
+                                    class="menu-arrow"></span></a>
+                            <ul class="nav-second-level " aria-expanded="false">
+                                @can('landlord-list')
+                                    <li><a href="{{ route('landlord.index') }}">Landlords List</a></li>
+                                @endcan
+                            </ul>
+                        </li>
+                    @endcan
+
+
+
+                    <!-- lease -->
+
+                    <li>
+                        <a href="javascript: void(0);"><i class="fa fa-user"></i> <span> Leases </span> <span
+                                class="menu-arrow"></span></a>
+                        <ul class="nav-second-level " aria-expanded="false">
+
+                            <li><a href="{{ route('lease.index') }}">Leases Request</a></li>
+
+                            <li><a href="{{ route('lease.agreement') }}">Agreement</a></li>
+
+
+                        </ul>
+                    </li>
+
+
+                    @can('parking-management')
+                        <li>
+                            <a href="javascript: void(0);"><i class="fa fa-car"></i> <span>Parking Management</span>
+                                <span class="menu-arrow"></span></a>
+                            <ul class="nav-second-level " aria-expanded="false">
+                                @can('vehicle-list')
+                                    <li><a href="{{ route('vehicle.index') }}">Vehicles</a></li>
+                                @endcan
+                                @can('parker-list')
+                                    <li><a href="{{ route('parker.index') }}">Parkers</a></li>
+                                @endcan
+                                @can('stall-list')
+                                    <li><a href="{{ route('parking.list') }}">Stall List</a></li>
+                                @endcan
+                            </ul>
+                        </li>
+                    @endcan
+
+                    <!-- Leases / Tenancy -->
+                    {{-- @if (App\Models\Permission::hasPermission('view_lease', $role_id))
                         <li>
                             <a href="javascript: void(0);"><i class="fa fa-home"></i> <span> Leases / Tenancy </span>
                                 <span class="menu-arrow"></span></a>
@@ -219,49 +251,49 @@
 
 
 
-                        <!------------------ bank management -------------------->
-                        <li>
-                            <a href="javascript: void(0);"><i class="fa fa-money"></i> <span> Bank Management </span>
-                                <span class="menu-arrow"></span></a>
-                            <ul class="nav-second-level " aria-expanded="false">
-                                <li><a href="{{ route('bank_transaction_type.index') }}">Bank Transaction Type</a></li>
-                                <li><a href="{{ route('bank_transaction.index') }}">Bank Transaction</a></li>
-                                <li><a href="{{ route('bank_transaction_report') }}">Bank Transaction Report</a></li>
-                            </ul>
-                        </li>
+                    <!------------------ bank management -------------------->
+                    <li>
+                        <a href="javascript: void(0);"><i class="fa fa-money"></i> <span> Bank Management </span>
+                            <span class="menu-arrow"></span></a>
+                        <ul class="nav-second-level " aria-expanded="false">
+                            <li><a href="{{ route('bank_transaction_type.index') }}">Bank Transaction Type</a></li>
+                            <li><a href="{{ route('bank_transaction.index') }}">Bank Transaction</a></li>
+                            <li><a href="{{ route('bank_transaction_report') }}">Bank Transaction Report</a></li>
+                        </ul>
+                    </li>
 
 
-                        <!------------------ Payroll Management -------------------->
-                        <li>
-                            <a href="javascript: void(0);"><i class="fa fa-money"></i> <span> Payroll Management </span>
-                                <span class="menu-arrow"></span></a>
-                            <ul class="nav-second-level " aria-expanded="false">
-                                <li><a href="{{ route('department.index') }}">Department</a></li>
-                                <li><a href="{{ route('designaiton.index') }}">Designaiton</a></li>
-                                <li><a href="{{ route('employee_type.index') }}">Employee Type</a></li>
-                                <li><a href="{{ route('job_location.index') }}">Job Location</a></li>
-                                <li><a href="{{ route('employee.index') }}">Employee</a></li>
-                                <li><a href="{{ route('salary_head.index') }}" class="text-capitalize">salary head</a></li>
-                                <li><a href="{{ route('payroll.generate') }}" class="text-capitalize">generate payroll</a>
-                                </li>
-                                <li><a href="{{ route('payroll.index') }}" class="text-capitalize">payroll list</a></li>
-                            </ul>
-                        </li>
+                    <!------------------ Payroll Management -------------------->
+                    <li>
+                        <a href="javascript: void(0);"><i class="fa fa-money"></i> <span> Payroll Management </span>
+                            <span class="menu-arrow"></span></a>
+                        <ul class="nav-second-level " aria-expanded="false">
+                            <li><a href="{{ route('department.index') }}">Department</a></li>
+                            <li><a href="{{ route('designaiton.index') }}">Designaiton</a></li>
+                            <li><a href="{{ route('employee_type.index') }}">Employee Type</a></li>
+                            <li><a href="{{ route('job_location.index') }}">Job Location</a></li>
+                            <li><a href="{{ route('employee.index') }}">Employee</a></li>
+                            <li><a href="{{ route('salary_head.index') }}" class="text-capitalize">salary head</a></li>
+                            <li><a href="{{ route('payroll.generate') }}" class="text-capitalize">generate payroll</a>
+                            </li>
+                            <li><a href="{{ route('payroll.index') }}" class="text-capitalize">payroll list</a></li>
+                        </ul>
+                    </li>
 
-                        <!------------------ accounts Management -------------------->
-                        <li>
-                            <a href="javascript: void(0);"><i class="fa fa-book"></i> <span> Accounts </span> <span
-                                    class="menu-arrow"></span></a>
-                            <ul class="nav-second-level " aria-expanded="false">
-                                <li><a href="{{ route('account.index') }}">Account List</a></li>
-                                <li><a href="{{ route('account-group.index') }}">Account Group List</a></li>
-                                <li><a href="{{ route('journal-entry.index') }}">Journal Entries</a></li>
-                                <li><a href="{{ route('general-ledger-report') }}">General Ledger</a></li>
-                                <li><a href="{{ route('balance_sheet') }}">Balance Sheet</a></li>
-                            </ul>
-                        </li>
+                    <!------------------ accounts Management -------------------->
+                    <li>
+                        <a href="javascript: void(0);"><i class="fa fa-book"></i> <span> Accounts </span> <span
+                                class="menu-arrow"></span></a>
+                        <ul class="nav-second-level " aria-expanded="false">
+                            <li><a href="{{ route('account.index') }}">Account List</a></li>
+                            <li><a href="{{ route('account-group.index') }}">Account Group List</a></li>
+                            <li><a href="{{ route('journal-entry.index') }}">Journal Entries</a></li>
+                            <li><a href="{{ route('general-ledger-report') }}">General Ledger</a></li>
+                            <li><a href="{{ route('balance_sheet') }}">Balance Sheet</a></li>
+                        </ul>
+                    </li>
 
-                        {{-- 
+                    {{-- 
                         <!------------------ SAAS Management -------------------->
                         <li>
                             <a href="javascript: void(0);"><i class="fa fa-book"></i> <span> SAAS Management </span> <span
@@ -275,31 +307,31 @@
                         </li> --}}
 
 
-                        <!-- Access Management -->
-                        @can('access-control')
-                            <li>
-                                <a href="javascript: void(0);"><i class="mdi mdi-lock-open"></i> <span> Access </span>
-                                    <span class="menu-arrow"></span></a>
-                                <ul class="nav-second-level " aria-expanded="false">
-                                    @can('user-list')
-                                        <li><a href="{{ route('users.index') }}">User Management</a></li>
-                                    @endcan
-                                    @can('role-list')
-                                        <li><a href="{{ route('roles.index') }}">Role Management</a></li>
-                                    @endcan
-                                </ul>
-                            </li>
+                    <!-- Access Management -->
+                    @can('access-control')
+                        <li>
+                            <a href="javascript: void(0);"><i class="mdi mdi-lock-open"></i> <span> Access </span>
+                                <span class="menu-arrow"></span></a>
+                            <ul class="nav-second-level " aria-expanded="false">
+                                @can('user-list')
+                                    <li><a href="{{ route('users.index') }}">User Management</a></li>
+                                @endcan
+                                @can('role-list')
+                                    <li><a href="{{ route('roles.index') }}">Role Management</a></li>
+                                @endcan
+                            </ul>
+                        </li>
 
-                        @endcan
-                @endif
-            </ul>
-                 
+                    @endcan
+                    @endif
+                </ul>
+
+            </div>
+            <!-- Sidebar -->
+            <div class="clearfix"></div>
+
         </div>
-                <!-- Sidebar -->
-        <div class="clearfix"></div>
+        <!-- Sidebar -left -->
 
     </div>
-            <!-- Sidebar -left -->
-
-</div>
-        <!-- Left Sidebar End -->
+    <!-- Left Sidebar End -->

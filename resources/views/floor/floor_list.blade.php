@@ -29,6 +29,8 @@
                     <div class="card-box">
                         <h4 class="header-title m-b-15 m-t-0">Floors List</h4>
                         <div class="row">
+
+                            @can('floor-create')
                             <div class="col-sm-12">
                                 <div class="text-right m-b-20">
                                     <button type="button" class="btn waves-effect waves-light greenbtn"
@@ -37,6 +39,7 @@
                                     </button>
                                 </div>
                             </div>
+                            @endcan
                             <!-- Building Selection -->
                             <div class="form-group col-md-12">
                                 <label for="building_id" class="col-form-label">Select Building</label>
@@ -149,12 +152,17 @@
                                         <i class="mdi mdi-dots-horizontal"></i>
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                                        @can('floor-view')
                                         <a class="dropdown-item" href="show/${floor.id}">
                                             <i class="mdi mdi-eye m-r-10 font-18 text-muted vertical-middle"></i>View Details
                                         </a>
+                                        @endcan
+                                        @can('floor-edit')
                                         <a class="dropdown-item" href="edit/${floor.id}">
                                             <i class="mdi mdi-pencil m-r-10 text-muted font-18 vertical-middle"></i>Edit Floor
                                         </a>
+                                        @endcan
+                                        @can('floor-delete')
                                         <a class="dropdown-item" href="#" onclick="confirmDelete('delete/${floor.id}')">
                                             <i class="mdi mdi-delete m-r-10 text-muted font-18 vertical-middle"></i>Delete
                                         </a>
@@ -162,6 +170,7 @@
                                             @csrf
                                             @method('DELETE')
                                         </form>
+                                        @endcan
                                     </div>
                                 </div>
                             </td>

@@ -44,6 +44,8 @@
                                     <p class="text-muted font-15">{{ $building->name }} Building</p>
                                 </div>
                             </div>
+
+                            @can('block-edit')
                             <div class="col-sm-6">
                                 <div class="text-right">
                                     <button type="button" class="btn waves-effect waves-light greenbtn"
@@ -53,6 +55,8 @@
                                     </button>
                                 </div>
                             </div>
+                            @endcan
+
                         </div>
                     </div>
                     <!--/ meta -->
@@ -92,11 +96,6 @@
                             <p class="text-muted font-15"><strong>Date Added:</strong> <span
                                     class="m-l-15">{{ $block->created_at->format('d M, Y') }}</span></p>
 
-                            {{-- <p class="text-muted font-13"><strong>Block Image :</strong>
-                            <span class="m-l-15"><img src="{{ asset($block->image) }}" style="width:27%; height:27%"
-                        alt="image can't found"></span>
-                        </p> --}}
-
                         </div>
                     </div>
                     <!-- Block-Information -->
@@ -105,7 +104,7 @@
                 <div class="col-md-8">
                     <div class="row">
                         <div class="col-sm-12">
-                            <div class="text-right m-b-20">
+                            <div class="text-right">
                                 <div class="btn-group">
                                     <button type="button" class="btn waves-effect waves-light dropdown-toggle greenbtn"
                                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -113,15 +112,19 @@
                                     </button>
 
                                     <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                                        @can('floor-create')
                                         <a class="dropdown-item"
                                             href="{{ route('floor.create', ['block_id' => $block->id]) }}">
                                             <i class="mdi mdi-plus m-r-10 text-muted font-18 vertical-middle"></i> Add Floor
                                         </a>
+                                        @endcan
+                                        @can('common-area-create')
                                         <a class="dropdown-item"
                                             href="{{ route('comarea.create', ['block_id' => $block->id]) }}">
                                             <i class="mdi mdi-plus m-r-10 text-muted font-18 vertical-middle"></i> Add
                                             Common Area
                                         </a>
+                                        @endcan
                                     </div>
                                 </div>
                             </div>
@@ -130,8 +133,6 @@
                     <!-- end row -->
 
                     <!-- Floors List -->
-                    
-                    
                     <div class="row">
                         <div class="col-12">
                             <h4 class="header-title mt-0 m-b-20">Upper Floors</h4>
@@ -147,16 +148,21 @@
                                         <h4 class="header-title mt-0 m-b-20">{{ $floor->floor_no }}<sup>{{ $suffix }}</sup> floor</h4>
                                         <p class="text-muted font-15"><strong>Name:
                                             </strong>{{ $floor->name }}</p>
+                                            @can('floor-view')
                                         <button type="button"
                                             onclick="window.location.href='{{ route('floor.show', $floor->id) }}'"
                                             class="btn btn-info m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm">
                                             Enter
                                         </button>
+                                        @endcan
+                                        @can('floor-edit')
                                         <button type="button"
                                             class="btn btn-success m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm"
                                             onclick="window.location.href='{{ route('floor.edit', $floor->id) }}'">
                                             Edit
                                         </button>
+                                        @endcan
+                                        @can('floor-delete')
                                         <button type="button"
                                             class="btn btn-danger m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm"
                                             onclick="confirmDelete('{{ route('floor.delete', ['id' => $floor->id]) }}')">
@@ -169,6 +175,7 @@
                                             @csrf
                                             @method('DELETE')
                                         </form>
+                                        @endcan
                                     </div>
                                 </div>
                             @endif
@@ -190,16 +197,22 @@
                                         <h4 class="header-title mt-0 m-b-20">{{ $floor->floor_no }}<sup>{{ $suffix }}</sup> floor</h4>
                                         <p class="text-muted font-15"><strong>Name:
                                             </strong>{{ $floor->name }}</p>
-                                        <button type="button"
+                                            @can('floor-view')
+                                                <button type="button"
                                             onclick="window.location.href='{{ route('floor.show', $floor->id) }}'"
                                             class="btn btn-info m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm">
                                             Enter
                                         </button>
+                                            @endcan
+                                        
+                                        @can('floor-edit')
                                         <button type="button"
                                             class="btn btn-success m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm"
                                             onclick="window.location.href='{{ route('floor.edit', $floor->id) }}'">
                                             Edit
                                         </button>
+                                        @endcan
+                                        @can('floor-delete')
                                         <button type="button"
                                             class="btn btn-danger m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm"
                                             onclick="confirmDelete('{{ route('floor.delete', ['id' => $floor->id]) }}')">
@@ -212,6 +225,7 @@
                                             @csrf
                                             @method('DELETE')
                                         </form>
+                                        @endcan
                                     </div>
                                 </div>
                             @endif

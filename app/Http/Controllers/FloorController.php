@@ -75,8 +75,9 @@ class FloorController extends Controller
         $floor = Floor::findOrFail($id);
         $block = Block::findOrFail($floor->block_id);
         $building = Building::findOrFail($block->building_id);
+        $units = Unit::where('floor_id', $id)->orderBy('unit_no')->get();
         
-        return view('floor.floor_view', compact('building', 'block', 'floor'));
+        return view('floor.floor_view', compact('building', 'block', 'floor', 'units'));
     }
 
     public function edit(Request $request, $id)

@@ -330,17 +330,20 @@ document.getElementById('floor-select').addEventListener('change', function () {
                                         data-toggle="dropdown" aria-expanded="false"><i
                                             class="mdi mdi-dots-horizontal"></i></a>
                                     <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                                        @can('unit-view')
                                         <a class="dropdown-item"
                                             href="show/${unit.id}"><i
                                                 class="mdi mdi-eye m-r-10 font-18 text-muted vertical-middle"></i>View
                                             Details</a>
-
+                                        @endcan
+                                        @can('unit-edit')
                                         <a class="dropdown-item"
                                             href="edit/${unit.id}"
                                             type="submit"><i
                                                 class="mdi mdi-pencil m-r-10 text-muted font-18 vertical-middle"></i>
                                             Edit Unit</a>
-
+                                        @endcan
+                                        @can('unit-delete')
                                         <a class="dropdown-item" href="#"
                                             onclick="confirmDelete('delete/${unit.id}'))"><i
                                                 class="mdi mdi-delete m-r-10 text-muted font-18 vertical-middle"></i>
@@ -353,6 +356,7 @@ document.getElementById('floor-select').addEventListener('change', function () {
                                             @csrf
                                             @method('DELETE')
                                         </form>
+                                        @endcan
                                     </div>
                                 </div>
                             </td>

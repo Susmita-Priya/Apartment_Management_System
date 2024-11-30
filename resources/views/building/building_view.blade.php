@@ -43,7 +43,8 @@
                                     {{-- <p class="text-muted m-b-0"><small>{{ $building->city }}, {{ $building->country }}</small></p> --}}
                                 </div>
                             </div>
-                            <div class="col-sm-6">
+                            @can('building-edit')
+                                <div class="col-sm-6">
                                 <div class="text-right">
                                     <button type="button" class="btn waves-effect waves-light greenbtn"
                                         style="position: absolute;"
@@ -51,7 +52,9 @@
                                         <i class="mdi mdi-pencil m-r-5"></i> Edit Building
                                     </button>
                                 </div>
-                            </div>
+                                </div>
+                            @endcan
+                            
                         </div>
                     </div>
                     <!--/ meta -->
@@ -84,17 +87,8 @@
                             <p class="text-muted font-15"><strong>Building Name:</strong> <span
                                     class="m-l-15">{{ $building->name }}</span></p>
 
-                            {{-- <p class="text-muted font-13"><strong>Number of Floors:</strong> <span class="m-l-15">{{ $building->floors }}</span></p> --}}
-
-                            {{-- <p class="text-muted font-15"><strong>Number of Blocks:</strong> <span
-                                    class="m-l-15">{{ $building->blocks_count }}</span></p> --}}
-
                             <p class="text-muted font-15"><strong>Date Added:</strong> <span
                                     class="m-l-15">{{ $building->created_at->format('d M, Y') }}</span></p>
-
-                            {{-- <p class="text-muted font-13"><strong>Building Image :</strong>
-                            <span class="m-l-15"><img src="{{ asset($building->image) }}" style="width:27%; height:27%" alt="image can't found"></span>
-                        </p> --}}
 
                         </div>
                     </div>
@@ -102,7 +96,8 @@
                 </div>
 
                 <div class="col-md-8">
-                    <div class="row">
+                    @can('block-create')
+                        <div class="row">
                         <div class="col-sm-12">
                             <div class="text-right m-b-20">
                                 <button type="button" class="btn waves-effect waves-light greenbtn"
@@ -112,6 +107,8 @@
                             </div>
                         </div>
                     </div>
+                    @endcan
+                    
                     <!-- end row -->
 
                     <!-- Blocks List -->
@@ -123,16 +120,23 @@
                                     <p class="text-muted font-15"><strong>Block No: </strong>{{ $block->block_no }}</p>
                                     {{-- <p class="text-muted font-13"><strong>Building: </strong>{{ $block->building->name }}</p> --}}
 
-                                    <button type="button"
+                                    @can('block-view')
+                                        <button type="button"
                                         onclick="window.location.href='{{ route('block.show', $block->id) }}'"
                                         class="btn btn-info m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm">
                                         Enter
                                     </button>
+                                    @endcan
+                                    
+                                    @can('block-edit')
                                     <button type="button"
                                         class="btn btn-success m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm"
                                         onclick="window.location.href='{{ route('block.edit', $block->id) }}'">
                                         Edit
                                     </button>
+                                    @endcan
+
+                                    @can('block-delete')
                                     <button type="button"
                                         class="btn btn-danger m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm"
                                         onclick="confirmDelete('{{ route('block.delete', ['id' => $block->id]) }}')">
@@ -145,6 +149,7 @@
                                         @csrf
                                         @method('DELETE')
                                     </form>
+                                    @endcan
                                 </div>
                             </div>
                         @endforeach

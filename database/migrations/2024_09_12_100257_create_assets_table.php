@@ -14,12 +14,11 @@ return new class extends Migration
     {
         Schema::create('assets', function (Blueprint $table) {
             $table->id();
-            $table->morphs('assetable'); // Polymorphic relationship columns   (resroom,comroom,mechroom....type and id)
-            $table->string('room_no');   // Room identifier (e.g., "bedroom1", "bathroom1")
-            $table->json('assets_details'); // JSON column for asset details
+            $table->string('name');
+            $table->string('image')->nullable();
+            $table->string('short_description')->nullable();
+            $table->string('status')->default(1);            
             $table->timestamps();
-
-            $table->unique(['assetable_id', 'assetable_type', 'room_no']); // Unique constraint for polymorphic relation
         });
     }
 

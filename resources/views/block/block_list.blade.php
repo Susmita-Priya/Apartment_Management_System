@@ -28,6 +28,7 @@
                     <div class="card-box">
                         <h4 class="header-title m-b-15 m-t-0">Blocks List</h4>
                         <div class="row">
+                            @can('block-create')
                             <div class="col-sm-12">
                                 <div class="text-right m-b-20">
                                     <button type="button" class="btn waves-effect waves-light greenbtn"
@@ -36,6 +37,7 @@
                                     </button>
                                 </div>
                             </div>
+                            @endcan
 
                             <!-- Building Selection -->
                             <div class="form-group col-md-12">
@@ -101,24 +103,30 @@
                                         data-toggle="dropdown" aria-expanded="false"><i
                                             class="mdi mdi-dots-horizontal"></i></a>
                                     <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                                        <a class="dropdown-item"
+                                        @can('block-list')
+                                            <a class="dropdown-item"
                                             href="show/${block.id}"><i
                                                 class="mdi mdi-eye m-r-10 font-18 text-muted vertical-middle"></i>View Details</a>
-                                        <a class="dropdown-item"
+                                        @endcan
+                                        @can('block-edit')
+                                            <a class="dropdown-item"
                                             href="edit/${block.id}"><i
                                                 class="mdi mdi-pencil m-r-10 text-muted font-18 vertical-middle"></i>Edit Block</a>
-                                        <a class="dropdown-item"
+                                        @endcan
+                                        @can('block-delete')
+                                           <a class="dropdown-item"
                                             href="#"
                                             onclick="confirmDelete('delete/${block.id}')"><i
                                                 class="mdi mdi-delete m-r-10 text-muted font-18 vertical-middle"></i>
                                             Delete
                                         </a>
-                                        <form id="delete-form"
-                                                        action="delete/${block.id}"
-                                                        method="GET" style="display: none;">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                    </form>
+                                        <form id="delete-form" action="delete/${block.id}" method="GET" style="display: none;">
+                                            @csrf
+                                            @method('DELETE')
+                                        </form> 
+                                            
+                                        @endcan
+                                        
                                     </div>
                                 </div>
                             </td>

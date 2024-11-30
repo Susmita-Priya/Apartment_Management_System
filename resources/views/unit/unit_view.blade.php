@@ -49,6 +49,7 @@
                                     <p class="text-muted font-15">{{ $building->name }} Building</p>
                                 </div>
                             </div>
+                            @can('unit-view')
                             <div class="col-sm-6">
                                 <div class="text-right">
                                     <button type="button" class="btn waves-effect waves-light greenbtn"
@@ -58,6 +59,7 @@
                                     </button>
                                 </div>
                             </div>
+                            @endcan
                         </div>
                     </div>
                     <!--/ meta -->

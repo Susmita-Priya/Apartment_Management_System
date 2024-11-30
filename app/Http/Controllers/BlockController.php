@@ -86,9 +86,7 @@ class BlockController extends Controller
     public function show(string $id)
     {
         $block = Block::findOrFail($id);
-        // $block->load('commonArea.extraFields');
-        $building = Building::find($block->building_id);   // Get the building associated with this block
-
+        $building = Building::find($block->building_id);  
         $floors = Floor::where('block_id', $id)->orderBy('type')->orderBy('floor_no')->get();
 
         // Pass the data to the view

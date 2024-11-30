@@ -45,15 +45,17 @@
                                     <p class="text-muted font-15">{{ $building->name }} Building</p>
                                 </div>
                             </div>
-                            <div class="col-sm-6">
-                                <div class="text-right">
-                                    <button type="button" class="btn waves-effect waves-light greenbtn"
-                                        style=" position: absolute; "
-                                        onclick="window.location.href='{{ route('floor.edit', $floor->id) }}'">
-                                        <i class="mdi mdi-pencil m-r-5"></i> Edit Floor
-                                    </button>
+                            @can('floor-edit')
+                                <div class="col-sm-6">
+                                    <div class="text-right">
+                                        <button type="button" class="btn waves-effect waves-light greenbtn"
+                                            style=" position: absolute; "
+                                            onclick="window.location.href='{{ route('floor.edit', $floor->id) }}'">
+                                            <i class="mdi mdi-pencil m-r-5"></i> Edit Floor
+                                        </button>
+                                    </div>
                                 </div>
-                            </div>
+                            @endcan
                         </div>
                     </div>
                     <!--/ meta -->
@@ -133,92 +135,76 @@
 
                 <div class="col-md-8">
                     <div class="row">
-                        <div class="col-sm-12">
-                            <div class="text-right m-b-20">
+                        <div class="col-sm-12 m-b-20">
+                            <div class="text-right ">
 
                                 @if ($floor->type === 'underground')
-                                    <button type="button" class="btn waves-effect waves-light greenbtn"
-                                        style="position: absolute; "
-                                        onclick="window.location.href='{{ route('stall.create', ['floor_id' => $floor->id]) }}'">
-                                        <i class="mdi mdi-plus m-r-5"></i> Add Stall
+                                    @can('stall-create')
+                                        <button type="button" class="btn waves-effect waves-light greenbtn"
+                                            style="position: absolute; "
+                                            onclick="window.location.href='{{ route('stall.create', ['floor_id' => $floor->id]) }}'">
+                                            <i class="mdi mdi-plus m-r-5"></i> Add Stall
+                                        </button>
+                                    @endcan
                                 @elseif($floor->type === 'upper')
-                                    <button type="button" class="btn waves-effect waves-light greenbtn"
-                                        style="position: absolute; "
-                                        onclick="window.location.href='{{ route('unit.create', ['floor_id' => $floor->id]) }}'">
-                                        <i class="mdi mdi-plus m-r-5"></i> Add Unit
+                                    @can('unit-create')
+                                        <button type="button" class="btn waves-effect waves-light greenbtn"
+                                            style="position: absolute; "
+                                            onclick="window.location.href='{{ route('unit.create', ['floor_id' => $floor->id]) }}'">
+                                            <i class="mdi mdi-plus m-r-5"></i> Add Unit
+                                        </button>
+                                    @endcan
                                 @endif
-
-                                </button>
                             </div>
                         </div>
                     </div>
                     <!-- end row -->
 
                     <!-- Units List -->
-                    {{-- <div class="row">
-                        @php
-                            // Define unit types for categorization
-                            $unitTypes = [
-                                'Residential Suite' => 'Residential Suite',
-                                'Commercial Unit' => 'Commercial Unit',
-                                'Supporting and Servicing Unit' => 'Supporting and Servicing Unit',
-                            ];
-                        @endphp
-
-                        @foreach ($unitTypes as $typeKey => $typeName)
-                            @php
-                                // Filter units by type and sort by the numeric part after "UNIT"
-                                $unitsByType = $floor->units->where('type', $typeKey)->sortBy(function ($unit) {
-                                    return (int) $unit->unit_no;
-                                });
-                            @endphp
-
-                            @if ($unitsByType->isNotEmpty())
-                                <div class="col-md-12">
-                                    <h4 class="header-title mt-0 m-b-20">{{ $typeName }}</h4>
-
-                                    @foreach ($unitsByType->chunk(3) as $chunk)
-                                        <div class="row">
-                                            @foreach ($chunk as $unit)
-                                                <div class="col-md-4">
-                                                    <div class="card-box">
-                                                        <h4 class="header-title mt-0 m-b-20">UNIT-{{ $unit->unit_no }}
-                                                        </h4>
-                                                        <div class="panel-body">
-                                                            <p class="text-muted font-15"><strong>Type:
-                                                                </strong>{{ $unit->type }}</p>
-                                                            <button type="button"
-                                                                onclick="window.location.href='{{ route('unit.show', $unit->id) }}'"
-                                                                class="btn btn-info m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm">
-                                                                Enter
-                                                            </button>
-                                                            <button type="button"
-                                                                class="btn btn-success m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm"
-                                                                onclick="window.location.href='{{ route('unit.edit', $unit->id) }}'">
-                                                                Edit
-                                                            </button>
-                                                            <button type="button"
-                                                                class="btn btn-danger m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm"
-                                                                onclick="confirmDelete('{{ route('unit.delete', ['id' => $unit->id]) }}')">
-                                                                Delete
-                                                            </button>
-                                                            <!-- Hidden form for deletion -->
-                                                            <form id="delete-form"
-                                                                action="{{ route('unit.delete', ['id' => $unit->id]) }}"
-                                                                method="GET" style="display: none;">
-                                                                @csrf
-                                                                @method('DELETE')
-                                                            </form>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            @endforeach
+                    <div class="row">
+                                @foreach ($units as $unit)
+                                <div class="col-md-4 mb-4">
+                                    <div class="card-box">
+                                        <h4 class="header-title mt-0 m-b-20">UNIT-{{ $unit->unit_no }}
+                                        </h4>
+                                        <div class="panel-body">
+                                            <p class="text-muted font-15"><strong>Type:
+                                                </strong>{{ ucfirst($unit->type) }} Unit</p>
+                                            @can('unit-view')
+                                                <button type="button"
+                                                    onclick="window.location.href='{{ route('unit.show', $unit->id) }}'"
+                                                    class="btn btn-info m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm">
+                                                    Enter
+                                                </button>
+                                            @endcan
+                                            @can('unit-edit')
+                                                <button type="button"
+                                                    class="btn btn-success m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm"
+                                                    onclick="window.location.href='{{ route('unit.edit', $unit->id) }}'">
+                                                    Edit
+                                                </button>
+                                            @endcan
+                                            @can('unit-delete')
+                                                <button type="button"
+                                                    class="btn btn-danger m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm"
+                                                    onclick="confirmDelete('{{ route('unit.delete', ['id' => $unit->id]) }}')">
+                                                    Delete
+                                                </button>
+                                                <!-- Hidden form for deletion -->
+                                                <form id="delete-form"
+                                                    action="{{ route('unit.delete', ['id' => $unit->id]) }}" method="GET"
+                                                    style="display: none;">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                </form>
+                                            @endcan
                                         </div>
-                                    @endforeach
+                                    </div>
                                 </div>
-                            @endif
+                           
                         @endforeach
-                    </div> --}}
+ 
+                    </div>
 
                     <!-- Stalls/Lockers List -->
                     {{-- <div class="row mt-4">

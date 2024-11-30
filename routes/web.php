@@ -142,6 +142,29 @@ Route::middleware('auth')->group(callback: function () {
         Route::get('unit/delete/{id}', [UnitController::class, 'destroy'])->name("unit.delete");
 
 
+        // asset
+
+        Route::get('asset/index', [AssetController::class, 'index'])->name('asset.index');
+
+        Route::get('asset/create', [AssetController::class, 'create'])->name('asset.create');
+
+        Route::post('asset/create', [AssetController::class, 'store'])->name('asset.store');
+
+        Route::get('asset/show/{id}', [AssetController::class, 'show'])->name('asset.show');
+
+        Route::get('asset/edit/{id}', [AssetController::class, 'edit'])->name('asset.edit');
+
+        Route::post('asset/edit/{id}', [AssetController::class, 'update'])->name('asset.update');
+
+        Route::get('asset/delete/{id}', [AssetController::class, 'destroy'])->name('asset.delete');
+
+
+
+
+
+
+
+        
 
         // assign landlord to unit
 
@@ -279,21 +302,6 @@ Route::middleware('auth')->group(callback: function () {
 
 
 
-        Route::get('asset/create', [AssetController::class, 'create'])->name("asset.create");
-
-        Route::post('asset/store', [AssetController::class, 'store'])->name("asset.store");
-
-        Route::get('asset/show/{id}', [AssetController::class, 'show'])->name("asset.show");
-
-        Route::get('asset/edit/{id}', [AssetController::class, 'edit'])->name("asset.edit");
-
-        Route::post('asset/edit/{id}', [AssetController::class, 'update'])->name("asset.update");
-
-        Route::get('asset/delete/{id}', [AssetController::class, 'destroy'])->name("asset.delete");
-
-
-
-
         Route::get('stall/index', [StallLockerController::class, 'index'])->name("stall.index");
 
         Route::get('stall/create', [StallLockerController::class, 'create'])->name("stall.create");
@@ -399,8 +407,8 @@ Route::post('setting/update/{id}', [SettingController::class, 'update'])->name("
 Route::post('setting/store', [SettingController::class, 'store'])->name("setting.store");
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
