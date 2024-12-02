@@ -98,7 +98,7 @@
 
 
                                 <div class="form-group col-md-12">
-                                    <label class="col-form-label">Building Details</label>
+                                    <label class="col-form-label">Details Information</label>
                                     <table class="table table-bordered">
                                         <tr>
                                             <th>Building No</th>

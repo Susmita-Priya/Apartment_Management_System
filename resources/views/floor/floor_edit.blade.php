@@ -102,7 +102,7 @@
 
                             <!-- Building Details -->
                             <div class="form-group col-md-12">
-                                <label class="col-form-label">Building Details</label>
+                                <label class="col-form-label">Details Information</label>
                                 <table class="table table-bordered">
                                     <tr>
                                         <th>Building ID</th>
@@ -219,9 +219,9 @@
             if (type === existingFloorType) {
                 if (currentFloorNo) {
                     let suffix = 'th';
-                    if (currentFloorNo === 1) suffix = 'st';
-                    else if (currentFloorNo === 2) suffix = 'nd';
-                    else if (currentFloorNo === 3) suffix = 'rd';
+                    if (currentFloorNo == 1) suffix = 'st';
+                    else if (currentFloorNo == 2) suffix = 'nd';
+                    else if (currentFloorNo == 3) suffix = 'rd';
                     floorNoSelect.innerHTML += `<option value="${currentFloorNo}" selected>${currentFloorNo}<sup>${suffix}</sup> </option>`;
                 }
             } else {

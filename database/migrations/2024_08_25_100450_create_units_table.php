@@ -9,11 +9,14 @@ class CreateUnitsTable extends Migration
     {
         Schema::create('units', function (Blueprint $table) {
             $table->id();
-            $table->enum('type', ['Residential Suite', 'Commercial Unit', 'Supporting and Servicing Unit', 'Parking Lot', 'Bike Lot', 'Storage Lot', 'Common Area']);
-            $table->string('unit_id');
+            $table->foreignId('company_id')->references('id')->on('users');
+            $table->foreignId('floor_id')->references('id')->on('floors')->onDelete('cascade');
+            $table->string('type');
+            $table->string('unit_no');
+            $table->integer('rent');
+            $table->integer('price');
+            $table->string('status')->default(1);
             $table->timestamps();
-
-            $table->foreignId('floor_id')->constrained()->onDelete('cascade');
         });
     }
 

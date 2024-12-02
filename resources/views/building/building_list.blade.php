@@ -14,7 +14,6 @@
                         <h4 class="page-title float-left">Buildings</h4>
                         <ol class="breadcrumb float-right">
                             <li class="breadcrumb-item"><a href="{{ route('index') }}">Dashboard</a></li>
-                            {{-- <li class="breadcrumb-item"><a href="{{ route('building') }}">Buildings</a></li> --}}
                             <li class="breadcrumb-item active">Building List</li>
                         </ol>
                         <div class="clearfix"></div>
@@ -39,14 +38,16 @@
                 {{-- <label>Search:<input type="search" class="form-control form-control-sm" placeholder="" aria-controls="datatable"></label> --}}
 
 
-
-                <div class="col-sm-12">
+                @can('building-create')
+                    <div class="col-sm-12">
                     <a href="{{ route('building.create') }}" class="btn waves-effect waves-light btn-sm greenbtn"
                         style="position: absolute;">
                         <!-- Added padding here -->
                         <i class="mdi mdi-plus m-r-5"></i>Add Building
                     </a>
                 </div>
+                @endcan
+                
 
 
                 <div class="col-sm-8">
@@ -88,23 +89,31 @@
                                                 <p class="text-muted">
                                                     {{ $buildingTypes[$building->type] ?? 'Other' }}
                                                     <span> | </span>
-                                                    {{ $building->building_id }}
+                                                    {{ $building->building_no }}
                                                 </p>
-                                                <button type="button"
+                                                @can('building-view')
+                                                    <button type="button"
                                                     onclick="window.location.href='{{ route('building.show', $building->id) }}'"
                                                     class="btn btn-info m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm">
                                                     Enter
                                                 </button>
-                                                <button type="button"
+                                                @endcan
+                                                
+                                                @can('building-edit')
+                                                    <button type="button"
                                                     class="btn btn-success m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm"
                                                     onclick="window.location.href='{{ route('building.edit', $building->id) }}'">
                                                     Edit
                                                 </button>
+                                                @endcan
+                                                
+                                                @can('building-delete')
                                                 <button type="button"
                                                     class="btn btn-danger m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm"
                                                     onclick="confirmDelete('{{ route('building.delete', ['id' => $building->id]) }}')">
                                                     Delete
                                                 </button>
+                                                
                                                 <!-- Hidden form for deletion -->
                                                 <form id="delete-form"
                                                     action="{{ route('building.delete', ['id' => $building->id]) }}"
@@ -112,6 +121,8 @@
                                                     @csrf
                                                     @method('DELETE')
                                                 </form>
+                                                @endcan
+
                                             </div>
                                         </div>
                                     </div>

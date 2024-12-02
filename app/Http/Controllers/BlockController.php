@@ -16,17 +16,9 @@ class BlockController extends Controller
     public function index()
     {
         // Fetch all blocks with their associated buildings
-        $buildings = Building::where('company_id', Auth::user()->id)->get();
+        $buildings = Building::where('company_id', Auth::user()->id)->where('status',1)->latest()->get();
         // dd($buildings);
         return view('block.block_list', compact('buildings')); 
-    }
-
-
-    public function getBlocks($id)
-    {
-        // Fetch all blocks with their associated buildings
-        $blocks = Block::where('building_id', $id)->get();
-        return response()->json($blocks);
     }
 
     /**
@@ -36,7 +28,7 @@ class BlockController extends Controller
     {
         $building_id = request('building_id');
         $building = Building::find($building_id);
-        $buildings = Building::all();
+        $buildings = Building::where('status',1)->get();
         $typeFullForm = [
             'RESB' => 'Residential Building',
             'COMB' => 'Commercial Building',
@@ -94,9 +86,7 @@ class BlockController extends Controller
     public function show(string $id)
     {
         $block = Block::findOrFail($id);
-        // $block->load('commonArea.extraFields');
-        $building = Building::find($block->building_id);   // Get the building associated with this block
-
+        $building = Building::find($block->building_id);  
         $floors = Floor::where('block_id', $id)->orderBy('type')->orderBy('floor_no')->get();
 
         // Pass the data to the view

@@ -5,18 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Asset extends Model
+class Room extends Model
 {
     use HasFactory;
 
-    /**
-     * The attributes that are mass assignable.
-     */
     protected $fillable = [
-        'name',
-        'image',
-        'short_description',
-        'status',
+        'company_id',
+        'unit_id',
+        'type',
+        'room_no',
+        'assets',
+        'status'
     ];
-
 }

@@ -20,110 +20,50 @@ class AssetController extends Controller
     public function index()
     {
         $assets = Asset::all();
-        return view('assets.index', compact('assets'));
+        return view('asset.asset_list', compact('assets'));
     }
 
     /**
      * Show the form for creating a new asset.
      */
-    public function create(Request $request)
+    public function create()
     {
-        // Retrieve form data
-        $roomId = $request->input('id');
-        $roomType = $request->input('room_type');
-        $count = $request->input('count');
-        $room = $request->input('room');
 
-        // Mapping room types to models
-        $roomModels = [
-            "resroom" => Resroom::class,
-            "comroom" => Comroom::class,
-            "mechroom" => Mechroom::class,
-            "adroom" => Adroom::class,
-            "amroom" => Amroom::class,
-            "serroom" => Serroom::class,
-        ];
-
-        $roomModelClass = $roomModels[$room] ?? null;
-
-        // Find the room and its related entities
-        $roominstance = $roomModelClass::find($roomId);
-
-        return view('asset.asset_add', compact('roomId', 'roomType', 'count', 'room', 'roominstance'));
+        return view('asset.asset_add');
     }
 
 
     public function store(Request $request)
     {
         $request->validate([
-            'room_type' => 'required|string',
-            'room' => 'required|string',
-            'room_id' => 'required|integer',
-            'room_no' => 'required|string',
-            'assets.*.name' => 'required|string',
-            'assets.*.quantity' => 'required|integer|min:1',
-            'assets.*.image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048', // Image validation
+            'name' => 'required',
+            'image' => 'nullable|image', 
         ]);
 
-        // Mapping room types to models
-        $roomModels = [
-            'resroom' => Resroom::class,
-            'comroom' => Comroom::class,
-            'mechroom' => Mechroom::class,
-            'adroom' => Adroom::class,
-            'amroom' => Amroom::class,
-            'serroom' => Serroom::class,
-        ];
+        // Handle the image upload if present
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
 
-        // Get the model class for the room type
-        $roomModelClass = $roomModels[$request->room] ?? null;
-
-        if (!$roomModelClass || !$roomModelClass::find($request->room_id)) {
-            return redirect()->back()->withErrors('Invalid room or room type.');
-        }
-
-        // Check for existing asset with the same assetsable_id and room_no
-        $existingAsset = Asset::where('assetable_id', $request->room_id)
-            ->where('room_no', $request->room_no)
-            ->first();
-
-        if ($existingAsset) {
-            return redirect()->back()->with('error', 'An asset with the same room number already exists for this room.');
-        }
-
-        $assetsDetails = [];
-        foreach ($request->assets as $index => $assetData) {
-            $imagePath = null;
-
-            if ($request->hasFile("assets.$index.image")) {
-                $image = $request->file("assets.$index.image");
-
-                // Check if the image size exceeds 100KB
-                if ($image->getSize() > 102400) {
-                    return redirect()->back()->with('error', 'Image size for asset ' . ($index + 1) . ' exceeds 100KB. Please upload a smaller image.');
-                }
-
-                $filename = time() . "_asset_{$index}." . $image->getClientOriginalExtension();
-                $path = 'uploads/assets';
-                $image->move(public_path($path), $filename);
-                $imagePath = $path . '/' . $filename;
+            // Check if the image size exceeds 100KB (102400 bytes)
+            if ($file->getSize() > 102400) {
+                return redirect()->back()->with('error', 'Image size exceeds 100KB. Please upload a smaller image.');
             }
 
-            $assetsDetails[] = [
-                'name' => $assetData['name'],
-                'quantity' => $assetData['quantity'],
-                'image' => $imagePath,
-            ];
+            $filename = time() . "_asset." . $file->getClientOriginalExtension();
+            $path = 'uploads/assets';
+            $file->move(public_path($path), $filename); // Move to 'public/uploads/buildings' directly
+            $fullPath = $path . '/' . $filename;
+        } else {
+            $fullPath = null;
         }
 
-        // Create or update asset for the polymorphic relationship
-        Asset::create([
-            'assetable_id' => $request->room_id,
-            'assetable_type' => $roomModelClass,
-            'room_no' => $request->room_no,    //bedroom1,bedroom2
-            'assets_details' => json_encode($assetsDetails), // Include assets_details here
-        ]);
-        // dd(request()->all());
+        // Create the asset
+        $asset = new Asset;
+        $asset->name = $request->name;
+        $asset->image = $fullPath;
+        $asset->short_description = $request->short_description;
+        $asset->save();
+
         return redirect()->back()->with('success', 'Assets added successfully!');
     }
 
@@ -133,9 +73,8 @@ class AssetController extends Controller
      */
     public function show($id)
     {
-        $asset = Asset::findOrFail($id);
-        $details = json_decode($asset->assets_details, true);
-        return view('asset.asset_view', compact('details'));
+        $assets = Asset::findOrFail($id);
+        return view('asset.asset_list', compact('assets'));
     }
 
     /**
@@ -145,17 +84,7 @@ class AssetController extends Controller
     {
         $asset = Asset::findOrFail($id);
 
-        // Decode the JSON string into an array
-        $asset->assets_details = json_decode($asset->assets_details, true);
-
-        // Determine the room instance for the breadcrumb navigation
-        $roomModelClass = $asset->assetable_type;
-        $roominstance = $roomModelClass::find($asset->assetable_id);
-        $room = strtolower(class_basename($roomModelClass)); // Get room type like 'resroom'
-        $roomId = $asset->assetable_id;
-        $roomType = $result = preg_replace('/[0-9]/', '', $asset->room_no);
-
-        return view('asset.asset_edit', compact('asset', 'roominstance', 'room', 'roomId', 'roomType'));
+        return view('asset.asset_edit', compact('asset'));
     }
 
     /**
@@ -163,73 +92,45 @@ class AssetController extends Controller
      */
     public function update(Request $request, $id)
     {
+        // Validate the request data
         $request->validate([
-            'room_no' => 'required|string',
-            'assets.*.name' => 'required|string',
-            'assets.*.quantity' => 'required|integer|min:1',
+            'name' => 'required',
+            'image' => 'nullable|image', 
         ]);
 
+        // Find the building to update
         $asset = Asset::findOrFail($id);
 
-        // Check for existing asset with the same assetsable_id and room_no, excluding the current asset
-        $existingAsset = Asset::where('assetable_id', $asset->assetable_id)
-            ->where('room_no', $request->room_no)
-            ->where('id', '!=', $asset->id)
-            ->first();
+        // Handle the image upload if present
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
 
-        if ($existingAsset) {
-            return redirect()->back()->with('error', 'An asset with the same room number already exists for this room.');
-        }
-
-        // Prepare to collect asset data for bulk update
-        $assetsDetails = [];
-
-        // Decode the existing assets details to keep old images
-        $existingAssetsDetails = json_decode($asset->assets_details, true);
-
-        foreach ($request->assets as $index => $assetData) {
-            $imagePath = null;
-
-            // Check if there's a new image uploaded for this asset
-            if ($request->hasFile("assets.{$index}.image")) {
-                $image = $request->file("assets.{$index}.image");
-
-                // Optional: Validate image size
-                if ($image->getSize() > 102400) {
-                    return redirect()->back()->with('error', 'Image size for asset ' . ($index + 1) . ' exceeds 100KB. Please upload a smaller image.');
-                }
-
-                // Delete the old image if it exists
-                if (isset($existingAssetsDetails[$index]['image']) && file_exists(public_path($existingAssetsDetails[$index]['image']))) {
-                    unlink(public_path($existingAssetsDetails[$index]['image']));
-                }
-
-                // Generate a unique filename and move the image
-                $filename = time() . "_asset_{$index}." . $image->getClientOriginalExtension();
-                $path = 'uploads/assets';
-                $image->move(public_path($path), $filename);
-                $imagePath = $path . '/' . $filename;
-            } else {
-                // If no new image, use old image path
-                if (isset($existingAssetsDetails[$index]['image'])) {
-                    $imagePath = $existingAssetsDetails[$index]['image'];
-                }
+            // Check if the image size exceeds 100KB (102400 bytes)
+            if ($file->getSize() > 102400) {
+                return redirect()->back()->with('error', 'Image size exceeds 100KB. Please upload a smaller image.');
             }
 
-            // Collect the asset data
-            $assetsDetails[] = [
-                'id' => $index,
-                'name' => $assetData['name'],
-                'quantity' => $assetData['quantity'],
-                'image' => $imagePath,
-            ];
+            // Delete the old image if it exists
+            if ($asset->image && file_exists(public_path($asset->image))) {
+                unlink(public_path($asset->image));
+            }
+
+            // Upload the new image
+            $filename = time() . "asset." . $file->getClientOriginalExtension();
+            $path = 'uploads/assets';
+            $file->move(public_path($path), $filename);
+            $fullPath = $path . '/' . $filename;
+        } else {
+            // Keep the old image if no new image is uploaded
+            $fullPath = $asset->image;
         }
 
-        // Update asset
-        $asset->update([
-            'room_no' => $request->room_no, // Update room number
-            'assets_details' => json_encode($assetsDetails), // Include assets_details here
-        ]);
+        // Update the asset record
+        $asset->name = $request->name;
+        $asset->short_description = $request->short_description;
+        $asset->image = $fullPath;
+        $asset->status = $request->status;
+        $asset->save();
 
         return redirect()->back()->with('success', 'Assets updated successfully!');
     }
