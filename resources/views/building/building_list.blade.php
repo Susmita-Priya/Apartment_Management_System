@@ -89,7 +89,7 @@
                                                 <p class="text-muted">
                                                     {{ $buildingTypes[$building->type] ?? 'Other' }}
                                                     <span> | </span>
-                                                    {{ $building->building_id }}
+                                                    {{ $building->building_no }}
                                                 </p>
                                                 @can('building-view')
                                                     <button type="button"

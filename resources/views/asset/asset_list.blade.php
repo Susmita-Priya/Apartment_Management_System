@@ -1,7 +1,7 @@
 @extends('master')
 
 @push('title')
-    <title>assets List</title>
+    <title>Assets List</title>
 @endpush
 
 @section('content')
@@ -10,11 +10,11 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box">
-                        <h4 class="page-title float-left">assets</h4>
+                        <h4 class="page-title float-left">Assets</h4>
 
                         <ol class="breadcrumb float-right">
                             <li class="breadcrumb-item"><a href="{{ route('index') }}">Admin</a></li>
-                            <li class="breadcrumb-item active">assets list</li>
+                            <li class="breadcrumb-item active">Assets list</li>
                         </ol>
 
                         <div class="clearfix"></div>
@@ -26,7 +26,7 @@
             <div class="row">
                 <div class="col-12">
                     <div class="card-box">
-                        <h4 class="header-title m-b-15 m-t-0">assets List</h4>
+                        <h4 class="header-title m-b-15 m-t-0">Assets List</h4>
                         <div class="row">
                             @can('asset-create')
                                 

@@ -74,7 +74,7 @@
 
                             <!-- Floor Selection -->
                             <div class="form-group">
-                                <label for="floor_id">Select Floor</label>
+                                <label for="floor_id">Floor</label>
                                 <select name="floor_id" id="floor_id" class="form-control" onchange="showFloorDetails()">
                                     <option value="">Select Floor</option>
                                     @foreach ($floors as $flr)
@@ -131,7 +131,7 @@
 
                             <!-- Building Details -->
                             <div class="form-group col-md-12">
-                                <label class="col-form-label">Building Details</label>
+                                <label class="col-form-label">Details Information</label>
                                 <table class="table table-bordered">
                                     <tr>
                                         <th>Building No</th>

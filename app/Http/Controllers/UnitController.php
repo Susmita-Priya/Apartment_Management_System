@@ -6,6 +6,7 @@ use App\Models\Block;
 use App\Models\Building;
 use App\Models\Floor;
 use App\Models\Landlord;
+use App\Models\Room;
 use App\Models\Unit;
 use App\Models\Unit_landlord;
 use Illuminate\Http\Request;
@@ -33,7 +34,7 @@ class UnitController extends Controller
         // Fetch all buildings, blocks, and floors
         $buildings = Building::where('status',1)->get();
         $blocks = Block::all();
-        $floors = Floor::where('type', 'upper')->get();
+        $floors = Floor::where('type', 'upper')->where('status',1)->get();
 
         // Fetch the floor using the provided floor_id
         $floorId = $request->query('floor_id');
@@ -105,8 +106,9 @@ class UnitController extends Controller
         $floor = Floor::findOrFail($unit->floor_id);
         $block = Block::findOrFail($floor->block_id);
         $building = Building::findOrFail($block->building_id);
+        $rooms = Room::where('unit_id', $unit->id)->orderBy('room_no')->get();
      
-        return view('unit.unit_view', compact('unit', 'floor', 'block', 'building'));
+        return view('unit.unit_view', compact('unit', 'floor', 'block', 'building', 'rooms'));
     }
 
     /**

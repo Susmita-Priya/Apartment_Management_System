@@ -22,6 +22,7 @@ use App\Http\Controllers\ParkingController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ResroomController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\RoomController;
 use App\Http\Controllers\SaasPlatform\WebsiteController;
 use App\Http\Controllers\SerroomController;
 use App\Http\Controllers\SettingController;
@@ -64,99 +65,75 @@ Route::middleware('auth')->group(callback: function () {
 
 
 
+        //building
         Route::get('building/index', [BuildingController::class, 'index'])->name("building");
-
         Route::get('building/create', [BuildingController::class, 'create'])->name("building.create");
-
         Route::post('building/create', [BuildingController::class, 'store'])->name("building.store");
-
         Route::get('building/show/{id}', [BuildingController::class, 'show'])->name("building.show");
-
         Route::get('building/edit/{id}', [BuildingController::class, 'edit'])->name("building.edit");
-
         Route::post('building/edit/{id}', [BuildingController::class, 'update'])->name("building.update");
-
         Route::get('building/delete/{id}', [BuildingController::class, 'destroy'])->name("building.delete");
 
 
 
-
+        //block
         Route::get('block/index', [BlockController::class, 'index'])->name("block.index");
-
         Route::get('block/create', [BlockController::class, 'create'])->name("block.create");
-
         Route::post('block/create', [BlockController::class, 'store'])->name("block.store");
-
         Route::get('block/show/{id}', [BlockController::class, 'show'])->name("block.show");
-
         Route::get('block/edit/{id}', [BlockController::class, 'edit'])->name("block.edit");
-
         Route::post('block/edit/{id}', [BlockController::class, 'update'])->name("block.update");
-
         Route::get('block/delete/{id}', [BlockController::class, 'destroy'])->name("block.delete");
 
 
 
-        // get blocks by building id
-        Route::get('/blocks/{id}', [GetController::class, 'getBlocks'])->name('blocks.get');
-
-        // get registered floors no by block id
-        Route::get('/blocks/{blockId}/floorsno', [GetController::class, 'getFloorsNo']);
         
-        //get floors by block id
-        Route::get('/blocks/{blockId}/floors', [GetController::class, 'getFloors']);
+        Route::get('/blocks/{id}', [GetController::class, 'getBlocks'])->name('blocks.get');  // get blocks by building id  
+        Route::get('/blocks/{blockId}/floorsno', [GetController::class, 'getFloorsNo']);  // get registered floors no by block id   
+        Route::get('/blocks/{blockId}/floors', [GetController::class, 'getFloors']);  //get floors by block id    
+        Route::get('/floors/{floorId}/units', [GetController::class, 'getUnits']);  //get units by floor id
+        Route::get('/units/{unitId}/rooms', [GetController::class, 'getRooms']);  //get rooms by unit id
+        
 
-        //get units by floor id
-        Route::get('/floors/{floorId}/units', [GetController::class, 'getUnits']);
 
-
-
+        //floor
         Route::get('floor/index', [FloorController::class, 'index'])->name("floor.index");
-
         Route::get('floor/create', [FloorController::class, 'create'])->name("floor.create");
-
         Route::post('floor/create', [FloorController::class, 'store'])->name("floor.store");
-
         Route::get('floor/show/{id}', [FloorController::class, 'show'])->name("floor.show");
-
         Route::get('floor/edit/{id}', [FloorController::class, 'edit'])->name("floor.edit");
-
         Route::post('floor/edit/{id}', [FloorController::class, 'update'])->name("floor.update");
-
         Route::get('floor/delete/{id}', [FloorController::class, 'destroy'])->name("floor.delete");
 
         
-
+        // unit
         Route::get('unit/index', [UnitController::class, 'index'])->name("unit.index");
-
         Route::get('unit/create', [UnitController::class, 'create'])->name("unit.create");
-
         Route::post('unit/create', [UnitController::class, 'store'])->name("unit.store");
-
         Route::get('unit/show/{id}', [UnitController::class, 'show'])->name("unit.show");
-
         Route::get('unit/edit/{id}', [UnitController::class, 'edit'])->name("unit.edit");
-
         Route::post('unit/edit/{id}', [UnitController::class, 'update'])->name("unit.update");
-
         Route::get('unit/delete/{id}', [UnitController::class, 'destroy'])->name("unit.delete");
 
 
         // asset
-
         Route::get('asset/index', [AssetController::class, 'index'])->name('asset.index');
-
         Route::get('asset/create', [AssetController::class, 'create'])->name('asset.create');
-
         Route::post('asset/create', [AssetController::class, 'store'])->name('asset.store');
-
         Route::get('asset/show/{id}', [AssetController::class, 'show'])->name('asset.show');
-
         Route::get('asset/edit/{id}', [AssetController::class, 'edit'])->name('asset.edit');
-
         Route::post('asset/edit/{id}', [AssetController::class, 'update'])->name('asset.update');
-
         Route::get('asset/delete/{id}', [AssetController::class, 'destroy'])->name('asset.delete');
+
+
+        //room
+        Route::get('room/index', [RoomController::class, 'index'])->name("room.index");
+        Route::get('room/create', [RoomController::class, 'create'])->name("room.create");
+        Route::post('room/create', [RoomController::class, 'store'])->name("room.store");
+        Route::get('room/show/{id}', [RoomController::class, 'show'])->name("room.show");
+        Route::get('room/edit/{id}', [RoomController::class, 'edit'])->name("room.edit");
+        Route::post('room/edit/{id}', [RoomController::class, 'update'])->name("room.update");
+        Route::get('room/delete/{id}', [RoomController::class, 'destroy'])->name("room.delete");
 
 
 
@@ -196,93 +173,7 @@ Route::middleware('auth')->group(callback: function () {
 
 
 
-        Route::get('resroom/create', [ResroomController::class, 'create'])->name("resroom.create");
-
-        Route::post('resroom/create', [ResroomController::class, 'store'])->name("resroom.store");
-
-        Route::get('resroom/show/{id}/{room_type}', [ResroomController::class, 'show'])->name('resroom.show');
-
-        Route::get('resroom/edit/{id}', [ResroomController::class, 'edit'])->name("resroom.edit");
-
-        Route::post('resroom/edit/{id}', [ResroomController::class, 'update'])->name("resroom.update");
-
-        Route::get('resroom/delete/{id}', [ResroomController::class, 'destroy'])->name("resroom.delete");
-
-
-
-        Route::get('comroom/create', [ComroomController::class, 'create'])->name("comroom.create");
-
-        Route::post('comroom/create', [ComroomController::class, 'store'])->name("comroom.store");
-
-        Route::get('comroom/show/{id}/{room_type}', [ComroomController::class, 'show'])->name('comroom.show');
-
-        Route::get('comroom/edit/{id}', [ComroomController::class, 'edit'])->name("comroom.edit");
-
-        Route::post('comroom/edit/{id}', [ComroomController::class, 'update'])->name("comroom.update");
-
-        Route::get('comroom/delete/{id}', [ComroomController::class, 'destroy'])->name("comroom.delete");
-
-
-
-
-        Route::get('mechroom/create', [MechroomController::class, 'create'])->name("mechroom.create");
-
-        Route::post('mechroom/create', [MechroomController::class, 'store'])->name("mechroom.store");
-
-        Route::get('mechroom/show/{id}/{room_type}', [MechroomController::class, 'show'])->name("mechroom.show");
-
-        Route::get('mechroom/edit/{id}', [MechroomController::class, 'edit'])->name("mechroom.edit");
-
-        Route::post('mechroom/edit/{id}', [MechroomController::class, 'update'])->name("mechroom.update");
-
-        Route::get('mechroom/delete/{id}', [MechroomController::class, 'destroy'])->name("mechroom.delete");
-
-
-
-
-        Route::get('adroom/create', [AdroomController::class, 'create'])->name("adroom.create");
-
-        Route::post('adroom/create', [AdroomController::class, 'store'])->name("adroom.store");
-
-        Route::get('adroom/show/{id}/{room_type}', [AdroomController::class, 'show'])->name("adroom.show");
-
-        Route::get('adroom/edit/{id}', [AdroomController::class, 'edit'])->name("adroom.edit");
-
-        Route::post('adroom/edit/{id}', [AdroomController::class, 'update'])->name("adroom.update");
-
-        Route::get('adroom/delete/{id}', [AdroomController::class, 'destroy'])->name("adroom.delete");
-
-
-
-
-        Route::get('amroom/create', [AmroomController::class, 'create'])->name("amroom.create");
-
-        Route::post('amroom/create', [AmroomController::class, 'store'])->name("amroom.store");
-
-        Route::get('amroom/show/{id}/{room_type}', [AmroomController::class, 'show'])->name("amroom.show");
-
-        Route::get('amroom/edit/{id}', [AmroomController::class, 'edit'])->name("amroom.edit");
-
-        Route::post('amroom/edit/{id}', [AmroomController::class, 'update'])->name("amroom.update");
-
-        Route::get('amroom/delete/{id}', [AmroomController::class, 'destroy'])->name("amroom.delete");
-
-
-
-
-        Route::get('serroom/create', [SerroomController::class, 'create'])->name("serroom.create");
-
-        Route::post('serroom/create', [SerroomController::class, 'store'])->name("serroom.store");
-
-        Route::get('serroom/show/{id}/{room_type}', [SerroomController::class, 'show'])->name("serroom.show");
-
-        Route::get('serroom/edit/{id}', [SerroomController::class, 'edit'])->name("serroom.edit");
-
-        Route::post('serroom/edit/{id}', [SerroomController::class, 'update'])->name("serroom.update");
-
-        Route::get('serroom/delete/{id}', [SerroomController::class, 'destroy'])->name("serroom.delete");
-
-
+        
 
 
         Route::get('comarea/index', [ComareaController::class, 'index'])->name("comarea.index");

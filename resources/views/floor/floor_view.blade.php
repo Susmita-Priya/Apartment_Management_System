@@ -12,7 +12,7 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box">
-                        <h4 class="page-title float-left">{{ $floor->name }}</h4>
+                        <h4 class="page-title float-left">{{ $floor->name }} Floor</h4>
 
                         <ol class="breadcrumb float-right">
                             <li class="breadcrumb-item"><a href="{{ route('index') }}">Dashboard</a></li>
@@ -41,7 +41,7 @@
                                 <span class="pull-left m-r-15"><img src="{{ asset($building->image) }}" alt=""
                                         class="thumb-lg rounded-circle"></span>
                                 <div class="media-body">
-                                    <h4 class="m-t-7 font-18">{{ $floor->name }}</h4>
+                                    <h4 class="m-t-7 font-18">{{ $floor->name }} Floor</h4>
                                     <p class="text-muted font-15">{{ $building->name }} Building</p>
                                 </div>
                             </div>

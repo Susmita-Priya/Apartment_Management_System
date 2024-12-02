@@ -61,12 +61,15 @@
                                             @endcan
                                             @can('floor-create')
                                                 <li><a href="{{ route('floor.create') }}">New Floor</a></li>
+                                            @endcan 
+                                            @can('unit-create')
+                                                <li><a href="{{ route('unit.create') }}">New Unit</a></li>
+                                            @endcan
+                                            @can('room-create')
+                                                <li><a href="{{ route('room.create') }}">New Room</a></li>
                                             @endcan
                                             @can('common-area-create')
                                                 <li><a href="{{ route('comarea.create') }}">New Common Area</a></li>
-                                            @endcan
-                                            @can('unit-create')
-                                                <li><a href="{{ route('unit.create') }}">New Unit</a></li>
                                             @endcan
                                         </ul>
                                     </li>
@@ -154,22 +157,23 @@
                                     <li><a href="{{ route('building') }}">View Buildings</a></li>
                                 @endcan
                                 @can('block-list')
-                                    <li><a href="{{ route('block.index') }}">View blocks</a></li>
+                                    <li><a href="{{ route('block.index') }}">View Blocks</a></li>
                                 @endcan
                                 @can('floor-list')
-                                    <li><a href="{{ route('floor.index') }}">View floors</a></li>
-                                @endcan
-                                @can('common-area-list')
-                                    <li><a href="{{ route('comarea.index') }}">View Common Areas</a></li>
+                                    <li><a href="{{ route('floor.index') }}">View Floors</a></li>
                                 @endcan
                                 @can('unit-list')
-                                    <li><a href="{{ route('unit.index') }}">View units</a></li>
+                                    <li><a href="{{ route('unit.index') }}">View Units</a></li>
                                 @endcan
+                                @can('room-list')
+                                    <li><a href="{{ route('room.index') }}">View Rooms</a></li>
+                                @endcan
+                                @can('common-area-list')
+                                <li><a href="{{ route('comarea.index') }}">View Common Areas</a></li>
+                            @endcan
                             </ul>
                         </li>
                     @endif
-
-
 
 
                     <!-- Tenants -->

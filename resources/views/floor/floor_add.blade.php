@@ -99,7 +99,7 @@
                             <!-- Checkbox placeholders -->
                             <div id="dynamic-checkboxes"></div>
 
-                            <!-- Building Details -->
+                            <!-- Details -->
                             <div class="form-group col-md-12">
                                 <label class="col-form-label">Details Information</label>
                                 <table class="table table-bordered">

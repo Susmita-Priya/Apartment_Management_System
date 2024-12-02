@@ -71,6 +71,12 @@ class PermissionSeeder extends Seeder
             'unit-delete',
             'unit-view',
 
+            
+            'room-list',
+            'room-create',
+            'room-edit',
+            'room-delete',
+
 
             'stall-list',
             'stall-create',

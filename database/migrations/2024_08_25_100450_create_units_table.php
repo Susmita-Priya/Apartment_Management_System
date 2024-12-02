@@ -15,7 +15,7 @@ class CreateUnitsTable extends Migration
             $table->string('unit_no');
             $table->integer('rent');
             $table->integer('price');
-            $table->string('status')->default(0);
+            $table->string('status')->default(1);
             $table->timestamps();
         });
     }
