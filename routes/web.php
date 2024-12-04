@@ -4,6 +4,7 @@
 use App\Http\Controllers\HomeController;
 
 use App\Http\Controllers\AdroomController;
+use App\Http\Controllers\AmenitiesController;
 use App\Http\Controllers\AmroomController;
 use App\Http\Controllers\AssetController;
 use App\Http\Controllers\AuthController;
@@ -23,6 +24,7 @@ use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ResroomController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\RoomController;
+use App\Http\Controllers\RoomTypeController;
 use App\Http\Controllers\SaasPlatform\WebsiteController;
 use App\Http\Controllers\SerroomController;
 use App\Http\Controllers\SettingController;
@@ -87,12 +89,13 @@ Route::middleware('auth')->group(callback: function () {
 
 
 
-        
+        //get data using jquery
         Route::get('/blocks/{id}', [GetController::class, 'getBlocks'])->name('blocks.get');  // get blocks by building id  
         Route::get('/blocks/{blockId}/floorsno', [GetController::class, 'getFloorsNo']);  // get registered floors no by block id   
         Route::get('/blocks/{blockId}/floors', [GetController::class, 'getFloors']);  //get floors by block id    
         Route::get('/floors/{floorId}/units', [GetController::class, 'getUnits']);  //get units by floor id
         Route::get('/units/{unitId}/rooms', [GetController::class, 'getRooms']);  //get rooms by unit id
+        Route::get('/units/{unitId}/roomsno', [GetController::class, 'getAmenities']);  //get rooms no by unit id
         
 
 
@@ -116,14 +119,25 @@ Route::middleware('auth')->group(callback: function () {
         Route::get('unit/delete/{id}', [UnitController::class, 'destroy'])->name("unit.delete");
 
 
-        // asset
-        Route::get('asset/index', [AssetController::class, 'index'])->name('asset.index');
-        Route::get('asset/create', [AssetController::class, 'create'])->name('asset.create');
-        Route::post('asset/create', [AssetController::class, 'store'])->name('asset.store');
-        Route::get('asset/show/{id}', [AssetController::class, 'show'])->name('asset.show');
-        Route::get('asset/edit/{id}', [AssetController::class, 'edit'])->name('asset.edit');
-        Route::post('asset/edit/{id}', [AssetController::class, 'update'])->name('asset.update');
-        Route::get('asset/delete/{id}', [AssetController::class, 'destroy'])->name('asset.delete');
+        // amenities
+        Route::get('amenities/index', [AmenitiesController::class, 'index'])->name("amenities.index");
+        Route::get('amenities/create', [AmenitiesController::class, 'create'])->name("amenities.create");
+        Route::post('amenities/create', [AmenitiesController::class, 'store'])->name("amenities.store");
+        Route::get('amenities/show/{id}', [AmenitiesController::class, 'show'])->name("amenities.show");
+        Route::get('amenities/edit/{id}', [AmenitiesController::class, 'edit'])->name("amenities.edit");
+        Route::post('amenities/edit/{id}', [AmenitiesController::class, 'update'])->name("amenities.update");
+        Route::get('amenities/delete/{id}', [AmenitiesController::class, 'destroy'])->name("amenities.delete");
+        
+
+
+        // room type
+        Route::get('roomType/index', [RoomTypeController::class, 'index'])->name("roomType.index");
+        Route::get('roomType/create', [RoomTypeController::class, 'create'])->name("roomType.create");
+        Route::post('roomType/create', [RoomTypeController::class, 'store'])->name("roomType.store");
+        Route::get('roomType/show/{id}', [RoomTypeController::class, 'show'])->name("roomType.show");
+        Route::get('roomType/edit/{id}', [RoomTypeController::class, 'edit'])->name("roomType.edit");
+        Route::post('roomType/edit/{id}', [RoomTypeController::class, 'update'])->name("roomType.update");
+        Route::get('roomType/delete/{id}', [RoomTypeController::class, 'destroy'])->name("roomType.delete");
 
 
         //room
@@ -134,6 +148,18 @@ Route::middleware('auth')->group(callback: function () {
         Route::get('room/edit/{id}', [RoomController::class, 'edit'])->name("room.edit");
         Route::post('room/edit/{id}', [RoomController::class, 'update'])->name("room.update");
         Route::get('room/delete/{id}', [RoomController::class, 'destroy'])->name("room.delete");
+
+
+
+        //common area
+        Route::get('commonArea/index', [ComAreaController::class, 'index'])->name("commonArea.index");
+        Route::get('commonArea/create', [ComAreaController::class, 'create'])->name("commonArea.create");
+        Route::post('commonArea/create', [ComAreaController::class, 'store'])->name("commonArea.store");
+        Route::get('commonArea/show/{id}', [ComAreaController::class, 'show'])->name("commonArea.show");
+        Route::get('commonArea/edit/{id}', [ComAreaController::class, 'edit'])->name("commonArea.edit");
+        Route::post('commonArea/edit/{id}', [ComAreaController::class, 'update'])->name("commonArea.update");
+        Route::get('commonArea/delete/{id}', [ComAreaController::class, 'destroy'])->name("commonArea.delete");
+
 
 
 
@@ -171,24 +197,6 @@ Route::middleware('auth')->group(callback: function () {
         Route::get('/agreement/reject/{id}', [LeaseRequestController::class, 'reject'])->name('agreement.reject');
 
 
-
-
-        
-
-
-        Route::get('comarea/index', [ComareaController::class, 'index'])->name("comarea.index");
-
-        Route::get('comarea/create', [ComareaController::class, 'create'])->name("comarea.create");
-
-        Route::post('comarea/create', [ComareaController::class, 'store'])->name("comarea.store");
-
-        Route::get('comarea/show/{id}', [ComareaController::class, 'show'])->name("comarea.show");
-
-        Route::get('comarea/edit/{id}', [ComareaController::class, 'edit'])->name("comarea.edit");
-
-        Route::post('comarea/edit/{id}', [ComareaController::class, 'update'])->name("comarea.update");
-
-        Route::get('comarea/delete/{id}', [ComareaController::class, 'destroy'])->name("comarea.delete");
 
 
 

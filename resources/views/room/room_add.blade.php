@@ -124,9 +124,13 @@
                             {{-- room info --}}
 
                             <div class="form-group">
-                                <label for="type">Room Type</label>
-                                <input type="text" name="type" id="type" class="form-control"
-                                    placeholder="Enter Room Type (e.g, Bedroom)" required>
+                                <label for="room_type_id">Room Type</label>
+                                <select name="room_type_id" id="room_type_id" class="form-control" required>
+                                    <option value="">Select Room Type</option>
+                                    @foreach ($roomTypes as $roomType)
+                                        <option value="{{ $roomType->id }}">{{ $roomType->name }}</option>
+                                    @endforeach
+                                </select>
                             </div>
 
                             <div class="form-group">
@@ -136,22 +140,22 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="assets">Assets</label>
-                                <div id="assets-container">
-                                    <div class="asset-row d-flex mb-2">
-                                        <select name="assets[0][id]" class="form-control asset-select mr-2">
-                                            <option value="">Select Asset</option>
-                                            @foreach ($assets as $asset)
-                                                <option value="{{ $asset->id }}">{{ $asset->name }}</option>
+                                <label for="amenities">Amenities</label>
+                                <div id="amenities-container">
+                                    <div class="amenity-row d-flex mb-2">
+                                        <select name="amenities[0][id]" class="form-control amenity-select mr-2">
+                                            <option value="">Select Amenities</option>
+                                            @foreach ($amenities as $amenity)
+                                                <option value="{{ $amenity->id }}">{{ $amenity->name }}</option>
                                             @endforeach
                                         </select>
-                                        <input type="number" name="assets[0][quantity]" class="form-control asset-quantity"
+                                        <input type="number" name="amenities[0][quantity]" class="form-control amenity-quantity"
                                             placeholder="Quantity" min="1">
-                                        <button type="button" class="btn btn-danger remove-asset ml-2"
+                                        <button type="button" class="btn btn-danger remove-amenity ml-2"
                                             style="display: none;">Remove</button>
                                     </div>
                                 </div>
-                                <button type="button" class="btn btn-primary mt-2" id="add-asset">Add More</button>
+                                <button type="button" class="btn btn-primary mt-2" id="add-amenity">Add More</button>
                             </div>
 
                             <!-- Building Details -->
@@ -191,6 +195,7 @@
     </div>
 
     <script>
+
         // for building, block, floor, unit selection
         const typeFullForm = @json($typeFullForm); // Encode PHP array to JSON
         const buildings = @json($buildings);
@@ -325,33 +330,35 @@
 
         });
 
+
+
         //assest add remove
         document.addEventListener('DOMContentLoaded', function() {
             let assetCount = 1;
 
-            document.getElementById('add-asset').addEventListener('click', function() {
-                const container = document.getElementById('assets-container');
+            document.getElementById('add-amenity').addEventListener('click', function() {
+                const container = document.getElementById('amenities-container');
                 const newAssetRow = document.createElement('div');
-                newAssetRow.classList.add('asset-row', 'd-flex', 'mb-2');
+                newAssetRow.classList.add('amenity-row', 'd-flex', 'mb-2');
 
                 newAssetRow.innerHTML = `
-                <select name="assets[${assetCount}][id]" class="form-control asset-select mr-2">
-                    <option value="">Select Asset</option>
-                    @foreach ($assets as $asset)
-                        <option value="{{ $asset->id }}">{{ $asset->name }}</option>
+                <select name="amenities[${assetCount}][id]" class="form-control amenity-select mr-2">
+                    <option value="">Select Amenities</option>
+                    @foreach ($amenities as $amenity)
+                        <option value="{{ $amenity->id }}">{{ $amenity->name }}</option>
                     @endforeach
                 </select>
-                <input type="number" name="assets[${assetCount}][quantity]" class="form-control asset-quantity" placeholder="Quantity" min="1">
-                <button type="button" class="btn btn-danger remove-asset ml-2">Remove</button>
+                <input type="number" name="amenities[${assetCount}][quantity]" class="form-control amenity-quantity" placeholder="Quantity" min="1">
+                <button type="button" class="btn btn-danger remove-amenity ml-2">Remove</button>
                 `;
 
                 container.appendChild(newAssetRow);
                 assetCount++;
             });
 
-            document.getElementById('assets-container').addEventListener('click', function(e) {
-                if (e.target.classList.contains('remove-asset')) {
-                    e.target.closest('.asset-row').remove();
+            document.getElementById('amenities-container').addEventListener('click', function(e) {
+                if (e.target.classList.contains('remove-amenity')) {
+                    e.target.closest('.amenity-row').remove();
                 }
             });
         });

@@ -35,7 +35,7 @@
             @endphp
             <div class="row">
                 <div class="col-sm-12">
-                    <div class="profile-bg-picture" style="background-image:url('{{ asset('image/unit1.webp') }}')">
+                    <div class="profile-bg-picture" style="background-image:url('{{ asset('image/unit.webp') }}')">
                         <span class="picture-bg-overlay"></span><!-- overlay -->
                     </div>
                     <!-- meta -->
@@ -49,7 +49,7 @@
                                     <p class="text-muted font-15">{{ $building->name }} Building</p>
                                 </div>
                             </div>
-                            @can('unit-view')
+                            @can('unit-edit')
                             <div class="col-sm-6">
                                 <div class="text-right">
                                     <button type="button" class="btn waves-effect waves-light greenbtn"
@@ -71,7 +71,7 @@
                 <div class="col-md-4">
                     <!-- Block-Information -->
                     <div class="card-box">
-                        <h4 class="header-title mt-0 m-b-20">Floor Information</h4>
+                        <h4 class="header-title mt-0 m-b-20">Unit Information</h4>
                         <div class="panel-body">
 
                             <p class="text-muted font-15"><strong>
@@ -88,6 +88,10 @@
                         </strong> <span class="m-l-15">{{ $unit->price }} TK</span></p>
                             <p class="text-muted font-15"><strong>Date Added:</strong> <span
                                     class="m-l-15">{{ $unit->created_at->format('d M, Y') }}</span></p>
+
+                            <p class="text-muted font-15"><strong>Unit Status:</strong> <span
+                                    class="m-l-15"><span class="badge bg-{{ $unit->status == 0 ? 'danger' : ($unit->status == 1 ? 'primary' : 'success') }}">
+                                        {{ $unit->status == 0 ? 'Vacant' : ($unit->status == 1 ? 'Pending' : 'Occupied') }}</span></p>
                             <hr>
 
                             @php
@@ -193,8 +197,12 @@
                     @foreach ($rooms as $room)
                     <div class="col-md-4 mb-4">
                         <div class="card-box">
-                            <h4 class="header-title mt-0 m-b-20">{{ $room->type }}{{ $room->room_no }}</h4>
-                            </h4>
+                            @foreach ($roomTypes as $roomType)
+                                @if ($roomType->id == $room->room_type_id)
+                                    <h4 class="header-title mt-0 m-b-20">{{ $roomType->name }}{{ $room->room_no }}</h4>
+                                @endif
+                            @endforeach
+                           
                             <div class="panel-body">
                                 {{-- <p class="text-muted font-15"><strong>Type:
                                     </strong>{{ ucfirst($unit->type) }} Unit</p> --}}

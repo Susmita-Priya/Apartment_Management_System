@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id();
             $table->foreignId('company_id')->references('id')->on('users');
             $table->foreignId('unit_id')->references('id')->on('units')->onDelete('cascade');
-            $table->string('type');
+            $table->foreignId('room_type_id')->references('id')->on('room_types');
             $table->string('room_no');
-            $table->json('assets');
+            $table->json('amenities')->nullable();
             $table->string('status')->default(1);
             $table->timestamps();
         });

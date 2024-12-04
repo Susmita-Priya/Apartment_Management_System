@@ -71,8 +71,16 @@ class PermissionSeeder extends Seeder
             'unit-delete',
             'unit-view',
 
+
+            'room-type-management',
+            'room-type-list',
+            'room-type-create',
+            'room-type-edit',
+            'room-type-delete',
+
             
             'room-list',
+            'room-view',
             'room-create',
             'room-edit',
             'room-delete',
@@ -92,13 +100,13 @@ class PermissionSeeder extends Seeder
             'common-area-view',
 
 
-            'asset-management',
+            'amenities-management',
 
-            'asset-list',
-            'asset-create',
-            'asset-edit',
-            'asset-delete',
-            'asset-view',
+            'amenities-list',
+            'amenities-create',
+            'amenities-edit',
+            'amenities-delete',
+            'amenities-view',
 
 
             // parking management

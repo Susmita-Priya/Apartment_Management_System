@@ -7,6 +7,7 @@ use App\Models\Building;
 use App\Models\Floor;
 use App\Models\Landlord;
 use App\Models\Room;
+use App\Models\roomType;
 use App\Models\Unit;
 use App\Models\Unit_landlord;
 use Illuminate\Http\Request;
@@ -107,8 +108,9 @@ class UnitController extends Controller
         $block = Block::findOrFail($floor->block_id);
         $building = Building::findOrFail($block->building_id);
         $rooms = Room::where('unit_id', $unit->id)->orderBy('room_no')->get();
+        $roomTypes = roomType::where('status',1)->get();
      
-        return view('unit.unit_view', compact('unit', 'floor', 'block', 'building', 'rooms'));
+        return view('unit.unit_view', compact('unit', 'floor', 'block', 'building', 'rooms', 'roomTypes'));
     }
 
     /**

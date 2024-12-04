@@ -1,7 +1,7 @@
 @extends('master')
 
 @push('title')
-    <title>Assets List</title>
+    <title>Room Types List</title>
 @endpush
 
 @section('content')
@@ -10,11 +10,11 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box">
-                        <h4 class="page-title float-left">Assets</h4>
+                        <h4 class="page-title float-left">Room Types</h4>
 
                         <ol class="breadcrumb float-right">
                             <li class="breadcrumb-item"><a href="{{ route('index') }}">Admin</a></li>
-                            <li class="breadcrumb-item active">Assets list</li>
+                            <li class="breadcrumb-item active">Room Types list</li>
                         </ol>
 
                         <div class="clearfix"></div>
@@ -26,15 +26,15 @@
             <div class="row">
                 <div class="col-12">
                     <div class="card-box">
-                        <h4 class="header-title m-b-15 m-t-0">Assets List</h4>
+                        <h4 class="header-title m-b-15 m-t-0">Room Types List</h4>
                         <div class="row">
-                            @can('asset-create')
+                            @can('room-type-create')
                                 
                                 <div class="col-sm-12">
                                 <div class="text-right m-b-20">
                                     <button type="button" class="btn waves-effect waves-light greenbtn"
-                                        onclick="window.location.href='{{ route('asset.create') }}'">
-                                        <i class="mdi mdi-plus m-r-5"></i> Add Asset
+                                        onclick="window.location.href='{{ route('roomType.create') }}'">
+                                        <i class="mdi mdi-plus m-r-5"></i> Add Room Type
                                     </button>
                                 </div>
                             </div>
@@ -47,9 +47,8 @@
                             <thead>
                                 <tr>
                                     <th>Serial No</th>
-                                    <th>Asset Name</th>
-                                    <th>Asset Image</th>
-                                    <th>Asset Description</th>
+                                    <th>Room Type</th>
+                                    <th>Description</th>
                                     <th>Status</th>
                                     <th>Action</th>
                                 </tr>
@@ -59,17 +58,14 @@
                                     $i = 1;
                                 @endphp
 
-                                @foreach ($assets as $asset)
+                                @foreach ($roomTypes as $roomType)
                                     <tr>
                                         <td>{{ $i++ }}</td>
-                                        <td>{{ $asset->name }}</td>
-                                        <td>
-                                            <img src="{{ asset($asset->image) }}" alt="{{ $asset->name }}" style="width: 80px; height: auto;">
-                                        </td>
-                                        <td>{{ $asset->short_description ? $asset->short_description : 'Not Available' }}</td>
+                                        <td>{{ $roomType->name }}</td>
+                                        <td>{{ $roomType->description ? $roomType->description : 'No Description' }}</td>
 
                                         <td>
-                                            @if ($asset->status == 1)
+                                            @if ($roomType->status == 1)
                                                 <span class="badge badge-success">Active</span>
                                             @else
                                                 <span class="badge badge-danger">Inactive</span>
@@ -81,22 +77,22 @@
                                                     data-toggle="dropdown" aria-expanded="false"><i
                                                         class="mdi mdi-dots-horizontal"></i></a>
                                                 <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                                                    @can('asset-edit')
+                                                    @can('room-type-edit')
                                                         <a class="dropdown-item"
-                                                        href="{{ route('asset.edit', ['id' => $asset->id]) }}"
+                                                        href="{{ route('roomType.edit', ['id' => $roomType->id]) }}"
                                                         type="submit"><i
                                                             class="mdi mdi-pencil m-r-10 text-muted font-18 vertical-middle"></i>Edit
-                                                        Asset</a>
+                                                        Room Type</a>
                                                     @endcan
-                                                    @can('asset-delete')
+                                                    @can('room-type-delete')
                                                         <a class="dropdown-item" href="#"
-                                                        onclick="confirmDelete('{{ route('asset.delete', ['id' => $asset->id]) }}')"><i
+                                                        onclick="confirmDelete('{{ route('roomType.delete', ['id' => $roomType->id]) }}')"><i
                                                             class="mdi mdi-delete m-r-10 text-muted font-18 vertical-middle"></i>
-                                                        Delete Asset
+                                                        Delete Room Type
                                                     </a>
                                                     <!-- Hidden form for deletion -->
                                                     <form id="delete-form"
-                                                        action="{{ route('asset.delete', ['id' => $asset->id]) }}"
+                                                        action="{{ route('roomType.delete', ['id' => $roomType->id]) }}"
                                                         method="GET" style="display: none;">
                                                         @csrf
                                                         @method('DELETE')
