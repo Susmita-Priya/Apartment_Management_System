@@ -30,18 +30,32 @@
                             </a>
                             <ul class="nav-second-level">
 
-                                @can('asset-management')
+                                @can('amenities-create')
                                 <li>
-                                    <a href="javascript: void(0);">
+                                    <a href="{{ route('amenities.create') }}">
                                         <i class="fa fa-plus"></i>
-                                        <span> Asset</span>
-                                        <span class="menu-arrow"></span>
+                                        <span>New Amenity</span>
+                                        
                                     </a>
-                                    @can('asset-create')
-                                        <ul class="nav-third-level" aria-expanded="false">
-                                            <li><a href="{{ route('asset.create') }}">New Asset</a></li>
-                                        </ul>
-                                    @endcan
+                                </li>
+                                @endcan
+
+                                @can('room-type-create')
+                                <li>
+                                    <a href="{{ route('roomType.create') }}">
+                                        <i class="fa fa-plus
+                                        "></i>
+                                        <span>New Room Type</span>
+                                    </a>
+                                </li>
+                                @endcan
+
+                                @can('common-area-create')
+                                <li>
+                                    <a href="{{ route('commonArea.create') }}">
+                                        <i class="fa fa-plus"></i>
+                                        <span>New Common Area</span>
+                                    </a>
                                 </li>
                                 @endcan
 
@@ -67,9 +81,6 @@
                                             @endcan
                                             @can('room-create')
                                                 <li><a href="{{ route('room.create') }}">New Room</a></li>
-                                            @endcan
-                                            @can('common-area-create')
-                                                <li><a href="{{ route('comarea.create') }}">New Common Area</a></li>
                                             @endcan
                                         </ul>
                                     </li>
@@ -133,15 +144,29 @@
                         </li>
                     @endcan
 
-                    <!-- Asset -->
-                    @can('asset-management')
+                    <!-- Amenities -->
+                    @can('amenities-management')
                         <li>
-                            <a href="javascript: void(0);"><i class="fa fa-cube"></i> <span> Asset </span> <span
+                            <a href="javascript: void(0);"><i class="fa fa-cube"></i> <span> Amenities </span> <span
                                     class="menu-arrow"></span></a>
                             <ul class="nav-second-level " aria-expanded="false">
-                                @can('asset-list')
-                                    <li><a href="{{ route('asset.index') }}">Asset List</a></li>
+                                @can('amenities-list')
+                                    <li><a href="{{ route('amenities.index') }}">Amenities List</a></li>
                                 @endcan
+                            </ul>
+                        </li>
+                    @endcan
+
+
+                    {{-- Room Type --}}
+                    @can('room-type-management')
+                        <li>
+                            <a href="javascript: void(0);"><i class="fa fa-bed"></i> <span> Room Type </span> <span
+                                    class="menu-arrow"></span></a>
+                            <ul class="nav-second-level " aria-expanded="false">
+                            @can('room-type-list')
+                                <li><a href="{{ route('roomType.index') }}">Room Type List</a></li>
+                            @endcan
                             </ul>
                         </li>
                     @endcan

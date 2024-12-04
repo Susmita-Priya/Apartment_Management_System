@@ -1,7 +1,7 @@
 @extends('master')
 
 @push('title')
-    <title>Units List</title>
+    <title>Rooms List</title>
 @endpush
 
 @section('content')
@@ -10,10 +10,10 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box">
-                        <h4 class="page-title float-left">Units</h4>
+                        <h4 class="page-title float-left">Rooms</h4>
                         <ol class="breadcrumb float-right">
                             <li class="breadcrumb-item"><a href="{{ route('index') }}">Dashboard</a></li>
-                            <li class="breadcrumb-item active">Units list</li>
+                            <li class="breadcrumb-item active">Rooms list</li>
                         </ol>
                         <div class="clearfix"></div>
                     </div>
@@ -24,13 +24,13 @@
             <div class="row">
                 <div class="col-12">
                     <div class="card-box">
-                        <h4 class="header-title m-b-15 m-t-0">Units List</h4>
+                        <h4 class="header-title m-b-15 m-t-0">Rooms List</h4>
                         <div class="row">
                             <div class="col-sm-12">
                                 <div class="text-right m-b-20">
                                     <button type="button" class="btn waves-effect waves-light greenbtn"
-                                        onclick="window.location.href='{{ route('unit.create') }}'">
-                                        <i class="mdi mdi-plus m-r-5"></i> Add Unit
+                                        onclick="window.location.href='{{ route('room.create') }}'">
+                                        <i class="mdi mdi-plus m-r-5"></i> Add Room
                                     </button>
                                 </div>
                             </div>
@@ -213,13 +213,19 @@
                     .then(data => {
                         const rooms = data.rooms;
                         const unit = data.unit;
+                        const roomTypes = data.roomTypes;
 
                         if(rooms.length > 0) {
                             rooms.forEach((room, index) => {
+                                roomTypes.forEach(roomType => {
+                                    if (roomType.id == room.room_type_id) {
+                                         roomTypeName = roomType.name;
+                                    }
+                                });
                                 const row = document.createElement('tr');
                                 row.innerHTML = `
                                     <td>${index + 1}</td>
-                                    <td>${room.type} ${room.room_no}</td>
+                                    <td>${roomTypeName} ${room.room_no}</td>
                                     <td>${unit.type.charAt(0).toUpperCase() + unit.type.slice(1)} Unit</td>
                                     <td>
                                         <span class="badge bg-${room.status == 0 ? 'danger' : 'success'}">
@@ -230,16 +236,26 @@
                                         <div class="btn-group dropdown">
                                             <a href="javascript:void(0);" class="table-action-btn dropdown-toggle"
                                                 data-toggle="dropdown" aria-expanded="false"><i class="mdi mdi-dots-horizontal"></i></a>
-                                            <div class="dropdown-menu">
-                                                <a class="dropdown-item" href="show/${room.id}">
-                                                    <i class="mdi mdi-eye m-r-10 font-18 text-muted vertical-middle"></i> View Details
-                                                </a>
-                                                <a class="dropdown-item" href="edit/${room.id}">
-                                                    <i class="mdi mdi-pencil m-r-10 text-muted font-18 vertical-middle"></i> Edit Unit
-                                                </a>
-                                                <a class="dropdown-item" href="#" onclick="confirmDelete('delete/${room.id}')">
-                                                    <i class="mdi mdi-delete m-r-10 text-muted font-18 vertical-middle"></i> Delete
-                                                </a>
+                                            <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                                                @can('room-view')
+                                                    <a class="dropdown-item" href="show/${room.id}">
+                                                        <i class="mdi mdi-eye m-r-10 font-18 text-muted vertical-middle"></i> View Details
+                                                    </a>
+                                                @endcan
+                                                @can('room-edit')
+                                                    <a class="dropdown-item" href="edit/${room.id}">
+                                                        <i class="mdi mdi-pencil m-r-10 text-muted font-18 vertical-middle"></i> Edit Unit
+                                                    </a>
+                                                @endcan
+                                                @can('room-delete')
+                                                    <a class="dropdown-item" href="#" onclick="confirmDelete('delete/${room.id}')">
+                                                        <i class="mdi mdi-delete m-r-10 text-muted font-18 vertical-middle"></i> Delete
+                                                    </a>
+                                                    <form id="delete-form" action="delete/${room.id}" method="GET" style="display: none;">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                    </form>
+                                                @endcan
                                             </div>
                                         </div>
                                     </td>

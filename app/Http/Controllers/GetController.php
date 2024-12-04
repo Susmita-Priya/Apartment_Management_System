@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Block;
 use App\Models\Floor;
 use App\Models\Room;
+use App\Models\roomType;
 use App\Models\Unit;
 use Illuminate\Http\Request;
 
@@ -62,8 +63,9 @@ class GetController extends Controller
     public function getRooms($id)
     {
         $rooms = Room::where('unit_id', $id)->orderBy('room_no')->get();
+        $roomTypes = roomType::all();
         $unit = Unit::find($id);
-        return response()->json(['rooms' => $rooms, 'unit' => $unit]);
+        return response()->json(['rooms' => $rooms, 'unit' => $unit, 'roomTypes' => $roomTypes]);
     }
 
 
