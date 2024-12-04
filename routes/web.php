@@ -278,7 +278,7 @@ Route::middleware('auth')->group(callback: function () {
         Route::get('tenants/delete/{id}', [TenantController::class, 'destroy'])->name("tenants.delete");
 
 
-
+//
         Route::get('landlord/index', [LandlordController::class, 'index'])->name("landlord.index");
 
         Route::get('landlord/create', [LandlordController::class, 'create'])->name("landlord.create");
