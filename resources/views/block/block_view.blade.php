@@ -120,7 +120,7 @@
                                         @endcan
                                         @can('common-area-create')
                                         <a class="dropdown-item"
-                                            href="{{ route('comarea.create', ['block_id' => $block->id]) }}">
+                                            href="{{ route('commonArea.create', ['block_id' => $block->id]) }}">
                                             <i class="mdi mdi-plus m-r-10 text-muted font-18 vertical-middle"></i> Add
                                             Common Area
                                         </a>

@@ -12,7 +12,8 @@ class CommonAreaController extends Controller
      */
     public function index()
     {
-        //
+        $commonAreas = CommonArea::latest()->get();
+        return view('commonArea.commonArea_list', compact('commonAreas'));
     }
 
     /**
@@ -20,7 +21,7 @@ class CommonAreaController extends Controller
      */
     public function create()
     {
-        //
+        return view('commonArea.commonArea_add');
     }
 
     /**
@@ -28,7 +29,18 @@ class CommonAreaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'description' => 'nullable',
+        ]);
+
+        // Create the common area
+        $commonArea = new CommonArea;
+        $commonArea->name = $request->name;
+        $commonArea->description = $request->description;
+        $commonArea->save();
+
+        return redirect()->back()->with('success', 'Common Area created successfully.');
     }
 
     /**
@@ -42,24 +54,39 @@ class CommonAreaController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(CommonArea $commonArea)
+    public function edit($id)
     {
-        //
+        $commonArea = CommonArea::find($id);
+        return view('commonArea.commonArea_edit', compact('commonArea'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, CommonArea $commonArea)
+    public function update(Request $request,$id)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'description' => 'nullable',
+        ]);
+
+        $commonArea = CommonArea::find($id);
+        $commonArea->name = $request->name;
+        $commonArea->description = $request->description;
+        $commonArea->status = $request->status;
+        $commonArea->save();
+
+        return redirect()->back()->with('success', 'Common Area updated successfully.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(CommonArea $commonArea)
+    public function destroy($id)
     {
-        //
+        $commonArea = CommonArea::find($id);
+        $commonArea->delete();
+        return redirect()->back()->with('success', 'Common Area deleted successfully.');
     }
+    
 }

@@ -11,6 +11,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BlockController;
 use App\Http\Controllers\BuildingController;
 use App\Http\Controllers\ComareaController;
+use App\Http\Controllers\CommonAreaController;
 use App\Http\Controllers\ComroomController;
 use App\Http\Controllers\FloorController;
 use App\Http\Controllers\GetController;
@@ -152,13 +153,13 @@ Route::middleware('auth')->group(callback: function () {
 
 
         //common area
-        Route::get('commonArea/index', [ComAreaController::class, 'index'])->name("commonArea.index");
-        Route::get('commonArea/create', [ComAreaController::class, 'create'])->name("commonArea.create");
-        Route::post('commonArea/create', [ComAreaController::class, 'store'])->name("commonArea.store");
-        Route::get('commonArea/show/{id}', [ComAreaController::class, 'show'])->name("commonArea.show");
-        Route::get('commonArea/edit/{id}', [ComAreaController::class, 'edit'])->name("commonArea.edit");
-        Route::post('commonArea/edit/{id}', [ComAreaController::class, 'update'])->name("commonArea.update");
-        Route::get('commonArea/delete/{id}', [ComAreaController::class, 'destroy'])->name("commonArea.delete");
+        Route::get('commonArea/index', [CommonAreaController::class, 'index'])->name("commonArea.index");
+        Route::get('commonArea/create', [CommonAreaController::class, 'create'])->name("commonArea.create");
+        Route::post('commonArea/create', [CommonAreaController::class, 'store'])->name("commonArea.store");
+        Route::get('commonArea/show/{id}', [CommonAreaController::class, 'show'])->name("commonArea.show");
+        Route::get('commonArea/edit/{id}', [CommonAreaController::class, 'edit'])->name("commonArea.edit");
+        Route::post('commonArea/edit/{id}', [CommonAreaController::class, 'update'])->name("commonArea.update");
+        Route::get('commonArea/delete/{id}', [CommonAreaController::class, 'destroy'])->name("commonArea.delete");
 
 
 

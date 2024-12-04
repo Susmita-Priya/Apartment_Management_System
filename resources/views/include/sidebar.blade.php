@@ -25,7 +25,7 @@
                         <li>
                             <a href="javascript: void(0);">
                                 <i class="fa fa-plus"></i>
-                                <span> New </span>
+                                <span>Add New </span>
                                 <span class="menu-arrow"></span>
                             </a>
                             <ul class="nav-second-level">
@@ -54,7 +54,7 @@
                                 <li>
                                     <a href="{{ route('commonArea.create') }}">
                                         <i class="fa fa-plus"></i>
-                                        <span>New Common Area</span>
+                                        <span>Common Area</span>
                                     </a>
                                 </li>
                                 @endcan
@@ -172,6 +172,20 @@
                     @endcan
 
 
+                    <!-- Common Area -->
+                    @can('common-area-management')
+                        <li>
+                            <a href="javascript: void(0);"><i class="fa fa-object-group"></i> <span> Common Area </span> <span
+                                    class="menu-arrow"></span></a>
+                            <ul class="nav-second-level " aria-expanded="false">
+                                @can('common-area-list')
+                                    <li><a href="{{ route('commonArea.index') }}">Common Area List</a></li>
+                                @endcan
+                            </ul>
+                        </li>
+                    @endcan
+
+
                     <!-- Property -->
                     @can('property-management')
                         <li>
@@ -193,9 +207,7 @@
                                 @can('room-list')
                                     <li><a href="{{ route('room.index') }}">View Rooms</a></li>
                                 @endcan
-                                @can('common-area-list')
-                                <li><a href="{{ route('comarea.index') }}">View Common Areas</a></li>
-                            @endcan
+                                
                             </ul>
                         </li>
                     @endif

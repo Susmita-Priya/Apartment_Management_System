@@ -92,6 +92,9 @@ class PermissionSeeder extends Seeder
             'stall-delete',
             'stall-view',
 
+            
+            //common area management
+            'common-area-management',
 
             'common-area-list',
             'common-area-create',
