@@ -213,6 +213,21 @@
                     @endif
 
 
+                    {{-- pending request --}}
+                    @can('pending-request-list')
+                        <li>
+                            <a href="javascript: void(0);"><i class="fa fa-clock-o"></i> <span> Pending Request </span> <span
+                                    class="menu-arrow"></span></a>
+                            <ul class="nav-second-level " aria-expanded="false">
+                                @can('building-request')
+                                    <li><a href="{{ route('building.pending') }}">Building Request</a></li>
+                                @endcan
+                                
+                            </ul>
+                        </li>
+                    @endcan
+
+
                     <!-- Tenants -->
                     @can('tenant-management')
                         <li>

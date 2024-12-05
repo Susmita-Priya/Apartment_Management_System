@@ -77,6 +77,10 @@ Route::middleware('auth')->group(callback: function () {
         Route::post('building/edit/{id}', [BuildingController::class, 'update'])->name("building.update");
         Route::get('building/delete/{id}', [BuildingController::class, 'destroy'])->name("building.delete");
 
+        Route::get('building/pending', [BuildingController::class, 'pending'])->name("building.pending");
+        Route::get('building/approve/{id}', [BuildingController::class, 'approve'])->name("building.approve");
+        Route::get('building/reject/{id}', [BuildingController::class, 'reject'])->name("building.reject");
+
 
 
         //block

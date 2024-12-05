@@ -112,6 +112,14 @@ class PermissionSeeder extends Seeder
             'amenities-view',
 
 
+            // Pendending Request
+
+            'pending-request-list',
+            'building-request',
+            'building-request-approve',
+            'building-request-reject',
+
+
             // parking management
 
             'parking-management',

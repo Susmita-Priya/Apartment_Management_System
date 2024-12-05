@@ -193,4 +193,35 @@ class BuildingController extends Controller
         // Redirect with a success message
         return redirect()->route('building')->with('delete', 'Delete Successful!');
     }
+
+
+    public function pending()
+    {
+        $buildings = Building::where('company_id', Auth::user()->id)
+            ->where('status', 0)
+            ->latest()
+            ->get();
+        return view('building.building_request_list', compact('buildings'));
+    }
+
+    public function approve(string $id)
+    {
+        $building = Building::find($id);
+        if (!is_null($building)) {
+            $building->status = 1;
+            $building->save();
+        }
+        return redirect()->route('building.pending')->with('success', 'Building Approved Successfully!');
+    }
+
+    public function reject(string $id)
+    {
+        $building = Building::find($id);
+        if (!is_null($building)) {
+            $building->status = 2;
+            $building->save();
+        }
+        return redirect()->route('building.pending')->with('success', 'Building Rejected Successfully!');
+    }
+   
 }
