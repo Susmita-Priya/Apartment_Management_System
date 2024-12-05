@@ -71,8 +71,7 @@
                 </div><!-- end col -->
             </div>
             <!-- end row -->
-
+            
         </div> <!-- container -->
-
     </div> <!-- content -->
 @endsection
