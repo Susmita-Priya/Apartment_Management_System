@@ -13,6 +13,9 @@
      <!-- custom css -->
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 
+    <!-- Select2 css -->
+    <link href="{{asset('admin_dashboard') }}/assets/select2/css/select2.min.css" rel="stylesheet" type="text/css" />
+
     <!-- Sweet Alert -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"
         integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA=="
@@ -29,8 +32,8 @@
         type="text/css" />
     <link href="{{ asset('admin_dashboard') }}/plugins/datatables/responsive.bootstrap4.min.css" rel="stylesheet"
         type="text/css" />
-<!-- Add Bootstrap CSS -->
-<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Add Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- App css -->
     <link href="{{ asset('admin_dashboard') }}/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
@@ -72,6 +75,8 @@
     <script src="{{ asset('admin_dashboard') }}/assets/js/waves.js"></script>
     <script src="{{ asset('admin_dashboard') }}/assets/js/jquery.slimscroll.js"></script>
 
+
+
     <!-- Counter js  -->
     <script src="{{ asset('admin_dashboard') }}/plugins/waypoints/jquery.waypoints.min.js"></script>
     <script src="{{ asset('admin_dashboard') }}/plugins/counterup/jquery.counterup.min.js"></script>
@@ -103,6 +108,17 @@
     <script type="text/javascript">
         $(document).ready(function() {
             $('#datatable').dataTable();
+        });
+    </script>
+
+
+{{-- select2 --}}
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('.form-control[multiple]').select2({
+                allowClear: true
+            });
         });
     </script>
 

@@ -14,155 +14,282 @@
                     <li class="menu-title">Navigation</li>
 
                     <li>
-                        <a href="{{ url('/index') }}">
+                        <a href="{{ route('index') }}">
                             <i class="fi-air-play"></i><span class="badge badge-success pull-right">2</span> <span>
                                 Dashboard </span>
                         </a>
                     </li>
 
                     <!-- New -->
-                    @if (App\Models\Permission::hasPermission('add_new', $role_id))
+                    @can('add-new')
                         <li>
                             <a href="javascript: void(0);">
                                 <i class="fa fa-plus"></i>
-                                <span> New </span>
+                                <span>Add New </span>
                                 <span class="menu-arrow"></span>
                             </a>
                             <ul class="nav-second-level">
-                                <li>
-                                    <a href="javascript: void(0);">
-                                        <i class="fa fa-plus"></i>
-                                        <span> Property </span>
-                                        <span class="menu-arrow"></span>
-                                    </a>
-                                    <ul class="nav-third-level" aria-expanded="false">
-                                        <li><a href="{{ route('building.create') }}">New Building</a></li>
-                                        <li><a href="{{ route('block.create') }}">New Block</a></li>
-                                        <li><a href="{{ route('floor.create') }}">New Floor</a></li>
-                                        <li><a href="{{ route('comarea.create') }}">New Common Area</a></li>
-                                        <li><a href="{{ route('unit.create') }}">New Unit</a></li>
-                                    </ul>
-                                </li>
 
+                                @can('amenities-create')
                                 <li>
-                                    <a href="javascript: void(0);">
+                                    <a href="{{ route('amenities.create') }}">
                                         <i class="fa fa-plus"></i>
-                                        <span> Tenant </span>
-                                        <span class="menu-arrow"></span>
+                                        <span>New Amenity</span>
+                                        
                                     </a>
-                                    @if (App\Models\Permission::hasPermission('add_tenants', $role_id))
+                                </li>
+                                @endcan
+
+                                @can('room-type-create')
+                                <li>
+                                    <a href="{{ route('roomType.create') }}">
+                                        <i class="fa fa-plus
+                                        "></i>
+                                        <span>New Room Type</span>
+                                    </a>
+                                </li>
+                                @endcan
+
+                                @can('common-area-create')
+                                <li>
+                                    <a href="{{ route('commonArea.create') }}">
+                                        <i class="fa fa-plus"></i>
+                                        <span>Common Area</span>
+                                    </a>
+                                </li>
+                                @endcan
+
+                                @can('property-management')
+                                    <li>
+                                        <a href="javascript: void(0);">
+                                            <i class="fa fa-plus"></i>
+                                            <span> Property </span>
+                                            <span class="menu-arrow"></span>
+                                        </a>
                                         <ul class="nav-third-level" aria-expanded="false">
-                                            <li><a href="{{ route('tenants.create') }}">New Tenant</a></li>
+                                            @can('building-create')
+                                                <li><a href="{{ route('building.create') }}">New Building</a></li>
+                                            @endcan
+                                            @can('block-create')
+                                                <li><a href="{{ route('block.create') }}">New Block</a></li>
+                                            @endcan
+                                            @can('floor-create')
+                                                <li><a href="{{ route('floor.create') }}">New Floor</a></li>
+                                            @endcan 
+                                            @can('unit-create')
+                                                <li><a href="{{ route('unit.create') }}">New Unit</a></li>
+                                            @endcan
+                                            @can('room-create')
+                                                <li><a href="{{ route('room.create') }}">New Room</a></li>
+                                            @endcan
                                         </ul>
-                                    @endif
+                                    </li>
+                                @endcan
 
-                                </li>
-                                <li>
-                                    <a href="javascript: void(0);">
-                                        <i class="fa fa-plus"></i>
-                                        <span> Landlord </span>
-                                        <span class="menu-arrow"></span>
-                                    </a>
-                                    @if (App\Models\Permission::hasPermission('add_landlords', $role_id))
+                                @can('tenant-management')
+                                    <li>
+                                        <a href="javascript: void(0);">
+                                            <i class="fa fa-plus"></i>
+                                            <span> Tenant </span>
+                                            <span class="menu-arrow"></span>
+                                        </a>
+                                        @can('tenant-create')
+                                            <ul class="nav-third-level" aria-expanded="false">
+                                                <li><a href="{{ route('tenants.create') }}">New Tenant</a></li>
+                                            </ul>
+                                        @endcan
+                                    </li>
+                                @endcan
+
+
+                                @can('landlord-management')
+
+                                    <li>
+                                        <a href="javascript: void(0);">
+                                            <i class="fa fa-plus"></i>
+                                            <span> Landlord </span>
+                                            <span class="menu-arrow"></span>
+                                        </a>
+                                        @can('landlord-create')
+                                            <ul class="nav-third-level" aria-expanded="false">
+                                                <li><a href="{{ route('landlord.create') }}">New Landlord</a></li>
+                                            </ul>
+
+                                        @endcan
+                                    </li>
+                                @endcan
+
+                                @can('parking-management')
+                                    <li>
+                                        <a href="javascript: void(0);">
+                                            <i class="fa fa-plus"></i>
+                                            <span> Parking </span>
+                                            <span class="menu-arrow"></span>
+                                        </a>
                                         <ul class="nav-third-level" aria-expanded="false">
-                                            <li><a href="{{ route('landlord.create') }}">Add Landlords</a></li>
-                                        </ul>
-                                    @endif
+                                            @can('stall-create')
+                                                <li><a href="{{ route('stall.create') }}">New Stall</a></li>
+                                            @endcan
+                                            @can('vehicle-create')
+                                                <li><a href="{{ route('vehicle.create') }}">New Vehicle</a></li>
+                                            @endcan
+                                            @can('parker-create')
+                                                <li><a href="{{ route('parker.create') }}">New Parker</a></li>
+                                            @endcan
 
-                                </li>
-                                <li>
-                                    <a href="javascript: void(0);">
-                                        <i class="fa fa-plus"></i>
-                                        <span> Parking </span>
-                                        <span class="menu-arrow"></span>
-                                    </a>
-                                    <ul class="nav-third-level" aria-expanded="false">
-                                        <li><a href="{{ route('stall_locker.create') }}">New Stall</a></li>
-                                        <li><a href="{{ route('vehicle.create') }}">New Vehicle</a></li>
-                                        <li><a href="{{ route('parker.create') }}">New Parker</a></li>
-                                    </ul>
-                                </li>
+                                        </ul>
+                                    </li>
+                                @endcan
                             </ul>
                         </li>
-                    @endif
+                    @endcan
 
-                    <!-- Tenants -->
-                    @if (App\Models\Permission::hasPermission('view_tenants', $role_id))
+                    <!-- Amenities -->
+                    @can('amenities-management')
                         <li>
-                            <a href="javascript: void(0);"><i class="fa fa-user"></i> <span> Tenants </span> <span
+                            <a href="javascript: void(0);"><i class="fa fa-cube"></i> <span> Amenities </span> <span
                                     class="menu-arrow"></span></a>
                             <ul class="nav-second-level " aria-expanded="false">
-                                <li><a href="{{ route('tenants.index') }}">Tenants List</a></li>
-                                {{-- <li><a href="{{ route('tenant.index') }}">Tenant List</a></li> --}}
+                                @can('amenities-list')
+                                    <li><a href="{{ route('amenities.index') }}">Amenities List</a></li>
+                                @endcan
                             </ul>
                         </li>
-                    @endif
+                    @endcan
 
-                    <!-- Landlords -->
-                    @if (App\Models\Permission::hasPermission('view_landlords', $role_id))
+
+                    {{-- Room Type --}}
+                    @can('room-type-management')
                         <li>
-                            <a href="javascript: void(0);"><i class="fa fa-user"></i> <span> Landlords </span> <span
+                            <a href="javascript: void(0);"><i class="fa fa-bed"></i> <span> Room Type </span> <span
                                     class="menu-arrow"></span></a>
                             <ul class="nav-second-level " aria-expanded="false">
-                                {{-- @if (App\Models\Permission::hasPermission('add_landlords', $role_id))
-                                    <li><a href="{{ route('landlord.create') }}">Add Landlords</a></li>
-                                @endif --}}
-                                <li><a href="{{ route('landlord.index') }}">Landlords List</a></li>
+                            @can('room-type-list')
+                                <li><a href="{{ route('roomType.index') }}">Room Type List</a></li>
+                            @endcan
                             </ul>
                         </li>
-                    @endif
+                    @endcan
+
+
+                    <!-- Common Area -->
+                    @can('common-area-management')
+                        <li>
+                            <a href="javascript: void(0);"><i class="fa fa-object-group"></i> <span> Common Area </span> <span
+                                    class="menu-arrow"></span></a>
+                            <ul class="nav-second-level " aria-expanded="false">
+                                @can('common-area-list')
+                                    <li><a href="{{ route('commonArea.index') }}">Common Area List</a></li>
+                                @endcan
+                            </ul>
+                        </li>
+                    @endcan
+
 
                     <!-- Property -->
-                    @if (App\Models\Permission::hasPermission('view_property', $role_id))
+                    @can('property-management')
                         <li>
                             <a href="javascript: void(0);"><i class="fa fa-home"></i> <span> Property </span> <span
                                     class="menu-arrow"></span></a>
                             <ul class="nav-second-level " aria-expanded="false">
-                                {{-- @if (App\Models\Permission::hasPermission('add_property', $role_id))
-                            <li><a href="{{ url('/building/create') }}">Add Property</a></li>
-                            @endif --}}
-                                <li><a href="{{ route('building') }}">View Buildings</a></li>
-                                <li><a href="{{ route('block.index') }}">View blocks</a></li>
-                                <li><a href="{{ route('floor.index') }}">View floors</a></li>
-                                <li><a href="{{ route('comarea.index') }}">View Common Areas</a></li>
-                                <li><a href="{{ route('unit.index') }}">View units</a></li>
+                                @can('building-list')
+                                    <li><a href="{{ route('building') }}">View Buildings</a></li>
+                                @endcan
+                                @can('block-list')
+                                    <li><a href="{{ route('block.index') }}">View Blocks</a></li>
+                                @endcan
+                                @can('floor-list')
+                                    <li><a href="{{ route('floor.index') }}">View Floors</a></li>
+                                @endcan
+                                @can('unit-list')
+                                    <li><a href="{{ route('unit.index') }}">View Units</a></li>
+                                @endcan
+                                @can('room-list')
+                                    <li><a href="{{ route('room.index') }}">View Rooms</a></li>
+                                @endcan
+                                
                             </ul>
                         </li>
                     @endif
 
-                    <!-- Tenants -->
-                   
+
+                    {{-- pending request --}}
+                    @can('pending-request-list')
                         <li>
-                            <a href="javascript: void(0);"><i class="fa fa-user"></i> <span> Leases </span> <span
+                            <a href="javascript: void(0);"><i class="fa fa-clock-o"></i> <span> Pending Request </span> <span
                                     class="menu-arrow"></span></a>
                             <ul class="nav-second-level " aria-expanded="false">
-                                @if (App\Models\Permission::hasPermission('view_leases', $role_id))
-                                <li><a href="{{ route('lease.index') }}">Leases Request</a></li>
-                                @endif
-                                 @if (App\Models\Permission::hasPermission('agreement', $role_id))
-                                 <li><a href="{{ route('lease.agreement') }}">Agreement</a></li>
-                            @endif 
+                                @can('building-request')
+                                    <li><a href="{{ route('building.pending') }}">Building Request</a></li>
+                                @endcan
                                 
                             </ul>
                         </li>
-                    
+                    @endcan
 
-                    @if (App\Models\Permission::hasPermission('view_parking', $role_id))
+
+                    <!-- Tenants -->
+                    @can('tenant-management')
+                        <li>
+                            <a href="javascript: void(0);"><i class="fa fa-user"></i> <span> Tenants </span> <span
+                                    class="menu-arrow"></span></a>
+                            <ul class="nav-second-level " aria-expanded="false">
+                                @can('tenant-list')
+                                    <li><a href="{{ route('tenants.index') }}">Tenants List</a></li>
+                                @endcan
+                            </ul>
+                        </li>
+                    @endcan
+
+
+                    <!-- Landlords -->
+                    @can('landlord-management')
+                        <li>
+                            <a href="javascript: void(0);"><i class="fa fa-user"></i> <span> Landlords </span> <span
+                                    class="menu-arrow"></span></a>
+                            <ul class="nav-second-level " aria-expanded="false">
+                                @can('landlord-list')
+                                    <li><a href="{{ route('landlord.index') }}">Landlords List</a></li>
+                                @endcan
+                            </ul>
+                        </li>
+                    @endcan
+
+
+
+                    <!-- lease -->
+
+                    <li>
+                        <a href="javascript: void(0);"><i class="fa fa-user"></i> <span> Leases </span> <span
+                                class="menu-arrow"></span></a>
+                        <ul class="nav-second-level " aria-expanded="false">
+
+                            <li><a href="{{ route('lease.index') }}">Leases Request</a></li>
+
+                            <li><a href="{{ route('lease.agreement') }}">Agreement</a></li>
+
+
+                        </ul>
+                    </li>
+
+
+                    @can('parking-management')
                         <li>
                             <a href="javascript: void(0);"><i class="fa fa-car"></i> <span>Parking Management</span>
                                 <span class="menu-arrow"></span></a>
                             <ul class="nav-second-level " aria-expanded="false">
-                                {{-- @if (App\Models\Permission::hasPermission('add_property', $role_id))
-                        <li><a href="{{ url('/building/create') }}">Add Property</a></li>
-                    @endif --}}
-                                <li><a href="{{ route('vehicle.index') }}">Vehicles</a></li>
-                                <li><a href="{{ route('parker.index') }}">Parkers</a></li>
-                                <li><a href="{{ route('parking.list') }}">Stall List</a></li>
-
-                                {{-- <li><a href="{{ route('unit.index') }}">View unit</a></li> --}}
+                                @can('vehicle-list')
+                                    <li><a href="{{ route('vehicle.index') }}">Vehicles</a></li>
+                                @endcan
+                                @can('parker-list')
+                                    <li><a href="{{ route('parker.index') }}">Parkers</a></li>
+                                @endcan
+                                @can('stall-list')
+                                    <li><a href="{{ route('parking.list') }}">Stall List</a></li>
+                                @endcan
                             </ul>
                         </li>
-                    @endif
+                    @endcan
 
                     <!-- Leases / Tenancy -->
                     {{-- @if (App\Models\Permission::hasPermission('view_lease', $role_id))
@@ -176,7 +303,7 @@
                                 <li><a href="{{ url('/Lease') }}">View Lease</a></li>
                             </ul>
                         </li>
-                    @endif --}}
+                        @endif --}}
 
 
 
@@ -223,40 +350,44 @@
                     </li>
 
                     {{-- 
-                    <!------------------ SAAS Management -------------------->
-                    <li>
-                        <a href="javascript: void(0);"><i class="fa fa-book"></i> <span> SAAS Management </span> <span
-                                class="menu-arrow"></span></a>
-                        <ul class="nav-second-level " aria-expanded="false">
-                            <li><a href="{{ route('subscription_package.index') }}">Package List</a></li>
-                            <li><a href="{{ route('subscription_package_duration.index') }}">Package Duration List</a>
-                            </li>
-                            <li><a href="{{ route('customer.index') }}">Customer List</a></li>
-                        </ul>
-                    </li> --}}
+                        <!------------------ SAAS Management -------------------->
+                        <li>
+                            <a href="javascript: void(0);"><i class="fa fa-book"></i> <span> SAAS Management </span> <span
+                                    class="menu-arrow"></span></a>
+                            <ul class="nav-second-level " aria-expanded="false">
+                                <li><a href="{{ route('subscription_package.index') }}">Package List</a></li>
+                                <li><a href="{{ route('subscription_package_duration.index') }}">Package Duration List</a>
+                                </li>
+                                <li><a href="{{ route('customer.index') }}">Customer List</a></li>
+                            </ul>
+                        </li> --}}
 
 
                     <!-- Access Management -->
-                    @if (App\Models\Permission::hasPermission('manage_access', $role_id))
+                    @can('access-control')
                         <li>
                             <a href="javascript: void(0);"><i class="mdi mdi-lock-open"></i> <span> Access </span>
                                 <span class="menu-arrow"></span></a>
                             <ul class="nav-second-level " aria-expanded="false">
-                                {{-- <li><a href="{{ route('setting.create_edit') }}">Setting</a></li> --}}
-                                <li><a href="{{ route('user.index') }}">User Management</a></li>
-                                <li><a href="{{ route('role.index') }}">Role Management</a></li>
-                                <li><a href="{{ route('permission.index') }}">Permission Management</a></li>
+                                @can('user-list')
+                                    <li><a href="{{ route('users.index') }}">User Management</a></li>
+                                @endcan
+                                @can('role-list')
+                                    <li><a href="{{ route('roles.index') }}">Role Management</a></li>
+                                @endcan
                             </ul>
                         </li>
+
+                    @endcan
                     @endif
-            </ul>
-            @endif
+                </ul>
+
+            </div>
+            <!-- Sidebar -->
+            <div class="clearfix"></div>
+
         </div>
-        <!-- Sidebar -->
-        <div class="clearfix"></div>
+        <!-- Sidebar -left -->
 
     </div>
-    <!-- Sidebar -left -->
-
-</div>
-<!-- Left Sidebar End -->
+    <!-- Left Sidebar End -->

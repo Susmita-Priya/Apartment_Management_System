@@ -11,35 +11,37 @@ class Floor extends Model
     protected $table = 'floors';
 
     protected $fillable = [
+        'company_id',
         'block_id',
         'floor_no',
         'name',
         'type',
-        'residential_suite',
-        'commercial_unit',
-        'supporting_service_room',
-        'parking_lot',
-        'storage_lot',
+        'is_residential_unit_exist',
+        'is_commercial_unit_exist',
+        'is_supporting_room_exist',
+        'is_parking_lot_exist',
+        'is_storage_lot_exist',
+        'status',
     ];
 
 
-    public function block()
-    {
-        return $this->belongsTo(Block::class);
-    }
+    // public function block()
+    // {
+    //     return $this->belongsTo(Block::class);
+    // }
 
-    public function building()
-    {
-        return $this->block->building(); // Access the building through the block
-    }
+    // public function building()
+    // {
+    //     return $this->block->building(); // Access the building through the block
+    // }
 
-    public function units()
-    {
-        return $this->hasMany(Unit::class, 'floor_id');
-    }
+    // public function units()
+    // {
+    //     return $this->hasMany(Unit::class, 'floor_id');
+    // }
 
-    public function stallsLockers()
-    {
-        return $this->hasMany(StallLocker::class);
-    }
+    // public function stallsLockers()
+    // {
+    //     return $this->hasMany(StallLocker::class);
+    // }
 }

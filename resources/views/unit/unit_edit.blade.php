@@ -2,7 +2,7 @@
 
 @section('content')
     @push('title')
-        <title>Edit Unit/Suite</title>
+        <title>Edit Unit</title>
     @endpush
 
     <div class="content">
@@ -10,7 +10,7 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box">
-                        <h4 class="page-title float-left">Edit Unit/Suite</h4>
+                        <h4 class="page-title float-left">Edit Unit</h4>
 
                         <ol class="breadcrumb float-right">
                             <li class="breadcrumb-item"><a href="{{ route('index') }}">Dashboard</a></li>
@@ -18,7 +18,7 @@
                             <li class="breadcrumb-item"><a href="{{ route('block.index') }}">Blocks</a></li>
                             <li class="breadcrumb-item"><a href="{{ route('floor.index') }}">Floors</a></li>
                             <li class="breadcrumb-item"><a href="{{ route('unit.index') }}">Units</a></li>
-                            <li class="breadcrumb-item active">Edit Unit/Suite</li>
+                            <li class="breadcrumb-item active">Edit Unit</li>
                         </ol>
 
                         <div class="clearfix"></div>
@@ -90,13 +90,39 @@
                                 </span>
                             </div>
 
+                            <!-- Unit/Suite Number -->
+                            <div class="form-group">
+                                <label for="unit_no">Unit NO</label>
+                                <input type="text" name="unit_no" id="unit_no" class="form-control"
+                                    value="{{ $unit->unit_no }}" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="type">Unit Type</label>
+                                <select name="type" id="dynamic-selectboxs" class="form-control" required>
+                                    <option value="">Select Unit Type</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="rent">Rent (TK)</label>
+                                <input type="number" name="rent" id="rent" class="form-control"
+                                    placeholder="Enter Rent (Only Number)" value="{{ $unit->rent }}">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="price">Price (TK)</label>
+                                <input type="number" name="price" id="price" class="form-control"
+                                    placeholder="Enter price (Only Number)" value="{{ $unit->price }}">
+                            </div>
+
                             <!-- Building Details -->
                             <div class="form-group col-md-12">
-                                <label class="col-form-label">Building Details</label>
+                                <label class="col-form-label">Details Information</label>
                                 <table class="table table-bordered">
                                     <tr>
                                         <th>Building ID</th>
-                                        <td id="building_id_display"></td>
+                                        <td id="building_no_display"></td>
                                     </tr>
                                     <tr>
                                         <th>Building Type</th>
@@ -104,7 +130,7 @@
                                     </tr>
                                     <tr>
                                         <th>Block ID</th>
-                                        <td id="block_id_display"></td>
+                                        <td id="block_no_display"></td>
                                     </tr>
                                     <tr>
                                         <th>Floor Name</th>
@@ -113,42 +139,9 @@
                                 </table>
                             </div>
 
-                            <!-- Unit/Suite Number -->
-                            <div class="form-group">
-                                <label for="unit_no">Unit/Suite NO</label>
-                                <input type="number" name="unit_no" id="unit_no" class="form-control"
-                                    value="{{ $unit->unit_no }}" required>
-                            </div>
-
-                            <!-- Checkbox placeholders -->
-                            <div id="dynamic-selectboxs"></div>
-
-                            <!-- Rent -->
-                            <div class="form-group">
-                                <label for="rent">Rent</label>
-                                <input type="number" name="rent" id="rent" class="form-control" value="{{ $unit->rent }}"
-                                    required>
-                                <span class="text-danger">
-                                    @error('rent')
-                                        {{ $message }}
-                                    @enderror
-                                </span>
-                            </div>
-
-                            {{-- <!-- Status -->
-                            <div class="form-group">
-                                <label for="status">Status</label>
-                                <select name="status" id="status" class="form-control" required>
-                                    <option value="Vacant" {{ $unit->status === 'Vacant' ? 'selected' : '' }}>Vacant</option>
-                                    <option value="Under Maintenance"
-                                        {{ $unit->status === 'Under Maintenance' ? 'selected' : '' }}>Under Maintenance
-                                    <option value="Occupied" {{ $unit->status === 'Occupied' ? 'selected' : '' }}>Occupied</option>
-                                </select>
-                            </div> --}}
-
                             <button type="submit" class="btn waves-effect waves-light btn-sm"
                                 style="background-color: rgb(100, 197, 177); border-color: rgb(100, 197, 177); color: white;">
-                                Update Unit/Suite</button>
+                                Update Unit</button>
                         </form>
                     </div>
                 </div>
@@ -167,7 +160,7 @@
             const building = buildings.find(b => b.id == selectedBuildingId);
 
             if (building) {
-                document.getElementById('building_id_display').innerText = building.building_id;
+                document.getElementById('building_no_display').innerText = building.building_no;
                 document.getElementById('building_type_display').innerText = typeFullForm[building.type] || 'Other';
 
                 const buildingBlocks = blocks.filter(b => b.building_id == selectedBuildingId);
@@ -184,13 +177,13 @@
                     blockSelect.innerHTML = '<option value="">No blocks available for the selected building.</option>';
                 }
 
-                document.getElementById('block_id_display').innerText = '';
+                document.getElementById('block_no_display').innerText = '';
             } else {
-                document.getElementById('building_id_display').innerText = '';
+                document.getElementById('building_no_display').innerText = '';
                 document.getElementById('building_type_display').innerText = '';
                 document.getElementById('block_id').innerHTML =
                     '<option value="">Select a building to see blocks.</option>';
-                document.getElementById('block_id_display').innerText = '';
+                document.getElementById('block_no_display').innerText = '';
                 document.getElementById('floor_id').innerHTML = '<option value="">Select a block to see floors.</option>';
                 document.getElementById('floor_name_display').innerText = '';
             }
@@ -201,15 +194,25 @@
             const block = blocks.find(b => b.id == selectedBlockId);
 
             if (block) {
-                document.getElementById('block_id_display').innerText = block.block_id;
+                document.getElementById('block_no_display').innerText = block.block_no;
 
                 const blockFloors = floors.filter(f => f.block_id == selectedBlockId);
                 const floorSelect = document.getElementById('floor_id');
                 floorSelect.innerHTML = '<option value="">Select Floor</option>';
 
                 blockFloors.forEach(floor => {
+                    let suffix = 'th';
+                    if (floor.floor_no == 1) {
+                        suffix = 'st';
+                    } else if (floor.floor_no == 2) {
+                        suffix = 'nd';
+                    } else if (floor.floor_no == 3) {
+                        suffix = 'rd';
+                    } else {
+                        suffix = 'th'; // For all other cases
+                    }
                     floorSelect.innerHTML += `
-                    <option value="${floor.id}" ${floor.id == '{{ $floor->id ?? '' }}' ? 'selected' : ''}>${floor.type}-${floor.floor_no}</option>
+                    <option value="${floor.id}" ${floor.id == '{{ $floor->id ?? '' }}' ? 'selected' : ''}>${floor.floor_no}<sup>${suffix}</sup> (${floor.type} floor)</option>
                 `;
                 });
 
@@ -217,7 +220,7 @@
                     floorSelect.innerHTML = '<option value="">No floors available for the selected block.</option>';
                 }
             } else {
-                document.getElementById('block_id_display').innerText = '';
+                document.getElementById('block_no_display').innerText = '';
                 document.getElementById('floor_id').innerHTML = '<option value="">Select a block to see floors.</option>';
                 document.getElementById('floor_name_display').innerText = '';
             }
@@ -231,45 +234,30 @@
                 document.getElementById('floor_name_display').innerText = floor.name;
 
                 const dynamicSelectBox = document.getElementById('dynamic-selectboxs');
+
+                // // Clear previous select box content
                 dynamicSelectBox.innerHTML = '';
 
-                let selectBoxContent = `
-                    <div class="form-group">
-                        <label for="type">Unit/Suite Type</label>
-                        <select name="type" id="type" class="form-control" required>
-                `;
+        
+                    // Generate the appropriate options for the select box
+                    if (floor.is_residential_unit_exist) {
+                        dynamicSelectBox.innerHTML += `
+                        <option value="residential" {{ old('type', $unit->type) === 'residential' ? 'selected' : '' }}>Residential Unit</option>
+                        `;
+                    }
 
-                if (floor.residential_suite) {
-                    selectBoxContent += `
-                        <option value="Residential Suite"
-                                            {{ old('type', $unit->type) === 'Residential Suite' ? 'selected' : '' }}>
-                                            Residential Suite</option>
-                    `;
-                }
+                    if (floor.is_commercial_unit_exist) {
+                        dynamicSelectBox.innerHTML += `
+                        <option value="commercial" {{ old('type', $unit->type) === 'commercial' ? 'selected' : '' }}>Commercial Unit</option>
+                        `;
+                    }
 
-                if (floor.commercial_unit) {
-                    selectBoxContent += `
-                        <option value="Commercial Unit"
-                                            {{ old('type', $unit->type) === 'Commercial Unit' ? 'selected' : '' }}>
-                                            Commercial Unit</option>
-                    `;
-                }
-
-                if (floor.supporting_service_room) {
-                    selectBoxContent += `
-                        <option value="Supporting and Servicing Unit"
-                                            {{ old('type', $unit->type) === 'Supporting and Servicing Unit' ? 'selected' : '' }}>
-                                            Supporting & Service Room</option>
-                    `;
-                }
-
-                selectBoxContent += `
-                        </select>
-                    </div>
-                `;
-
-                dynamicSelectBox.innerHTML = selectBoxContent;
-            } else {
+                    if (floor.is_supporting_room_exist) {
+                        dynamicSelectBox.innerHTML += `
+                        <option value="supporting" {{ old('type', $unit->type) === 'supporting' ? 'selected' : '' }}>Supporting & Service Unit</option>
+                        `;
+                    }
+            }else {
                 document.getElementById('floor_name_display').innerText = '';
             }
         }

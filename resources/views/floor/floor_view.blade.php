@@ -12,7 +12,7 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box">
-                        <h4 class="page-title float-left">{{ $floor->name }}</h4>
+                        <h4 class="page-title float-left">{{ $floor->name }} Floor</h4>
 
                         <ol class="breadcrumb float-right">
                             <li class="breadcrumb-item"><a href="{{ route('index') }}">Dashboard</a></li>
@@ -38,22 +38,24 @@
                     <div class="profile-user-box">
                         <div class="row">
                             <div class="col-sm-6">
-                                <span class="pull-left m-r-15"><img src="{{ asset($block->building->image) }}"
-                                        alt="" class="thumb-lg rounded-circle"></span>
+                                <span class="pull-left m-r-15"><img src="{{ asset($building->image) }}" alt=""
+                                        class="thumb-lg rounded-circle"></span>
                                 <div class="media-body">
-                                    <h4 class="m-t-7 font-18">{{ $floor->name }}</h4>
-                                    <p class="text-muted font-15">{{ $floor->block->building->name }} Building</p>
+                                    <h4 class="m-t-7 font-18">{{ $floor->name }} Floor</h4>
+                                    <p class="text-muted font-15">{{ $building->name }} Building</p>
                                 </div>
                             </div>
-                            <div class="col-sm-6">
-                                <div class="text-right">
-                                    <button type="button" class="btn waves-effect waves-light greenbtn"
-                                        style=" position: absolute; "
-                                        onclick="window.location.href='{{ route('floor.edit', $floor->id) }}'">
-                                        <i class="mdi mdi-pencil m-r-5"></i> Edit Floor
-                                    </button>
+                            @can('floor-edit')
+                                <div class="col-sm-6">
+                                    <div class="text-right">
+                                        <button type="button" class="btn waves-effect waves-light greenbtn"
+                                            style=" position: absolute; "
+                                            onclick="window.location.href='{{ route('floor.edit', $floor->id) }}'">
+                                            <i class="mdi mdi-pencil m-r-5"></i> Edit Floor
+                                        </button>
+                                    </div>
                                 </div>
-                            </div>
+                            @endcan
                         </div>
                     </div>
                     <!--/ meta -->
@@ -68,21 +70,30 @@
                         <h4 class="header-title mt-0 m-b-20">Floor Information</h4>
                         <div class="panel-body">
 
+                            @php
+                                $suffix =
+                                    $floor->floor_no == 1
+                                        ? 'st'
+                                        : ($floor->floor_no == 2
+                                            ? 'nd'
+                                            : ($floor->floor_no == 3
+                                                ? 'rd'
+                                                : 'th'));
+                            @endphp
+
                             <p class="text-muted font-15"><strong>Floor No:</strong> <span
-                                    class="m-l-15">{{ $floor->type }}-{{ $floor->floor_no }}</p>
+                                    class="m-l-15">{{ $floor->floor_no }}<sup>{{ $suffix }}</sup> floor</p>
+                            <p class="text-muted font-15"><strong>Type:</strong> <span
+                                    class="m-l-15">{{ ucfirst($floor->type) }}</p>
                             <p class="text-muted font-15"><strong>Floor Name:</strong> <span
                                     class="m-l-15">{{ $floor->name }}</p>
-                            <p class="text-muted font-15"><strong>Type:</strong> <span
-                                    class="m-l-15">{{ ucfirst($floor->type) }} floor</p>
                             <p class="text-muted font-15"><strong>Date Added:</strong> <span
                                     class="m-l-15">{{ $floor->created_at->format('d M, Y') }}</span></p>
-                            <p class="text-muted font-15"><strong>Number of Units:</strong> <span
-                                    class="m-l-15">{{ $floor->units_count }}</span></p>
 
                             <hr>
 
-                            <p class="text-muted font-15"><strong>Block ID:</strong> <span
-                                    class="m-l-15">{{ $block->block_id }}</span></p>
+                            <p class="text-muted font-15"><strong>Block No:</strong> <span
+                                    class="m-l-15">{{ $block->block_no }}</span></p>
                             <p class="text-muted font-15"><strong>Block:</strong> <span
                                     class="m-l-15">{{ $block->name }}</span></p>
                             <hr>
@@ -96,42 +107,27 @@
                             @endphp
 
                             <p class="text-muted font-15"><strong>Building:</strong> <span
-                                    class="m-l-15">{{ $block->building->name }} </span></p>
-                            <p class="text-muted font-15"><strong>Building ID:</strong> <span
-                                    class="m-l-15">{{ $building->building_id }}</span></p>
+                                    class="m-l-15">{{ $building->name }} </span></p>
+                            <p class="text-muted font-15"><strong>Building No:</strong> <span
+                                    class="m-l-15">{{ $building->building_no }}</span></p>
                             <p class="text-muted font-15"><strong>Building Type:</strong> <span
-                                    class="m-l-15">{{ $typeFullForm[$block->building->type] ?? 'Other' }}</span></p>
+                                    class="m-l-15">{{ $typeFullForm[$building->type] ?? 'Other' }}</span></p>
                             <hr>
 
 
-                            @if ($building->type === 'RESB' || $building->type === 'RECB')
-                                {{-- <p class="text-muted font-15"><strong>Residential Suites:</strong><span class="m-l-15">Yes</p> --}}
-                                <p class="text-muted font-15"><strong>Residential Suites:</strong> <span
-                                        class="m-l-15">{{ $floor->residential_suite ? 'Yes' : 'No' }}</p>
-                            @endif
+                            <h4 class="header-title mt-0 m-b-20">Features :</h4>
+                            <p class="text-muted font-15"><strong>Residential Units exist ? </strong> <span
+                                    class="m-l-15">{{ $floor->is_residential_unit_exist ? 'Yes' : 'No' }}</p>
 
-                            @if ($building->type === 'COMB' || $building->type === 'RECB')
-                                {{-- <p class="text-muted font-15"><strong>Commercial Units:</strong><span class="m-l-15">Yes</p> --}}
-                                <p class="text-muted font-15"><strong>Commercial Units:</strong> <span
-                                        class="m-l-15">{{ $floor->commercial_unit ? 'Yes' : 'No' }}</p>
-                            @endif
+                            <p class="text-muted font-15"><strong>Commercial Units exist ?</strong> <span
+                                    class="m-l-15">{{ $floor->is_commercial_unit_exist ? 'Yes' : 'No' }}</p>
 
-                            <p class="text-muted font-15"><strong>Supporting & Service Room:</strong> <span
-                                    class="m-l-15">{{ $floor->supporting_service_room ? 'Yes' : 'No' }}</p>
-                            <p class="text-muted font-15"><strong>Parking Lot:</strong> <span
-                                    class="m-l-15">{{ $floor->parking_lot ? 'Yes' : 'No' }}</p>
-                            {{-- <p class="text-muted font-15"><strong>Bike Lot:</strong> <span
-                                    class="m-l-15">{{ $floor->bike_lot ? 'Yes' : 'No' }}</p> --}}
-                            <p class="text-muted font-15"><strong>Storage Lot:</strong> <span
-                                    class="m-l-15">{{ $floor->storage_lot ? 'Yes' : 'No' }}</p>
-                            <p class="text-muted font-15"><strong>Common Area:</strong> <span
-                                    class="m-l-15">{{ $floor->common_area ? 'Yes' : 'No' }}</p>
-
-
-                            {{-- <p class="text-muted font-13"><strong>Block Image :</strong>
-                            <span class="m-l-15"><img src="{{ asset($block->image) }}" style="width:27%; height:27%" alt="image can't found"></span>
-                        </p> --}}
-
+                            <p class="text-muted font-15"><strong>Supporting & Service Room exist ?</strong> <span
+                                    class="m-l-15">{{ $floor->is_supporting_room_exist ? 'Yes' : 'No' }}</p>
+                            <p class="text-muted font-15"><strong>Parking Lot exist ?</strong> <span
+                                    class="m-l-15">{{ $floor->is_parking_lot_exist ? 'Yes' : 'No' }}</p>
+                            <p class="text-muted font-15"><strong>Storage Lot exist ?</strong> <span
+                                    class="m-l-15">{{ $floor->is_storage_lot_exist ? 'Yes' : 'No' }}</p>
                         </div>
                     </div>
                     <!-- Block-Information -->
@@ -139,43 +135,26 @@
 
                 <div class="col-md-8">
                     <div class="row">
-                        <div class="col-sm-12">
-                            <div class="text-right m-b-20">
+                        <div class="col-sm-12 m-b-20">
+                            <div class="text-right ">
 
-                                @if ($floor->parking_lot)
-                                    <button type="button" class="btn waves-effect waves-light greenbtn"
-                                        style="position: absolute; "
-                                        onclick="window.location.href='{{ route('stall_locker.create', ['floor_id' => $floor->id]) }}'">
-                                        <i class="mdi mdi-plus m-r-5"></i> Add Stall
-                                    @elseif($floor->storage_lot)
+                                @if ($floor->type === 'underground')
+                                    @can('stall-create')
                                         <button type="button" class="btn waves-effect waves-light greenbtn"
                                             style="position: absolute; "
-                                            onclick="window.location.href='{{ route('stall_locker.create', ['floor_id' => $floor->id]) }}'">
-                                            <i class="mdi mdi-plus m-r-5"></i> Add Locker
-                                        @elseif($floor->parking_lot|| $floor->storage_lot)
-                                            <button type="button" class="btn waves-effect waves-light greenbtn"
-                                                style="position: absolute; "
-                                                onclick="window.location.href='{{ route('stall_locker.create', ['floor_id' => $floor->id]) }}'">
-                                                <i class="mdi mdi-plus m-r-5"></i> Add Stall / Locker
-                                            @elseif($building->type === 'RESB')
-                                                <button type="button" class="btn waves-effect waves-light greenbtn"
-                                                    style="position: absolute; "
-                                                    onclick="window.location.href='{{ route('unit.create', ['floor_id' => $floor->id]) }}'">
-                                                    <i class="mdi mdi-plus m-r-5"></i> Add Suite
-                                                @elseif($building->type === 'COMB')
-                                                    <button type="button" class="btn waves-effect waves-light greenbtn"
-                                                        style="position: absolute; "
-                                                        onclick="window.location.href='{{ route('unit.create', ['floor_id' => $floor->id]) }}'">
-                                                        <i class="mdi mdi-plus m-r-5"></i> Add Unit
-                                                    @elseif($building->type === 'RECB')
-                                                        <button type="button"
-                                                            class="btn waves-effect waves-light greenbtn"
-                                                            style="position: absolute; "
-                                                            onclick="window.location.href='{{ route('unit.create', ['floor_id' => $floor->id]) }}'">
-                                                            <i class="mdi mdi-plus m-r-5"></i> Add Suite / Unit
+                                            onclick="window.location.href='{{ route('stall.create', ['floor_id' => $floor->id]) }}'">
+                                            <i class="mdi mdi-plus m-r-5"></i> Add Stall
+                                        </button>
+                                    @endcan
+                                @elseif($floor->type === 'upper')
+                                    @can('unit-create')
+                                        <button type="button" class="btn waves-effect waves-light greenbtn"
+                                            style="position: absolute; "
+                                            onclick="window.location.href='{{ route('unit.create', ['floor_id' => $floor->id]) }}'">
+                                            <i class="mdi mdi-plus m-r-5"></i> Add Unit
+                                        </button>
+                                    @endcan
                                 @endif
-
-                                </button>
                             </div>
                         </div>
                     </div>
@@ -183,72 +162,52 @@
 
                     <!-- Units List -->
                     <div class="row">
-                        @php
-                            // Define unit types for categorization
-                            $unitTypes = [
-                                'Residential Suite' => 'Residential Suite',
-                                'Commercial Unit' => 'Commercial Unit',
-                                'Supporting and Servicing Unit' => 'Supporting and Servicing Unit',
-                            ];
-                        @endphp
-
-                        @foreach ($unitTypes as $typeKey => $typeName)
-                            @php
-                                // Filter units by type and sort by the numeric part after "UNIT"
-                                $unitsByType = $floor->units->where('type', $typeKey)->sortBy(function ($unit) {
-                                    return (int) $unit->unit_no;
-                                });
-                            @endphp
-
-                            @if ($unitsByType->isNotEmpty())
-                                <div class="col-md-12">
-                                    <h4 class="header-title mt-0 m-b-20">{{ $typeName }}</h4>
-
-                                    @foreach ($unitsByType->chunk(3) as $chunk)
-                                        <div class="row">
-                                            @foreach ($chunk as $unit)
-                                                <div class="col-md-4">
-                                                    <div class="card-box">
-                                                        <h4 class="header-title mt-0 m-b-20">UNIT-{{ $unit->unit_no }}
-                                                        </h4>
-                                                        <div class="panel-body">
-                                                            <p class="text-muted font-15"><strong>Type:
-                                                                </strong>{{ $unit->type }}</p>
-                                                            <button type="button"
-                                                                onclick="window.location.href='{{ route('unit.show', $unit->id) }}'"
-                                                                class="btn btn-info m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm">
-                                                                Enter
-                                                            </button>
-                                                            <button type="button"
-                                                                class="btn btn-success m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm"
-                                                                onclick="window.location.href='{{ route('unit.edit', $unit->id) }}'">
-                                                                Edit
-                                                            </button>
-                                                            <button type="button"
-                                                                class="btn btn-danger m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm"
-                                                                onclick="confirmDelete('{{ route('unit.delete', ['id' => $unit->id]) }}')">
-                                                                Delete
-                                                            </button>
-                                                            <!-- Hidden form for deletion -->
-                                                            <form id="delete-form"
-                                                                action="{{ route('unit.delete', ['id' => $unit->id]) }}"
-                                                                method="GET" style="display: none;">
-                                                                @csrf
-                                                                @method('DELETE')
-                                                            </form>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            @endforeach
+                                @foreach ($units as $unit)
+                                <div class="col-md-4 mb-4">
+                                    <div class="card-box">
+                                        <h4 class="header-title mt-0 m-b-20">UNIT-{{ $unit->unit_no }}
+                                        </h4>
+                                        <div class="panel-body">
+                                            <p class="text-muted font-15"><strong>Type:
+                                                </strong>{{ ucfirst($unit->type) }} Unit</p>
+                                            @can('unit-view')
+                                                <button type="button"
+                                                    onclick="window.location.href='{{ route('unit.show', $unit->id) }}'"
+                                                    class="btn btn-info m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm">
+                                                    Enter
+                                                </button>
+                                            @endcan
+                                            @can('unit-edit')
+                                                <button type="button"
+                                                    class="btn btn-success m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm"
+                                                    onclick="window.location.href='{{ route('unit.edit', $unit->id) }}'">
+                                                    Edit
+                                                </button>
+                                            @endcan
+                                            @can('unit-delete')
+                                                <button type="button"
+                                                    class="btn btn-danger m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm"
+                                                    onclick="confirmDelete('{{ route('unit.delete', ['id' => $unit->id]) }}')">
+                                                    Delete
+                                                </button>
+                                                <!-- Hidden form for deletion -->
+                                                <form id="delete-form"
+                                                    action="{{ route('unit.delete', ['id' => $unit->id]) }}" method="GET"
+                                                    style="display: none;">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                </form>
+                                            @endcan
                                         </div>
-                                    @endforeach
+                                    </div>
                                 </div>
-                            @endif
+                           
                         @endforeach
+ 
                     </div>
 
                     <!-- Stalls/Lockers List -->
-                    <div class="row mt-4">
+                    {{-- <div class="row mt-4">
                         @php
                             // Define stall/locker types for categorization
                             $stallLockerTypes = [
@@ -322,7 +281,7 @@
                                 </div>
                             @endif
                         @endforeach
-                    </div>
+                    </div> --}}
 
                 </div>
             </div>

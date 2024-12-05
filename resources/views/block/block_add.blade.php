@@ -16,8 +16,7 @@
                         <ol class="breadcrumb float-right">
                             <li class="breadcrumb-item"><a href="{{ route('index') }}">Dashboard</a></li>
                             <li class="breadcrumb-item"><a href="{{ route('building') }}">Buildings</a></li>
-                            <li class="breadcrumb-item"><a
-                                    href="{{ route('block.index') }}">Blocks</a></li>
+                            <li class="breadcrumb-item"><a href="{{ route('block.index') }}">Blocks</a></li>
                             <li class="breadcrumb-item active">Add Block</li>
                         </ol>
 
@@ -34,6 +33,28 @@
                             <div class="card-box">
                                 <h1 class="d-flex justify-content-center mt-4">ADD BLOCK</h1>
 
+                                <!-- Building Selection -->
+                                <div class="form-row">
+                                    <div class="form-group col-md-12">
+                                    <label for="building_id" class="col-form-label">Building</label>
+                                    <select name="building_id" id="building_id" class="form-control"
+                                        onchange="showBuildingDetails()">
+                                        <option value="">Select Building</option>
+                                        @foreach ($buildings as $bldg)
+                                            <option value="{{ $bldg->id }}"
+                                                {{ $building && $building->id == $bldg->id ? 'selected' : '' }}>
+                                                {{ $bldg->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    <span class="text-danger">
+                                        @error('building_id')
+                                            {{ $message }}
+                                        @enderror
+                                    </span>
+                                </div>
+                            </div>
+
                                 <div class="form-row">
                                     <div class="form-group col-md-12">
                                         <label for="name" class="col-form-label">Block Name</label>
@@ -47,52 +68,60 @@
                                     </div>
                                 </div>
 
-                                <!-- Building Selection -->
+                                <div class="form-row">
                                     <div class="form-group col-md-12">
-                                        <label for="building_id" class="col-form-label">Select Building</label>
-                                        <select name="building_id" id="building_id" class="form-control" onchange="showBuildingDetails()">
-                                            <option value="">Select Building</option>
-                                            @foreach ($buildings as $bldg)
-                                                <option value="{{ $bldg->id }}" {{ $building && $building->id == $bldg->id ? 'selected' : '' }}>
-                                                    {{ $bldg->name }}
-                                                </option>
-                                            @endforeach
-                                        </select>
+                                        <label for="total_upper_floors" class="col-form-label">Total Upper Floors</label>
+                                        <input type="number" class="form-control" name="total_upper_floors" id="total_upper_floors"
+                                            placeholder="Enter Total Upper Floor Count">
                                         <span class="text-danger">
-                                            @error('building_id')
+                                            @error('total_upper_floors')
                                                 {{ $message }}
                                             @enderror
                                         </span>
                                     </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group col-md-12">
+                                        <label for="total_underground_floors" class="col-form-label">Total Underground Floors</label>
+                                        <input type="number" class="form-control" name="total_underground_floors" id="total_underground_floors"
+                                            placeholder="Total Underground Floors Count">
+                                        <span class="text-danger">
+                                            @error('total_underground_floors')
+                                                {{ $message }}
+                                            @enderror
+                                        </span>
+                                    </div>
+                                </div>
 
                                 <!-- Display Building ID and Type -->
-                                
-                                    
+
+
                                 <div class="form-group col-md-12">
-                                    <label class="col-form-label">Building Details</label>
+                                    <label class="col-form-label">Details Information</label>
                                     <table class="table table-bordered">
                                         <tr>
-                                            <th>Building ID</th>
-                                            <td id="building_id_display"></td>
+                                            <th>Building No</th>
+                                            <td id="building_no_display"></td>
                                         </tr>
                                         <tr>
                                             <th>Building Type</th>
                                             <td id="building_type_display"></td>
                                         </tr>
                                     </table>
-                                </div>   
-                            </div>                            
-
-                                <button type="submit" class="btn waves-effect waves-light btn-sm submitbtn">
-                                    Add Block
-                                </button>
+                                </div>
                             </div>
+
+                            <button type="submit" class="btn waves-effect waves-light btn-sm submitbtn">
+                                Add Block
+                            </button>
                         </div>
-                    </form>
                 </div>
+                </form>
             </div>
-            <!-- end row -->
-        </div> <!-- container -->
+        </div>
+        <!-- end row -->
+    </div> <!-- container -->
     </div> <!-- content -->
 
     <script>
@@ -102,12 +131,12 @@
             const buildings = @json($buildings);
             const selectedBuildingId = document.getElementById('building_id').value;
             const building = buildings.find(b => b.id == selectedBuildingId);
-            
+
             if (building) {
-                document.getElementById('building_id_display').innerText = building.building_id;
+                document.getElementById('building_no_display').innerText = building.building_no;
                 document.getElementById('building_type_display').innerText = typeFullForm[building.type] || 'Other';
             } else {
-                document.getElementById('building_id_display').innerText = '';
+                document.getElementById('building_no_display').innerText = '';
                 document.getElementById('building_type_display').innerText = '';
             }
         }

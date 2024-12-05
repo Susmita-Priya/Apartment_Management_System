@@ -37,7 +37,7 @@
                                     <div class="form-group col-md-12">
                                         <label for="name" class="col-form-label">Name</label>
                                         <input type="text" class="form-control" name="name" id="name"
-                                            value="{{ old('name', $building->name) }}" placeholder="Enter Building Name">
+                                            value="{{ $building->name}}" placeholder="Enter Building Name">
                                         <span class="text-danger">
                                             @error('name')
                                                 {{ $message }}

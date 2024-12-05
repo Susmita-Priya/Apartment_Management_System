@@ -35,7 +35,7 @@
                                 </h1>
                             </div>
                         </div>
-                        <form action="{{ route('stall_locker.store') }}" enctype="multipart/form-data" method="POST">
+                        <form action="{{ route('stall.store') }}" enctype="multipart/form-data" method="POST">
                             @csrf
                             {{-- <input type="hidden" name="floor_id" value="{{ $floor->id }}"> --}}
 

@@ -13,11 +13,12 @@ return new class extends Migration
     {
         Schema::create('buildings', function (Blueprint $table) {
             $table->id();
-            $table->string('building_id')->unique();
+            $table->foreignId('company_id')->references('id')->on('users');
+            $table->string('building_no')->unique();
             $table->string('name');
             $table->string('image',100)->nullable();
-            $table->enum('type', ['RESB', 'COMB', 'RECB']);
-            // $table->foreignId('property_id')->constrained()->onDelete('cascade');
+            $table->string('type');
+            $table->string('status')->default(0);
             $table->timestamps();
         });
     }

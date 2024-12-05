@@ -8,11 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class Building extends Model
 {
     use HasFactory;
-    protected $table = "buildings";
 
-    // Define the relationship with Block model
-    public function blocks()
-    {
-        return $this->hasMany(Block::class, 'building_id');
-    }
+    protected $fillable = ['company_id', 'building_no', 'name', 'image', 'type', 'status'];
+
+    // // Define the relationship with Block model
+    // public function blocks()
+    // {
+    //     return $this->hasMany(Block::class);
+    // }
 }

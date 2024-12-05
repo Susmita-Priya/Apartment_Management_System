@@ -52,22 +52,43 @@
                             </thead>
                             <tbody>
 
-
                                 @foreach ($leaseRequests as $request)
                                     <tr>
                                         <td>{{ $request->tenant->name }}</td>
-                                        <td>Unit - {{ $request->unit->unit_no }} (Floor - {{ $request->unit->floor->floor_no }} , {{ $request->unit->floor->block->block_id }})</td>
-                                        <td class="text-center">
-                                            {{-- <a class="dropdown-item" href="#"
-                                                onclick="viewInfo({{ $tenant }})"><i
-                                                    class="mdi mdi-eye m-r-10 text-muted font-18 vertical-middle"></i>
-                                                send Aggrement
-                                            </a>
-                                            <a class="dropdown-item"
-                                                href="{{ route('tenants.edit', ['id' => $tenant->id]) }}" type="submit"><i
-                                                    class="mdi mdi-pencil m-r-10 text-muted font-18 vertical-middle"></i>Edit
-                                                tenant</a>
-                                            <a class="dropdown-item" href="#"
+                                        <td>Unit - {{ $request->unit->unit_no }} (Floor -
+                                            {{ $request->unit->floor->floor_no }} ,
+                                            {{ $request->unit->floor->block->block_id }})</td>
+                                        <td >
+
+                                            @if ($request->agreement == 1 && $request->agreement_path == null)
+                                                <span class="badge badge-success">Sent</span>
+                                            @elseif ($request->agreement == 1 && $request->agreement_path != null)
+                                                <a href="{{ route('download.agreement', ['id' => $request->id]) }}"
+                                                    class="btn btn-primary">Download Agreement</a>
+                                            @else
+                                                <a class="btn btn-success"
+                                                    href="{{ route('send.agreement', ['id' => $request->id]) }}"><i
+                                                        class="mdi mdi-send m-r-10  font-18 vertical-middle"></i>Send
+                                                    Agreement</a>
+                                            @endif
+                                        </td>
+                                        <td >
+                                            @if ($request->agreement == 1 && $request->agreement_path != null)
+                                                <a class="dropdown-item"
+                                                    href="{{ route('agreement.accept', ['id' => $request->id]) }}"
+                                                    type="submit"><i
+                                                        class="mdi mdi-check m-r-10 text-muted font-18 vertical-middle"></i>Accept</a>
+                                            @else
+                                                <span class="badge badge-warning">Pending</span>
+                                            @endif
+
+                                        </td>
+                                        <td>
+                                                <a class="dropdown-item"
+                                                    href="{{ route('agreement.reject', ['id' => $request->id]) }}"
+                                                    type="submit"><i
+                                                        class="mdi mdi-delete m-r-10 text-muted font-18 vertical-middle"></i>Reject</a>
+                                        {{-- <a class="dropdown-item" href="#"
                                                 onclick="confirmDelete('{{ route('tenants.delete', ['id' => $tenant->id]) }}')"><i
                                                     class="mdi mdi-delete m-r-10 text-muted font-18 vertical-middle"></i>
                                                 Reject

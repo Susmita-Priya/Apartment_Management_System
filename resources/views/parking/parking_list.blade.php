@@ -28,7 +28,7 @@
                             <div class="col-sm-12">
                                 <div class="text-right m-b-20">
                                     <button type="button" class="btn waves-effect waves-light greenbtn"
-                                        onclick="window.location.href='{{ route('stall_locker.create') }}'">
+                                        onclick="window.location.href='{{ route('stall.create') }}'">
                                         <i class="mdi mdi-plus m-r-5"></i> Add Stall
                                     </button>
                                 </div>
@@ -73,20 +73,20 @@
                                                         Vehicle / Parker
                                                     </a>
                                                     <a class="dropdown-item"
-                                                        href="{{ route('stall_locker.edit', $stall->id) }}">
+                                                        href="{{ route('stall.edit', $stall->id) }}">
                                                         <i
                                                             class="mdi mdi-pencil m-r-10 text-muted font-18 vertical-middle"></i>Edit
                                                         Stall Info
                                                     </a>
 
                                                     <a class="dropdown-item" href="#"
-                                                        onclick="confirmDelete('{{ route('stall_locker.delete', ['id' => $stall->id]) }}')"><i
+                                                        onclick="confirmDelete('{{ route('stall.delete', ['id' => $stall->id]) }}')"><i
                                                             class="mdi mdi-delete m-r-10 text-muted font-18 vertical-middle"></i>
                                                         Delete Stall
                                                     </a>
                                                     <!-- Hidden form for deletion -->
                                                     <form id="delete-form"
-                                                        action="{{ route('stall_locker.delete', ['id' => $stall->id]) }}"
+                                                        action="{{ route('stall.delete', ['id' => $stall->id]) }}"
                                                         method="GET" style="display: none;">
                                                         @csrf
                                                         @method('DELETE')
