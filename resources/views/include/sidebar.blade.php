@@ -86,7 +86,7 @@
                                     </li>
                                 @endcan
 
-                                @can('tenant-management')
+                                {{-- @can('tenant-management')
                                     <li>
                                         <a href="javascript: void(0);">
                                             <i class="fa fa-plus"></i>
@@ -139,7 +139,7 @@
 
                                         </ul>
                                     </li>
-                                @endcan
+                                @endcan --}}
                             </ul>
                         </li>
                     @endcan
@@ -228,7 +228,7 @@
                     @endcan
 
 
-                    <!-- Tenants -->
+                    {{-- <!-- Tenants -->
                     @can('tenant-management')
                         <li>
                             <a href="javascript: void(0);"><i class="fa fa-user"></i> <span> Tenants </span> <span
@@ -253,12 +253,12 @@
                                 @endcan
                             </ul>
                         </li>
-                    @endcan
+                    @endcan --}}
 
 
 
                     <!-- lease -->
-
+{{-- 
                     <li>
                         <a href="javascript: void(0);"><i class="fa fa-user"></i> <span> Leases </span> <span
                                 class="menu-arrow"></span></a>
@@ -289,7 +289,7 @@
                                 @endcan
                             </ul>
                         </li>
-                    @endcan
+                    @endcan --}}
 
                     <!-- Leases / Tenancy -->
                     {{-- @if (App\Models\Permission::hasPermission('view_lease', $role_id))
@@ -308,7 +308,7 @@
 
 
                     <!------------------ bank management -------------------->
-                    <li>
+                    {{-- <li>
                         <a href="javascript: void(0);"><i class="fa fa-money"></i> <span> Bank Management </span>
                             <span class="menu-arrow"></span></a>
                         <ul class="nav-second-level " aria-expanded="false">
@@ -316,11 +316,11 @@
                             <li><a href="{{ route('bank_transaction.index') }}">Bank Transaction</a></li>
                             <li><a href="{{ route('bank_transaction_report') }}">Bank Transaction Report</a></li>
                         </ul>
-                    </li>
+                    </li> --}}
 
 
                     <!------------------ Payroll Management -------------------->
-                    <li>
+                    {{-- <li>
                         <a href="javascript: void(0);"><i class="fa fa-money"></i> <span> Payroll Management </span>
                             <span class="menu-arrow"></span></a>
                         <ul class="nav-second-level " aria-expanded="false">
@@ -334,10 +334,10 @@
                             </li>
                             <li><a href="{{ route('payroll.index') }}" class="text-capitalize">payroll list</a></li>
                         </ul>
-                    </li>
+                    </li> --}}
 
                     <!------------------ accounts Management -------------------->
-                    <li>
+                    {{-- <li>
                         <a href="javascript: void(0);"><i class="fa fa-book"></i> <span> Accounts </span> <span
                                 class="menu-arrow"></span></a>
                         <ul class="nav-second-level " aria-expanded="false">
@@ -347,7 +347,7 @@
                             <li><a href="{{ route('general-ledger-report') }}">General Ledger</a></li>
                             <li><a href="{{ route('balance_sheet') }}">Balance Sheet</a></li>
                         </ul>
-                    </li>
+                    </li> --}}
 
                     {{-- 
                         <!------------------ SAAS Management -------------------->

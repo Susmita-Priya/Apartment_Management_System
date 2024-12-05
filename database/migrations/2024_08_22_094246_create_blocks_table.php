@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('name');
             $table->integer('total_upper_floors');
             $table->integer('total_underground_floors');
+            
             $table->timestamps();
         });
     }
