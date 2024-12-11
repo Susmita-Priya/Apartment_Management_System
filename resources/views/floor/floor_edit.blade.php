@@ -15,7 +15,7 @@
                         <ol class="breadcrumb float-right">
                             <li class="breadcrumb-item"><a href="{{ route('index') }}">Dashboard</a></li>
                             <li class="breadcrumb-item"><a href="{{ route('building') }}">Buildings</a></li>
-                            <li class="breadcrumb-item"><a href="{{ route('block.index') }}">Blocks</a></li>
+                            {{-- <li class="breadcrumb-item"><a href="{{ route('block.index') }}">Blocks</a></li> --}}
                             <li class="breadcrumb-item"><a href="{{ route('floor.index') }}">Floors</a></li>
                             <li class="breadcrumb-item active">Edit Floor</li>
                         </ol>
@@ -52,7 +52,7 @@
                             </div>
 
                             <!-- Block Selection -->
-                            <div class="form-group">
+                            {{-- <div class="form-group">
                                 <label for="block_id">Block</label>
                                 <select name="block_id" id="block_id" class="form-control" onchange="showBlockDetails()">
                                     <option value="">Select Block</option>
@@ -67,7 +67,7 @@
                                         {{ $message }}
                                     @enderror
                                 </span>
-                            </div>
+                            </div> --}}
 
                             <div class="form-group">
                                 <label for="type">Floor Type</label>
@@ -100,6 +100,22 @@
                                 <!-- Dynamic checkboxes will be added here -->
                             </div>
 
+                            {{-- status --}}
+                            <div
+                                class="form-group
+                                {{ $errors->has('status') ? 'has-error' : '' }}">
+                                <label for="status">Status</label>
+                                <select name="status" id="status" class="form-control" required>
+                                    <option value="1" {{ $floor->status == 1 ? 'selected' : '' }}>Active</option>
+                                    <option value="0" {{ $floor->status == 0 ? 'selected' : '' }}>Inactive</option>
+                                </select>
+                                <span class="text-danger">
+                                    @error('status')
+                                        {{ $message }}
+                                    @enderror
+                                </span>
+                            </div>
+
                             <!-- Building Details -->
                             <div class="form-group col-md-12">
                                 <label class="col-form-label">Details Information</label>
@@ -112,10 +128,10 @@
                                         <th>Building Type</th>
                                         <td id="building_type_display"></td>
                                     </tr>
-                                    <tr>
+                                    {{-- <tr>
                                         <th>Block ID</th>
                                         <td id="block_no_display"></td>
-                                    </tr>
+                                    </tr> --}}
                                 </table>
                             </div>
 
@@ -133,52 +149,97 @@
     <script>
         const typeFullForm = @json($typeFullForm);
         const buildings = @json($buildings);
-        const blocks = @json($blocks);
         const existingFloorType = @json($floor->type);
         let existingFloors = []; // Initialize as an empty array
         console.log(existingFloorType);
+
+
+        // function showBuildingDetails() {
+        //     const selectedBuildingId = document.getElementById('building_id').value;
+        //     const building = buildings.find(b => b.id == selectedBuildingId);
+
+        //     if (building) {
+        //         document.getElementById('building_no_display').innerText = building.building_no;
+        //         document.getElementById('building_type_display').innerText = typeFullForm[building.type] || 'Other';
+
+        //         const buildingBlocks = blocks.filter(b => b.building_id == selectedBuildingId);
+        //         const blockSelect = document.getElementById('block_id');
+        //         blockSelect.innerHTML = '<option value="">Select Block</option>';
+
+        //         buildingBlocks.forEach(block => {
+        //             blockSelect.innerHTML += `
+    //                 <option value="${block.id}" ${block.id == '{{ $floor->block_id }}' ? 'selected' : ''}>${block.name}</option>
+    //             `;
+        //         });
+
+        //         if (buildingBlocks.length === 0) {
+        //             blockSelect.innerHTML = '<option value="">No blocks available for the selected building.</option>';
+        //         }
+
+        //         document.getElementById('block_no_display').innerText = '';
+
+        //     } else {
+        //         document.getElementById('building_no_display').innerText = '';
+        //         document.getElementById('building_type_display').innerText = '';
+        //         document.getElementById('block_id').innerHTML = '<option value="">Select Block</option>';
+        //         document.getElementById('block_no_display').innerText = '';
+        //     }
+        // }
+
+        // function showBlockDetails() {
+        //     const selectedBlockId = document.getElementById('block_id').value;
+        //     const block = blocks.find(b => b.id == selectedBlockId);
+
+        //     if (block) {
+        //         document.getElementById('block_no_display').innerText = block.block_no;
+        //         const upperFloorCount = block.total_upper_floors ?? 0;
+        //         const undergroundFloorCount = block.total_underground_floors ?? 0;
+
+        //         const typeSelect = document.getElementById('type');
+        //         typeSelect.removeEventListener('change', handleTypeChange); // Remove old listeners to avoid duplication
+        //         typeSelect.addEventListener('change', handleTypeChange);
+
+        //         function handleTypeChange() {
+        //             const selectedType = this.value;
+
+        //             fetch(`/blocks/${selectedBlockId}/floorsno?type=${selectedType}`) // Pass type as query parameter
+        //                 .then(response => response.json())
+        //                 .then(data => {
+        //                     if (data.error) {
+        //                         console.error(data.error); // Handle errors
+        //                         return;
+        //                     }
+
+        //                     existingFloors = data.existingFloors; // Update existingFloors with fetched data
+        //                     // Example call
+        //                     const currentFloorNo =
+        //                     {{ $floor->floor_no }}; // Get current floor number from Blade variable
+
+        //                     const floorCount = selectedType === 'upper' ? upperFloorCount : undergroundFloorCount;
+        //                     populateFloorOptions(floorCount, selectedType, currentFloorNo);
+        //                 })
+        //                 .catch(error => console.error('Error fetching floors:', error));
+        //         }
+
+        //         typeSelect.dispatchEvent(new Event('change')); // Trigger change to initialize dropdowns
+        //     } else {
+        //         document.getElementById('block_no_display').innerText = '';
+        //     }
+        // }
 
 
         function showBuildingDetails() {
             const selectedBuildingId = document.getElementById('building_id').value;
             const building = buildings.find(b => b.id == selectedBuildingId);
 
+            // Update building details
             if (building) {
                 document.getElementById('building_no_display').innerText = building.building_no;
                 document.getElementById('building_type_display').innerText = typeFullForm[building.type] || 'Other';
 
-                const buildingBlocks = blocks.filter(b => b.building_id == selectedBuildingId);
-                const blockSelect = document.getElementById('block_id');
-                blockSelect.innerHTML = '<option value="">Select Block</option>';
 
-                buildingBlocks.forEach(block => {
-                    blockSelect.innerHTML += `
-                        <option value="${block.id}" ${block.id == '{{ $floor->block_id }}' ? 'selected' : ''}>${block.name}</option>
-                    `;
-                });
-
-                if (buildingBlocks.length === 0) {
-                    blockSelect.innerHTML = '<option value="">No blocks available for the selected building.</option>';
-                }
-
-                document.getElementById('block_no_display').innerText = '';
-
-            } else {
-                document.getElementById('building_no_display').innerText = '';
-                document.getElementById('building_type_display').innerText = '';
-                document.getElementById('block_id').innerHTML = '<option value="">Select Block</option>';
-                document.getElementById('block_no_display').innerText = '';
-            }
-        }
-
-        function showBlockDetails() {
-            const selectedBlockId = document.getElementById('block_id').value;
-            const block = blocks.find(b => b.id == selectedBlockId);
-
-            if (block) {
-                document.getElementById('block_no_display').innerText = block.block_no;
-                const upperFloorCount = block.total_upper_floors ?? 0;
-                const undergroundFloorCount = block.total_underground_floors ?? 0;
+                const upperFloorCount = building.total_upper_floors ?? 0;
+                const undergroundFloorCount = building.total_underground_floors ?? 0;
 
                 const typeSelect = document.getElementById('type');
                 typeSelect.removeEventListener('change', handleTypeChange); // Remove old listeners to avoid duplication
@@ -187,7 +248,7 @@
                 function handleTypeChange() {
                     const selectedType = this.value;
 
-                    fetch(`/blocks/${selectedBlockId}/floorsno?type=${selectedType}`) // Pass type as query parameter
+                    fetch(`/buildings/${selectedBuildingId}/floorsno?type=${selectedType}`) // Pass type as query parameter
                         .then(response => response.json())
                         .then(data => {
                             if (data.error) {
@@ -196,23 +257,25 @@
                             }
 
                             existingFloors = data.existingFloors; // Update existingFloors with fetched data
-                            // Example call
                             const currentFloorNo =
-                            {{ $floor->floor_no }}; // Get current floor number from Blade variable
+                                {{ $floor->floor_no }}; // Get current floor number from Blade variable
 
                             const floorCount = selectedType === 'upper' ? upperFloorCount : undergroundFloorCount;
-                            populateFloorOptions(floorCount, selectedType, currentFloorNo);
+                            populateFloorOptions(floorCount, selectedType, currentFloorNo, building);
                         })
                         .catch(error => console.error('Error fetching floors:', error));
                 }
 
                 typeSelect.dispatchEvent(new Event('change')); // Trigger change to initialize dropdowns
+
             } else {
-                document.getElementById('block_no_display').innerText = '';
+                document.getElementById('building_no_display').innerText = '';
+                document.getElementById('building_type_display').innerText = '';
+                document.getElementById('dynamic-checkboxes').innerHTML = ''; // Clear checkboxes
             }
         }
 
-        function populateFloorOptions(floorCount, type, currentFloorNo) {
+        function populateFloorOptions(floorCount, type, currentFloorNo, building) {
             const floorNoSelect = document.getElementById('floor_no');
             floorNoSelect.innerHTML = '';
 
@@ -222,7 +285,8 @@
                     if (currentFloorNo == 1) suffix = 'st';
                     else if (currentFloorNo == 2) suffix = 'nd';
                     else if (currentFloorNo == 3) suffix = 'rd';
-                    floorNoSelect.innerHTML += `<option value="${currentFloorNo}" selected>${currentFloorNo}<sup>${suffix}</sup> </option>`;
+                    floorNoSelect.innerHTML +=
+                        `<option value="${currentFloorNo}" selected>${currentFloorNo}<sup>${suffix}</sup> </option>`;
                 }
             } else {
                 floorNoSelect.innerHTML = '<option value="">Select Floor No</option>';
@@ -234,17 +298,33 @@
             dynamicCheckboxes.innerHTML = ''; // Clear previous checkboxes
 
             if (type === 'upper') {
-                dynamicCheckboxes.innerHTML = `
-        <div class="form-group">
-            <label><input type="checkbox" name="is_residential_unit_exist" {{ $floor->is_residential_unit_exist ? 'checked' : '' }}> Residential Suite </label>
-        </div>
-        <div class="form-group">
-            <label><input type="checkbox" name="is_commercial_unit_exist" {{ $floor->is_commercial_unit_exist ? 'checked' : '' }}> Commercial Unit </label>
-        </div>
-        <div class="form-group">
-            <label><input type="checkbox" name="is_supporting_room_exist" {{ $floor->is_supporting_room_exist ? 'checked' : '' }}> Supporting & Service Room </label>
-        </div>
-        `;
+                if (building.type === 'RESB') {
+                    dynamicCheckboxes.innerHTML = `
+                <div class="form-group">
+                    <label><input type="checkbox" name="is_residential_unit_exist" {{ $floor->is_residential_unit_exist ? 'checked' : '' }}> Residential Unit </label>
+                </div>
+                `;
+                } else if (building.type === 'COMB') {
+                    dynamicCheckboxes.innerHTML = `
+                <div class="form-group">
+                    <label><input type="checkbox" name="is_commercial_unit_exist" {{ $floor->is_commercial_unit_exist ? 'checked' : '' }}> Commercial Unit </label>
+                </div>
+                `;
+                } else {
+                    dynamicCheckboxes.innerHTML = `
+                <div class="form-group">
+                    <label><input type="checkbox" name="is_residential_unit_exist" {{ $floor->is_residential_unit_exist ? 'checked' : '' }}> Residential Unit </label>
+                </div>
+                <div class="form-group">
+                    <label><input type="checkbox" name="is_commercial_unit_exist" {{ $floor->is_commercial_unit_exist ? 'checked' : '' }}> Commercial Unit </label>
+                </div>
+                `;
+                }
+                dynamicCheckboxes.innerHTML += `
+                <div class="form-group">
+                    <label><input type="checkbox" name="is_supporting_room_exist" {{ $floor->is_supporting_room_exist ? 'checked' : '' }}> Supporting & Service Room </label>
+                </div>
+                `;
             } else if (type === 'underground') {
                 dynamicCheckboxes.innerHTML = `
         <div class="form-group">
@@ -269,7 +349,7 @@
         // Initial call to populate the details if there's a pre-selected building and block
         document.addEventListener('DOMContentLoaded', function() {
             showBuildingDetails();
-            showBlockDetails();
+            // showBlockDetails();
         });
     </script>
 @endsection

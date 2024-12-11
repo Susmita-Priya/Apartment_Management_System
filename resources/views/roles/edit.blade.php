@@ -37,7 +37,8 @@
                                     <div class="form-group col-md-12">
                                         <label for="name" class="col-form-label">Name</label>
                                         <input type="text" class="form-control" name="name" id="name"
-                                            value="{{ $role->name }}">
+                                            value="{{ $role->name }}" 
+                                            @if(auth()->user()->role != 'super admin') disabled @endif>
                                         <span class="text-danger">
                                             @error('name')
                                                 {{ $message }}
@@ -61,7 +62,8 @@
                                     </div>
                                 </div>
                                 <button type="submit" class="btn waves-effect waves-light btn-sm submitbtn">
-                                    Edit
+                                    Save
+                                </button>
                             </div>
                         </div>
                     </form>

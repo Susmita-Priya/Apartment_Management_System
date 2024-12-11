@@ -15,7 +15,9 @@
 
                     <li>
                         <a href="{{ route('index') }}">
-                            <i class="fi-air-play"></i><span class="badge badge-success pull-right">2</span> <span>
+                            <i class="fi-air-play"></i>
+                            {{-- <span class="badge badge-success pull-right">2</span>  --}}
+                            <span>
                                 Dashboard </span>
                         </a>
                     </li>
@@ -30,35 +32,6 @@
                             </a>
                             <ul class="nav-second-level">
 
-                                @can('amenities-create')
-                                <li>
-                                    <a href="{{ route('amenities.create') }}">
-                                        <i class="fa fa-plus"></i>
-                                        <span>New Amenity</span>
-                                        
-                                    </a>
-                                </li>
-                                @endcan
-
-                                @can('room-type-create')
-                                <li>
-                                    <a href="{{ route('roomType.create') }}">
-                                        <i class="fa fa-plus
-                                        "></i>
-                                        <span>New Room Type</span>
-                                    </a>
-                                </li>
-                                @endcan
-
-                                @can('common-area-create')
-                                <li>
-                                    <a href="{{ route('commonArea.create') }}">
-                                        <i class="fa fa-plus"></i>
-                                        <span>Common Area</span>
-                                    </a>
-                                </li>
-                                @endcan
-
                                 @can('property-management')
                                     <li>
                                         <a href="javascript: void(0);">
@@ -70,9 +43,9 @@
                                             @can('building-create')
                                                 <li><a href="{{ route('building.create') }}">New Building</a></li>
                                             @endcan
-                                            @can('block-create')
+                                            {{-- @can('block-create')
                                                 <li><a href="{{ route('block.create') }}">New Block</a></li>
-                                            @endcan
+                                            @endcan --}}
                                             @can('floor-create')
                                                 <li><a href="{{ route('floor.create') }}">New Floor</a></li>
                                             @endcan 
@@ -86,6 +59,36 @@
                                     </li>
                                 @endcan
 
+                                @can('room-type-create')
+                                <li>
+                                    <a href="{{ route('roomType.create') }}">
+                                        <i class="fa fa-plus
+                                        "></i>
+                                        <span>New Room Type</span>
+                                    </a>
+                                </li>
+                                @endcan
+
+                                @can('amenities-create')
+                                <li>
+                                    <a href="{{ route('amenities.create') }}">
+                                        <i class="fa fa-plus"></i>
+                                        <span>New Assets</span>
+                                        
+                                    </a>
+                                </li>
+                                @endcan
+
+                                @can('common-area-create')
+                                <li>
+                                    <a href="{{ route('commonArea.create') }}">
+                                        <i class="fa fa-plus"></i>
+                                        <span>Common Area</span>
+                                    </a>
+                                </li>
+                                @endcan
+
+                                
                                 {{-- @can('tenant-management')
                                     <li>
                                         <a href="javascript: void(0);">
@@ -144,14 +147,40 @@
                         </li>
                     @endcan
 
+                    <!-- Property -->
+                    @can('property-management')
+                        <li>
+                            <a href="javascript: void(0);"><i class="fa fa-home"></i> <span> Property </span> <span
+                                    class="menu-arrow"></span></a>
+                            <ul class="nav-second-level " aria-expanded="false">
+                                @can('building-list')
+                                    <li><a href="{{ route('building') }}">View Buildings</a></li>
+                                @endcan
+                                {{-- @can('block-list')
+                                    <li><a href="{{ route('block.index') }}">View Blocks</a></li>
+                                @endcan --}}
+                                @can('floor-list')
+                                    <li><a href="{{ route('floor.index') }}">View Floors</a></li>
+                                @endcan
+                                @can('unit-list')
+                                    <li><a href="{{ route('unit.index') }}">View Units</a></li>
+                                @endcan
+                                @can('room-list')
+                                    <li><a href="{{ route('room.index') }}">View Rooms</a></li>
+                                @endcan
+                                
+                            </ul>
+                        </li>
+                    @endif
+
                     <!-- Amenities -->
                     @can('amenities-management')
                         <li>
-                            <a href="javascript: void(0);"><i class="fa fa-cube"></i> <span> Amenities </span> <span
+                            <a href="javascript: void(0);"><i class="fa fa-cube"></i> <span> Assets </span> <span
                                     class="menu-arrow"></span></a>
                             <ul class="nav-second-level " aria-expanded="false">
                                 @can('amenities-list')
-                                    <li><a href="{{ route('amenities.index') }}">Amenities List</a></li>
+                                    <li><a href="{{ route('amenities.index') }}">Assets List</a></li>
                                 @endcan
                             </ul>
                         </li>
@@ -184,33 +213,6 @@
                             </ul>
                         </li>
                     @endcan
-
-
-                    <!-- Property -->
-                    @can('property-management')
-                        <li>
-                            <a href="javascript: void(0);"><i class="fa fa-home"></i> <span> Property </span> <span
-                                    class="menu-arrow"></span></a>
-                            <ul class="nav-second-level " aria-expanded="false">
-                                @can('building-list')
-                                    <li><a href="{{ route('building') }}">View Buildings</a></li>
-                                @endcan
-                                @can('block-list')
-                                    <li><a href="{{ route('block.index') }}">View Blocks</a></li>
-                                @endcan
-                                @can('floor-list')
-                                    <li><a href="{{ route('floor.index') }}">View Floors</a></li>
-                                @endcan
-                                @can('unit-list')
-                                    <li><a href="{{ route('unit.index') }}">View Units</a></li>
-                                @endcan
-                                @can('room-list')
-                                    <li><a href="{{ route('room.index') }}">View Rooms</a></li>
-                                @endcan
-                                
-                            </ul>
-                        </li>
-                    @endif
 
 
                     {{-- pending request --}}

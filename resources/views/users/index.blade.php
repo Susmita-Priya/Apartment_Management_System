@@ -58,12 +58,12 @@
                                     <td>{{ $user->email }}</td>
                                     <td>
                                         @if (!empty($user->getRoleNames()))
-                                        @foreach ($user->getRoleNames() as $v)
-                                            <label class="badge bg-success">{{ $v }}</label>
-                                        @endforeach
-                                    @endif
-                                </td>
-                                <td>
+                                            @foreach ($user->getRoleNames() as $v)
+                                                <label class="badge bg-success">{{ $v }}</label>
+                                            @endforeach
+                                        @endif
+                                    </td>
+                                    <td>
                                         <div class="btn-group dropdown">
                                             <a href="javascript: void(0);" class="table-action-btn dropdown-toggle"
                                                 data-toggle="dropdown" aria-expanded="false"><i
@@ -111,5 +111,3 @@
 
     </div> <!-- content -->
 @endsection
-
-

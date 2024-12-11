@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Block;
+use App\Models\Building;
 use App\Models\Floor;
 use App\Models\Room;
 use App\Models\roomType;
@@ -13,16 +14,16 @@ class GetController extends Controller
 {
 
     // Fetch all blocks with their associated buildings
-    public function getBlocks($id)
-    {
-        $blocks = Block::where('building_id', $id)->get();
-        return response()->json($blocks);
-    }
+    // public function getBlocks($id)
+    // {
+    //     $blocks = Block::where('building_id', $id)->get();
+    //     return response()->json($blocks);
+    // }
 
 
 
     // Fetch all floors no with their associated blocks
-    public function getFloorsNo($blockId, Request $request)
+    public function getFloorsNo($buildingId, Request $request)
     {
         // Validate type input to ensure it's either 'upper' or 'underground'
         $type = $request->query('type');
@@ -30,7 +31,7 @@ class GetController extends Controller
             return response()->json(['error' => 'Invalid type provided'], 400);
         }
     
-        $floors = Floor::where('block_id', $blockId)
+        $floors = Floor::where('building_id', $buildingId)
             ->where('type', $type)
             ->pluck('floor_no');
     
@@ -42,9 +43,9 @@ class GetController extends Controller
     // Fetch all floors with their associated blocks
     public function getFloors($id)
     {
-        $floors = Floor::where('block_id', $id)->where('type','upper')->orderBy('type')->orderBy('floor_no')->get();
-        $block = Block::find($id);
-        return response()->json(['floors' => $floors, 'block' => $block]);
+        $floors = Floor::where('building_id', $id)->where('type','upper')->orderBy('type')->orderBy('floor_no')->get();
+        $building = Building::find($id);
+        return response()->json(['floors' => $floors, 'building' => $building]);
     }
 
 

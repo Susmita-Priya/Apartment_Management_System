@@ -22,14 +22,11 @@ class PermissionSeeder extends Seeder
             'user-edit',
             'user-delete',
 
-              //For roll and permission
+            //For role
             'role-list',
             'role-create',
             'role-edit',
             'role-delete',
-
-             //For Role and permission
-            'role-and-permission-list',
 
 
             //dashboard

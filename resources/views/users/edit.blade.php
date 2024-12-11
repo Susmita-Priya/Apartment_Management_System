@@ -15,7 +15,7 @@
 
                         <ol class="breadcrumb float-right">
                             <li class="breadcrumb-item"><a href="{{ route('users.index') }}">Users</a></li>
-                            <li class="breadcrumb-item active">Add User</li>
+                            <li class="breadcrumb-item active">Edit User</li>
                         </ol>
 
                         <div class="clearfix"></div>
@@ -31,7 +31,7 @@
                         @method('PUT')
                         <div class="col-md-12">
                             <div class="card-box">
-                                <h1 class="d-flex justify-content-center mt-4">ADD User</h1>
+                                <h1 class="d-flex justify-content-center mt-4">Edit User</h1>
 
                                 <div class="form-row">
                                     <div class="form-group col-md-12">
@@ -98,7 +98,7 @@
                                     </div>
                                 </div>
                                 <button type="submit" class="btn waves-effect waves-light btn-sm submitbtn">
-                                    Add
+                                    Save
                             </div>
                         </div>
                     </form>

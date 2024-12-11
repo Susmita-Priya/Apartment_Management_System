@@ -87,74 +87,175 @@
                             <p class="text-muted font-15"><strong>Building Name:</strong> <span
                                     class="m-l-15">{{ $building->name }}</span></p>
 
+                            <p class="text-muted font-15"><strong>Total Upper Floor:</strong> <span
+                                    class="m-l-15">{{ $building->total_upper_floors }}</span></p>
+
+                            <p class="text-muted font-15"><strong>Total Underground Floor:</strong> <span
+                                    class="m-l-15">{{ $building->total_underground_floors }}</span></p>
+
                             <p class="text-muted font-15"><strong>Date Added:</strong> <span
                                     class="m-l-15">{{ $building->created_at->format('d M, Y') }}</span></p>
 
+                            <hr>
+
+                            {{-- display common area --}}
+
+                            @php
+                                $buildingCommonAreas = json_decode($building->common_area, true) ?? [];
+                            @endphp
+
+                            <p class="text-muted
+                                font-15"><strong>Common Areas:</strong></p>
+                            @foreach ($commonAreas as $commonArea)
+                                @if (in_array($commonArea->id, $buildingCommonAreas))
+                                <li class="text-muted font-15">  {{ $commonArea->name }} </li>
+                                @endif
+                            @endforeach
+                        
                         </div>
                     </div>
                     <!-- Building-Information -->
                 </div>
 
                 <div class="col-md-8">
-                    @can('block-create')
-                        <div class="row">
+                    <div class="row">
                         <div class="col-sm-12">
-                            <div class="text-right m-b-20">
-                                <button type="button" class="btn waves-effect waves-light greenbtn"
-                                    onclick="window.location.href='{{ route('block.create', ['building_id' => $building->id]) }}'">
-                                    <i class="mdi mdi-plus m-r-5"></i> Add Block
-                                </button>
+                            <div class="text-right">
+                                <div class="btn-group">
+
+                                    @can('floor-create')
+                                    <button type="button" class="btn waves-effect waves-light greenbtn"
+                                    style="position: absolute; "
+                                    onclick="window.location.href='{{ route('floor.create', ['building_id' => $building->id]) }}'">
+                                    <i class="mdi mdi-plus m-r-5"></i> Add Floor
+                                </button>                                        
+                                    @endcan
+                                    {{-- <button type="button" class="btn waves-effect waves-light dropdown-toggle greenbtn"
+                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Add <span class="caret"></span>
+                                    </button>
+
+                                    <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                                        @can('floor-create')
+                                        <a class="dropdown-item"
+                                            href="{{ route('floor.create', ['building_id' => $building->id]) }}">
+                                            <i class="mdi mdi-plus m-r-10 text-muted font-18 vertical-middle"></i> Add Floor
+                                        </a>
+                                        @endcan
+                                        @can('common-area-create')
+                                        <a class="dropdown-item"
+                                            href="{{ route('commonArea.create', ['building_id' => $building->id]) }}">
+                                            <i class="mdi mdi-plus m-r-10 text-muted font-18 vertical-middle"></i> Add
+                                            Common Area
+                                        </a>
+                                        @endcan
+                                    </div> --}}
+                                </div>
                             </div>
                         </div>
                     </div>
-                    @endcan
-                    
                     <!-- end row -->
 
-                    <!-- Blocks List -->
+                    <!-- Floors List -->
                     <div class="row">
-                        @foreach ($blocks as $block)
-                            <div class="col-md-4">
-                                <div class="card-box">
-                                    <h4 class="header-title mt-0 m-b-20">{{ $block->name }}</h4>
-                                    <p class="text-muted font-15"><strong>Block No: </strong>{{ $block->block_no }}</p>
-                                    {{-- <p class="text-muted font-13"><strong>Building: </strong>{{ $block->building->name }}</p> --}}
-
-                                    @can('block-view')
+                        <div class="col-12">
+                            <h4 class="header-title mt-0 m-b-20">Upper Floors</h4>
+                        </div>
+                        @foreach ($floors as $floor)
+                            @if($floor->type == 'upper')
+                            @php
+                                $suffix =
+                                    $floor->floor_no == 1? 'st': ($floor->floor_no == 2? 'nd': ($floor->floor_no == 3? 'rd': 'th'));
+                            @endphp
+                                <div class="col-md-4 mb-4">
+                                    <div class="card-box">
+                                        <h4 class="header-title mt-0 m-b-20">{{ $floor->floor_no }}<sup>{{ $suffix }}</sup> floor</h4>
+                                        <p class="text-muted font-15"><strong>Name:
+                                            </strong>{{ $floor->name }}</p>
+                                            @can('floor-view')
                                         <button type="button"
-                                        onclick="window.location.href='{{ route('block.show', $block->id) }}'"
-                                        class="btn btn-info m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm">
-                                        Enter
-                                    </button>
-                                    @endcan
-                                    
-                                    @can('block-edit')
-                                    <button type="button"
-                                        class="btn btn-success m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm"
-                                        onclick="window.location.href='{{ route('block.edit', $block->id) }}'">
-                                        Edit
-                                    </button>
-                                    @endcan
-
-                                    @can('block-delete')
-                                    <button type="button"
-                                        class="btn btn-danger m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm"
-                                        onclick="confirmDelete('{{ route('block.delete', ['id' => $block->id]) }}')">
-                                        Delete
-                                    </button>
-
-                                    <!-- Hidden form for deletion -->
-                                    <form id="delete-form" action="{{ route('block.delete', ['id' => $block->id]) }}"
-                                        method="GET" style="display: none;">
-                                        @csrf
-                                        @method('DELETE')
-                                    </form>
-                                    @endcan
+                                            onclick="window.location.href='{{ route('floor.show', $floor->id) }}'"
+                                            class="btn btn-info m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm">
+                                            Enter
+                                        </button>
+                                        @endcan
+                                        @can('floor-edit')
+                                        <button type="button"
+                                            class="btn btn-success m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm"
+                                            onclick="window.location.href='{{ route('floor.edit', $floor->id) }}'">
+                                            Edit
+                                        </button>
+                                        @endcan
+                                        @can('floor-delete')
+                                        <button type="button"
+                                            class="btn btn-danger m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm"
+                                            onclick="confirmDelete('{{ route('floor.delete', ['id' => $floor->id]) }}')">
+                                            Delete
+                                        </button>
+                                        <!-- Hidden form for deletion -->
+                                        <form id="delete-form"
+                                            action="{{ route('floor.delete', ['id' => $floor->id]) }}"
+                                            method="GET" style="display: none;">
+                                            @csrf
+                                            @method('DELETE')
+                                        </form>
+                                        @endcan
+                                    </div>
                                 </div>
-                            </div>
+                            @endif
                         @endforeach
                     </div>
-                    <!-- end Blocks List -->
+
+                    <div class="row">
+                        <div class="col-12">
+                            <h4 class="header-title mt-0 m-b-20">Underground Floors</h4>
+                        </div>
+                        @foreach ($floors as $floor)
+                            @if($floor->type == 'underground')
+                            @php
+                                $suffix =
+                                    $floor->floor_no == 1? 'st': ($floor->floor_no == 2? 'nd': ($floor->floor_no == 3? 'rd': 'th'));
+                            @endphp
+                                <div class="col-md-4 mb-4">
+                                    <div class="card-box">
+                                        <h4 class="header-title mt-0 m-b-20">{{ $floor->floor_no }}<sup>{{ $suffix }}</sup> floor</h4>
+                                        <p class="text-muted font-15"><strong>Name:
+                                            </strong>{{ $floor->name }}</p>
+                                            @can('floor-view')
+                                                <button type="button"
+                                            onclick="window.location.href='{{ route('floor.show', $floor->id) }}'"
+                                            class="btn btn-info m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm">
+                                            Enter
+                                        </button>
+                                            @endcan
+                                        
+                                        @can('floor-edit')
+                                        <button type="button"
+                                            class="btn btn-success m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm"
+                                            onclick="window.location.href='{{ route('floor.edit', $floor->id) }}'">
+                                            Edit
+                                        </button>
+                                        @endcan
+                                        @can('floor-delete')
+                                        <button type="button"
+                                            class="btn btn-danger m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm"
+                                            onclick="confirmDelete('{{ route('floor.delete', ['id' => $floor->id]) }}')">
+                                            Delete
+                                        </button>
+                                        <!-- Hidden form for deletion -->
+                                        <form id="delete-form"
+                                            action="{{ route('floor.delete', ['id' => $floor->id]) }}"
+                                            method="GET" style="display: none;">
+                                            @csrf
+                                            @method('DELETE')
+                                        </form>
+                                        @endcan
+                                    </div>
+                                </div>
+                            @endif
+                        @endforeach
+                    </div>
+                    <!-- End Floors List -->
 
                 </div>
                 <!-- end col -->

@@ -86,8 +86,6 @@
                                 <div class="form-row ">
                                     <div class="form-group col-md-12">
                                         <label for="roles" class="form-label">Roles </label>
-                                        {{-- <br /> --}}
-                                        
                                         <select name="roles[]" class="select2 form-control select2-multiple"
                                             data-toggle="select2" multiple="multiple">
                                             @foreach ($roles as $value => $label)
@@ -103,13 +101,10 @@
                             </div>
                         </div>
                     </form>
-
                 </div>
             </div>
             <!-- end row -->
         </div> <!-- container -->
     </div> <!-- content -->
-
-    
 
 @endsection

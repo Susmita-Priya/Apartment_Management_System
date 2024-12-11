@@ -9,6 +9,7 @@ use Spatie\Permission\Models\Role;
 use Illuminate\Support\Arr;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB as FacadesDB;
 use Illuminate\Support\Facades\Hash as FacadesHash;
 
@@ -16,15 +17,40 @@ class UserController extends Controller
 {
     public function index(Request $request): View
     {
-        $data = User::latest()->paginate(5);
-  
-        return view('users.index',compact('data'))
-            ->with('i', ($request->input('page', 1) - 1) * 5);
+        if (Auth::user()->hasRole('Super Admin')) {      // Super Admin can see all users
+            $data = User::latest()->get();
+        } elseif (Auth::user()->hasRole('Client')) {     // Client can see itself and its child Company users
+            $data = User::where('parent_id', Auth::user()->id)
+                        ->orWhere('id', Auth::user()->id)
+                        ->latest()
+                        ->get();
+        } elseif (Auth::user()->hasRole('Company')) {    // Company can see itself and its parent Client
+            $data = User::where('id', Auth::user()->id)
+                        ->orWhere('id', Auth::user()->parent_id)
+                        ->latest()
+                        ->get();
+        } else {
+            $data = collect(); // Empty collection
+        }
+        
+
+    $roles = Role::pluck('name', 'name')->all();
+
+    return view('users.index', compact('data', 'roles'))
+        ->with('i', ($request->input('page', 1) - 1) * 5);
     }
+   
     
     public function create(): View
     {
         $roles = Role::pluck('name','name')->all();
+        if (Auth::user()->hasRole('Super Admin')) {
+            $roles = Role::pluck('name', 'name')->all();
+        } elseif (Auth::user()->hasRole('Client')) {
+            $roles = Role::where('name', 'Company')->pluck('name', 'name')->all();
+        } else {
+            $roles = [];
+        }
 
         return view('users.create',compact('roles'));
     }
@@ -39,11 +65,10 @@ class UserController extends Controller
         ]);
     
         $input = $request->all();
+        $input['parent_id'] = Auth::user()->id;
         $input['password'] = FacadesHash::make($input['password']);
-    
         $user = User::create($input);
         $user->assignRole($request->input('roles'));
-    
         return redirect()->route('users.index')
                         ->with('success','User created successfully');
     }
@@ -58,8 +83,15 @@ class UserController extends Controller
     public function edit($id): View
     {
         $user = User::find($id);
-        $roles = Role::pluck('name','name')->all();
-        $userRole = $user->roles->pluck('name','name')->all();
+        if (Auth::user()->hasRole('Super Admin')) {
+            $roles = Role::pluck('name', 'name')->all();
+        } elseif (Auth::user()->hasRole('Client')) {
+            $roles = Role::where('name', 'Company')->pluck('name', 'name')->all();
+        } else {
+            $roles = [];
+        }
+        
+        $userRole = $user->roles->pluck('name', 'name')->all();
     
         return view('users.edit',compact('user','roles','userRole'));
     }

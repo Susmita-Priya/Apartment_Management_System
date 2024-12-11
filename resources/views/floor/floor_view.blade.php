@@ -18,8 +18,8 @@
                             <li class="breadcrumb-item"><a href="{{ route('index') }}">Dashboard</a></li>
                             <li class="breadcrumb-item"><a href="{{ route('building') }}">Buildings</a></li>
                             <li class="breadcrumb-item"><a
-                                    href="{{ route('building.show', $block->building_id) }}">Building</a></li>
-                            <li class="breadcrumb-item"><a href="{{ route('block.show', $floor->block_id) }}">Block</a></li>
+                                    href="{{ route('building.show', $floor->building_id) }}">Building</a></li>
+                            {{-- <li class="breadcrumb-item"><a href="{{ route('block.show', $floor->block_id) }}">Block</a></li> --}}
                             <li class="breadcrumb-item active">Floor Details</li>
                         </ol>
 
@@ -91,12 +91,12 @@
                                     class="m-l-15">{{ $floor->created_at->format('d M, Y') }}</span></p>
 
                             <hr>
-
+{{-- 
                             <p class="text-muted font-15"><strong>Block No:</strong> <span
                                     class="m-l-15">{{ $block->block_no }}</span></p>
                             <p class="text-muted font-15"><strong>Block:</strong> <span
                                     class="m-l-15">{{ $block->name }}</span></p>
-                            <hr>
+                            <hr> --}}
 
                             @php
                                 $typeFullForm = [

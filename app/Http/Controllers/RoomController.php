@@ -32,7 +32,6 @@ class RoomController extends Controller
     {
         // Fetch all buildings, blocks, and floors
         $buildings = Building::where('status', 1)->get();
-        $blocks = Block::all();
         $floors = Floor::where('type', 'upper')->where('status', 1)->get();
         $units = Unit::all();
         $roomTypes = roomType::where('status', 1)->get();
@@ -41,8 +40,7 @@ class RoomController extends Controller
         $unitId = $request->query('unit_id');
         $unit = Unit::find($unitId);
         $floor = Floor::find($unit->floor_id ?? null);
-        $block = Block::find($floor->block_id ?? null);
-        $building = Building::find($block->building_id ?? null);
+        $building = Building::find($floor->building_id ?? null);
 
         // Define type full form array
         $typeFullForm = [
@@ -54,7 +52,7 @@ class RoomController extends Controller
         $amenities = Amenities::all();
 
         // Pass all variables to the view
-        return view('room.room_add', compact('buildings', 'building', 'blocks', 'block', 'floors', 'floor', 'typeFullForm', 'units', 'unit', 'amenities', 'roomTypes'));
+        return view('room.room_add', compact('buildings', 'building', 'floors', 'floor', 'typeFullForm', 'units', 'unit', 'amenities', 'roomTypes'));
     }
 
     /**
@@ -85,8 +83,7 @@ class RoomController extends Controller
         $room = Room::findOrFail($id);
         $unit = Unit::find($room->unit_id);
         $floor = Floor::find($unit->floor_id);
-        $block = Block::find($floor->block_id);
-        $building = Building::find($block->building_id);
+        $building = Building::find($floor->building_id);
 
         $roomTypeId = $room->room_type_id;
         $roomType = roomType::find($roomTypeId);
@@ -107,7 +104,7 @@ class RoomController extends Controller
             }
         }
 
-        return view('room.room_view', compact('room', 'unit', 'floor', 'block', 'building', 'roomType', 'selectedAmenities'));
+        return view('room.room_view', compact('room', 'unit', 'floor', 'building', 'roomType', 'selectedAmenities'));
     }
 
     /**
@@ -120,7 +117,6 @@ class RoomController extends Controller
 
         // Fetch all buildings, blocks, and floors
         $buildings = Building::where('status', 1)->get();
-        $blocks = Block::all();
         $floors = Floor::where('type', 'upper')->where('status', 1)->get();
         $units = Unit::all();
         $roomTypes = roomType::where('status', 1)->get();
@@ -128,8 +124,7 @@ class RoomController extends Controller
         // Fetch the floor using the provided floor_id
         $unit = Unit::find($room->unit_id);
         $floor = Floor::find($unit->floor_id ?? null);
-        $block = Block::find($floor->block_id ?? null);
-        $building = Building::find($block->building_id ?? null);
+        $building = Building::find($floor->building_id ?? null);
 
         // Define type full form array
         $typeFullForm = [
@@ -138,7 +133,7 @@ class RoomController extends Controller
             'RECB' => 'Residential-Commercial Building',
         ];
 
-        return view('room.room_edit', compact('room', 'amenities', 'buildings', 'building', 'blocks', 'block', 'floors', 'floor', 'typeFullForm', 'units', 'unit', 'roomTypes'));
+        return view('room.room_edit', compact('room', 'amenities', 'buildings', 'building', 'floors', 'floor', 'typeFullForm', 'units', 'unit', 'roomTypes'));
     }
 
     /**

@@ -19,8 +19,7 @@
                             <li class="breadcrumb-item"><a href="{{ route('index') }}">Dashboard</a></li>
                             <li class="breadcrumb-item"><a href="{{ route('building') }}">Buildings</a></li>
                             <li class="breadcrumb-item"><a
-                                    href="{{ route('building.show', $block->building_id) }}">Building</a></li>
-                            <li class="breadcrumb-item"><a href="{{ route('block.show', $floor->block_id) }}">Block</a></li>
+                                    href="{{ route('building.show', $floor->building_id) }}">Building</a></li>
                             <li class="breadcrumb-item"><a href="{{ route('floor.show', $unit->floor_id) }}">Floor</a></li>
                             <li class="breadcrumb-item active">Unit Details</li>
                         </ol>
@@ -112,11 +111,11 @@
 
                             <hr>
 
-                            <p class="text-muted font-15"><strong>Block No:</strong> <span
+                            {{-- <p class="text-muted font-15"><strong>Block No:</strong> <span
                                     class="m-l-15">{{ $block->block_no }}</span></p>
                             <p class="text-muted font-15"><strong>Block:</strong> <span
                                     class="m-l-15">{{ $block->name }}</span></p>
-                            <hr>
+                            <hr> --}}
 
                             @php
                                 $typeFullForm = [
@@ -199,7 +198,7 @@
                         <div class="card-box">
                             @foreach ($roomTypes as $roomType)
                                 @if ($roomType->id == $room->room_type_id)
-                                    <h4 class="header-title mt-0 m-b-20">{{ $roomType->name }}{{ $room->room_no }}</h4>
+                                    <h4 class="header-title mt-0 m-b-20">{{ $roomType->name }} - {{ $room->room_no }}</h4>
                                 @endif
                             @endforeach
                            

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('floors', function (Blueprint $table) {
             $table->id();
             $table->foreignId('company_id')->references('id')->on('users');
-            $table->foreignId('block_id')->references('id')->on('blocks')->onDelete('cascade');
+            $table->foreignId('building_id')->references('id')->on('buildings')->onDelete('cascade');
             $table->string('floor_no');
             $table->string('name')->nullable();
             $table->string('type')->nullable();

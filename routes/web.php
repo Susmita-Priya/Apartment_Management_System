@@ -3,31 +3,22 @@
   
 use App\Http\Controllers\HomeController;
 
-use App\Http\Controllers\AdroomController;
 use App\Http\Controllers\AmenitiesController;
-use App\Http\Controllers\AmroomController;
-use App\Http\Controllers\AssetController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BlockController;
 use App\Http\Controllers\BuildingController;
-use App\Http\Controllers\ComareaController;
 use App\Http\Controllers\CommonAreaController;
-use App\Http\Controllers\ComroomController;
 use App\Http\Controllers\FloorController;
 use App\Http\Controllers\GetController;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\LandlordController;
 use App\Http\Controllers\LeaseRequestController;
-use App\Http\Controllers\MechroomController;
 use App\Http\Controllers\ParkerController;
 use App\Http\Controllers\ParkingController;
-use App\Http\Controllers\PermissionController;
-use App\Http\Controllers\ResroomController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\RoomTypeController;
 use App\Http\Controllers\SaasPlatform\WebsiteController;
-use App\Http\Controllers\SerroomController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\StallLockerController;
 use App\Http\Controllers\TenantController;
@@ -39,14 +30,6 @@ use App\Http\Controllers\UnitLeaseController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VehicleController;
 use App\Http\Middleware\AdminUserMiddleware;
-use App\Models\Asset;
-use App\Models\Landlord;
-use App\Models\LeaseRequest;
-use App\Models\Parker;
-use App\Models\Permission;
-use App\Models\Tenant;
-use App\Models\Unit_landlord;
-use App\Models\Vehicle;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -83,21 +66,21 @@ Route::middleware('auth')->group(callback: function () {
 
 
 
-        //block
-        Route::get('block/index', [BlockController::class, 'index'])->name("block.index");
-        Route::get('block/create', [BlockController::class, 'create'])->name("block.create");
-        Route::post('block/create', [BlockController::class, 'store'])->name("block.store");
-        Route::get('block/show/{id}', [BlockController::class, 'show'])->name("block.show");
-        Route::get('block/edit/{id}', [BlockController::class, 'edit'])->name("block.edit");
-        Route::post('block/edit/{id}', [BlockController::class, 'update'])->name("block.update");
-        Route::get('block/delete/{id}', [BlockController::class, 'destroy'])->name("block.delete");
+        // //block
+        // Route::get('block/index', [BlockController::class, 'index'])->name("block.index");
+        // Route::get('block/create', [BlockController::class, 'create'])->name("block.create");
+        // Route::post('block/create', [BlockController::class, 'store'])->name("block.store");
+        // Route::get('block/show/{id}', [BlockController::class, 'show'])->name("block.show");
+        // Route::get('block/edit/{id}', [BlockController::class, 'edit'])->name("block.edit");
+        // Route::post('block/edit/{id}', [BlockController::class, 'update'])->name("block.update");
+        // Route::get('block/delete/{id}', [BlockController::class, 'destroy'])->name("block.delete");
 
 
 
         //get data using jquery
-        Route::get('/blocks/{id}', [GetController::class, 'getBlocks'])->name('blocks.get');  // get blocks by building id  
-        Route::get('/blocks/{blockId}/floorsno', [GetController::class, 'getFloorsNo']);  // get registered floors no by block id   
-        Route::get('/blocks/{blockId}/floors', [GetController::class, 'getFloors']);  //get floors by block id    
+        // Route::get('/buildings/{id}', [GetController::class, 'getBuildings'])->name('getbuildings');  // get blocks by building id  
+        Route::get('/buildings/{buildingId}/floorsno', [GetController::class, 'getFloorsNo']);  // get registered floors no by block id   
+        Route::get('/buildings/{buildingId}/floors', [GetController::class, 'getFloors']);  //get floors by block id    
         Route::get('/floors/{floorId}/units', [GetController::class, 'getUnits']);  //get units by floor id
         Route::get('/units/{unitId}/rooms', [GetController::class, 'getRooms']);  //get rooms by unit id
         Route::get('/units/{unitId}/roomsno', [GetController::class, 'getAmenities']);  //get rooms no by unit id
@@ -314,5 +297,3 @@ Auth::routes();
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Auth::routes();
-
-// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

@@ -12,7 +12,7 @@ class Floor extends Model
 
     protected $fillable = [
         'company_id',
-        'block_id',
+        'building_id',
         'floor_no',
         'name',
         'type',

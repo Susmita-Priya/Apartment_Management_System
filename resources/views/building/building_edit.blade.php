@@ -66,23 +66,50 @@
                                     </div>
                                 </div>
 
-                                {{-- Uncomment and modify if property_id is applicable --}}
-                                {{-- <div class="form-row">
-                                <div class="form-group col-md-12">
-                                    <label for="property_id" class="col-form-label">Property</label>
-                                    <select class="form-control" name="property_id" id="property_id">
-                                        <option value="">Select Property</option>
-                                        @foreach ($properties as $property)
-                                            <option value="{{ $property->id }}" {{ $building->property_id == $property->id ? 'selected' : '' }}>{{ $property->name }}</option>
-                                        @endforeach
-                                    </select>
-                                    <span class="text-danger">
-                                        @error('property_id')
-                                            {{ $message }}
-                                        @enderror
-                                    </span>
+                                <div class="form-row">
+                                    <div class="form-group col-md-12">
+                                        <label for="total_upper_floors" class="col-form-label">Total Upper Floors</label>
+                                        <input type="number" class="form-control" name="total_upper_floors"
+                                            id="total_upper_floors" value="{{ $building->total_upper_floors }}" placeholder="Enter Total Upper Floor Count">
+                                        <span class="text-danger">
+                                            @error('total_upper_floors')
+                                                {{ $message }}
+                                            @enderror
+                                        </span>
+                                    </div>
                                 </div>
-                            </div> --}}
+
+                                <div class="form-row">
+                                    <div class="form-group col-md-12">
+                                        <label for="total_underground_floors" class="col-form-label">Total Underground Floors</label>
+                                        <input type="number" class="form-control" name="total_underground_floors"
+                                            id="total_underground_floors" value="{{ $building->total_underground_floors }}" placeholder="Total Underground Floors Count">
+                                        <span class="text-danger">
+                                            @error('total_underground_floors')
+                                                {{ $message }}
+                                            @enderror
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group col-md-12">
+                                        <label for="common_area_id" class="form-label">Common Area</label>
+                                        <select name="common_area_id[]" class="select2 form-control select2-multiple"
+                                            data-toggle="select2" multiple="multiple">
+                                            @foreach ($commonAreas as $commonArea)
+                                                <option value="{{ $commonArea->id }}" {{ in_array($commonArea->id, $selectCommonArea) ? 'selected' : '' }}>
+                                                    {{ $commonArea->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        <span class="text-danger">
+                                            @error('common_area_id')
+                                                {{ $message }}
+                                            @enderror
+                                        </span>
+                                    </div>
+                                </div>
 
                                 <div class="form-row">
                                     <div class="form-group col-md-12">

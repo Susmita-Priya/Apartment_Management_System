@@ -18,6 +18,10 @@ return new class extends Migration
             $table->string('name');
             $table->string('image',100)->nullable();
             $table->string('type');
+            $table->integer('total_upper_floors');
+            $table->integer('total_underground_floors');
+            $table->json('common_area');
+            $table->string('note')->nullable();
             $table->string('status')->default(0);
             $table->timestamps();
         });

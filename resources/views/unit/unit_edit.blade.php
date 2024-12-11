@@ -15,7 +15,6 @@
                         <ol class="breadcrumb float-right">
                             <li class="breadcrumb-item"><a href="{{ route('index') }}">Dashboard</a></li>
                             <li class="breadcrumb-item"><a href="{{ route('building') }}">Buildings</a></li>
-                            <li class="breadcrumb-item"><a href="{{ route('block.index') }}">Blocks</a></li>
                             <li class="breadcrumb-item"><a href="{{ route('floor.index') }}">Floors</a></li>
                             <li class="breadcrumb-item"><a href="{{ route('unit.index') }}">Units</a></li>
                             <li class="breadcrumb-item active">Edit Unit</li>
@@ -53,7 +52,7 @@
                             </div>
 
                             <!-- Block Selection -->
-                            <div class="form-group">
+                            {{-- <div class="form-group">
                                 <label for="block_id">Select Block</label>
                                 <select name="block_id" id="block_id" class="form-control" onchange="showBlockDetails()">
                                     <option value="">Select Block</option>
@@ -69,7 +68,7 @@
                                         {{ $message }}
                                     @enderror
                                 </span>
-                            </div>
+                            </div> --}}
 
                             <!-- Floor Selection -->
                             <div class="form-group">
@@ -101,6 +100,7 @@
                                 <label for="type">Unit Type</label>
                                 <select name="type" id="dynamic-selectboxs" class="form-control" required>
                                     <option value="">Select Unit Type</option>
+                                    
                                 </select>
                             </div>
 
@@ -116,6 +116,8 @@
                                     placeholder="Enter price (Only Number)" value="{{ $unit->price }}">
                             </div>
 
+                            
+
                             <!-- Building Details -->
                             <div class="form-group col-md-12">
                                 <label class="col-form-label">Details Information</label>
@@ -128,10 +130,10 @@
                                         <th>Building Type</th>
                                         <td id="building_type_display"></td>
                                     </tr>
-                                    <tr>
+                                    {{-- <tr>
                                         <th>Block ID</th>
                                         <td id="block_no_display"></td>
-                                    </tr>
+                                    </tr> --}}
                                     <tr>
                                         <th>Floor Name</th>
                                         <td id="floor_name_display"></td>
@@ -152,8 +154,41 @@
     <script>
         const typeFullForm = @json($typeFullForm); // Encode PHP array to JSON
         const buildings = @json($buildings);
-        const blocks = @json($blocks);
         const floors = @json($floors);
+
+        // function showBuildingDetails() {
+        //     const selectedBuildingId = document.getElementById('building_id').value;
+        //     const building = buildings.find(b => b.id == selectedBuildingId);
+
+        //     if (building) {
+        //         document.getElementById('building_no_display').innerText = building.building_no;
+        //         document.getElementById('building_type_display').innerText = typeFullForm[building.type] || 'Other';
+
+        //         const buildingBlocks = blocks.filter(b => b.building_id == selectedBuildingId);
+        //         const blockSelect = document.getElementById('block_id');
+        //         blockSelect.innerHTML = '<option value="">Select Block</option>';
+
+        //         buildingBlocks.forEach(block => {
+        //             blockSelect.innerHTML += `
+        //                <option value="${block.id}" ${block.id == '{{ $block->id ?? '' }}' ? 'selected' : ''}>${block.name}</option>
+        //         `;
+        //         });
+
+        //         if (buildingBlocks.length === 0) {
+        //             blockSelect.innerHTML = '<option value="">No blocks available for the selected building.</option>';
+        //         }
+
+        //         document.getElementById('block_no_display').innerText = '';
+        //     } else {
+        //         document.getElementById('building_no_display').innerText = '';
+        //         document.getElementById('building_type_display').innerText = '';
+        //         document.getElementById('block_id').innerHTML =
+        //             '<option value="">Select a building to see blocks.</option>';
+        //         document.getElementById('block_no_display').innerText = '';
+        //         document.getElementById('floor_id').innerHTML = '<option value="">Select a block to see floors.</option>';
+        //         document.getElementById('floor_name_display').innerText = '';
+        //     }
+        // }
 
         function showBuildingDetails() {
             const selectedBuildingId = document.getElementById('building_id').value;
@@ -163,44 +198,12 @@
                 document.getElementById('building_no_display').innerText = building.building_no;
                 document.getElementById('building_type_display').innerText = typeFullForm[building.type] || 'Other';
 
-                const buildingBlocks = blocks.filter(b => b.building_id == selectedBuildingId);
-                const blockSelect = document.getElementById('block_id');
-                blockSelect.innerHTML = '<option value="">Select Block</option>';
 
-                buildingBlocks.forEach(block => {
-                    blockSelect.innerHTML += `
-                       <option value="${block.id}" ${block.id == '{{ $block->id ?? '' }}' ? 'selected' : ''}>${block.name}</option>
-                `;
-                });
-
-                if (buildingBlocks.length === 0) {
-                    blockSelect.innerHTML = '<option value="">No blocks available for the selected building.</option>';
-                }
-
-                document.getElementById('block_no_display').innerText = '';
-            } else {
-                document.getElementById('building_no_display').innerText = '';
-                document.getElementById('building_type_display').innerText = '';
-                document.getElementById('block_id').innerHTML =
-                    '<option value="">Select a building to see blocks.</option>';
-                document.getElementById('block_no_display').innerText = '';
-                document.getElementById('floor_id').innerHTML = '<option value="">Select a block to see floors.</option>';
-                document.getElementById('floor_name_display').innerText = '';
-            }
-        }
-
-        function showBlockDetails() {
-            const selectedBlockId = document.getElementById('block_id').value;
-            const block = blocks.find(b => b.id == selectedBlockId);
-
-            if (block) {
-                document.getElementById('block_no_display').innerText = block.block_no;
-
-                const blockFloors = floors.filter(f => f.block_id == selectedBlockId);
+                const buildingFloors = floors.filter(f => f.building_id == selectedBuildingId);
                 const floorSelect = document.getElementById('floor_id');
                 floorSelect.innerHTML = '<option value="">Select Floor</option>';
 
-                blockFloors.forEach(floor => {
+                buildingFloors.forEach(floor => {
                     let suffix = 'th';
                     if (floor.floor_no == 1) {
                         suffix = 'st';
@@ -216,12 +219,13 @@
                 `;
                 });
 
-                if (blockFloors.length === 0) {
-                    floorSelect.innerHTML = '<option value="">No floors available for the selected block.</option>';
+                if (buildingFloors.length === 0) {
+                    floorSelect.innerHTML = '<option value="">No floors available for the selected building.</option>';
                 }
             } else {
-                document.getElementById('block_no_display').innerText = '';
-                document.getElementById('floor_id').innerHTML = '<option value="">Select a block to see floors.</option>';
+                document.getElementById('building_no_display').innerText = '';
+                document.getElementById('building_type_display').innerText = '';
+                document.getElementById('floor_id').innerHTML = '<option value="">Select a building to see floors.</option>';
                 document.getElementById('floor_name_display').innerText = '';
             }
         }
@@ -235,9 +239,8 @@
 
                 const dynamicSelectBox = document.getElementById('dynamic-selectboxs');
 
-                // // Clear previous select box content
+                // Clear previous select box content
                 dynamicSelectBox.innerHTML = '';
-
         
                     // Generate the appropriate options for the select box
                     if (floor.is_residential_unit_exist) {
@@ -264,7 +267,6 @@
 
         window.onload = function() {
             showBuildingDetails();
-            showBlockDetails();
             showFloorDetails();
         }
     </script>

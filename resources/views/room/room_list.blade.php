@@ -48,14 +48,6 @@
                             </select>
                         </div>
 
-                        <!-- Block Selection -->
-                        <div class="form-group col-md-12">
-                            <label for="block-select" class="col-form-label">Select Block</label>
-                            <select id="block-select" name="block_id" class="form-control">
-                                <option value="">Select a Block</option>
-                            </select>
-                        </div>
-
                         <!-- Floor Selection -->
                         <div class="form-group col-md-12">
                             <label for="floor-select" class="col-form-label">Select Floor</label>
@@ -93,56 +85,98 @@
     </div> <!-- content -->
 
     <script>
+        // document.getElementById('building-select').addEventListener('change', function() {
+        //     const buildingId = this.value;
+        //     const blockSelect = document.getElementById('block-select');
+        //     const floorSelect = document.getElementById('floor-select');
+        //     const unitSelect = document.getElementById('unit-select');
+        //     const tableBody = document.getElementById('rooms-table-body');
+
+        //     blockSelect.innerHTML = '<option value="">Select a Block</option>';
+        //     floorSelect.innerHTML = '<option value="">Select a Floor</option>';
+        //     unitSelect.innerHTML = '<option value="">Select a Unit</option>';
+        //     tableBody.innerHTML = '';
+
+        //     if (buildingId) {
+        //         fetch(`/blocks/${buildingId}`)
+        //             .then(response => response.json())
+        //             .then(blocks => {
+        //                 if (blocks.length > 0) {
+        //                     blocks.forEach(block => {
+        //                         const option = document.createElement('option');
+        //                         option.value = block.id;
+        //                         option.textContent = `${block.name} (${block.block_no})`;
+        //                         blockSelect.appendChild(option);
+        //                     });
+        //                 } else {
+        //                     swal("Sorry !!", "No blocks found for the selected building.", 'error', {
+        //                         button: "OK",
+        //                     });
+        //                 }
+        //             })
+        //             .catch(error => console.error('Error fetching blocks:', error));
+        //     }
+        // });
+
+        // document.getElementById('block-select').addEventListener('change', function() {
+        //     const blockId = this.value;
+        //     const floorSelect = document.getElementById('floor-select');
+        //     const unitSelect = document.getElementById('unit-select');
+        //     const tableBody = document.getElementById('rooms-table-body');
+
+        //     floorSelect.innerHTML = '<option value="">Select a Floor</option>';
+        //     unitSelect.innerHTML = '<option value="">Select a Unit</option>';
+        //     tableBody.innerHTML = '';
+
+        //     if (blockId) {
+        //         fetch(`/blocks/${blockId}/floors`)
+        //             .then(response => response.json())
+        //             .then(data => {
+        //                 const floors = data.floors;
+        //                 const block = data.block;
+
+        //                 if (floors.length > 0) {
+        //                     floors.forEach(floor => {
+
+        //                         let suffix =
+        //                             floor.floor_no == 1 ? 'st' :
+        //                             (floor.floor_no == 2 ? 'nd' :
+        //                                 (floor.floor_no == 3 ? 'rd' : 'th'));
+
+        //                         const option = document.createElement('option');
+        //                         option.value = floor.id;
+        //                         option.textContent = `${floor.floor_no}${suffix} (${floor.type} floor)`;
+        //                         floorSelect.appendChild(option);
+        //                     });
+        //                 } else {
+        //                     swal("Sorry !!", "No floors found for the selected block.", 'error', {
+        //                         button: "OK"
+        //                     });
+
+        //                 }
+        //             })
+        //             .catch(error => console.error('Error fetching floors:', error));
+        //     }
+        // });
+
         document.getElementById('building-select').addEventListener('change', function() {
             const buildingId = this.value;
-            const blockSelect = document.getElementById('block-select');
             const floorSelect = document.getElementById('floor-select');
             const unitSelect = document.getElementById('unit-select');
             const tableBody = document.getElementById('rooms-table-body');
 
-            blockSelect.innerHTML = '<option value="">Select a Block</option>';
             floorSelect.innerHTML = '<option value="">Select a Floor</option>';
             unitSelect.innerHTML = '<option value="">Select a Unit</option>';
             tableBody.innerHTML = '';
 
             if (buildingId) {
-                fetch(`/blocks/${buildingId}`)
-                    .then(response => response.json())
-                    .then(blocks => {
-                        if (blocks.length > 0) {
-                            blocks.forEach(block => {
-                                const option = document.createElement('option');
-                                option.value = block.id;
-                                option.textContent = `${block.name} (${block.block_no})`;
-                                blockSelect.appendChild(option);
-                            });
-                        } else {
-                            swal("Oops...", "No blocks found for the selected building.", 'error', {
-                                button: "OK",
-                            });
-                        }
-                    })
-                    .catch(error => console.error('Error fetching blocks:', error));
-            }
-        });
-
-        document.getElementById('block-select').addEventListener('change', function() {
-            const blockId = this.value;
-            const floorSelect = document.getElementById('floor-select');
-            const unitSelect = document.getElementById('unit-select');
-            const tableBody = document.getElementById('rooms-table-body');
-
-            floorSelect.innerHTML = '<option value="">Select a Floor</option>';
-            unitSelect.innerHTML = '<option value="">Select a Unit</option>';
-            tableBody.innerHTML = '';
-
-            if (blockId) {
-                fetch(`/blocks/${blockId}/floors`)
+                fetch(`/buildings/${buildingId}/floors`)
                     .then(response => response.json())
                     .then(data => {
                         const floors = data.floors;
-                        const block = data.block;
+                        const building = data.building;
 
+                        console.log(building);
                         if (floors.length > 0) {
                             floors.forEach(floor => {
 
@@ -157,10 +191,9 @@
                                 floorSelect.appendChild(option);
                             });
                         } else {
-                            swal("Oops...", "No floors found for the selected block.", 'error', {
+                            swal("Sorry !!", "No floors found for the selected block.", 'error', {
                                 button: "OK"
                             });
-
                         }
                     })
                     .catch(error => console.error('Error fetching floors:', error));
@@ -191,7 +224,7 @@
                                 unitSelect.appendChild(option);
                             });
                         } else {
-                            swal("Oops...", "No units found for the selected floor.", 'error', {
+                            swal("Sorry !!", "No units found for the selected floor.", 'error', {
                                 button: "OK"
                             });
                         }
@@ -263,7 +296,7 @@
                                 tableBody.appendChild(row);
                             });
                         } else {
-                            swal("Oops...", "No rooms found for the selected unit.", 'error', {
+                            swal("Sorry !!", "No rooms found for the selected unit.", 'error', {
                                 button: "OK"
                             });
                         }

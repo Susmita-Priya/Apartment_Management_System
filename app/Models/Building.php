@@ -9,7 +9,17 @@ class Building extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['company_id', 'building_no', 'name', 'image', 'type', 'status'];
+    protected $fillable = [
+        'company_id',
+        'building_no', 
+        'name', 
+        'image', 
+        'type', 
+        'total_upper_floors',
+        'total_underground_floors',
+        'common_area',
+        'note',
+        'status'];
 
     // // Define the relationship with Block model
     // public function blocks()

@@ -7,9 +7,9 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
-use DB;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB as FacadesDB;
 
 class RoleController extends Controller
@@ -26,15 +26,35 @@ class RoleController extends Controller
 
     public function index(Request $request): View
     {
-        $roles = Role::orderBy('id','DESC')->paginate(5);
-        return view('roles.index',compact('roles'))
+        if (Auth::user()->hasRole('Super Admin')) {
+            // Super Admin sees all roles
+            $roles = Role::orderBy('id', 'DESC')->paginate(5);
+        } elseif (Auth::user()->hasRole('Client')) {
+            // Client sees only roles for "Company" and "Client"
+            $roles = Role::whereIn('name', ['Company', 'Client'])->orderBy('id', 'DESC')->paginate(5);
+        } else {
+            // Default case for other roles
+            $roles = collect(); // Empty collection
+        }
+
+        return view('roles.index', compact('roles'))
             ->with('i', ($request->input('page', 1) - 1) * 5);
     }
     
     public function create(): View
     {
-        $permission = Permission::get();
-        return view('roles.create',compact('permission'));
+        if (Auth::user()->hasRole('Super Admin')) {
+            // Super Admin sees all permissions
+            $permission = Permission::get();
+        } elseif (Auth::user()->hasRole('Client')) {
+            // Client sees only assigned permissions
+            $permission = Auth::user()->getAllPermissions(); // Fetch permissions assigned to the client
+           // dd($permission);
+        } else {
+            $permission = collect(); // Empty collection for other roles
+        }
+
+        return view('roles.create', compact('permission'));
     }
     
     public function store(Request $request): RedirectResponse
@@ -59,23 +79,46 @@ class RoleController extends Controller
     public function show($id): View
     {
         $role = Role::find($id);
-        $rolePermissions = Permission::join("role_has_permissions","role_has_permissions.permission_id","=","permissions.id")
-            ->where("role_has_permissions.role_id",$id)
-            ->get();
-    
-        return view('roles.show',compact('role','rolePermissions'));
+
+        if (Auth::user()->hasRole('Super Admin')) {
+            // Super Admin sees all role permissions
+            $rolePermissions = Permission::join("role_has_permissions", "role_has_permissions.permission_id", "=", "permissions.id")
+                ->where("role_has_permissions.role_id", $id)
+                ->get();
+        } elseif (Auth::user()->hasRole('Client')) {
+            // Client sees only assigned permissions
+            $rolePermissions = Permission::join("role_has_permissions", "role_has_permissions.permission_id", "=", "permissions.id")
+                ->where("role_has_permissions.role_id", $id)
+                ->whereIn('permissions.id', Auth::user()->getAllPermissions()->pluck('id'))
+                ->get();
+        } else {
+            $rolePermissions = collect(); // Empty collection for other roles
+        }
+
+        return view('roles.show', compact('role', 'rolePermissions'));
     }
     
 
     public function edit($id): View
     {
         $role = Role::find($id);
-        $permission = Permission::get();
-        $rolePermissions = FacadesDB::table("role_has_permissions")->where("role_has_permissions.role_id",$id)
-            ->pluck('role_has_permissions.permission_id','role_has_permissions.permission_id')
+
+        if (Auth::user()->hasRole('Super Admin')) {
+            // Super Admin sees all permissions
+            $permission = Permission::get();
+        } elseif (Auth::user()->hasRole('Client')) {
+            // Client sees only its permissions
+            $permission = Auth::user()->getAllPermissions();
+        } else {
+            $permission = collect(); // Empty collection
+        }
+
+        $rolePermissions = FacadesDB::table("role_has_permissions")
+            ->where("role_has_permissions.role_id", $id)
+            ->pluck('role_has_permissions.permission_id', 'role_has_permissions.permission_id')
             ->all();
-    
-        return view('roles.edit',compact('role','permission','rolePermissions'));
+
+        return view('roles.edit', compact('role', 'permission', 'rolePermissions'));
     }
     
 

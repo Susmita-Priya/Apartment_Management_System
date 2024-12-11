@@ -18,8 +18,7 @@
                         <ol class="breadcrumb float-right">
                             <li class="breadcrumb-item"><a href="{{ route('index') }}">Dashboard</a></li>
                             <li class="breadcrumb-item"><a href="{{ route('building') }}">Buildings</a></li>
-                            <li class="breadcrumb-item"><a href="{{ route('building.show', $block->building_id) }}">Building</a></li>
-                            <li class="breadcrumb-item"><a href="{{ route('block.show', $floor->block_id) }}">Block</a></li>
+                            <li class="breadcrumb-item"><a href="{{ route('building.show', $floor->building_id) }}">Building</a></li>
                             <li class="breadcrumb-item"><a href="{{ route('floor.show', $unit->floor_id) }}">Floor</a></li>
                             <li class="breadcrumb-item"><a href="{{ route('unit.show', $room->unit_id) }}">Unit</a></li>
                             <li class="breadcrumb-item active">Room Details</li>
@@ -115,11 +114,6 @@
 
                             <hr>
 
-                            <p class="text-muted font-15"><strong>Block No:</strong> <span
-                                    class="m-l-15">{{ $block->block_no }}</span></p>
-                            <p class="text-muted font-15"><strong>Block:</strong> <span
-                                    class="m-l-15">{{ $block->name }}</span></p>
-                            <hr>
 
                             @php
                                 $typeFullForm = [
@@ -191,48 +185,6 @@
             </div>
             <!-- end row -->
 
-
-                {{-- <div class="row">
-                    @foreach ($rooms as $room)
-                    <div class="col-md-4 mb-4">
-                        <div class="card-box">
-                            <h4 class="header-title mt-0 m-b-20">{{ $room->type }}{{ $room->room_no }}</h4>
-                            </h4>
-                            <div class="panel-body">
-                              
-                                @can('room-list')
-                                    <button type="button"
-                                        onclick="window.location.href='{{ route('room.show', $room->id) }}'"
-                                        class="btn btn-info m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm">
-                                        Enter
-                                    </button>
-                                @endcan
-                                @can('room-edit')
-                                    <button type="button"
-                                        class="btn btn-success m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm"
-                                        onclick="window.location.href='{{ route('room.edit', $room->id) }}'">
-                                        Edit
-                                    </button>
-                                @endcan
-                                @can('room-delete')
-                                    <button type="button"
-                                        class="btn btn-danger m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm"
-                                        onclick="confirmDelete('{{ route('room.delete', ['id' => $room->id]) }}')">
-                                        Delete
-                                    </button>
-                                    <!-- Hidden form for deletion -->
-                                    <form id="delete-form"
-                                        action="{{ route('room.delete', ['id' => $room->id]) }}" method="GET"
-                                        style="display: none;">
-                                        @csrf
-                                        @method('DELETE')
-                                    </form>
-                                @endcan
-                            </div>
-                        </div>
-                    </div>
-               
-            @endforeach --}}
 
         </div>
             </div> <!-- content -->

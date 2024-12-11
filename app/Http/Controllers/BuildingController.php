@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Block;
 use App\Models\Building;
+use App\Models\CommonArea;
+use App\Models\Floor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -41,7 +43,8 @@ class BuildingController extends Controller
      */
     public function create()
     {
-        return view('building.building_add');
+        $commonAreas = CommonArea::all();
+        return view('building.building_add', compact('commonAreas'));
     }
 
     /**
@@ -57,6 +60,9 @@ class BuildingController extends Controller
             'name' => 'required',
             'type' => 'required',
             'image' => 'nullable|image', 
+            'total_upper_floors' => 'required|integer',
+            'total_underground_floors' => 'required|integer',
+
         ]);
 
         // Handle the image upload if present
@@ -88,6 +94,10 @@ class BuildingController extends Controller
         $building->name = $request->name;
         $building->type = $buildingType;
         $building->image = $fullPath;
+        $building->total_upper_floors = $request->total_upper_floors;
+        $building->total_underground_floors = $request->total_underground_floors;
+        $building->common_area = json_encode($request->common_area_id);
+        $building->note = $request->note;
         $building->save();
 
         // Redirect with a success message
@@ -101,12 +111,14 @@ class BuildingController extends Controller
     {
         $building = Building::findOrFail($id);
 
-        $blocks = Block::where('building_id', $id)->latest()->get();
+        $floors = Floor::where('building_id', $id)->orderBy('floor_no', 'asc')->get();
+
+        $commonAreas = CommonArea::all();
 
         if (is_null($building)) {
             return redirect()->route('building');
         } else {
-            return view('building.building_view', compact('building', 'blocks'));
+            return view('building.building_view', compact('building', 'floors', 'commonAreas'));
         }
     }
 
@@ -116,10 +128,13 @@ class BuildingController extends Controller
     public function edit(string $id)
     {
         $building = Building::find($id);
+
         if (is_null($building)) {
             return redirect()->route('building');
         } else {
-            $data = compact('building');
+            $commonAreas = CommonArea::all();
+            $selectCommonArea = json_decode($building->common_area, true) ?? [];
+            $data = compact('building', 'selectCommonArea', 'commonAreas');
             return view('building.building_edit')->with($data);
         }
     }
@@ -134,6 +149,8 @@ class BuildingController extends Controller
             'name' => 'required',
             'type' => 'required',
             'image' => 'nullable|image', 
+            'total_upper_floors' => 'required|integer',
+            'total_underground_floors' => 'required|integer',
         ]);
 
         // Find the building to update
@@ -167,6 +184,10 @@ class BuildingController extends Controller
         $building->name = $request->name;
         $building->type = $request->type;
         $building->image = $fullPath;
+        $building->total_upper_floors = $request->total_upper_floors;
+        $building->total_underground_floors = $request->total_underground_floors;
+        $building->common_area = json_encode($request->common_area_id);
+        $building->note = $request->note;
         $building->save();
 
         // Redirect with a success message
@@ -214,11 +235,12 @@ class BuildingController extends Controller
         return redirect()->route('building.pending')->with('success', 'Building Approved Successfully!');
     }
 
-    public function reject(string $id)
+    public function reject(string $id, Request $request)
     {
         $building = Building::find($id);
         if (!is_null($building)) {
             $building->status = 2;
+            $building->note = $request->note;
             $building->save();
         }
         return redirect()->route('building.pending')->with('success', 'Building Rejected Successfully!');

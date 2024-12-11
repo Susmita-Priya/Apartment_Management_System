@@ -42,7 +42,7 @@
                             @endcan
                             <!-- Building Selection -->
                             <div class="form-group col-md-12">
-                                <label for="building_id" class="col-form-label">Select Building</label>
+                                <label for="building-select" class="col-form-label">Select Building</label>
                                 <select id="building-select" name="building_id" class="form-control">
                                     <option value="">Select a Building</option>
                                     @foreach ($buildings as $building)
@@ -53,12 +53,12 @@
                             </div>
 
                             <!-- Block Selection -->
-                            <div class="form-group col-md-12">
+                            {{-- <div class="form-group col-md-12">
                                 <label for="block-select" class="col-form-label">Select Block</label>
                                 <select id="block-select" name="block_id" class="form-control">
                                     <option value="">Select a Block</option>
                                 </select>
-                            </div>
+                            </div> --}}
 
                         </div>
                         <!-- Floors Table -->
@@ -69,7 +69,7 @@
                                     <th>Floor No</th>
                                     <th>Floor Type</th>
                                     <th>Floor name</th>
-                                    <th>Block</th>
+                                    <th>Building</th>
                                     <th class="hidden-sm">Action</th>
                                 </tr>
                             </thead>
@@ -85,50 +85,50 @@
 
 
     <script>
+        // document.getElementById('building-select').addEventListener('change', function() {
+        //     const buildingId = this.value;
+        //     const blockSelect = document.getElementById('block-select');
+        //     const tableBody = document.getElementById('floors-table-body');
+
+        //     blockSelect.innerHTML = '<option value="">Select a Block</option>';
+        //     tableBody.innerHTML = '';
+
+        //     if (buildingId) {
+        //         fetch(`/blocks/${buildingId}`)
+        //             .then(response => response.json())
+        //             .then(blocks => {
+        //                 if (blocks.length > 0) {
+        //                     blocks.forEach(block => {
+        //                         const option = document.createElement('option');
+        //                         option.value = block.id;
+        //                         option.textContent = `${block.name} (${block.block_no})`;
+        //                         blockSelect.appendChild(option);
+        //                     });
+        //                 } else {
+        //                     swal("Sorry !!", "No blocks found for the selected building.", 'error', {
+        //                         button: true,
+        //                         button: "OK",
+        //                     })
+
+        //                     alert('No blocks found for the selected building.');
+        //                 }
+        //             })
+        //             .catch(error => console.error('Error fetching blocks:', error));
+        //     }
+        // });
+
         document.getElementById('building-select').addEventListener('change', function() {
             const buildingId = this.value;
-            const blockSelect = document.getElementById('block-select');
             const tableBody = document.getElementById('floors-table-body');
 
-            blockSelect.innerHTML = '<option value="">Select a Block</option>';
             tableBody.innerHTML = '';
 
             if (buildingId) {
-                fetch(`/blocks/${buildingId}`)
-                    .then(response => response.json())
-                    .then(blocks => {
-                        if (blocks.length > 0) {
-                            blocks.forEach(block => {
-                                const option = document.createElement('option');
-                                option.value = block.id;
-                                option.textContent = `${block.name} (${block.block_no})`;
-                                blockSelect.appendChild(option);
-                            });
-                        } else {
-                            swal("Oops...", "No blocks found for the selected building.", 'error', {
-                                button: true,
-                                button: "OK",
-                            })
-
-                            alert('No blocks found for the selected building.');
-                        }
-                    })
-                    .catch(error => console.error('Error fetching blocks:', error));
-            }
-        });
-
-        document.getElementById('block-select').addEventListener('change', function() {
-            const blockId = this.value;
-            const tableBody = document.getElementById('floors-table-body');
-
-            tableBody.innerHTML = '';
-
-            if (blockId) {
-                fetch(`/blocks/${blockId}/floors`)
+                fetch(`/buildings/${buildingId}/floors`)
                     .then(response => response.json())
                     .then(data => {
                         const floors = data.floors;
-                        const block = data.block;
+                        const building = data.building;
 
                         if (floors.length > 0) {
                             floors.forEach(floor => {
@@ -144,7 +144,7 @@
                             <td>${floor.floor_no}<sup>${suffix}</sup> floor</td>
                             <td>${floor.type}</td>
                             <td>${floor.name}</td>
-                            <td>${block.name} <br> ( ${block.block_no} )</td>
+                            <td>${building.name} <br> ( ${building.building_no} )</td>
                             <td>
                                 <div class="btn-group dropdown">
                                     <a href="javascript:void(0);" class="table-action-btn dropdown-toggle"
