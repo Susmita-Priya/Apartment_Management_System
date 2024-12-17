@@ -38,7 +38,7 @@
                                         <label for="name" class="col-form-label">Name</label>
                                         <input type="text" class="form-control" name="name" id="name"
                                             value="{{ $role->name }}" 
-                                            @if(auth()->user()->role != 'super admin') disabled @endif>
+                                            placeholder="Enter Role Name">
                                         <span class="text-danger">
                                             @error('name')
                                                 {{ $message }}

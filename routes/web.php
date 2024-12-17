@@ -147,13 +147,15 @@ Route::middleware('auth')->group(callback: function () {
         Route::get('commonArea/edit/{id}', [CommonAreaController::class, 'edit'])->name("commonArea.edit");
         Route::post('commonArea/edit/{id}', [CommonAreaController::class, 'update'])->name("commonArea.update");
         Route::get('commonArea/delete/{id}', [CommonAreaController::class, 'destroy'])->name("commonArea.delete");
+        
 
 
-
-
-
-
-
+        // tenant
+        Route::get('tenants/index', [TenantController::class, 'index'])->name("tenants.index");
+        Route::get('tenant-registration/{type?}/{id?}', [TenantController::class, 'tenantRegistration'])->name('tenant.create');
+        Route::post('tenant-registration/{type?}/{id?}', [TenantController::class, 'tenantRegistration'])->name('tenant.store');
+        Route::get('tenant/show/{id}', [TenantController::class, 'show'])->name("tenant.show");
+        Route::get('tenant/delete/{id}', [TenantController::class, 'destroy'])->name("tenant.delete");
 
         
 
@@ -251,19 +253,19 @@ Route::middleware('auth')->group(callback: function () {
 
 
 
-        Route::get('tenants/index', [TenantController::class, 'index'])->name("tenants.index");
+        // Route::get('tenants/index', [TenantController::class, 'index'])->name("tenants.index");
 
-        Route::get('tenants/create', [TenantController::class, 'create'])->name("tenants.create");
+        // Route::get('tenants/create', [TenantController::class, 'create'])->name("tenants.create");
 
-        Route::post('tenants/store', [TenantController::class, 'store'])->name("tenants.store");
+        // Route::post('tenants/store', [TenantController::class, 'store'])->name("tenants.store");
 
         // Route::get('tenants/show/{id}', [TenantController::class, 'show'])->name("tenants.show");
 
-        Route::get('tenants/edit/{id}', [TenantController::class, 'edit'])->name("tenants.edit");
+        // Route::get('tenants/edit/{id}', [TenantController::class, 'edit'])->name("tenants.edit");
 
-        Route::post('tenants/edit/{id}', [TenantController::class, 'update'])->name("tenants.update");
+        // Route::post('tenants/edit/{id}', [TenantController::class, 'update'])->name("tenants.update");
 
-        Route::get('tenants/delete/{id}', [TenantController::class, 'destroy'])->name("tenants.delete");
+        // Route::get('tenants/delete/{id}', [TenantController::class, 'destroy'])->name("tenants.delete");
 
 
 

@@ -1,0 +1,80 @@
+.step {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    border-radius: 50%;
+    background-color: #e9ecef;
+    color: #6c757d;
+    text-align: center;
+    font-weight: bold;
+}
+
+.step.active {
+    background-color: rgb(96, 231, 204);
+    color: white;
+}
+
+.step.completed {
+    background-color: rgb(54, 122, 108);
+    color: white;
+}
+
+.step-label {
+    display: inline-block;
+    margin-top: 10px;
+    font-size: 14px;
+    color: #6c757d;
+}
+
+.step-label.active {
+    color:  rgb(100, 197, 177);
+}
+
+.step-label.completed {
+    color: rgb(54, 122, 108);
+}
+
+.previous_btn_style{
+    background-color: #6c757d !important;
+    color: white !important;
+}
+
+.progress-bar {
+    background-color: #e9ecef !important;
+    height: 4px;
+    width: 0;
+    transition: width 0.4s ease;
+    height: 5px;
+    background-color: #ddd;
+    transition: background-color 0.3s;
+
+}
+
+.progress-bar.completed {
+    background-color: rgb(100, 197, 177) !important; /* Green color for completed progress bar */
+}
+
+/* .tab-content {
+    background: #fff;
+    border: 1px solid #dee2e6;
+    border-radius: 0.375rem;
+    padding: 20px;
+    margin-top: 20px;
+} */
+
+.btn-reg {
+    background-color: rgb(100, 197, 177);
+    border-color: rgb(100, 197, 177);
+    color: white;
+}
+
+.btn-reg:hover {
+    background-color: rgb(100, 197, 177);
+    border-color: rgb(100, 197, 177);
+    color: white;
+}
+
+.d-none {
+    display: none;
+}

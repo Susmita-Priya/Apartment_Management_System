@@ -5,9 +5,9 @@
 }
 
 .greenbtn {
-    background-color: rgb(100, 197, 177);
-    border-color: rgb(100, 197, 177);
-    color: white;
+    background-color: rgb(100, 197, 177)!important;
+    border-color: rgb(100, 197, 177) !important;
+    color: white !important;
     position: absolute;
     right: 20px;
     top: 50%;
@@ -17,9 +17,9 @@
 }
 
 .submitbtn {
-    background-color: rgb(100, 197, 177);
-    border-color: rgb(100, 197, 177);
-    color: white;
+    background-color: rgb(100, 197, 177)!important;
+    border-color: rgb(100, 197, 177)!important;
+    color: white!important;
 }
 
 .rotate-left-up {

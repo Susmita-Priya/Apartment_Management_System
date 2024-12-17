@@ -88,24 +88,17 @@
                                 </li>
                                 @endcan
 
-                                
-                                {{-- @can('tenant-management')
-                                    <li>
-                                        <a href="javascript: void(0);">
-                                            <i class="fa fa-plus"></i>
-                                            <span> Tenant </span>
-                                            <span class="menu-arrow"></span>
-                                        </a>
-                                        @can('tenant-create')
-                                            <ul class="nav-third-level" aria-expanded="false">
-                                                <li><a href="{{ route('tenants.create') }}">New Tenant</a></li>
-                                            </ul>
-                                        @endcan
-                                    </li>
+                                @can('tenant-create')
+                                <li>
+                                    <a href="{{ route('tenant.create') }}">
+                                        <i class="fa fa-plus"></i>
+                                        <span>New Tenant</span>
+                                    </a>
+                                </li>
                                 @endcan
 
 
-                                @can('landlord-management')
+                               {{--  @can('landlord-management')
 
                                     <li>
                                         <a href="javascript: void(0);">
@@ -173,6 +166,20 @@
                         </li>
                     @endif
 
+                    {{-- pending request --}}
+                    @can('pending-request-list')
+                        <li>
+                            <a href="javascript: void(0);"><i class="fa fa-clock-o"></i> <span> Pending Property </span> <span
+                                    class="menu-arrow"></span></a>
+                            <ul class="nav-second-level " aria-expanded="false">
+                                @can('building-request')
+                                    <li><a href="{{ route('building.pending') }}">Building Request</a></li>
+                                @endcan
+                                
+                            </ul>
+                        </li>
+                    @endcan
+
                     <!-- Amenities -->
                     @can('amenities-management')
                         <li>
@@ -215,16 +222,15 @@
                     @endcan
 
 
-                    {{-- pending request --}}
-                    @can('pending-request-list')
+                    {{-- tenant-registration --}}
+                    @can('tenant-list')
                         <li>
-                            <a href="javascript: void(0);"><i class="fa fa-clock-o"></i> <span> Pending Request </span> <span
+                            <a href="javascript: void(0);"><i class="fa fa-user"></i> <span> Tenants</span> <span
                                     class="menu-arrow"></span></a>
                             <ul class="nav-second-level " aria-expanded="false">
-                                @can('building-request')
-                                    <li><a href="{{ route('building.pending') }}">Building Request</a></li>
+                                @can('tenant-list')
+                                    <li><a href="{{ route('tenants.index') }}">Tenant List</a></li>
                                 @endcan
-                                
                             </ul>
                         </li>
                     @endcan

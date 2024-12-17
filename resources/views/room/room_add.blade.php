@@ -185,7 +185,7 @@
                                 </table>
                             </div>
 
-                            <button type="submit" class="btn waves-effect waves-light btn-sm  submitbtn">
+                            <button type="submit" class="btn waves-effect waves-light btn-sm submitbtn">
                                 Add Room</button>
                         </form>
                     </div>

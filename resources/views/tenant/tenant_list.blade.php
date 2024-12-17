@@ -31,7 +31,7 @@
                             <div class="col-sm-12">
                                 <div class="text-right m-b-20">
                                     <button type="button" class="btn waves-effect waves-light greenbtn"
-                                        onclick="window.location.href='{{ route('tenants.create') }}'">
+                                        onclick="window.location.href='{{ route('tenant.create') }}'">
                                         <i class="mdi mdi-plus m-r-5"></i> Add Tenant
                                     </button>
                                 </div>
@@ -40,33 +40,28 @@
 
                         <table class="table table-hover m-0 tickets-list table-actions-bar dt-responsive nowrap"
                             cellspacing="0" width="100%" id="datatable">
+                            @php
+                                $i = 1;
+                            @endphp
                             <thead>
                                 <tr>
-                                    <th>Image</th>
+                                    <th>Serial</th>
                                     <th>Name</th>
                                     <th>Phone</th>
                                     <th>Email</th>
                                     <th>Address</th>
-                                    <th>Leases</th>
                                     <th class="text-center">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($tenants as $tenant)
                                     <tr>
-                                        <td><img src="{{ asset($tenant->image) }}" alt="{{ $tenant->name }}"
-                                                style="width: 80px; height: auto;"></td>
-                                        <td>{{ $tenant->name }}</td>
+                                        <td>{{ $i++ }}</td>
+                                        <td>{{ $tenant->full_name }}</td>
                                         <td>{{ $tenant->phone }}</td>
                                         <td>{{ $tenant->email }}</td>
-                                        <td>{{ $tenant->per_address }}</td>
-                                        <td>
-                                            @if ($tenant->units->where('status', 'Occupied')->count() > 0)
-                                                Unit(s): {{ $tenant->units->where('status', 'Occupied')->count() }}
-                                            @else
-                                                No units available
-                                            @endif
-                                        </td>
+                                        <td>{{ $tenant->address }}</td>
+                                        
                                         <td class="text-center">
                                             <div class="btn-group dropdown">
                                                 <a href="javascript: void(0);" class="table-action-btn dropdown-toggle"
@@ -79,26 +74,19 @@
                                                             class="mdi mdi-eye m-r-10 text-muted font-18 vertical-middle"></i>
                                                         View Info
                                                     </a>
-                                                    <!-- View Unit Button -->
-                                                    <a class="dropdown-item" href="#" data-toggle="modal"
-                                                        data-target="#Modalunit-{{ $tenant->id }}">
-                                                        <i
-                                                            class="mdi mdi-eye m-r-10 text-muted font-18 vertical-middle"></i>
-                                                        View Unit
-                                                    </a>
                                                     <a class="dropdown-item"
-                                                        href="{{ route('tenants.edit', ['id' => $tenant->id]) }}"
+                                                        href="{{ route('tenant.create', ['id' => $tenant->id, 'type' => 'contact-info']) }}"
                                                         type="submit"><i
                                                             class="mdi mdi-pencil m-r-10 text-muted font-18 vertical-middle"></i>Edit
                                                         tenant</a>
                                                     <a class="dropdown-item" href="#"
-                                                        onclick="confirmDelete('{{ route('tenants.delete', ['id' => $tenant->id]) }}')"><i
+                                                        onclick="confirmDelete('{{ route('tenant.delete', ['id' => $tenant->id]) }}')"><i
                                                             class="mdi mdi-delete m-r-10 text-muted font-18 vertical-middle"></i>
                                                         Delete
                                                     </a>
                                                     <!-- Hidden form for deletion -->
                                                     <form id="delete-form"
-                                                        action="{{ route('tenants.delete', ['id' => $tenant->id]) }}"
+                                                        action="{{ route('tenant.delete', ['id' => $tenant->id]) }}"
                                                         method="GET" style="display: none;">
                                                         @csrf
                                                         @method('DELETE')
@@ -142,7 +130,7 @@
     </div>
 
 <!-- Modal for viewing units, create one modal per tenant -->
-@foreach ($tenants as $tenant)
+{{-- @foreach ($tenants as $tenant)
     <div class="modal fade" id="Modalunit-{{ $tenant->id }}" tabindex="-1" role="dialog"
          aria-labelledby="ModalunitLabel-{{ $tenant->id }}" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
@@ -198,10 +186,10 @@
             </div>
         </div>
     </div>
-@endforeach
+@endforeach --}}
 
 
-    <script>
+    {{-- <script>
         function viewInfo(tenant) {
             let infoContent = `
                 <p><strong>Name:</strong> ${tenant.name}</p>
@@ -241,7 +229,7 @@
                     @endforeach
                 </ul>
 
-                <p align =" center"><strong>Emergency Contact</strong></p>
+                <p align ="center"><strong>Emergency Contact</strong></p>
                 <p><strong>Name:</strong> ${tenant.e_name}</p>
                 <p><strong>Relation:</strong> ${tenant.e_rel}</p>
                 <p><strong>Address:</strong> ${tenant.e_add}</p>
@@ -277,5 +265,5 @@
             document.getElementById('tenant-info-content').innerHTML = infoContent;
             $('#tenantInfoModal').modal('show');
         }
-    </script>
+    </script> --}}
 @endsection

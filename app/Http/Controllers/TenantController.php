@@ -5,196 +5,293 @@ namespace App\Http\Controllers;
 use App\Models\LeaseRequest;
 use App\Models\Tenant;
 use App\Models\User;
-use App\Models\Role;
+use App\Models\TenantContactInfo;
+use App\Models\TenantDriverInfo;
+use App\Models\TenantEmergencyContact;
+use App\Models\TenantPersonalInfo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
-
+use Spatie\Permission\Models\Role;
 
 class TenantController extends Controller
 {
 
     public function index()
     {
-        $tenants = Tenant::with('units')->get();
+        $tenants = TenantContactInfo::where('status', 1)->get();
         return view('tenant.tenant_list', compact('tenants'));
     }
 
-    public function create()
+
+    public function tenantRegistration(Request $request, $type = 'contact-info', $id = null)
     {
-        return view('tenant.tenant_add');
+
+        $contactInfo = null;
+        $personalInfo = null;
+        $driverInfo = null;
+        $emergencyContact = null;
+
+
+        if ($id) {
+            $contactInfo = TenantContactInfo::find($id);
+            $personalInfo = TenantPersonalInfo::where('contact_info_id', $id)->first();
+            $driverInfo = TenantDriverInfo::where('contact_info_id', $id)->first();
+            $emergencyContact = TenantEmergencyContact::where('contact_info_id', $id)->first();
+        }
+
+        if ($request->isMethod('post')) {
+
+            if ($type === 'contact-info') {
+                if ($contactInfo) {
+                    // Validation
+                    $validator = Validator::make($request->all(), [
+                        'full_name' => 'required|string',
+                        'email' => 'required|email',
+                        'phone' => 'required|string|min:11|max:11',
+                        'address' => 'string',
+                    ]);
+
+                    // Update existing passport info
+                    $contactInfo->update([
+                        'full_name' => $request->input('full_name'),
+                        'email' => $request->input('email'),
+                        'phone' => $request->input('phone'),
+                        'address' => $request->input('address'),
+
+                    ]);
+                    
+                    $personalInfo = TenantPersonalInfo::where('contact_info_id', $contactInfo->id)->first();
+                    if ($personalInfo) {
+                        $personalInfo->update([
+                            'contact_info_id' => $contactInfo->id,
+                        ]);
+                    }
+                    $user = User::where('email', $contactInfo->email)->first();
+                    if ($user) {
+                        $user->update(
+                            [
+                                'name' =>  $contactInfo->full_name,
+                                'email' =>  $contactInfo->email,
+                            ]
+                        );
+                    }
+                    if ($request->filled('password')) {
+                        $contactInfo->update([
+                            'password' => Hash::make($request->input('password')),
+                        ]);
+                        $user->update(
+                            [
+                                'password' =>  $contactInfo->password,
+                            ]
+                        );
+                    }
+
+                } else {
+                    // Validation
+                    $request->validate([
+                        'full_name' => 'required|string',
+                        'email' => 'required|email',
+                        'phone' => 'required|string|min:11|max:11',
+                        'address' => 'string',
+                    ]);
+
+                    // Create new passport info
+                    $contactInfo = new TenantContactInfo([
+
+                        'full_name' => $request->input('full_name'),
+                        'email' => $request->input('email'),
+                        'phone' => $request->input('phone'),
+                        'address' => $request->input('address'),
+                        'password' => Hash::make($request->input('password')),
+                    ]);
+                    $contactInfo->save();
+
+                    // Pass passport id in personal info table colum pasport_info_id
+
+                    TenantPersonalInfo::create(
+                        [
+                            'contact_info_id' =>  $contactInfo->id,
+                        ]
+                    );
+                    User::create(
+                        [
+                            'name' =>  $contactInfo->full_name,
+                            'email' =>  $contactInfo->email,
+                            'password' =>  $contactInfo->password,
+                        ]
+                    );
+
+                    $role = Role::updateOrCreate(['name' => 'Tenant']);
+                    $user = User::where('email', $contactInfo->email)->first();
+                    $user->assignRole('Tenant');
+                }
+            } elseif ($type === 'personal-info') {
+                // Create or update personal info
+                if ($contactInfo) {
+                    // Validation
+                    $validator = Validator::make($request->all(), [
+                        'fathers_name' => 'required|string',
+                        'mothers_name' => 'required|string',
+                        'nid' => 'required|string',
+                        'tax_id' => 'required|string',
+                        'passport_no' => 'required|string',
+                        'driving_license' => 'required|string',
+                        'religion' => 'required|string',
+                        'marital_status' => 'required|string',
+                        'gender' => 'required|string',
+                        'dob' => 'required|date',
+                        'total_family_members' => 'required|integer',
+                    ]);
+
+                    if ($validator->fails()) {
+                        return redirect()->back()->withErrors($validator)->withInput();
+                    }
+
+                    $personalInfo = TenantPersonalInfo::updateOrCreate(
+                        ['contact_info_id' => $contactInfo->id],
+                        [
+                            'fathers_name' => $request->input('fathers_name'),
+                            'mothers_name' => $request->input('mothers_name'),
+                            'nid' => $request->input('nid'),
+                            'tax_id' => $request->input('tax_id'),
+                            'passport_no' => $request->input('passport_no'),
+                            'driving_license' => $request->input('driving_license'),
+                            'religion' => $request->input('religion'),
+                            'marital_status' => $request->input('marital_status'),
+                            'gender' => $request->input('gender'),
+                            'dob' => $request->input('dob'),
+                            'total_family_members' => $request->input('total_family_members'),
+                        ],
+                    );
+
+                    TenantDriverInfo::updateOrCreate(
+                        [
+                            'contact_info_id' =>  $contactInfo->id,
+                        ]
+                    );
+                } else {
+                }
+            } elseif ($type === 'driver-info') {
+                // Create or update personal info
+                if ($contactInfo) {
+                    // Validation
+                    $validator = Validator::make($request->all(), [
+                        'full_name' => 'required|string',
+                        'email' => 'required|email',
+                        'phone' => 'required|string|min:11|max:11',
+                        'nid' => 'required|string',
+                        'address' => 'required|string',
+                    ]);
+
+                    if ($validator->fails()) {
+                        return redirect()->back()->withErrors($validator)->withInput();
+                    }
+
+                    $driverInfo = TenantDriverInfo::updateOrCreate(
+                        ['contact_info_id' => $contactInfo->id],
+                        [
+                            'full_name' => $request->input('full_name'),
+                            'email' => $request->input('email'),
+                            'phone' => $request->input('phone'),
+                            'nid' => $request->input('nid'),
+                            'address' => $request->input('address'),
+                        ],
+
+                    );
+                    TenantEmergencyContact::updateOrCreate(
+                        [
+                            'contact_info_id' =>  $contactInfo->id,
+                        ]
+                    );
+                } else {
+                }
+            } elseif ($type === 'emergency-contact') {
+                // Create or update personal info
+                if ($contactInfo) {
+                    // Validation
+                    $validator = Validator::make($request->all(), [
+                        'full_name' => 'required|string',
+                        'relationship' => 'required|string',
+                        'email' => 'required|email',
+                        'phone' => 'required|string|min:11|max:11',
+                        'address' => 'required|string',
+                    ]);
+
+                    if ($validator->fails()) {
+                        return redirect()->back()->withErrors($validator)->withInput();
+                    }
+
+                    $emergencyContact = TenantEmergencyContact::updateOrCreate(
+                        ['contact_info_id' => $contactInfo->id],
+                        [
+                            'full_name' => $request->input('full_name'),
+                            'relationship' => $request->input('relationship'),
+                            'email' => $request->input('email'),
+                            'phone' => $request->input('phone'),
+                            'address' => $request->input('address'),
+                        ]
+                    );
+
+                    return redirect()->back()
+                        ->with('success', 'Registration Successful!');
+                } else {
+                    return redirect()->back()->with('error', 'Contact Info not found!');
+                }
+            }
+            // Redirect to the next step
+            $nextStep = $this->getNextStep($type);
+            return redirect()->route('tenant.create', ['type' => $nextStep, 'id' => $contactInfo->id]);
+        }
+        // Pass data to the view
+        return view('tenant.tenant_add', compact('id', 'type', 'contactInfo', 'personalInfo', 'driverInfo', 'emergencyContact'));
     }
 
-    public function store(Request $request)
+
+    private function getNextStep($currentStep)
     {
-        $request->validate([
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:1024', // Validate image file
-            'name' => 'required',
-            'father' => 'required',
-            'mother' => 'required',
-            'phone' => 'required',
-            'email' => 'required|email|unique:users,email',
-            'nid' => 'required|unique:tenants,nid',
-            'tax_id' => 'required',
-            'dob' => 'required|date',
-            'marital_status' => 'required',
-            'per_address' => 'required',
-            'occupation' => 'required',
-            'religion' => 'required',
-            'new_house_start_date' => 'nullable|date',
-            'password' => 'required|min:4', // Add password validation
-        ]);
-
-        // dd($request->all());
-
-        $data = $request->all();
-
-        // Handle family members
-        $familyMembersDetails = [];
-        $familyMembers = $request->input('family_members', []);
-
-        foreach ($familyMembers as $member) {
-            $familyMembersDetails[] = [
-                'name' => $member['name'],
-                'age' => $member['age'],
-                'occupation' => $member['occupation'],
-                'phone' => $member['phone'],
-            ];
-        }
-
-        $tenant = new Tenant();
-        $tenant->fill($data);
-
-        // Store the family members' details as JSON
-        $tenant->family_members = count($familyMembers); // Total count of family members
-        $tenant->family_members_details = json_encode($familyMembersDetails);
-
-        if ($request->hasfile('image')) {
-            $file = $request->file('image');
-            $filename = time() . '_tenant.' . $file->getClientOriginalExtension();
-            $file->move(public_path('uploads/tenant'), $filename);
-            $tenant->image = 'uploads/tenant/' . $filename;
-        }
-
-        $tenant->save();
-
-        $user = new User();
-        $user->name = $request->input('name');
-        $user->email = $request->input('email');
-        $user->password = bcrypt($request->input('password')); // Use the provided password
-        $userRole = Role::where('name', 'Tenant')->first();  
-        $user->role_id = $userRole->id; // Store the role_id from the role table where name is 'user'
-        $user->save();
-
-        return back()->with('success', 'Tenant added successfully.');
+        //Define the order of steps and their corresponding next steps
+        $stepsOrder = [
+            'contact-info' => 'personal-info',
+            'personal-info' => 'driver-info',
+            'driver-info' => 'emergency-contact',
+            'emergency-contact' => 'null',
+        ];
+        return $stepsOrder[$currentStep] ?? 'contact-info';
     }
 
     public function show($id)
     {
-        // $tenant = Tenant::find($id);
-        // return view('tenant.tenant_view', compact('tenant'));
+        $tenantContactInfo = TenantContactInfo::find($id);
+        $tenantPersonalInfo = TenantPersonalInfo::where('contact_info_id', $id)->first();
+        $tenantDriverInfo = TenantDriverInfo::where('contact_info_id', $id)->first();
+        $tenantEmergencyContact = TenantEmergencyContact::where('contact_info_id', $id)->first();
+        $tenant = [
+            'contact_info' => $tenantContactInfo,
+            'personal_info' => $tenantPersonalInfo,
+            'driver_info' => $tenantDriverInfo,
+            'emergency_contact' => $tenantEmergencyContact,
+        ];
+        
+        return view('tenant.tenant_show', compact('tenant'));
     }
-
-    public function edit($id)
-    {
-        $tenant = Tenant::find($id);
-        $user = User::where('email', $tenant->email)->first();
-        $familyMembersDetails = json_decode($tenant->family_members_details, true);
-        return view('tenant.tenant_edit', compact('tenant', 'familyMembersDetails', 'user'));
-    }
-
-    public function update(Request $request, $id)
-    {
-        $request->validate([
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:1024', // Validate image file
-            'name' => 'required',
-            'father' => 'required',
-            'mother' => 'required',
-            'phone' => 'required',
-            'email' => 'required|email|unique:users,email,' . $id,
-            'nid' => 'required|unique:tenants,nid,' . $id,
-            'tax_id' => 'required',
-            'dob' => 'required|date',
-            'marital_status' => 'required',
-            'per_address' => 'required',
-            'occupation' => 'required',
-            'religion' => 'required',
-            'new_house_start_date' => 'nullable|date',
-            'password' => 'nullable',
-        ]);
-
-        $data = $request->all();
-
-        // Handle family members
-        $familyMembersDetails = [];
-        $familyMembers = $request->input('family_members', []);
-
-        foreach ($familyMembers as $member) {
-            $familyMembersDetails[] = [
-                'name' => $member['name'],
-                'age' => $member['age'],
-                'occupation' => $member['occupation'],
-                'phone' => $member['phone'],
-            ];
-        }
-
-        $tenant = Tenant::find($id);
-        $tenant->fill($data);
-
-        // Store the family members' details as JSON
-        $tenant->family_members = count($familyMembers); // Total count of family members
-        $tenant->family_members_details = json_encode($familyMembersDetails);
-
-        if ($request->hasfile('image')) {
-            $file = $request->file('image');
-
-            // Delete the old image if it exists
-            if ($tenant->image && file_exists(public_path($tenant->image))) {
-                unlink(public_path($tenant->image));
-            }
-
-            $filename = time() . '_tenant.' . $file->getClientOriginalExtension();
-            $file->move(public_path('uploads/tenant'), $filename);
-            $fullPath = 'uploads/tenant/' . $filename;
-        } else {
-            // Keep the old image if no new image is uploaded
-            $fullPath = $tenant->image;
-        }
-
-        $tenant->image = $fullPath;
-        $tenant->save();
-
-        // Update the corresponding user
-        $user = User::where('email', $tenant->email)->first();
-        if ($user) {
-            $user->name = $request->input('name');
-            $user->email = $request->input('email');
-            // Update password if provided, otherwise keep the existing one
-        if ($request->filled('password')) {
-            $user->password = bcrypt($request->input('password'));
-        }
-            $user->save();
-        }
-
-        return back()->with('success', 'Tenant updated successfully');
-    }
-
+    
     public function destroy($id)
     {
-        $tenant = Tenant::find($id);
-
-        if ($tenant->image && file_exists(public_path($tenant->image))) {
-            unlink(public_path($tenant->image));
-        }
+        $tenant = TenantContactInfo::find($id);
+        TenantContactInfo::find($id)->delete();
+        TenantPersonalInfo::where('contact_info_id', $id)->delete();
+        TenantDriverInfo::where('contact_info_id', $id)->delete();
+        TenantEmergencyContact::where('contact_info_id', $id)->delete();
 
         // Delete the corresponding user
         $user = User::where('email', $tenant->email)->first();
         if ($user) {
             $user->delete();
         }
-
-        $tenant->delete();
         return back()->with('success', 'Tenant deleted successfully');
     }
 }

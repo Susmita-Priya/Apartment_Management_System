@@ -15,12 +15,16 @@ class PermissionSeeder extends Seeder
     public function run(): void
     {
         $permissions = [
+            
+            //access control
+            'access-control',
 
             //For User
             'user-list',
             'user-create',
             'user-edit',
             'user-delete',
+
 
             //For role
             'role-list',
@@ -37,6 +41,14 @@ class PermissionSeeder extends Seeder
             'add-new',
 
 
+            // Pendending Request
+
+            'pending-request-list',
+            'building-request',
+            'building-request-approve',
+            'building-request-reject',
+
+
             //property management
 
             'property-management',
@@ -46,13 +58,6 @@ class PermissionSeeder extends Seeder
             'building-edit',
             'building-delete',
             'building-view',
-
-
-            'block-list',
-            'block-create',
-            'block-edit',
-            'block-delete',
-            'block-view',
 
 
             'floor-list',
@@ -108,14 +113,7 @@ class PermissionSeeder extends Seeder
             'amenities-delete',
             'amenities-view',
 
-
-            // Pendending Request
-
-            'pending-request-list',
-            'building-request',
-            'building-request-approve',
-            'building-request-reject',
-
+            
 
             // parking management
 
@@ -146,29 +144,10 @@ class PermissionSeeder extends Seeder
             //tenant management
 
             'tenant-management',
-
             'tenant-list',
             'tenant-create',
             'tenant-edit',
             'tenant-delete',
-            'tenant-view',
-            'tenant-view-unit',
-
-            //landlord management
-
-            'landlord-management',
-
-            'landlord-list',
-            'landlord-create',
-            'landlord-edit',
-            'landlord-delete',
-            'landlord-view',
-            'landlord-view-unit',
-
-
-            //access control
-
-            'access-control',
 
         ];
 

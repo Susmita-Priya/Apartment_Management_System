@@ -2,7 +2,7 @@
 
 @section('content')
     @push('title')
-        <title>Add Tenant</title>
+        <title>Tenant</title>
     @endpush
 
     <div class="content">
@@ -10,11 +10,11 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box">
-                        <h4 class="page-title float-left">Add Tenant</h4>
+                        <h4 class="page-title float-left">Tenant Info</h4>
                         <ol class="breadcrumb float-right">
                             <li class="breadcrumb-item"><a href="{{ route('index') }}">Dashboard</a></li>
                             <li class="breadcrumb-item"><a href="{{ route('tenants.index') }}">Tenants</a></li>
-                            <li class="breadcrumb-item active">Add Tenant</li>
+                            <li class="breadcrumb-item active">Tenant Info</li>
                         </ol>
                         <div class="clearfix"></div>
                     </div>
@@ -28,503 +28,578 @@
                         <div class="card-head">
                             <div class="kt-portlet__head-label">
                                 <h1 class="text-center">
-                                    Add New Tenant
+                                    Tenant Registration Form
                                 </h1>
                             </div>
                         </div>
-
-                        <div>
-                            <div class="card-body">
-                                <form action="{{ route('tenants.store') }}" method="POST" enctype="multipart/form-data">
-                                    @csrf
-
-                                    <!-- Tenant Photo -->
-                                    <div class="form-group row">
-                                        <label class="col-2 col-form-label">
-                                            Photo
-                                        </label>
-
-                                        <div class="col-10">
-                                            <input class="form-control" type="file" name="image">
-                                        </div>
+                        <div class="container mt-5">
+                            <div class="text-center mb-4">
+                                <div class="d-flex justify-content-center align-items-center mb-2">
+                                    <!-- Step Indicators -->
+                                    <div
+                                        class="step {{ $type === 'contact-info' ? 'active' : (in_array($type, ['personal-info', 'driver-info', 'emergency-contact']) ? 'completed' : '') }}">
+                                        1</div>
+                                    <div
+                                        class="progress-bar flex-grow-1 mx-2 {{ in_array($type, ['personal-info', 'driver-info', 'emergency-contact']) ? 'completed' : '' }}">
                                     </div>
 
-                                    <!-- Tenant name -->
-                                    <div class="form-group row">
-                                        <label class="col-2 col-form-label">
-                                            Name <b style="color: red">*</b>
-                                        </label>
-                                        <div class="col-10">
-                                            <input class="form-control" type="text" name="name" required>
-                                        </div>
+                                    <div
+                                        class="step {{ $type === 'personal-info' ? 'active' : (in_array($type, ['driver-info', 'emergency-contact']) ? 'completed' : '') }}">
+                                        2</div>
+                                    <div
+                                        class="progress-bar flex-grow-1 mx-2 {{ in_array($type, ['driver-info', 'emergency-contact']) ? 'completed' : '' }}">
                                     </div>
 
-                                    <!--father name-->
-                                    <div class="form-group row">
-                                        <label class="col-2 col-form-label">
-                                            Father’s Name <b style="color: red">*</b>
-                                        </label>
-                                        <div class="col-10">
-                                            <input class="form-control" type="text" name="father" required>
-                                        </div>
+                                    <div
+                                        class="step {{ $type === 'driver-info' ? 'active' : ($type === 'emergency-contact' ? 'completed' : '') }}">
+                                        3</div>
+                                    <div
+                                        class="progress-bar flex-grow-1 mx-2 {{ $type === 'emergency-contact' ? 'completed' : '' }}">
                                     </div>
 
-                                    <!--Mother name-->
-                                    <div class="form-group row">
-                                        <label class="col-2 col-form-label">
-                                            Mother’s Name <b style="color: red">*</b>
-                                        </label>
-                                        <div class="col-10">
-                                            <input class="form-control" type="text" name="mother" required>
-                                        </div>
-                                    </div>
-
-                                    <!--phone number-->
-                                    <div class="form-group row">
-                                        <label class="col-2 col-form-label">
-                                            Phone Number <b style="color: red">*</b>
-                                        </label>
-                                        <div class="col-10">
-                                            <input class="form-control" type="text" name="phone" required>
-                                        </div>
-                                    </div>
-                                    <!--Email Address-->
-                                    <div class="form-group row">
-                                        <label class="col-2 col-form-label">
-                                            Email <b style="color: red">*</b>
-                                        </label>
-                                        <div class="col-10">
-                                            <input class="form-control" type="email" name="email" required>
-                                        </div>
-                                    </div>
-                                    <!--NID number-->
-                                    <div class="form-group row">
-                                        <label class="col-2 col-form-label">
-                                            NID Number <b style="color: red">*</b>
-                                        </label>
-                                        <div class="col-10">
-                                            <input class="form-control" type="number" name="nid" required>
-                                        </div>
-                                    </div>
-                                    <!--Tax ID-->
-                                    <div class="form-group row">
-                                        <label class="col-2 col-form-label">
-                                            Tax ID <b style="color: red">*</b>
-                                        </label>
-                                        <div class="col-10">
-                                            <input class="form-control" type="number" name="tax_id">
-                                        </div>
-                                    </div>
-                                    <!--passport number-->
-                                    <div class="form-group row">
-                                        <label class="col-2 col-form-label">
-                                            Passport Number
-                                        </label>
-                                        <div class="col-10">
-                                            <input class="form-control" type="number" name="passport">
-                                        </div>
-                                    </div>
-                                    <!--Driving License-->
-                                    <div class="form-group row">
-                                        <label class="col-2 col-form-label">
-                                            Driving License
-                                        </label>
-                                        <div class="col-10">
-                                            <input class="form-control" type="number" name="driving_license">
-                                        </div>
-                                    </div>
-
-
-                                    <!-- Date of Birth -->
-                                    <div class="form-group row">
-                                        <label class="col-2 col-form-label">
-                                            Date of Birth <b style="color: red">*</b>
-                                        </label>
-                                        <div class="col-10">
-                                            <input class="form-control" type="date" name="dob" required>
-                                        </div>
-                                    </div>
-
-                                    <!--Marital Status-->
-                                    <div class="form-group row">
-                                        <label for="status" class="col-2 ">
-                                            Marital Status
-                                        </label>
-                                        <div class="col-10">
-                                            <div class="form-group">
-                                                <input type="radio" name="marital_status" value="Married"> Married
-                                                &nbsp;&nbsp;&nbsp;<input type="radio" name="marital_status"
-                                                    value="Unmarried">
-                                                Unmarried
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <!--Permanent Address-->
-                                    <div class="form-group row">
-                                        <label class="col-2 col-form-label">
-                                            Permanent Address <b style="color: red">*</b>
-                                        </label>
-                                        <div class="col-10">
-                                            <input class="form-control" type="address" name="per_address" required>
-                                        </div>
-                                    </div>
-
-                                    <!--Occupation-->
-                                    <div class="form-group row">
-                                        <label class="col-2 col-form-label">
-                                            Occupation <b style="color: red">*</b>
-                                        </label>
-                                        <div class=" col-10">
-                                            <select class="form-control" name="occupation" required="">
-                                                <option value="">-- Select One --</option>
-                                                <option value="Businessman" id="busy">Businessman</option>
-                                                <option value="Job Holder" id="job">Job Holder</option>
-                                                <option value="Self Employed" id="self">Self Employed</option>
-                                                <option value="Service Holder" id="service">Service Holder</option>
-                                                <option value="Housewife" id="house">Housewife</option>
-                                                <option value="Student" id="stu">Student</option>
-                                                <option value="Unemployed" id="un">Unemployed</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <!--company name-->
-                                    <div class="form-group row">
-                                        <label class="col-2 col-form-label">
-                                            Company/Institution Name
-                                        </label>
-                                        <div class="col-10">
-                                            <input class="form-control" type="text" name="company">
-                                        </div>
-                                    </div>
-                                    <!--religion-->
-                                    <div class="form-group row">
-                                        <label class="col-2 col-form-label">
-                                            Religion <b style="color: red">*</b>
-                                        </label>
-                                        <div class=" col-10">
-                                            <select class="form-control" name="religion" required="">
-                                                <option value="">-- Select One --</option>
-                                                <option value="Islam">Islam</option>
-                                                <option value="Hinduism">Hinduism</option>
-                                                <option value="Buddhism">Buddhism</option>
-                                                <option value="Christianity">Christianity</option>
-                                            </select>
-                                        </div>
-                                    </div>
-
-
-                                    <!--Qualification-->
-                                    <div class="form-group row">
-                                        <label class="col-2 col-form-label">
-                                            Qualification
-                                        </label>
-                                        <div class=" col-10">
-                                            <select class="form-control" name="qualification">
-                                                <option value="N/A">N/A</option>
-                                                <option value="SSC">SSC</option>
-                                                <option value="HSC">HSC</option>
-                                                <option value="Bachelors">Bachelor's</option>
-                                                <option value="Honours">Honours</option>
-                                                <option value="BBA">BBA</option>
-                                                <option value="LLB">LLB</option>
-                                                <option value="MBBS">MBBS</option>
-                                                <option value="Masters">Master's</option>
-                                                <option value="MBA">MBA</option>
-                                                <option value="Ph.D">Ph.D</option>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <!--family-->
-                                    <br>
-                                    <h5 align="center">Family Member’s Information</h5>
-                                    <br>
-                                    <br>
-
-                                    <!-- Dynamic Fields for Family Members -->
-                                    <div class="form-group row">
-                                        <label class="col-2 col-form-label">Number of Family Members </br>(excluding yourself) <b
-                                                style="color: red">*</b></label>
-                                        <div class="col-10">
-                                            <input type="number" name="family_members" id="family_members"
-                                                class="form-control" required>
-                                        </div>
-                                    </div>
-
-                                    <div id="familyMemberDetails"></div>
-
-                                    <!-- Emergency Contact -->
-                                    <br>
-                                    <h5 align="center">Emergency Contact</h5>
-                                    <br>
-                                    <br>
-                                    <div class="form-group row">
-                                        <label class="col-2 col-form-label">
-                                            Full Name
-                                        </label>
-                                        <div class="col-10">
-                                            <input class="form-control" type="text" name="e_name">
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label class="col-2 col-form-label">
-                                            Relation
-                                        </label>
-                                        <div class="col-10">
-                                            <input class="form-control" type="text" name="e_rel">
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label class="col-2 col-form-label">
-                                            Address
-                                        </label>
-                                        <div class="col-10">
-                                            <input class="form-control" type="text" name="e_add">
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label class="col-2 col-form-label">
-                                            Mobile Number
-                                        </label>
-                                        <div class="col-10">
-                                            <input class="form-control" type="text" name="e_phone">
-                                        </div>
-                                    </div>
-
-                                    <!-- Housemaid Information -->
-                                    <br>
-                                    <h5 align="center">Housemaid Information </h5>
-                                    <br>
-                                    <br>
-                                    <div class="form-group row">
-                                        <label class="col-2 col-form-label">
-                                            Full Name
-                                        </label>
-                                        <div class="col-10">
-                                            <input class="form-control" type="text" name="housemaid_name"
-                                                id="housemaid_name">
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group row">
-                                        <label class="col-2 col-form-label">
-                                            NID
-                                        </label>
-                                        <div class="col-10">
-                                            <input class="form-control" type="text" name="housemaid_nid"
-                                                id="housemaid_nid">
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group row">
-                                        <label class="col-2 col-form-label">
-                                            Phone Number
-                                        </label>
-                                        <div class="col-10">
-                                            <input class="form-control" type="text" name="housemaid_phone"
-                                                id="housemaid_phone">
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group row">
-                                        <label class="col-2 col-form-label">
-                                            Permanent Address
-                                        </label>
-                                        <div class="col-10">
-                                            <textarea class="form-control" name="housemaid_address" id="housemaid_address"></textarea>
-                                        </div>
-                                    </div>
-
-                                    <!-- Driver-->
-                                    <br>
-                                    <h5 align="center">Driver Information </h5>
-                                    <br>
-                                    <br>
-                                    <div class="form-group row">
-                                        <label class="col-2 col-form-label">
-                                            Full Name
-                                        </label>
-                                        <div class="col-10">
-                                            <input class="form-control" type="text" name="driver_name">
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label class="col-2 col-form-label">
-                                            NID
-                                        </label>
-                                        <div class="col-10">
-                                            <input class="form-control" type="number" name="driver_nid">
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label class="col-2 col-form-label">
-                                            Phone Number
-                                        </label>
-                                        <div class="col-10">
-                                            <input class="form-control" type="text" name="driver_phone">
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label class="col-2 col-form-label">
-                                            Permanent Address
-                                        </label>
-                                        <div class="col-10">
-                                            <input class="form-control" type="text" name="driver_address">
-                                        </div>
-                                    </div>
-
-                                    <!-- Previous House-Owner Information-->
-                                    <br>
-                                    <h5 align="center">Previous House-Owner Information </h5>
-                                    <br>
-                                    <br>
-                                    <div class="form-group row">
-                                        <label class="col-2 col-form-label">
-                                            Full Name
-                                        </label>
-                                        <div class="col-10">
-                                            <input class="form-control" type="text" name="pre_owner_name">
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label class="col-2 col-form-label">
-                                            Phone Number
-                                        </label>
-                                        <div class="col-10">
-                                            <input class="form-control" type="text" name="pre_owner_phone">
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label class="col-2 col-form-label">
-                                            Address
-                                        </label>
-                                        <div class="col-10">
-                                            <input class="form-control" type="text" name="pre_owner_address">
-                                        </div>
-                                    </div>
-
-                                    <!-- Why did you leave old house?-->
-                                    <br>
-                                    <h5 align="center">Reason for leaving previous House </h5>
-                                    <br>
-                                    <br>
-                                    <div class="form-group row">
-                                        <label class="col-2 col-form-label">
-                                            Description
-                                        </label>
-                                        <div class="col-10">
-                                            <textarea class="form-control" type="text" name="reason"></textarea>
-                                        </div>
-                                    </div>
-                                    <!-- Present House-Owner Information-->
-                                    <br>
-                                    <h5 align="center">Present House-Owner Information </h5>
-                                    <br>
-                                    <br>
-                                    <div class="form-group row">
-                                        <label class="col-2 col-form-label">
-                                            Full Name
-                                        </label>
-                                        <div class="col-10">
-                                            <input class="form-control" type="text" name="new_owner_name">
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label class="col-2 col-form-label">
-                                            Phone Number
-                                        </label>
-                                        <div class="col-10">
-                                            <input class="form-control" type="text" name="new_owner_phone">
-                                        </div>
-                                    </div>
-
-                                    <!-- Start date in new house-->
-                                    <br>
-                                    <h5 align="center">Start Date of living in the house </h5>
-                                    <br>
-                                    <br>
-                                    <div class="form-group row">
-                                        <label class="col-2 col-form-label">
-                                            Date <b style="color: red">*</b>
-                                        </label>
-                                        <div class="col-10">
-                                            <input class="form-control" type="date" name="new_house_start_date"
-                                                required>
-                                        </div>
-                                    </div>
-
-                                     <!-- Password Confirmation -->
-                                <div class="form-group row">
-                                    <label class="col-2 col-form-label">Password <b style="color: red">*</b></label>
-                                    <div class="col-10">
-                                        <input class="form-control" type="password" name="password" required>
-                                    </div>
+                                    <div class="step {{ $type === 'emergency-contact' ? 'active ' : '' }}">4</div>
                                 </div>
 
-                                    <!-- Submit Button -->
-                                    <button type="submit" class="btn waves-effect waves-light btn-sm submitbtn" data-toggle="modal" data-target="#passwordModal">Add Tenant</button>
- 
-                                </form>
+                                <!-- Step Labels -->
+                                <div class="d-flex justify-content-between">
+                                    <!-- Contact Info -->
+                                    <span class="step-label 
+                                        {{ $type === 'contact-info' ? 'active' : '' }} 
+                                        {{ in_array($type, ['personal-info', 'driver-info', 'emergency-contact']) ? 'completed' : '' }}">
+                                        Contact Info
+                                    </span>
+                                
+                                    <!-- Personal Info -->
+                                    <span class="step-label 
+                                        {{ $type === 'personal-info' ? 'active' : '' }} 
+                                        {{ in_array($type, ['driver-info', 'emergency-contact']) ? 'completed' : '' }}">
+                                        Personal Info
+                                    </span>
+                                
+                                    <!-- Driver Info -->
+                                    <span class="step-label 
+                                        {{ $type === 'driver-info' ? 'active' : '' }} 
+                                        {{ $type === 'emergency-contact' ? 'completed' : '' }}">
+                                        Driver Info
+                                    </span>
+                                
+                                    <!-- Emergency Contact -->
+                                    <span class="step-label {{ $type === 'emergency-contact' ? 'active completed' : '' }}">
+                                        Emergency Contact
+                                    </span>
+                                </div>
+                                
+                            </div>
+
+                            <div class="tab-content">
+
+                                <!-- Step 1: Contact Info -->
+                                <div class="tab-pane fade {{ $type === 'contact-info' ? 'in active show' : '' }}"
+                                    id="tab-1st">
+                                    <form method="post"
+                                        action="{{ route('tenant.store', ['id' => $id, 'type' => 'contact-info']) }}">
+                                        @csrf
+
+                                        <div class="row">
+                                            <div class="col-12 col-md-12 mb-4">
+                                                <label for="name">Full Name<span style="color: red;">*</span></label>
+                                                <input type="text" placeholder="Enter your full name" name="full_name"
+                                                    value="{{ old('full_name', $contactInfo->full_name ?? '') }}"
+                                                    required="required" id="name" autocomplete="off"
+                                                    class="form-control bg-transparent @error('full_name') is-invalid @enderror" />
+
+                                                @error('full_name')
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-12 col-md-6 mb-4">
+                                                <label for="email">Email<span style="color: red;">*</span></label>
+                                                <input type="text" placeholder="Enter your email" name="email"
+                                                    value="{{ old('email', $contactInfo->email ?? '') }}"
+                                                    required="required" id="email" autocomplete="off"
+                                                    class="form-control bg-transparent @error('email') is-invalid @enderror" />
+                                                @error('email')
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
+                                            </div>
+                                            <div class="col-12 col-md-6 mb-4">
+                                                <label for="phone">Mobile <span style="color: red;">*</span></label>
+                                                <input type="text" placeholder="Enter Your Mobile Number" name="phone"
+                                                    value="{{ old('phone', $contactInfo->phone ?? '') }}"
+                                                    required="required" minlength="11" maxlength="11" id="mobileNumber"
+                                                    autocomplete="off"
+                                                    class="form-control bg-transparent @error('phone') is-invalid @enderror" />
+
+                                                @error('phone')
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-6 col-md-6 mb-4">
+                                                <label for="address">Address<span style="color: red;">*</span></label>
+                                                <input type="text" placeholder="Enter your address" name="address"
+                                                    value="{{ old('address', $contactInfo->address ?? '') }}"
+                                                    required="required" id="address" autocomplete="off"
+                                                    class="form-control bg-transparent @error('address') is-invalid @enderror" />
+                                                @error('address')
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
+                                            </div>
+                                            <div class="col-6 col-md-6 mb-4">
+                                                <label for="password">Password<span style="color: red;">*</span></label>
+                                                <input type="password" placeholder="Enter password" name="password"
+                                                    id="password" autocomplete="off"
+                                                    class="form-control bg-transparent @error('password') is-invalid @enderror" />
+                                                    <small class="text-muted">Leave blank if you don't want to change the password.</small>
+                                                @error('password')
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
+                                            </div>
+                                        </div>
+
+                                        <div class="d-flex justify-content-end">
+                                            <a href="{{ route('tenant.store', ['id' => $id, 'type' => 'contact-info']) }}">
+                                                <button type="submit" class="btn btn-reg">
+                                                    Next
+                                                </button>
+                                            </a>
+
+                                            {{-- <button type="submit" class="btn btn-reg">Next</button> --}}
+                                        </div>
+                                    </form>
+                                </div>
+
+                                <!-- Step 2: Personal Info -->
+                                <div class="tab-pane fade {{ $type === 'personal-info' ? 'in active show' : '' }}"
+                                    id="tab-2nd">
+                                    <form method="post"
+                                        action="{{ route('tenant.store', ['id' => $id, 'type' => 'personal-info']) }}">
+                                        @csrf
+                                        <div class="row">
+                                            <div class="col-12 col-md-6 mb-4">
+                                                <label for="fathers_name">Father's Name<span
+                                                        style="color: red;">*</span></label>
+                                                <input type="text" placeholder="Enter your father's name"
+                                                    name="fathers_name"
+                                                    value="{{ old('fathers_name', $personalInfo->fathers_name ?? '') }}"
+                                                    required="required" id="fathers_name" autocomplete="off"
+                                                    class="form-control bg-transparent  @error('fathers_name') is-invalid @enderror" />
+
+                                                @error('fathers_name')
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
+                                            </div>
+                                            <div class="col-12 col-md-6 mb-4">
+                                                <label for="mothers_name">Mother's Name <span
+                                                        style="color: red;">*</span></label>
+                                                <input type="text" placeholder="Enter your mother's name"
+                                                    name="mothers_name"
+                                                    value="{{ old('mothers_name', $personalInfo->mothers_name ?? '') }}"
+                                                    required="required" id="mothers_name" autocomplete="off"
+                                                    class="form-control bg-transparent @error('mothers_name') is-invalid @enderror" />
+
+                                                @error('mothers_name')
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-6 col-md-6 mb-4">
+                                                <label for="nid">National ID <span
+                                                        style="color: red;">*</span></label>
+                                                <input type="text" placeholder="Enter national id" name="nid"
+                                                    value="{{ old('nid', $personalInfo->nid ?? '') }}"
+                                                    required="required" id="nid" autocomplete="off"
+                                                    class="form-control bg-transparent @error('nid') is-invalid @enderror" />
+
+                                                @error('nid')
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
+                                            </div>
+                                            <div class="col-6 col-md-6 mb-4">
+                                                <label for="passport_no">Passport No </label>
+                                                <input type="text" placeholder="Enter passport no" name="passport_no"
+                                                    value="{{ old('passport_no', $personalInfo->passport_no ?? '') }}"
+                                                    id="passport_no" autocomplete="off"
+                                                    class="form-control bg-transparent @error('passport_no') is-invalid @enderror" />
+
+                                                @error('passport_no')
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-6 col-md-6 mb-4">
+                                                <label for="tax_id">Tax Id <span style="color: red;">*</span></label>
+                                                <input type="text" placeholder="Entertax Id" name="tax_id"
+                                                    value="{{ old('tax_id', $personalInfo->tax_id ?? '') }}"
+                                                    required="required" id="tax_id" autocomplete="off"
+                                                    class="form-control bg-transparent @error('tax_id') is-invalid @enderror" />
+
+                                                @error('tax_id')
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
+                                            </div>
+                                            <div class="col-6 col-md-6 mb-4">
+                                                <label for="driving_license">Driving License</label>
+                                                <input type="text" placeholder="Enter Driving License"
+                                                    name="driving_license"
+                                                    value="{{ old('driving_license', $personalInfo->driving_license ?? '') }}"
+                                                    id="driving_license" autocomplete="off"
+                                                    class="form-control bg-transparent @error('driving_license') is-invalid @enderror" />
+
+                                                @error('driving_license')
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-12 col-md-6 mb-4">
+                                                <label for="date_of_birth">Date of birth<span
+                                                        style="color: red;">*</span></label>
+                                                <input type="date" name="dob"
+                                                    value="{{ old('dob', $personalInfo->dob ?? '') }}"
+                                                    required="required" id="date_of_birth" placeholder="Date of birth"
+                                                    class="form-control bg-transparent @error('dob') is-invalid @enderror" />
+
+                                                @error('dob')
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
+                                            </div>
+                                            <div class="col-12 col-md-6 mb-4">
+                                                <label for="total_family_members">Total Family
+                                                    Member<span style="color: red;">*</span></label>
+                                                <input type="number" placeholder="Enter Total Family Member"
+                                                    name="total_family_members"
+                                                    value="{{ old('total_family_members', $personalInfo->total_family_members ?? '') }}"
+                                                    required="required" id="total_family_members"
+                                                    class="form-control bg-transparent" />
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-12 col-md-6 mb-4">
+                                                <label for="religion">Religion <span style="color: red;">*</span></label>
+                                                <select id="religion" name="religion" required="required"
+                                                    class="form-select bg-transparent @error('religion') is-invalid @enderror"
+                                                    data-hide-search="true">
+                                                    <option value="">Select</option>
+                                                    <option value="1"
+                                                        {{ old('religion', isset($personalInfo) ? $personalInfo->religion : '') == '1' ? 'selected' : '' }}>
+                                                        Islam</option>
+                                                    <option value="2"
+                                                        {{ old('religion', isset($personalInfo) ? $personalInfo->religion : '') == '2' ? 'selected' : '' }}>
+                                                        Hinduism</option>
+                                                    <option value="3"
+                                                        {{ old('religion', isset($personalInfo) ? $personalInfo->religion : '') == '3' ? 'selected' : '' }}>
+                                                        Christianity</option>
+                                                    <option value="4"
+                                                        {{ old('religion', isset($personalInfo) ? $personalInfo->religion : '') == '4' ? 'selected' : '' }}>
+                                                        Buddhism</option>
+                                                    <option value="5"
+                                                        {{ old('religion', isset($personalInfo) ? $personalInfo->religion : '') == '5' ? 'selected' : '' }}>
+                                                        Others</option>
+                                                </select>
+                                                @error('religion_id')
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
+                                            </div>
+                                            <div class="col-12 col-md-6 mb-4">
+                                                <label for="marital_status">Marital Status <span
+                                                        style="color: red;">*</span></label>
+                                                <select id="marital_status" name="marital_status" data-control="select2"
+                                                    required="required"
+                                                    class="form-select bg-transparent @error('marital_status') is-invalid @enderror"
+                                                    data-hide-search="true">
+                                                    <option value="">Select</option>
+                                                    <option value="1"
+                                                        {{ old('marital_status', isset($personalInfo) ? $personalInfo->marital_status : '') == '1' ? 'selected' : '' }}>
+                                                        Unmarried</option>
+                                                    <option value="2"
+                                                        {{ old('marital_status', isset($personalInfo) ? $personalInfo->marital_status : '') == '2' ? 'selected' : '' }}>
+                                                        Married</option>
+                                                </select>
+
+                                                @error('marital_status')
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-12 col-md-6 mb-4">
+                                                <div class="form-group">
+                                                    <div class="form-group gender">
+                                                        <label>Gender <span class="text-danger">*</span></label>
+                                                        <div class="row @error('gender') is-invalid @enderror">
+                                                            <div class="col-sm-4">
+                                                                <div class="button">
+                                                                    <input name="gender" value="1"
+                                                                        {{ old('gender', $personalInfo->gender ?? '') == 1 ? 'checked' : '' }}
+                                                                        required type="radio" id="male">
+                                                                    <label for="male" class="btn">
+                                                                        Male </label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-4">
+                                                                <div class="button">
+                                                                    <input name="gender" value="2"
+                                                                        {{ old('gender', $personalInfo->gender ?? '') == 2 ? 'checked' : '' }}
+                                                                        required type="radio" id="female">
+                                                                    <label for="female" class="btn">
+                                                                        Female </label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-4">
+                                                                <div class="button">
+                                                                    <input name="gender" value="3"
+                                                                        {{ old('gender', $personalInfo->gender ?? '') == 3 ? 'checked' : '' }}
+                                                                        required type="radio" id="others">
+                                                                    <label for="others" class="btn">
+                                                                        Others </label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        @error('gender')
+                                                            <span class="invalid-feedback" role="alert">
+                                                                <strong>{{ $message }}</strong>
+                                                            </span>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="d-flex justify-content-between">
+                                            <a href="{{ route('tenant.store', ['id' => $id, 'type' => 'contact-info']) }}"
+                                                class="btn btn-light previous_btn_style">Back</a>
+                                            <a href="{{ route('tenant.store', ['id' => $id, 'type' => 'driver-info']) }}">
+                                                <button type="submit" class="btn btn-reg">
+                                                    Next
+                                                </button>
+                                            </a>
+                                        </div>
+                                    </form>
+                                </div>
+
+                                <!-- Step 3: Driver Info -->
+                                <div class="tab-pane fade {{ $type === 'driver-info' ? 'in active show' : '' }}"
+                                    id="tab-3rd">
+                                    <form method="post"
+                                        action="{{ route('tenant.store', ['id' => $id, 'type' => 'driver-info']) }}">
+                                        @csrf
+                                        <div class="row">
+                                            <div class="col-6 col-md-6 mb-4">
+                                                <label for="name">Full Name<span style="color: red;">*</span></label>
+                                                <input type="text" placeholder="Enter your full name" name="full_name"
+                                                    value="{{ old('full_name', $driverInfo->full_name ?? '') }}"
+                                                    required="required" id="name" autocomplete="off"
+                                                    class="form-control bg-transparent @error('full_name') is-invalid @enderror" />
+
+                                                @error('full_name')
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
+                                            </div>
+                                            <div class="col-12 col-md-6 mb-4">
+                                                <label for="email">Email<span style="color: red;">*</span></label>
+                                                <input type="text" placeholder="Enter your email" name="email"
+                                                    value="{{ old('email', $driverInfo->email ?? '') }}"
+                                                    required="required" id="email" autocomplete="off"
+                                                    class="form-control bg-transparent @error('email') is-invalid @enderror" />
+                                                @error('email')
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="row">
+
+                                            <div class="col-12 col-md-6 mb-4">
+                                                <label for="phone">Mobile <span style="color: red;">*</span></label>
+                                                <input type="text" placeholder="Enter Your Mobile Number"
+                                                    name="phone" value="{{ old('phone', $driverInfo->phone ?? '') }}"
+                                                    required="required" minlength="11" maxlength="11" id="mobileNumber"
+                                                    autocomplete="off"
+                                                    class="form-control bg-transparent @error('phone') is-invalid @enderror" />
+
+                                                @error('phone')
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
+                                            </div>
+                                            <div class="col-6 col-md-6 mb-4">
+                                                <label for="nid">National ID <span
+                                                        style="color: red;">*</span></label>
+                                                <input type="text" placeholder="Enter national id" name="nid"
+                                                    value="{{ old('nid', $driverInfo->nid ?? '') }}" required="required"
+                                                    id="nid" autocomplete="off"
+                                                    class="form-control bg-transparent @error('nid') is-invalid @enderror" />
+
+                                                @error('nid')
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-12 col-md-12 mb-4">
+                                                <label for="address">Address<span style="color: red;">*</span></label>
+                                                <input type="text" placeholder="Enter your address" name="address"
+                                                    value="{{ old('address', $driverInfo->address ?? '') }}"
+                                                    required="required" id="address" autocomplete="off"
+                                                    class="form-control bg-transparent @error('address') is-invalid @enderror" />
+                                                @error('address')
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="d-flex justify-content-between">
+                                            <a href="{{ route('tenant.store', ['id' => $id, 'type' => 'personal-info']) }}"
+                                                class="btn btn-light previous_btn_style">Back</a>
+                                            <a
+                                                href="{{ route('tenant.store', ['id' => $id, 'type' => 'emergency-contact']) }}">
+                                                <button type="submit" class="btn btn-reg">
+                                                    Next
+                                                </button>
+                                            </a>
+                                            {{-- <button type="submit" class="btn btn-reg">Next</button> --}}
+                                        </div>
+                                    </form>
+                                </div>
+
+                                <!-- Step 4: Emergency Contact -->
+                                <div class="tab-pane fade {{ $type === 'emergency-contact' ? 'in active show' : '' }}"
+                                    id="tab-4th">
+                                    <form method="post"
+                                        action="{{ route('tenant.store', ['id' => $id, 'type' => 'emergency-contact']) }}">
+                                        @csrf
+                                        <div class="row">
+                                            <div class="col-6 col-md-6 mb-4">
+                                                <label for="name">Full Name<span style="color: red;">*</span></label>
+                                                <input type="text" placeholder="Enter your full name" name="full_name"
+                                                    value="{{ old('full_name', $emergencyContact->full_name ?? '') }}"
+                                                    required="required" id="name" autocomplete="off"
+                                                    class="form-control bg-transparent @error('full_name') is-invalid @enderror" />
+
+                                                @error('full_name')
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
+                                            </div>
+                                            <div class="col-6 col-md-6 mb-4">
+                                                <label for="relationship">Relationship<span
+                                                        style="color: red;">*</span></label>
+                                                <input type="text" placeholder="Enter your relationship"
+                                                    name="relationship"
+                                                    value="{{ old('relationship', $emergencyContact->relationship ?? '') }}"
+                                                    required="required" id="relationship" autocomplete="off"
+                                                    class="form-control bg-transparent @error('relationship') is-invalid @enderror" />
+                                                @error('relationship')
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-12 col-md-6 mb-4">
+                                                <label for="email">Email<span style="color: red;">*</span></label>
+                                                <input type="text" placeholder="Enter your email" name="email"
+                                                    value="{{ old('email', $emergencyContact->email ?? '') }}"
+                                                    required="required" id="email" autocomplete="off"
+                                                    class="form-control bg-transparent @error('email') is-invalid @enderror" />
+                                                @error('email')
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
+                                            </div>
+                                            <div class="col-12 col-md-6 mb-4">
+                                                <label for="phone">Mobile <span style="color: red;">*</span></label>
+                                                <input type="text" placeholder="Enter Your Mobile Number"
+                                                    name="phone"
+                                                    value="{{ old('phone', $emergencyContact->phone ?? '') }}"
+                                                    required="required" minlength="11" maxlength="11" id="mobileNumber"
+                                                    autocomplete="off"
+                                                    class="form-control bg-transparent @error('phone') is-invalid @enderror" />
+
+                                                @error('phone')
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
+                                            </div>
+
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-12 col-md-12 mb-4">
+                                                <label for="address">Address<span style="color: red;">*</span></label>
+                                                <input type="text" placeholder="Enter your address" name="address"
+                                                    value="{{ old('address', $emergencyContact->address ?? '') }}"
+                                                    required="required" id="address" autocomplete="off"
+                                                    class="form-control bg-transparent @error('address') is-invalid @enderror" />
+                                                @error('address')
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="d-flex justify-content-between">
+                                            <a href="{{ route('tenant.store', ['id' => $id, 'type' => 'driver-info']) }}"
+                                                class="btn btn-light previous_btn_style">Back</a>
+                                            <button type="submit" class="btn btn-reg">Finish</button>
+                                        </div>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>
+
                 </div>
             </div>
-            <script>
-                // Handle Family Member Details
-                document.getElementById('family_members').addEventListener('change', function() {
-                    let familyCount = this.value;
-                    let familyMemberDetails = document.getElementById('familyMemberDetails');
-                    familyMemberDetails.innerHTML = '';
+        </div>
+    </div>
+    </div>
+    </div>
 
-                    for (let i = 1; i <= familyCount; i++) {
-                        familyMemberDetails.innerHTML += `
 
-                    <h5 align="center">Family Member(${i})</h5>
-                    <div class="form-group row">
-                        <label class="col-2 col-form-label">
-                            Full Name
-                        </label>
-                        <div class="col-10">
-                            <input class="form-control" type="text" name="family_members[${i}][name]" value="{{ old('family_members[${i}][name]') }}">
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-2 col-form-label">
-                            Age
-                        </label>
-                        <div class="col-10">
-                            <input class="form-control" type="number" name="family_members[${i}][age]" value="{{ old('family_members[${i}][age]') }}">
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-2 col-form-label">
-                            Occupation
-                        </label>
-                        <div class="col-10">
-                            <select class="form-control" name="family_members[${i}][occupation]">
-                                <option value="">-- Select One --</option>
-                                <option value="Businessman" id="busy">Businessman</option>
-                                <option value="Job Holder" id="job">Job Holder</option>
-                                <option value="Self Employed" id="self">Self Employed</option>
-                                <option value="Service Holder" id="service">Service Holder</option>
-                                <option value="Housewife" id="house">Housewife</option>
-                                <option value="Student" id="stu">Student</option>
-                                <option value="Unemployed" id="un">Unemployed</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-2 col-form-label">
-                            Phone Number
-                        </label>
-                        <div class="col-10">
-                            <input class="form-control" type="text" name="family_members[${i}][phone]" value="{{ old('family_members[${i}][phone]') }}">
-                        </div>
-                    </div>
-                `;
-                    }
-                });
-            </script>
-        @endsection
+@endsection

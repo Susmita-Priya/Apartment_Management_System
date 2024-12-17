@@ -32,6 +32,9 @@ class RoleController extends Controller
         } elseif (Auth::user()->hasRole('Client')) {
             // Client sees only roles for "Company" and "Client"
             $roles = Role::whereIn('name', ['Company', 'Client'])->orderBy('id', 'DESC')->paginate(5);
+        } elseif (Auth::user()->hasRole('Company')) {
+            // Company sees only roles for "Company"
+            $roles = Role::where('name', 'Company')->orderBy('id', 'DESC')->paginate(5);
         } else {
             // Default case for other roles
             $roles = collect(); // Empty collection
@@ -91,6 +94,12 @@ class RoleController extends Controller
                 ->where("role_has_permissions.role_id", $id)
                 ->whereIn('permissions.id', Auth::user()->getAllPermissions()->pluck('id'))
                 ->get();
+        } elseif (Auth::user()->hasRole('Company')) {
+            // Company sees only assigned permissions
+            $rolePermissions = Permission::join("role_has_permissions", "role_has_permissions.permission_id", "=", "permissions.id")
+                ->where("role_has_permissions.role_id", $id)
+                ->whereIn('permissions.id', Auth::user()->getAllPermissions()->pluck('id'))
+                ->get();
         } else {
             $rolePermissions = collect(); // Empty collection for other roles
         }
@@ -125,7 +134,6 @@ class RoleController extends Controller
     public function update(Request $request, $id): RedirectResponse
     {
         $this->validate($request, [
-            'name' => 'required',
             'permission' => 'required',
         ]);
     
