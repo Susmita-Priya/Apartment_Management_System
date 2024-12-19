@@ -33,7 +33,8 @@ class UnitController extends Controller
     public function create(Request $request)
     {
         // Fetch all buildings, blocks, and floors
-        $buildings = Building::where('status',1)->get();
+        $buildings = Building::where('company_id', Auth::user()->id)
+        ->where('status',1)->get();
         $floors = Floor::where('type', 'upper')->where('status',1)->get();
 
         // Fetch the floor using the provided floor_id
@@ -117,7 +118,8 @@ class UnitController extends Controller
     {
 
         // Fetch all buildings, blocks, and floors
-        $buildings = Building::where('status',1)->get();
+        $buildings = Building::where('company_id', Auth::user()->id)
+        ->where('status',1)->get();
         $floors = Floor::where('type', 'upper')->get();
 
         // Fetch the floor using the provided floor_id
@@ -183,11 +185,7 @@ class UnitController extends Controller
     public function destroy($id)
     {
         $unit = Unit::findOrFail($id);
-
         $unit->delete();
-
-        // return redirect()->route('floor.show', $floorId)
-        //     ->with('delete', 'Unit deleted successfully.');
 
         return redirect()->back()
             ->with('delete', 'Unit deleted successfully.');

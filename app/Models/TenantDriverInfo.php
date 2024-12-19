@@ -14,7 +14,7 @@ class TenantDriverInfo extends Model
         'full_name',
         'email',
         'phone',
-        'nid',
+        'driving_license',
         'address',
     ];
 }

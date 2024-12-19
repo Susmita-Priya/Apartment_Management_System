@@ -20,6 +20,7 @@ use App\Http\Controllers\RoomController;
 use App\Http\Controllers\RoomTypeController;
 use App\Http\Controllers\SaasPlatform\WebsiteController;
 use App\Http\Controllers\SettingController;
+use App\Http\Controllers\StallController;
 use App\Http\Controllers\StallLockerController;
 use App\Http\Controllers\TenantController;
 use App\Http\Controllers\TenantsController;
@@ -60,6 +61,8 @@ Route::middleware('auth')->group(callback: function () {
         Route::post('building/edit/{id}', [BuildingController::class, 'update'])->name("building.update");
         Route::get('building/delete/{id}', [BuildingController::class, 'destroy'])->name("building.delete");
 
+
+        //building approval
         Route::get('building/pending', [BuildingController::class, 'pending'])->name("building.pending");
         Route::get('building/approve/{id}', [BuildingController::class, 'approve'])->name("building.approve");
         Route::get('building/reject/{id}', [BuildingController::class, 'reject'])->name("building.reject");
@@ -81,9 +84,12 @@ Route::middleware('auth')->group(callback: function () {
         // Route::get('/buildings/{id}', [GetController::class, 'getBuildings'])->name('getbuildings');  // get blocks by building id  
         Route::get('/buildings/{buildingId}/floorsno', [GetController::class, 'getFloorsNo']);  // get registered floors no by block id   
         Route::get('/buildings/{buildingId}/floors', [GetController::class, 'getFloors']);  //get floors by block id    
+        Route::get('/buildings/{buildingId}/floorsUpper', [GetController::class, 'getFloorsUpper']);
+        Route::get('/buildings/{buildingId}/floorsUnderground', [GetController::class, 'getFloorsUnderground']);     
         Route::get('/floors/{floorId}/units', [GetController::class, 'getUnits']);  //get units by floor id
         Route::get('/units/{unitId}/rooms', [GetController::class, 'getRooms']);  //get rooms by unit id
         Route::get('/units/{unitId}/roomsno', [GetController::class, 'getAmenities']);  //get rooms no by unit id
+        Route::get('/floors/{floorId}/stalls', [GetController::class, 'getStalls']);  //get stalls by floor id
         
 
 
@@ -157,6 +163,26 @@ Route::middleware('auth')->group(callback: function () {
         Route::get('tenant/show/{id}', [TenantController::class, 'show'])->name("tenant.show");
         Route::get('tenant/delete/{id}', [TenantController::class, 'destroy'])->name("tenant.delete");
 
+
+
+        // stall
+        Route::get('stall/index', [StallController::class, 'index'])->name("stall.index");
+        Route::get('stall/create', [StallController::class, 'create'])->name("stall.create");
+        Route::post('stall/create', [StallController::class, 'store'])->name("stall.store");
+        Route::get('stall/show/{id}', [StallController::class, 'show'])->name("stall.show");
+        Route::get('stall/edit/{id}', [StallController::class, 'edit'])->name("stall.edit");
+        Route::post('stall/edit/{id}', [StallController::class, 'update'])->name("stall.update");
+        Route::get('stall/delete/{id}', [StallController::class, 'destroy'])->name("stall.delete");
+
+
+
+        Route::get('parker/index', [ParkerController::class, 'index'])->name("parker.index");
+        Route::get('parker/create', [ParkerController::class, 'create'])->name("parker.create");
+        Route::post('parker/store', [ParkerController::class, 'store'])->name("parker.store");
+        Route::get('parker/edit/{id}', [ParkerController::class, 'edit'])->name("parker.edit");
+        Route::post('parker/edit/{id}', [ParkerController::class, 'update'])->name("parker.update");
+        Route::get('parker/delete/{id}', [ParkerController::class, 'destroy'])->name("parker.delete");
+
         
 
         // assign landlord to unit
@@ -191,52 +217,23 @@ Route::middleware('auth')->group(callback: function () {
 
 
 
-        Route::get('stall/index', [StallLockerController::class, 'index'])->name("stall.index");
-
-        Route::get('stall/create', [StallLockerController::class, 'create'])->name("stall.create");
-
-        Route::post('stall/create', [StallLockerController::class, 'store'])->name("stall.store");
-
-        Route::get('stall/show/{id}', [StallLockerController::class, 'show'])->name("stall.show");
-
-        Route::get('stall/edit/{id}', [StallLockerController::class, 'edit'])->name("stall.edit");
-
-        Route::post('stall/edit/{id}', [StallLockerController::class, 'update'])->name("stall.update");
-
-        Route::get('stall/delete/{id}', [StallLockerController::class, 'destroy'])->name("stall.delete");
+        
 
 
 
 
         Route::get('vehicle/index', [VehicleController::class, 'index'])->name("vehicle.index");
-
         Route::get('vehicle/create', [VehicleController::class, 'create'])->name("vehicle.create");
-
         Route::post('vehicle/store', [VehicleController::class, 'store'])->name("vehicle.store");
-
         Route::get('vehicle/show/{id}', [VehicleController::class, 'show'])->name("vehicle.show");
-
         Route::get('vehicle/edit/{id}', [VehicleController::class, 'edit'])->name("vehicle.edit");
-
         Route::post('vehicle/edit/{id}', [VehicleController::class, 'update'])->name("vehicle.update");
-
         Route::get('vehicle/delete/{id}', [VehicleController::class, 'destroy'])->name("vehicle.delete");
 
 
 
 
-        Route::get('parker/index', [ParkerController::class, 'index'])->name("parker.index");
-
-        Route::get('parker/create', [ParkerController::class, 'create'])->name("parker.create");
-
-        Route::post('parker/store', [ParkerController::class, 'store'])->name("parker.store");
-
-        Route::get('parker/edit/{id}', [ParkerController::class, 'edit'])->name("parker.edit");
-
-        Route::post('parker/edit/{id}', [ParkerController::class, 'update'])->name("parker.update");
-
-        Route::get('parker/delete/{id}', [ParkerController::class, 'destroy'])->name("parker.delete");
-
+        
 
 
 

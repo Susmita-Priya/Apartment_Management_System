@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Parker;
+use App\Models\Stall;
 use App\Models\StallLocker;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ParkerController extends Controller
 {
@@ -13,8 +15,9 @@ class ParkerController extends Controller
      */
     public function index()
     {
-        $parkers = Parker::with('stallLocker')->get(); // Get parkers with their assigned stall
-        return view('parker.parker_list', compact('parkers'));
+        $parkers = Parker:: where('company_id', Auth::user()->id)->get();
+        $stalls = Stall::all(); 
+        return view('parker.parker_list', compact('parkers', 'stalls'));
     }
 
     /**
@@ -22,7 +25,7 @@ class ParkerController extends Controller
      */
     public function create()
     {
-        $stalls = StallLocker::all(); // Fetch available stalls
+        $stalls = Stall::all(); // Fetch available stalls
         return view('parker.parker_add', compact('stalls'));
     }
 
@@ -32,14 +35,14 @@ class ParkerController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:parkers,email',
-            'phn' => 'required|string',
+            'full_name' => 'required|string|max:255',
+            'email' => 'required|email',
+            'phone' => 'required|string',
             'stall_no' => 'nullable',
         ]);
 
         // Determine the status based on stall assignment
-        // $status = $request->stall_no ? 'assigned' : 'not_assigned';
+        $status = $request->stall_no ? '1' : '0';
  
         // Generate the vehicle ID
         $lastParker = Parker::orderBy('created_at', 'desc')->first();
@@ -47,12 +50,13 @@ class ParkerController extends Controller
       
         // Create new parker
         Parker::create([
+            'company_id' => Auth::user()->id,
             'parker_no' => $newParkerId,
-            'parker_name' => $request->name,
+            'full_name' => $request->full_name,
             'email' => $request->email,
-            'phn' => $request->phn,
-            'stall_no' => $request->stall_no,
-            'status' => 'not_assigned',
+            'phone' => $request->phone,
+            'stall_no' => $request->stall_no ?? null,
+            'status' => $status,
         ]);
 
         return redirect()->back()->with('success', 'Parker added successfully');
@@ -73,7 +77,7 @@ class ParkerController extends Controller
     public function edit($id)
     {
         $parker = Parker::findOrFail($id);
-        $stalls = StallLocker::all(); // Fetch all available stalls
+        $stalls = Stall::all(); 
 
         return view('parker.parker_edit', compact('parker', 'stalls'));
     }
@@ -84,9 +88,9 @@ class ParkerController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
+            'full_name' => 'required|string|max:255',
             'email' => 'required|email',
-            'phn' => 'required|string',
+            'phone' => 'required|string',
             'stall_no' => 'nullable',
         ]);
 
@@ -96,11 +100,11 @@ class ParkerController extends Controller
         // Create new parker
         $parker->update([
             'parker_no' => $request->parker_no,
-            'parker_name' => $request->name,
+            'full_name' => $request->full_name,
             'email' => $request->email,
-            'phn' => $request->phn,
-            'stall_no' => $request->stall_no,
-            'status' => 'not_assigned',
+            'phone' => $request->phone,
+            'stall_no' => $request->stall_no ?? $parker->stall_no,
+            'status' => $request->stall_no ? '1' : $parker->status,
         ]);
 
         return redirect()->back()->with('success', 'Parker updated successfully');

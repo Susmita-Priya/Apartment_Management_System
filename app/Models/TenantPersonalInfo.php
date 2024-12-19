@@ -22,5 +22,6 @@ class TenantPersonalInfo extends Model
         'gender',
         'dob',
         'total_family_members',
+        'occupation',
     ];
 }

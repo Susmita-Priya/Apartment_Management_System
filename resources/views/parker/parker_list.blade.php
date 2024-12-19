@@ -31,10 +31,12 @@
                         <div class="row">
                             <div class="col-sm-12">
                                 <div class="text-right m-b-20">
+                                    @can('parker-create')
                                     <button type="button" class="btn waves-effect waves-light greenbtn"
                                         onclick="window.location.href='{{ route('parker.create') }}'">
                                         <i class="mdi mdi-plus m-r-5"></i> Add Parker
                                     </button>
+                                    @endcan
                                 </div>
                             </div>
                         </div>
@@ -56,15 +58,22 @@
                                 @foreach ($parkers as $parker)
                                     <tr>
                                         <td>{{ $parker->parker_no }}</td>
-                                        <td>{{ $parker->parker_name }}</td>
+                                        <td>{{ $parker->full_name }}</td>
                                         <td>{{ $parker->email }}</td>
-                                        <td>{{ $parker->phn }}</td>
-                                        <td>{{ $parker->stall_no ? "Stall - " . $parker->stall_no : '' }}</td>
+                                        <td>{{ $parker->phone }}</td>
                                         <td>
-                                            @if ($parker->status === 'assigned')
-                                                <span class="badge badge-success">{{ $parker->status }}</span>
+                                            @php
+                                                $stall_no = $parker->stall_no;
+                                                $stall = $stalls->firstWhere('id', $stall_no);
+                                            @endphp
+                                            
+                                            {{ $stall ? "Stall - " . $stall->stall_no : 'N/A' }}
+                                        </td>
+                                        <td>
+                                            @if ($parker->status === '1')
+                                                <span class="badge badge-success">Assigned</span>
                                             @else
-                                                <span class="badge badge-danger">{{ $parker->status }}</span>
+                                                <span class="badge badge-danger">Not Assigned</span>
                                             @endif                                      
                                         </td> <!-- Display status -->
                                         <td>
@@ -73,15 +82,20 @@
                                                     data-toggle="dropdown" aria-expanded="false"><i
                                                         class="mdi mdi-dots-horizontal"></i></a>
                                                 <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                                                    {{-- <a class="dropdown-item"
-                                                        href="{{ route('parker.show', ['id' => $parker->id]) }}"><i
+                                                    @can('parker-show')
+                                                    <a class="dropdown-item"
+                                                        href="{{ route('stall.show', ['id' => $parker->stall_no]) }}"><i
                                                             class="mdi mdi-eye m-r-10 font-18 text-muted vertical-middle"></i>View
-                                                        Details</a> --}}
+                                                        Details</a>
+                                                    @endcan
+                                                    @can('parker-edit')
                                                     <a class="dropdown-item"
                                                         href="{{ route('parker.edit', ['id' => $parker->id]) }}"
                                                         type="submit"><i
                                                             class="mdi mdi-pencil m-r-10 text-muted font-18 vertical-middle"></i>Edit
                                                         parker</a>
+                                                    @endcan
+                                                    @can('parker-delete')
                                                     <a class="dropdown-item" href="#"
                                                         onclick="confirmDelete('{{ route('parker.delete', ['id' => $parker->id]) }}')"><i
                                                             class="mdi mdi-delete m-r-10 text-muted font-18 vertical-middle"></i>
@@ -94,6 +108,7 @@
                                                         @csrf
                                                         @method('DELETE')
                                                     </form>
+                                                    @endcan
                                                 </div>
                                             </div>
                                         </td>

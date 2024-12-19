@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Block;
 use App\Models\Floor;
 use App\Models\Building;
+use App\Models\Stall;
 use App\Models\Unit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -20,7 +21,8 @@ class FloorController extends Controller
     public function create(Request $request)
     {
         // Fetch all blocks and buildings
-        $buildings = Building::where('status',1)->get();
+        $buildings = Building::where('company_id', Auth::user()->id)
+        ->where('status',1)->get();
         
         $buildingId = $request->input('building_id');
         $building = Building::find($buildingId);
@@ -73,13 +75,14 @@ class FloorController extends Controller
         $floor = Floor::findOrFail($id);
         $building = Building::findOrFail($floor->building_id);
         $units = Unit::where('floor_id', $id)->orderBy('unit_no')->get();
-        
-        return view('floor.floor_view', compact('building', 'floor', 'units'));
+        $stalls = Stall::where('floor_id', $id)->orderBy('stall_no')->get();
+        return view('floor.floor_view', compact('building', 'floor', 'units', 'stalls'));
     }
 
     public function edit(Request $request, $id)
     {
-        $buildings = Building::all();
+        $buildings = Building::where('company_id', Auth::user()->id)
+        ->where('status',1)->get();
 
         $floor = Floor::findOrFail($id);
         $building = Building::findOrFail($floor->building_id);

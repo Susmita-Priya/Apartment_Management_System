@@ -306,24 +306,24 @@
                                         <div class="row">
                                             <div class="col-12 col-md-6 mb-4">
                                                 <label for="religion">Religion <span style="color: red;">*</span></label>
-                                                <select id="religion" name="religion" required="required"
+                                                <select id="religion" name="religion" 
                                                     class="form-select bg-transparent @error('religion') is-invalid @enderror"
                                                     data-hide-search="true">
                                                     <option value="">Select</option>
-                                                    <option value="1"
-                                                        {{ old('religion', isset($personalInfo) ? $personalInfo->religion : '') == '1' ? 'selected' : '' }}>
+                                                    <option value="Islam"
+                                                        {{ old('religion', isset($personalInfo) ? $personalInfo->religion : '') == 'Islam' ? 'selected' : '' }}>
                                                         Islam</option>
-                                                    <option value="2"
-                                                        {{ old('religion', isset($personalInfo) ? $personalInfo->religion : '') == '2' ? 'selected' : '' }}>
+                                                    <option value="Hinduism"
+                                                        {{ old('religion', isset($personalInfo) ? $personalInfo->religion : '') == 'Hinduism' ? 'selected' : '' }}>
                                                         Hinduism</option>
-                                                    <option value="3"
-                                                        {{ old('religion', isset($personalInfo) ? $personalInfo->religion : '') == '3' ? 'selected' : '' }}>
+                                                    <option value="Christianity"
+                                                        {{ old('religion', isset($personalInfo) ? $personalInfo->religion : '') == 'Christianity' ? 'selected' : '' }}>
                                                         Christianity</option>
-                                                    <option value="4"
-                                                        {{ old('religion', isset($personalInfo) ? $personalInfo->religion : '') == '4' ? 'selected' : '' }}>
+                                                    <option value="Buddhism"
+                                                        {{ old('religion', isset($personalInfo) ? $personalInfo->religion : '') == 'Buddhism' ? 'selected' : '' }}>
                                                         Buddhism</option>
-                                                    <option value="5"
-                                                        {{ old('religion', isset($personalInfo) ? $personalInfo->religion : '') == '5' ? 'selected' : '' }}>
+                                                    <option value="Others"
+                                                        {{ old('religion', isset($personalInfo) ? $personalInfo->religion : '') == 'Others' ? 'selected' : '' }}>
                                                         Others</option>
                                                 </select>
                                                 @error('religion_id')
@@ -340,11 +340,11 @@
                                                     class="form-select bg-transparent @error('marital_status') is-invalid @enderror"
                                                     data-hide-search="true">
                                                     <option value="">Select</option>
-                                                    <option value="1"
-                                                        {{ old('marital_status', isset($personalInfo) ? $personalInfo->marital_status : '') == '1' ? 'selected' : '' }}>
+                                                    <option value="Unmarried"
+                                                        {{ old('marital_status', isset($personalInfo) ? $personalInfo->marital_status : '') == 'Unmarried' ? 'selected' : '' }}>
                                                         Unmarried</option>
-                                                    <option value="2"
-                                                        {{ old('marital_status', isset($personalInfo) ? $personalInfo->marital_status : '') == '2' ? 'selected' : '' }}>
+                                                    <option value="Married"
+                                                        {{ old('marital_status', isset($personalInfo) ? $personalInfo->marital_status : '') == 'Married' ? 'selected' : '' }}>
                                                         Married</option>
                                                 </select>
 
@@ -363,9 +363,10 @@
                                                         <label>Gender <span class="text-danger">*</span></label>
                                                         <div class="row @error('gender') is-invalid @enderror">
                                                             <div class="col-sm-4">
+                                                                
                                                                 <div class="button">
-                                                                    <input name="gender" value="1"
-                                                                        {{ old('gender', $personalInfo->gender ?? '') == 1 ? 'checked' : '' }}
+                                                                    <input name="gender" value="Male"
+                                                                        {{ old('gender', $personalInfo->gender ?? '') == 'Male' ? 'checked' : '' }}
                                                                         required type="radio" id="male">
                                                                     <label for="male" class="btn">
                                                                         Male </label>
@@ -373,8 +374,8 @@
                                                             </div>
                                                             <div class="col-sm-4">
                                                                 <div class="button">
-                                                                    <input name="gender" value="2"
-                                                                        {{ old('gender', $personalInfo->gender ?? '') == 2 ? 'checked' : '' }}
+                                                                    <input name="gender" value="Female"
+                                                                        {{ old('gender', $personalInfo->gender ?? '') == 'Female' ? 'checked' : '' }}
                                                                         required type="radio" id="female">
                                                                     <label for="female" class="btn">
                                                                         Female </label>
@@ -383,7 +384,7 @@
                                                             <div class="col-sm-4">
                                                                 <div class="button">
                                                                     <input name="gender" value="3"
-                                                                        {{ old('gender', $personalInfo->gender ?? '') == 3 ? 'checked' : '' }}
+                                                                        {{ old('gender', $personalInfo->gender ?? '') == 'Others' ? 'checked' : '' }}
                                                                         required type="radio" id="others">
                                                                     <label for="others" class="btn">
                                                                         Others </label>
@@ -398,6 +399,26 @@
                                                     </div>
                                                 </div>
                                             </div>
+
+                                        <div class="col-6 col-md-6 mb-4">
+                                            <label for="occupation">Occupation <span style="color: red;">*</span></label>
+                                            <select id="occupation" name="occupation" required="" data-control="select2" class="form-select bg-transparent @error('marital_status') is-invalid @enderror"
+                                            data-hide-search="true">
+                                                <option value="">Select</option>
+                                                <option value="Businessman" id="busy" {{ old('occupation', $personalInfo->occupation ?? '') == 'Businessman' ? 'selected' : '' }}>Businessman</option>
+                                                <option value="Job Holder" id="job" {{ old('occupation', $personalInfo->occupation ?? '') == 'Job Holder' ? 'selected' : '' }}>Job Holder</option>
+                                                <option value="Self Employed" id="self" {{ old('occupation', $personalInfo->occupation ?? '') == 'Self Employed' ? 'selected' : '' }}>Self Employed</option>
+                                                <option value="Service Holder" id="service" {{ old('occupation', $personalInfo->occupation ?? '') == 'Service Holder' ? 'selected' : '' }}>Service Holder</option>
+                                                <option value="Housewife" id="house" {{ old('occupation', $personalInfo->occupation ?? '') == 'Housewife' ? 'selected' : '' }}>Housewife</option>
+                                                <option value="Student" id="stu" {{ old('occupation', $personalInfo->occupation ?? '') == 'Student' ? 'selected' : '' }}>Student</option>
+                                                <option value="Unemployed" id="un" {{ old('occupation', $personalInfo->occupation ?? '') == 'Unemployed' ? 'selected' : '' }}>Unemployed</option>
+                                            </select>
+                                            @error('occupation')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+                                        </div>
 
                                         </div>
                                         <div class="d-flex justify-content-between">
@@ -420,10 +441,10 @@
                                         @csrf
                                         <div class="row">
                                             <div class="col-6 col-md-6 mb-4">
-                                                <label for="name">Full Name<span style="color: red;">*</span></label>
+                                                <label for="name">Full Name</label>
                                                 <input type="text" placeholder="Enter your full name" name="full_name"
                                                     value="{{ old('full_name', $driverInfo->full_name ?? '') }}"
-                                                    required="required" id="name" autocomplete="off"
+                                                    id="name" autocomplete="off"
                                                     class="form-control bg-transparent @error('full_name') is-invalid @enderror" />
 
                                                 @error('full_name')
@@ -433,10 +454,10 @@
                                                 @enderror
                                             </div>
                                             <div class="col-12 col-md-6 mb-4">
-                                                <label for="email">Email<span style="color: red;">*</span></label>
+                                                <label for="email">Email</label>
                                                 <input type="text" placeholder="Enter your email" name="email"
                                                     value="{{ old('email', $driverInfo->email ?? '') }}"
-                                                    required="required" id="email" autocomplete="off"
+                                                    id="email" autocomplete="off"
                                                     class="form-control bg-transparent @error('email') is-invalid @enderror" />
                                                 @error('email')
                                                     <span class="invalid-feedback" role="alert">
@@ -448,11 +469,11 @@
                                         <div class="row">
 
                                             <div class="col-12 col-md-6 mb-4">
-                                                <label for="phone">Mobile <span style="color: red;">*</span></label>
+                                                <label for="phone">Mobile</label>
                                                 <input type="text" placeholder="Enter Your Mobile Number"
                                                     name="phone" value="{{ old('phone', $driverInfo->phone ?? '') }}"
-                                                    required="required" minlength="11" maxlength="11" id="mobileNumber"
-                                                    autocomplete="off"
+                                                    minlength="11" maxlength="11" id="mobileNumber"
+                                                    autocomplete="on"
                                                     class="form-control bg-transparent @error('phone') is-invalid @enderror" />
 
                                                 @error('phone')
@@ -462,14 +483,14 @@
                                                 @enderror
                                             </div>
                                             <div class="col-6 col-md-6 mb-4">
-                                                <label for="nid">National ID <span
-                                                        style="color: red;">*</span></label>
-                                                <input type="text" placeholder="Enter national id" name="nid"
-                                                    value="{{ old('nid', $driverInfo->nid ?? '') }}" required="required"
-                                                    id="nid" autocomplete="off"
-                                                    class="form-control bg-transparent @error('nid') is-invalid @enderror" />
+                                                <label for="driving_license">Driving License</label>
+                                                <input type="text" placeholder="Enter Driving License"
+                                                    name="driving_license"
+                                                    value="{{ old('driving_license', $driverInfo->driving_license ?? '') }}"
+                                                    id="driving_license" autocomplete="off"
+                                                    class="form-control bg-transparent @error('driving_license') is-invalid @enderror" />
 
-                                                @error('nid')
+                                                @error('driving_license')
                                                     <span class="invalid-feedback" role="alert">
                                                         <strong>{{ $message }}</strong>
                                                     </span>
@@ -478,10 +499,10 @@
                                         </div>
                                         <div class="row">
                                             <div class="col-12 col-md-12 mb-4">
-                                                <label for="address">Address<span style="color: red;">*</span></label>
+                                                <label for="address">Address</label>
                                                 <input type="text" placeholder="Enter your address" name="address"
                                                     value="{{ old('address', $driverInfo->address ?? '') }}"
-                                                    required="required" id="address" autocomplete="off"
+                                                    id="address" autocomplete="off"
                                                     class="form-control bg-transparent @error('address') is-invalid @enderror" />
                                                 @error('address')
                                                     <span class="invalid-feedback" role="alert">

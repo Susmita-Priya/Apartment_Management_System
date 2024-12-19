@@ -1,4 +1,3 @@
-
 <?php
 
 use Illuminate\Database\Migrations\Migration;
@@ -12,15 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('parkers', function (Blueprint $table) {
+        Schema::create('stalls', function (Blueprint $table) {
             $table->id();
             $table->foreignId('company_id')->references('id')->on('users');
-            $table->foreignId('stall_no')->nullable()->references('id')->on('stalls')->onDelete('set null');
-            $table->string('parker_no')->unique();
-            $table->string('full_name');
-            $table->string('email');
-            $table->string('phone');
-            $table->string('status')->default(0);
+            $table->foreignId('floor_id')->references('id')->on('floors')->onDelete('cascade');
+            $table->string('type');
+            $table->string('stall_no');
+            $table->integer('capacity')->nullable();
+            $table->string('status')->default(1);
             $table->timestamps();
         });
     }
@@ -30,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('parkers');
+        Schema::dropIfExists('stalls');
     }
 };

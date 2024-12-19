@@ -5,22 +5,22 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Parker extends Model
+class Stall extends Model
 {
     use HasFactory;
 
-    // Define the table associated with this model
-    protected $table = 'parkers';
+    protected $table = 'stalls';
 
-    // Define the fillable columns
     protected $fillable = [
         'company_id',
+        'floor_id',
+        'type',
         'stall_no',
-        'parker_no',
-        'full_name',
-        'email',
-        'phone',
+        'capacity',
         'status',
     ];
+
+    
+
 
 }

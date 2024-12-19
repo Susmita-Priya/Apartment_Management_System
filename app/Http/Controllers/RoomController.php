@@ -31,7 +31,8 @@ class RoomController extends Controller
     public function create(Request $request)
     {
         // Fetch all buildings, blocks, and floors
-        $buildings = Building::where('status', 1)->get();
+        $buildings = Building::where('company_id', Auth::user()->id)
+        ->where('status',1)->get();
         $floors = Floor::where('type', 'upper')->where('status', 1)->get();
         $units = Unit::all();
         $roomTypes = roomType::where('status', 1)->get();
@@ -116,7 +117,8 @@ class RoomController extends Controller
         $room = Room::findOrFail($id);
 
         // Fetch all buildings, blocks, and floors
-        $buildings = Building::where('status', 1)->get();
+        $buildings = Building::where('company_id', Auth::user()->id)
+        ->where('status',1)->get();
         $floors = Floor::where('type', 'upper')->where('status', 1)->get();
         $units = Unit::all();
         $roomTypes = roomType::where('status', 1)->get();

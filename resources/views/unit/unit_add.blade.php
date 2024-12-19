@@ -199,7 +199,7 @@
             const selectedBuildingId = document.getElementById('building_id').value;
             const building = buildings.find(b => b.id == selectedBuildingId);
 
-             if (building) {
+            if (building) {
                 document.getElementById('building_no_display').innerText = building.building_no;
                 document.getElementById('building_type_display').innerText = typeFullForm[building.type] || 'Other';
 
@@ -231,7 +231,7 @@
             } else {
                 document.getElementById('building_no_display').innerText = '';
                 document.getElementById('building_type_display').innerText = '';
-                document.getElementById('floor_id').innerHTML = '<option value="">Select a block to see floors.</option>';
+                document.getElementById('floor_id').innerHTML = '<option value="">Select a building to see floors.</option>';
                 document.getElementById('floor_name_display').innerText = '';
             }
         }

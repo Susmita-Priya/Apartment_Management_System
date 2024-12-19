@@ -15,7 +15,7 @@
                         <ol class="breadcrumb float-right">
                             <li class="breadcrumb-item"><a href="{{ route('index') }}">Dashboard</a></li>
                             <li class="breadcrumb-item"><a href="{{ route('parker.index') }}">Parkers</a></li>
-                            <li class="breadcrumb-item active">Add Parker</li>
+                            <li class="breadcrumb-item active">Edit Parker</li>
                         </ol>
 
                         <div class="clearfix"></div>
@@ -36,10 +36,10 @@
                         <form action="{{ route('parker.update', $parker->id) }}" enctype="multipart/form-data" method="POST">
                             @csrf
 
-                            <!-- Parker Number -->
+                            <!-- Parker No -->
                             <div class="form-group">
-                                <label for="parker_no">Parker Number</label>
-                                <input type="text" name="parker_no" id="parker_no" class="form-control" readonly value="{{ $parker->parker_no }}" required>
+                                <label for="parker_no">Parker No</label>
+                                <input type="text" name="parker_no" id="parker_no" class="form-control" value="{{ $parker->parker_no }}" readonly>
                                 <span class="text-danger">
                                     @error('parker_no')
                                         {{ $message }}
@@ -47,24 +47,12 @@
                                 </span>
                             </div>
 
-                            <!-- Stall No -->
-                            <div class="form-group">
-                                <label for="stall_no">Stall Number</label>
-                                <input type="text" name="stall_no" id="stall_no" class="form-control"
-                                    value="{{ $vehicle->stall_no ?? 'No Stall Assigned' }}" readonly required>
-                                <span class="text-danger">
-                                    @error('stall_no')
-                                        {{ $message }}
-                                    @enderror
-                                </span>
-                            </div>
-
                              <!-- Parker Name -->
                              <div class="form-group">
-                                <label for="name">Parker Name</label>
-                                <input type="text" name="name" id="name" class="form-control" value="{{ $parker->parker_name }}" required>
+                                <label for="full_name">Parker Name</label>
+                                <input type="text" name="full_name" id="full_name" class="form-control" value="{{ $parker->full_name }}" required>
                                 <span class="text-danger">
-                                    @error('name')
+                                    @error('full_name')
                                         {{ $message }}
                                     @enderror
                                 </span>
@@ -83,23 +71,23 @@
 
                             <!-- Parker Phone -->
                             <div class="form-group">
-                                <label for="phn">Phone</label>
-                                <input type="text" name="phn" id="phn" class="form-control" value="{{ $parker->phn }}" required>
+                                <label for="phone">Phone</label>
+                                <input type="text" name="phone" id="phone" class="form-control" value="{{ $parker->phone }}" required>
                                 <span class="text-danger">
-                                    @error('phn')
+                                    @error('phone')
                                         {{ $message }}
                                     @enderror
                                 </span>
                             </div>
 
-                            {{-- <!-- Stall Number -->
+                            <!-- Stall Number -->
                             <div class="form-group">
                                 <label for="stall_no">Stall Number</label>
                                 <select name="stall_no" id="stall_no" class="form-control">
-                                    <option value="">No Stall Assigned</option>
+                                    <option value="">Select Stall</option>
                                     @foreach ($stalls as $stall)
-                                        <option value="{{ $stall->id }}" {{ $parker->stall_id == $stall->id ? 'selected' : '' }}>
-                                            {{ $stall->stall_number }}
+                                        <option value="{{ $stall->id }}" {{ $parker->stall_no== $stall->id ? 'selected' : '' }}>
+                                            Stall - {{ $stall->stall_no }}
                                         </option>
                                     @endforeach
                                 </select>
@@ -108,11 +96,11 @@
                                         {{ $message }}
                                     @enderror
                                 </span>
-                                <small class="form-text text-muted">If no stall is selected, the parker will be unassigned from any stall.</small>
-                            </div> --}}
+                               
+                            </div>
 
                             <!-- Vehicle Status -->
-                            <input type="hidden" name="status" value="{{ $parker->status }}" id="status">
+                            {{-- <input type="hidden" name="status" value="{{ $parker->status }}" id="status"> --}}
 
                             <button type="submit" class="btn waves-effect waves-light btn-sm submitbtn">Update parker</button>
                         </form>
@@ -122,10 +110,10 @@
         </div>
     </div>
 
-    <script>
+    {{-- <script>
         document.getElementById('stall_no').addEventListener('change', function() {
             const stallNo = this.value;
             document.getElementById('status').value = stallNo ? 'assigned' : 'not_assigned';
         });
-    </script>
+    </script> --}}
 @endsection

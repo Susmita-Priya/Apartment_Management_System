@@ -73,12 +73,10 @@ class UserController extends Controller
                         ->with('success','User created successfully');
     }
  
-    public function show($id): View
-    {
-        $user = User::find($id);
-
-        return view('users.show',compact('user'));
-    }
+    public function show(User $user): View
+{
+    return view('users.show', compact('user'));
+}
     
     public function edit($id): View
     {

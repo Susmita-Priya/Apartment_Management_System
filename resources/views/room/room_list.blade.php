@@ -170,7 +170,7 @@
             tableBody.innerHTML = '';
 
             if (buildingId) {
-                fetch(`/buildings/${buildingId}/floors`)
+                fetch(`/buildings/${buildingId}/floorsUpper`)
                     .then(response => response.json())
                     .then(data => {
                         const floors = data.floors;
@@ -282,7 +282,7 @@
                                                 @endcan
                                                 @can('room-delete')
                                                     <a class="dropdown-item" href="#" onclick="confirmDelete('delete/${room.id}')">
-                                                        <i class="mdi mdi-delete m-r-10 text-muted font-18 vertical-middle"></i> Delete
+                                                        <i class="mdi mdi-delete m-r-10 text-muted font-18 vertical-middle"></i>Delete
                                                     </a>
                                                     <form id="delete-form" action="delete/${room.id}" method="GET" style="display: none;">
                                                         @csrf

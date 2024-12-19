@@ -88,6 +88,16 @@
                                 </li>
                                 @endcan
 
+                                @can('stall-create')
+                                <li>
+                                    <a href="{{ route('stall.create') }}">
+                                        <i class="fa fa-plus
+                                        "></i>
+                                        <span>New Stall</span>
+                                    </a>
+                                </li>
+                                @endcan
+
                                 @can('tenant-create')
                                 <li>
                                     <a href="{{ route('tenant.create') }}">
@@ -216,6 +226,27 @@
                             <ul class="nav-second-level " aria-expanded="false">
                                 @can('common-area-list')
                                     <li><a href="{{ route('commonArea.index') }}">Common Area List</a></li>
+                                @endcan
+                            </ul>
+                        </li>
+                    @endcan
+
+
+                    {{-- parking  --}}
+                     @can('parking-management')
+                        <li>
+                            <a href="javascript: void(0);"><i class="fa fa-car"></i> <span>ParkEase</span>
+                                <span class="menu-arrow
+                                "></span></a>
+                            <ul class="nav-second-level " aria-expanded="false">
+                                @can('vehicle-list')
+                                    <li><a href="{{ route('vehicle.index') }}">Vehicles</a></li>
+                                @endcan
+                                @can('parker-list')
+                                    <li><a href="{{ route('parker.index') }}">Parkers</a></li>
+                                @endcan
+                                @can('stall-list')
+                                    <li><a href="{{ route('stall.index') }}">Stall List</a></li>
                                 @endcan
                             </ul>
                         </li>

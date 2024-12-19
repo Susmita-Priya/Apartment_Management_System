@@ -91,8 +91,8 @@
                                     class="m-l-15">{{ $floor->created_at->format('d M, Y') }}</span></p>
 
                             <hr>
-{{-- 
-                            <p class="text-muted font-15"><strong>Block No:</strong> <span
+
+                            {{-- <p class="text-muted font-15"><strong>Block No:</strong> <span
                                     class="m-l-15">{{ $block->block_no }}</span></p>
                             <p class="text-muted font-15"><strong>Block:</strong> <span
                                     class="m-l-15">{{ $block->name }}</span></p>
@@ -162,7 +162,7 @@
 
                     <!-- Units List -->
                     <div class="row">
-                                @foreach ($units as $unit)
+                        @foreach ($units as $unit)
                                 <div class="col-md-4 mb-4">
                                     <div class="card-box">
                                         <h4 class="header-title mt-0 m-b-20">UNIT-{{ $unit->unit_no }}
@@ -201,87 +201,54 @@
                                         </div>
                                     </div>
                                 </div>
-                           
                         @endforeach
- 
                     </div>
 
                     <!-- Stalls/Lockers List -->
-                    {{-- <div class="row mt-4">
-                        @php
-                            // Define stall/locker types for categorization
-                            $stallLockerTypes = [
-                                'Car Parking Stall' => 'Car Parking Stall',
-                                'Bike Parking Stall' => 'Bike Parking Stall',
-                                'Storage Locker' => 'Storage Locker',
-                            ];
-                        @endphp
-
-                        @foreach ($stallLockerTypes as $typeKey => $typeName)
-                            @php
-                                // Filter stalls/lockers by type and sort them by the numeric part of their number
-                                $stallsLockersByType = $floor->stallsLockers
-                                    ->where('type', $typeKey)
-                                    ->sortBy(function ($stallLocker) {
-                                        // Assuming stall_locker_no contains only numeric values or is formatted consistently
-                                        return (int) $stallLocker->stall_locker_no;
-                                    });
-                            @endphp
-
-                            @if ($stallsLockersByType->isNotEmpty())
-                                <div class="col-md-12">
-                                    <h4 class="header-title mt-0 m-b-20">{{ $typeName }}</h4>
-
-                                    @foreach ($stallsLockersByType->chunk(3) as $chunk)
-                                        <div class="row">
-                                            @foreach ($chunk as $stallLocker)
-                                                <div class="col-md-4">
-                                                    <div class="card-box">
-                                                        <h4 class="header-title mt-0 m-b-20">
-
-                                                            @if ($stallLocker->type == 'Car Parking Stall' || $stallLocker->type == 'Bike Parking Stall')
-                                                                Stall-
-                                                            @elseif ($stallLocker->type == 'Storage Locker')
-                                                                Locker-
-                                                            @endif{{ $stallLocker->stall_locker_no }}
-                                                        </h4>
-
-                                                        <div class="panel-body">
-                                                            <p class="text-muted font-15"><strong>Type:
-                                                                </strong>{{ $stallLocker->type }}</p>
-                                                            <button type="button"
-                                                                onclick="window.location.href='{{ route('stall_locker.show', $stallLocker->id) }}'"
-                                                                class="btn btn-info m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm">
-                                                                Enter
-                                                            </button>
-                                                            <button type="button"
-                                                                class="btn btn-success m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm"
-                                                                onclick="window.location.href='{{ route('stall_locker.edit', $stallLocker->id) }}'">
-                                                                Edit
-                                                            </button>
-
-                                                            <button type="button"
-                                                                class="btn btn-danger m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm"
-                                                                onclick="confirmDelete('{{ route('stall_locker.delete', ['id' => $stallLocker->id]) }}')">
-                                                                Delete
-                                                            </button>
-                                                            <!-- Hidden form for deletion -->
-                                                            <form id="delete-form"
-                                                                action="{{ route('stall_locker.delete', ['id' => $stallLocker->id]) }}"
-                                                                method="GET" style="display: none;">
-                                                                @csrf
-                                                                @method('DELETE')
-                                                            </form>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            @endforeach
+                    <div class="row">
+                        @foreach ($stalls as $stall)
+                                <div class="col-md-4 mb-4">
+                                    <div class="card-box">
+                                        <h4 class="header-title mt-0 m-b-20">STALL-{{ $stall->stall_no }}
+                                        </h4>
+                                        <div class="panel-body">
+                                            <p class="text-muted font-15"><strong>Type:
+                                                </strong>{{ ucfirst($stall->type) }} </p>
+                                            @can('stall-view')
+                                                <button type="button"
+                                                    onclick="window.location.href='{{ route('stall.show', $stall->id) }}'"
+                                                    class="btn btn-info m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm">
+                                                    Enter
+                                                </button>
+                                            @endcan
+                                            @can('stall-edit')
+                                                <button type="button"
+                                                    class="btn btn-success m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm"
+                                                    onclick="window.location.href='{{ route('stall.edit', $stall->id) }}'">
+                                                    Edit
+                                                </button>
+                                            @endcan
+                                            @can('stall-delete')
+                                                <button type="button"
+                                                    class="btn btn-danger m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm"
+                                                    onclick="confirmDelete('{{ route('stall.delete', ['id' => $stall->id]) }}')">
+                                                    Delete
+                                                </button>
+                                                <!-- Hidden form for deletion -->
+                                                <form id="delete-form"
+                                                    action="{{ route('stall.delete', ['id' => $stall->id]) }}" method="GET"
+                                                    style="display: none;">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                </form>
+                                            @endcan
                                         </div>
-                                    @endforeach
+                                    </div>
                                 </div>
-                            @endif
                         @endforeach
-                    </div> --}}
+                    </div>
+
+                    
 
                 </div>
             </div>

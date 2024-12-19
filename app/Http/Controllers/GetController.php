@@ -7,6 +7,7 @@ use App\Models\Building;
 use App\Models\Floor;
 use App\Models\Room;
 use App\Models\roomType;
+use App\Models\Stall;
 use App\Models\Unit;
 use Illuminate\Http\Request;
 
@@ -38,16 +39,30 @@ class GetController extends Controller
         return response()->json(['existingFloors' => $floors]);
     }
 
-
-
+    
     // Fetch all floors with their associated blocks
     public function getFloors($id)
+    {
+        $floors = Floor::where('building_id', $id)->orderBy('type')->orderBy('floor_no')->get();
+        $building = Building::find($id);
+        return response()->json(['floors' => $floors, 'building' => $building]);
+    }
+
+
+    public function getFloorsUpper($id)
     {
         $floors = Floor::where('building_id', $id)->where('type','upper')->orderBy('type')->orderBy('floor_no')->get();
         $building = Building::find($id);
         return response()->json(['floors' => $floors, 'building' => $building]);
     }
 
+
+    public function getFloorsUnderground($id)
+    {
+        $floors = Floor::where('building_id', $id)->where('type','underground')->orderBy('type')->orderBy('floor_no')->get();
+        $building = Building::find($id);
+        return response()->json(['floors' => $floors, 'building' => $building]);
+    }
 
 
     // Fetch all units with their associated floors
@@ -59,7 +74,6 @@ class GetController extends Controller
     }
 
     
-
     // Fetch all rooms with their associated units
     public function getRooms($id)
     {
@@ -67,6 +81,14 @@ class GetController extends Controller
         $roomTypes = roomType::all();
         $unit = Unit::find($id);
         return response()->json(['rooms' => $rooms, 'unit' => $unit, 'roomTypes' => $roomTypes]);
+    }
+
+
+    public function getStalls($id)
+    {
+        $stalls = Stall::where('floor_id', $id)->get();
+        $floor = Floor::find($id);
+        return response()->json(['stalls' => $stalls, 'floor' => $floor]);
     }
 
 

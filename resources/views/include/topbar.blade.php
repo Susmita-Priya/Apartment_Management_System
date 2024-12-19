@@ -85,9 +85,26 @@
 
 
                     <!-- item-->
-                    <a href="javascript:void(0);" class="dropdown-item notify-item">
+                    {{-- <a class="dropdown-item" class="dropdown-item notify-item">
+                        <i class="mdi mdi-account-circle"></i> <span>Profile</span>
+                    </a> --}}
+                     
+                    @if(Auth::check() && Auth::user()->hasRole('Tenant'))
+                 
+                    @php
+                        $tenantContactInfo = \App\Models\TenantContactInfo::where('email', Auth::user()->email)->first();    
+                    @endphp
+                    @if($tenantContactInfo)
+                        <a href="{{ route('tenant.show', ['id' => $tenantContactInfo->id]) }}" class="dropdown-item notify-item">
+                            <i class="mdi mdi-account-circle"></i> <span>Profile</span>
+                        </a>
+                    @endif
+                    @else
+                    <a href="{{ route('users.show', ['user' => Auth::user() ]) }}" class="dropdown-item notify-item">
                         <i class="mdi mdi-account-circle"></i> <span>Profile</span>
                     </a>
+                    @endif
+
                     {{-- 
                     <!-- item-->
                     <a href="javascript:void(0);" class="dropdown-item notify-item">

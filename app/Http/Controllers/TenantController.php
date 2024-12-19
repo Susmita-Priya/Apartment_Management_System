@@ -35,7 +35,6 @@ class TenantController extends Controller
         $driverInfo = null;
         $emergencyContact = null;
 
-
         if ($id) {
             $contactInfo = TenantContactInfo::find($id);
             $personalInfo = TenantPersonalInfo::where('contact_info_id', $id)->first();
@@ -52,16 +51,15 @@ class TenantController extends Controller
                         'full_name' => 'required|string',
                         'email' => 'required|email',
                         'phone' => 'required|string|min:11|max:11',
-                        'address' => 'string',
+                        'address' => 'nullable|string',
                     ]);
 
-                    // Update existing passport info
+                    // Update existing contact info
                     $contactInfo->update([
                         'full_name' => $request->input('full_name'),
                         'email' => $request->input('email'),
                         'phone' => $request->input('phone'),
                         'address' => $request->input('address'),
-
                     ]);
                     
                     $personalInfo = TenantPersonalInfo::where('contact_info_id', $contactInfo->id)->first();
@@ -96,12 +94,11 @@ class TenantController extends Controller
                         'full_name' => 'required|string',
                         'email' => 'required|email',
                         'phone' => 'required|string|min:11|max:11',
-                        'address' => 'string',
+                        'address' => 'nullable|string',
                     ]);
 
-                    // Create new passport info
+                    // Create new contact info
                     $contactInfo = new TenantContactInfo([
-
                         'full_name' => $request->input('full_name'),
                         'email' => $request->input('email'),
                         'phone' => $request->input('phone'),
@@ -110,20 +107,15 @@ class TenantController extends Controller
                     ]);
                     $contactInfo->save();
 
-                    // Pass passport id in personal info table colum pasport_info_id
-
-                    TenantPersonalInfo::create(
-                        [
-                            'contact_info_id' =>  $contactInfo->id,
-                        ]
-                    );
-                    User::create(
-                        [
-                            'name' =>  $contactInfo->full_name,
-                            'email' =>  $contactInfo->email,
-                            'password' =>  $contactInfo->password,
-                        ]
-                    );
+                    // Pass contact info id in personal info table column contact_info_id
+                    TenantPersonalInfo::create([
+                        'contact_info_id' =>  $contactInfo->id,
+                    ]);
+                    User::create([
+                        'name' =>  $contactInfo->full_name,
+                        'email' =>  $contactInfo->email,
+                        'password' =>  $contactInfo->password,
+                    ]);
 
                     $role = Role::updateOrCreate(['name' => 'Tenant']);
                     $user = User::where('email', $contactInfo->email)->first();
@@ -138,13 +130,14 @@ class TenantController extends Controller
                         'mothers_name' => 'required|string',
                         'nid' => 'required|string',
                         'tax_id' => 'required|string',
-                        'passport_no' => 'required|string',
-                        'driving_license' => 'required|string',
+                        'passport_no' => 'nullable|string',
+                        'driving_license' => 'nullable|string',
                         'religion' => 'required|string',
                         'marital_status' => 'required|string',
                         'gender' => 'required|string',
                         'dob' => 'required|date',
                         'total_family_members' => 'required|integer',
+                        'occupation' => 'required|string',
                     ]);
 
                     if ($validator->fails()) {
@@ -165,26 +158,24 @@ class TenantController extends Controller
                             'gender' => $request->input('gender'),
                             'dob' => $request->input('dob'),
                             'total_family_members' => $request->input('total_family_members'),
-                        ],
-                    );
-
-                    TenantDriverInfo::updateOrCreate(
-                        [
-                            'contact_info_id' =>  $contactInfo->id,
+                            'occupation' => $request->input('occupation'),
                         ]
                     );
-                } else {
+
+                    TenantDriverInfo::updateOrCreate([
+                        'contact_info_id' =>  $contactInfo->id,
+                    ]);
                 }
             } elseif ($type === 'driver-info') {
-                // Create or update personal info
+                // Create or update driver info
                 if ($contactInfo) {
                     // Validation
                     $validator = Validator::make($request->all(), [
-                        'full_name' => 'required|string',
-                        'email' => 'required|email',
-                        'phone' => 'required|string|min:11|max:11',
-                        'nid' => 'required|string',
-                        'address' => 'required|string',
+                        'full_name' => 'nullable|string',
+                        'email' => 'nullable|email',
+                        'phone' => 'nullable|min:11|max:11',
+                        'driving_license' => 'nullable|string',
+                        'address' => 'nullable|string',
                     ]);
 
                     if ($validator->fails()) {
@@ -197,20 +188,17 @@ class TenantController extends Controller
                             'full_name' => $request->input('full_name'),
                             'email' => $request->input('email'),
                             'phone' => $request->input('phone'),
-                            'nid' => $request->input('nid'),
+                            'driving_license' => $request->input('driving_license'),
                             'address' => $request->input('address'),
-                        ],
-
-                    );
-                    TenantEmergencyContact::updateOrCreate(
-                        [
-                            'contact_info_id' =>  $contactInfo->id,
                         ]
                     );
-                } else {
+
+                    TenantEmergencyContact::updateOrCreate([
+                        'contact_info_id' =>  $contactInfo->id,
+                    ]);
                 }
             } elseif ($type === 'emergency-contact') {
-                // Create or update personal info
+                // Create or update emergency contact info
                 if ($contactInfo) {
                     // Validation
                     $validator = Validator::make($request->all(), [
@@ -270,10 +258,10 @@ class TenantController extends Controller
         $tenantDriverInfo = TenantDriverInfo::where('contact_info_id', $id)->first();
         $tenantEmergencyContact = TenantEmergencyContact::where('contact_info_id', $id)->first();
         $tenant = [
-            'contact_info' => $tenantContactInfo,
-            'personal_info' => $tenantPersonalInfo,
-            'driver_info' => $tenantDriverInfo,
-            'emergency_contact' => $tenantEmergencyContact,
+            'contact-info' => $tenantContactInfo,
+            'personal-info' => $tenantPersonalInfo,
+            'driver-info' => $tenantDriverInfo,
+            'emergency-contact' => $tenantEmergencyContact,
         ];
         
         return view('tenant.tenant_show', compact('tenant'));

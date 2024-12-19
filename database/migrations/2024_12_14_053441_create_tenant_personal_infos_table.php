@@ -25,6 +25,7 @@ return new class extends Migration
             $table->string('gender')->nullable();
             $table->date('dob')->nullable();
             $table->integer('total_family_members')->nullable();
+            $table->string('occupation')->nullable();
             $table->timestamps();
         });
     }
