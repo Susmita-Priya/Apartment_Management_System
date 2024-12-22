@@ -34,7 +34,7 @@ class RoomController extends Controller
         $buildings = Building::where('company_id', Auth::user()->id)
         ->where('status',1)->get();
         $floors = Floor::where('type', 'upper')->where('status', 1)->get();
-        $units = Unit::all();
+        $units = Unit::where('company_id', Auth::user()->id)->get();
         $roomTypes = roomType::where('status', 1)->get();
 
         // Fetch the floor using the provided floor_id
@@ -120,7 +120,7 @@ class RoomController extends Controller
         $buildings = Building::where('company_id', Auth::user()->id)
         ->where('status',1)->get();
         $floors = Floor::where('type', 'upper')->where('status', 1)->get();
-        $units = Unit::all();
+        $units = Unit::where('company_id', Auth::user()->id)->get();
         $roomTypes = roomType::where('status', 1)->get();
 
         // Fetch the floor using the provided floor_id
@@ -146,7 +146,7 @@ class RoomController extends Controller
         $request->validate([
             'room_no' => 'required',
         ]);
-
+        // dd($request->all());
         $room = Room::findOrFail($id);
         $room->unit_id = $request->unit_id;
         $room->room_type_id = $request->room_type_id;

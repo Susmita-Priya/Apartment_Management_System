@@ -125,11 +125,19 @@ class PermissionSeeder extends Seeder
             'stall-delete',
             'stall-view',
 
+
+            'vehicle-type-management',
+            'vehicle-type-list',
+            'vehicle-type-create',
+            'vehicle-type-edit',
+            'vehicle-type-delete',
+            
+
             'vehicle-list',
             'vehicle-create',
             'vehicle-edit',
             'vehicle-delete',
-            'vehicle-assign',
+            'vehicle-view',
 
 
             'parker-list',
@@ -137,11 +145,6 @@ class PermissionSeeder extends Seeder
             'parker-edit',
             'parker-delete',
             'parker-assign',
-
-
-
-
-            'stall-assign-vehicle-parker',
 
 
             //tenant management

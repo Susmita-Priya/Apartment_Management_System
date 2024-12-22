@@ -59,7 +59,7 @@ class AmenitiesController extends Controller
         $amenities->save();
 
         return redirect()->back()
-            ->with('success', 'Amenity created successfully.');
+            ->with('success', 'Asset created successfully.');
     }
     
 
@@ -79,7 +79,7 @@ class AmenitiesController extends Controller
         $amenities = Amenities::find($id);
         if ($amenities == null) {
             return redirect()->back()
-                ->with('error', 'Amenity not found.');
+                ->with('error', 'Asset not found.');
         }
         return view('amenities.amenities_edit', compact('amenities'));
     }
@@ -92,7 +92,7 @@ class AmenitiesController extends Controller
         $amenities = Amenities::find($id);
         if ($amenities == null) {
             return redirect()->back()
-                ->with('error', 'Amenity not found.');
+                ->with('error', 'Asset not found.');
         }
 
         $request->validate([
@@ -123,7 +123,7 @@ class AmenitiesController extends Controller
         $amenities->save();
 
         return redirect()->back()
-            ->with('success', 'Amenity updated successfully.');
+            ->with('success', 'Asset updated successfully.');
     }
 
     /**
@@ -134,7 +134,7 @@ class AmenitiesController extends Controller
         $amenities = Amenities::find($id);
         if ($amenities == null) {
             return redirect()->back()
-                ->with('error', 'Amenity not found.');
+                ->with('error', 'Asset not found.');
         }
 
         if ($amenities->image && file_exists(public_path($amenities->image))) {
@@ -144,6 +144,6 @@ class AmenitiesController extends Controller
         $amenities->delete();
 
         return redirect()->back()
-            ->with('success', 'Amenity deleted successfully.');
+            ->with('success', 'Asset deleted successfully.');
     }
 }

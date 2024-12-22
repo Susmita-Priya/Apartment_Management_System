@@ -30,101 +30,110 @@
                     <div class="card-box">
                         <form action="{{ route('floor.store') }}" enctype="multipart/form-data" method="POST">
                             @csrf
+                            <div class="container mt-5">
+                                <div class="col-md-12">
+                                    <div class="card-box">
+                                        <h1 class="d-flex justify-content-center mt-4">ADD FLOOR</h1>
+                                        <!-- Building Selection -->
 
-                            <!-- Building Selection -->
-                            <div class="form-group">
-                                <label for="building_id">Building</label>
-                                <select name="building_id" id="building_id" class="form-control"
-                                    onchange="showBuildingDetails()">
-                                    <option value="">Select Building</option>
-                                    @foreach ($buildings as $bldg)
-                                        <option value="{{ $bldg->id }}"
-                                            {{ $building && $building->id == $bldg->id ? 'selected' : '' }}>
-                                            {{ $bldg->name }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                                <span class="text-danger">
-                                    @error('building_id')
-                                        {{ $message }}
-                                    @enderror
-                                </span>
-                            </div>
+                                        <div class="form-group">
 
-                            <!-- Block Selection -->
-                            {{-- <div class="form-group">
-                                <label for="block_id">Block</label>
-                                <select name="block_id" id="block_id" class="form-control" onchange="showBlockDetails()">
-                                    <option value="">Select Block</option>
-                                    @foreach ($blocks as $blk)
-                                        <option value="{{ $blk->id }}"
-                                            {{ $block && $block->id == $blk->id ? 'selected' : '' }}>
-                                            {{ $blk->name }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                                <span class="text-danger">
-                                    @error('block_id')
-                                        {{ $message }}
-                                    @enderror
-                                </span>
-                            </div> --}}
+                                            <label for="building_id">Building</label>
+                                            <select name="building_id" id="building_id" class="form-control"
+                                                onchange="showBuildingDetails()">
+                                                <option value="">Select Building</option>
+                                                @foreach ($buildings as $bldg)
+                                                    <option value="{{ $bldg->id }}"
+                                                        {{ $building && $building->id == $bldg->id ? 'selected' : '' }}>
+                                                        {{ $bldg->name }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                            <span class="text-danger">
+                                                @error('building_id')
+                                                    {{ $message }}
+                                                @enderror
+                                            </span>
+                                        </div>
 
-                            <div class="form-group">
-                                <label for="type">Floor Type</label>
-                                <select name="type" id="type" class="form-control" required>
-                                    <option value="">Select Floor Type</option>
-                                    <option value="upper">Upper</option>
-                                    <option value="underground">Underground</option>
-                                </select>
-                            </div>
+                                        <!-- Block Selection -->
+                                        {{-- <div class="form-group">
+                                        <label for="block_id">Block</label>
+                                        <select name="block_id" id="block_id" class="form-control" onchange="showBlockDetails()">
+                                            <option value="">Select Block</option>
+                                            @foreach ($blocks as $blk)
+                                                <option value="{{ $blk->id }}"
+                                                    {{ $block && $block->id == $blk->id ? 'selected' : '' }}>
+                                                    {{ $blk->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        <span class="text-danger">
+                                            @error('block_id')
+                                                {{ $message }}
+                                            @enderror
+                                        </span>
+                                            </div> --}}
 
-                            <!-- Floor info -->
-                            <div class="form-group">
-                                <label for="floor_no">Floor No</label>
-                                <select name="floor_no" id="floor_no" class="form-control" required>
-                                    <option value="">Select Floor No</option>
-                                </select>
-                            </div>
+                                        <div class="form-group">
+                                            <label for="type">Floor Type</label>
+                                            <select name="type" id="type" class="form-control" required>
+                                                <option value="">Select Floor Type</option>
+                                                <option value="upper">Upper</option>
+                                                <option value="underground">Underground</option>
+                                            </select>
+                                        </div>
 
-                            <div class="form-group">
-                                <label for="name">Floor Name</label>
-                                <input type="text" name="name" id="name" class="form-control"
-                                    placeholder="Enter Floor Name">
-                            </div>
+                                        <!-- Floor info -->
+                                        <div class="form-group">
+                                            <label for="floor_no">Floor No</label>
+                                            <select name="floor_no" id="floor_no" class="form-control" required>
+                                                <option value="">Select Floor No</option>
+                                            </select>
+                                        </div>
 
-                            <label> Available Features </label>
+                                        <div class="form-group">
+                                            <label for="name">Floor Name</label>
+                                            <input type="text" name="name" id="name" class="form-control"
+                                                placeholder="Enter Floor Name">
+                                        </div>
 
-                            <br>
-                            <!-- Checkbox placeholders -->
-                            <div id="dynamic-checkboxes"></div>
+                                        <label> Available Features </label>
 
-                            <!-- Details -->
-                            <div class="form-group col-md-12">
-                                <label class="col-form-label">Details Information</label>
-                                <table class="table table-bordered">
-                                    <tr>
-                                        <th>Building Type</th>
-                                        <td id="building_type_display"></td>
-                                    </tr>
-                                    <tr>
-                                        <th>Building No</th>
-                                        <td id="building_no_display"></td>
-                                    </tr>
-                                    {{-- <tr>
+                                        <br>
+                                        <!-- Checkbox placeholders -->
+                                        <div id="dynamic-checkboxes"></div>
+
+                                        <!-- Details -->
+                                        <div class="form-group col-md-12">
+                                            <label class="col-form-label">Details Information</label>
+                                            <table class="table table-bordered">
+                                                <tr>
+                                                    <th>Building Type</th>
+                                                    <td id="building_type_display"></td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Building No</th>
+                                                    <td id="building_no_display"></td>
+                                                </tr>
+                                                {{-- <tr>
                                         <th>Block No</th>
                                         <td id="block_no_display"></td>
-                                    </tr> --}}
-                                </table>
-                            </div>
+                                        </tr> --}}
+                                            </table>
+                                        </div>
 
-                            <button type="submit" class="btn waves-effect waves-light btn-sm submitbtn">
-                                Add Floor
-                            </button>
+                                        <button type="submit" class="btn waves-effect waves-light btn-sm submitbtn">
+                                            Add Floor
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
                         </form>
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
 
@@ -132,7 +141,7 @@
     <script>
         const typeFullForm = @json($typeFullForm); // Encode PHP array to JSON
         const buildings = @json($buildings);
-        let existingFloors = []; 
+        let existingFloors = [];
 
         // function showBuildingDetails() {
         //     const selectedBuildingId = document.getElementById('building_id').value;
@@ -150,10 +159,10 @@
 
         //         buildingBlocks.forEach(block => {
         //             blockSelect.innerHTML += `
-        //         <option value="${block.id}" ${block.id == '{{ $block->id ?? '' }}' ? 'selected' : ''}>
-        //             ${block.name}
-        //         </option>
-        //     `;
+    //         <option value="${block.id}" ${block.id == '{{ $block->id ?? '' }}' ? 'selected' : ''}>
+    //             ${block.name}
+    //         </option>
+    //     `;
         //         });
 
         //         if (buildingBlocks.length === 0) {
@@ -303,16 +312,16 @@
             </div>
             `;
             }
-    
+
 
             // Populate floor numbers excluding existing ones
             for (let i = 1; i <= floorCount; i++) {
                 if (!existingFloors.includes(i.toString())) { // Ensure string-based comparison
-                let suffix = 'th';
-                if (i == 1) suffix = 'st';
-                else if (i == 2) suffix = 'nd';
-                else if (i == 3) suffix = 'rd';
-                floorNoSelect.innerHTML += `<option value="${i}">${i}<sup>${suffix}</sup></option>`;
+                    let suffix = 'th';
+                    if (i == 1) suffix = 'st';
+                    else if (i == 2) suffix = 'nd';
+                    else if (i == 3) suffix = 'rd';
+                    floorNoSelect.innerHTML += `<option value="${i}">${i}<sup>${suffix}</sup></option>`;
                 }
             }
         }

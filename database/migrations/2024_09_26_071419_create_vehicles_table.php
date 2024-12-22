@@ -13,20 +13,16 @@ return new class extends Migration
     {
         Schema::create('vehicles', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('company_id')->references('id')->on('users');
+            $table->foreignId('stall_id')->nullable()->references('id')->on('stalls')->onDelete('set null');
+            $table->foreignId('vehicle_type_id')->references('id')->on('vehicle_types');
+            $table->foreignId('vehicle_owner_id')->references('id')->on('users');
             $table->string('vehicle_no')->unique();
-            $table->string('vehicle_name');
-            $table->string('vehicle_type');
+            $table->string('model');
+            $table->string('registration_no');
             $table->string('vehicle_image')->nullable(); // Field to store vehicle image path
-            $table->string('owner_name');
-            $table->string('owner_phn');
-            $table->string('driver_name');
-            $table->string('driver_phn');
-            $table->unsignedBigInteger('stall_no')->nullable(); // Stall ID (if assigned)
-            $table->enum('status', ['assigned', 'not_assigned'])->default('not_assigned'); // Status
+            $table->string('status')->default(0);
             $table->timestamps();
-
-            // Foreign key constraint for stall
-            $table->foreign('stall_no')->references('id')->on('stalls_lockers')->onDelete('set null');
         });
     }
 

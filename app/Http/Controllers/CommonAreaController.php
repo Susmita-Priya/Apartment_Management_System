@@ -12,7 +12,7 @@ class CommonAreaController extends Controller
      */
     public function index()
     {
-        $commonAreas = CommonArea::latest()->get();
+        $commonAreas = CommonArea::where('status', 1)->latest()->get();
         return view('commonArea.commonArea_list', compact('commonAreas'));
     }
 

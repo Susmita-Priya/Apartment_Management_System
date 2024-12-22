@@ -30,6 +30,7 @@ use App\Http\Controllers\UnitLandlordController;
 use App\Http\Controllers\UnitLeaseController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VehicleController;
+use App\Http\Controllers\VehicleTypeController;
 use App\Http\Middleware\AdminUserMiddleware;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -175,13 +176,42 @@ Route::middleware('auth')->group(callback: function () {
         Route::get('stall/delete/{id}', [StallController::class, 'destroy'])->name("stall.delete");
 
 
-
+        //parker
         Route::get('parker/index', [ParkerController::class, 'index'])->name("parker.index");
         Route::get('parker/create', [ParkerController::class, 'create'])->name("parker.create");
         Route::post('parker/store', [ParkerController::class, 'store'])->name("parker.store");
         Route::get('parker/edit/{id}', [ParkerController::class, 'edit'])->name("parker.edit");
         Route::post('parker/edit/{id}', [ParkerController::class, 'update'])->name("parker.update");
         Route::get('parker/delete/{id}', [ParkerController::class, 'destroy'])->name("parker.delete");
+
+
+
+        // vehicle type
+        Route::get('vehicleType/index', [VehicleTypeController::class, 'index'])->name("vehicleType.index");
+        Route::get('vehicleType/create', [VehicleTypeController::class, 'create'])->name("vehicleType.create");
+        Route::post('vehicleType/create', [VehicleTypeController::class, 'store'])->name("vehicleType.store");
+        Route::get('vehicleType/show/{id}', [VehicleTypeController::class, 'show'])->name("vehicleType.show");
+        Route::get('vehicleType/edit/{id}', [VehicleTypeController::class, 'edit'])->name("vehicleType.edit");
+        Route::post('vehicleType/edit/{id}', [VehicleTypeController::class, 'update'])->name("vehicleType.update");
+        Route::get('vehicleType/delete/{id}', [VehicleTypeController::class, 'destroy'])->name("vehicleType.delete");
+
+
+
+        //vehicle
+        Route::get('vehicle/index', [VehicleController::class, 'index'])->name("vehicle.index");
+        Route::get('vehicle/create', [VehicleController::class, 'create'])->name("vehicle.create");
+        Route::post('vehicle/store', [VehicleController::class, 'store'])->name("vehicle.store");
+        Route::get('vehicle/show/{id}', [VehicleController::class, 'show'])->name("vehicle.show");
+        Route::get('vehicle/edit/{id}', [VehicleController::class, 'edit'])->name("vehicle.edit");
+        Route::post('vehicle/edit/{id}', [VehicleController::class, 'update'])->name("vehicle.update");
+        Route::get('vehicle/delete/{id}', [VehicleController::class, 'destroy'])->name("vehicle.delete");
+
+
+
+
+
+
+
 
         
 
@@ -215,38 +245,7 @@ Route::middleware('auth')->group(callback: function () {
 
 
 
-
-
         
-
-
-
-
-        Route::get('vehicle/index', [VehicleController::class, 'index'])->name("vehicle.index");
-        Route::get('vehicle/create', [VehicleController::class, 'create'])->name("vehicle.create");
-        Route::post('vehicle/store', [VehicleController::class, 'store'])->name("vehicle.store");
-        Route::get('vehicle/show/{id}', [VehicleController::class, 'show'])->name("vehicle.show");
-        Route::get('vehicle/edit/{id}', [VehicleController::class, 'edit'])->name("vehicle.edit");
-        Route::post('vehicle/edit/{id}', [VehicleController::class, 'update'])->name("vehicle.update");
-        Route::get('vehicle/delete/{id}', [VehicleController::class, 'destroy'])->name("vehicle.delete");
-
-
-
-
-        
-
-
-
-        Route::get('parkings', [ParkingController::class, 'listparking'])->name('parking.list');
-
-        Route::get('parking/{id}/assign', [ParkingController::class, 'create'])->name('parking.create');
-
-        Route::post('parking/{id}/assign', [ParkingController::class, 'store'])->name('parking.store');
-
-        Route::post('parking/removeVehicle/{vehicleId}', [ParkingController::class, 'removeVehicle'])->name('vehicle.remove');
-
-        Route::post('parking/removeParker/{parkerId}', [ParkingController::class, 'removeParker'])->name('parker.remove');
-
 
 
 

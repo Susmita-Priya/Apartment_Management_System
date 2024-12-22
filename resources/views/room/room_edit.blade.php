@@ -147,7 +147,7 @@
                                     @foreach ($existingAssets ?? [['id' => '', 'quantity' => '']] as $index => $existingAsset)
                                         <div class="amenity-row d-flex mb-2">
                                             <select name="amenities[{{ $index }}][id]" class="form-control amenity-select mr-2">
-                                                <option value="">Select Amenity</option>
+                                                <option value="">Select Asset</option>
                                                 @foreach ($amenities as $amenity)
                                                     <option value="{{ $amenity->id }}" {{ $amenity->id == $existingAsset['id'] ? 'selected' : '' }}>
                                                         {{ $amenity->name }}
@@ -394,7 +394,7 @@
         const row = `
             <div class="amenity-row d-flex mb-2">
                 <select name="amenities[${assetCount}][id]" class="form-control amenity-select mr-2">
-                    <option value="">Select Amenity</option>
+                    <option value="">Select Asset</option>
                     @foreach ($amenities as $amenity)
                         <option value="{{ $amenity->id }}">{{ $amenity->name }}</option>
                     @endforeach

@@ -16,7 +16,7 @@ class ParkerController extends Controller
     public function index()
     {
         $parkers = Parker:: where('company_id', Auth::user()->id)->get();
-        $stalls = Stall::all(); 
+        $stalls = Stall::where('company_id', Auth::user()->id)->get();
         return view('parker.parker_list', compact('parkers', 'stalls'));
     }
 
@@ -25,7 +25,7 @@ class ParkerController extends Controller
      */
     public function create()
     {
-        $stalls = Stall::all(); // Fetch available stalls
+        $stalls = Stall::where('company_id', Auth::user()->id)->get();
         return view('parker.parker_add', compact('stalls'));
     }
 
@@ -60,7 +60,6 @@ class ParkerController extends Controller
         ]);
 
         return redirect()->back()->with('success', 'Parker added successfully');
-
     }
 
     /**
@@ -77,7 +76,7 @@ class ParkerController extends Controller
     public function edit($id)
     {
         $parker = Parker::findOrFail($id);
-        $stalls = Stall::all(); 
+        $stalls = Stall::where('company_id', Auth::user()->id)->get();
 
         return view('parker.parker_edit', compact('parker', 'stalls'));
     }

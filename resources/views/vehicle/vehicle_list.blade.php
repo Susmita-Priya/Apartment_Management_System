@@ -29,6 +29,7 @@
                     <div class="card-box">
                         <h4 class="header-title m-b-15 m-t-0">Vehicles List</h4>
                         <div class="row">
+                            @can('vehicle-create')
                             <div class="col-sm-12">
                                 <div class="text-right m-b-20">
                                     <button type="button" class="btn waves-effect waves-light greenbtn"
@@ -37,6 +38,9 @@
                                     </button>
                                 </div>
                             </div>
+                                
+                            @endcan
+
                         </div>
 
                         <table class="table table-hover m-0 tickets-list table-actions-bar dt-responsive nowrap"

@@ -2,19 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Room;
-use App\Models\roomType;
+use App\Models\vehicleType;
 use Illuminate\Http\Request;
 
-class RoomTypeController extends Controller
+class VehicleTypeController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $roomTypes = roomType::where('status', 1)->get();
-        return view('roomType.roomType_list', compact('roomTypes'));
+        $vehicleTypes = vehicleType::where('status', 1)->get();
+        return view('vehicleType.vehicleType_list', compact('vehicleTypes'));
     }
 
     /**
@@ -22,7 +21,7 @@ class RoomTypeController extends Controller
      */
     public function create()
     {
-        return view('roomType.roomType_add');
+        return view('vehicleType.vehicleType_add');
     }
 
     /**
@@ -34,18 +33,18 @@ class RoomTypeController extends Controller
             'name' => 'required',
         ]);
 
-        roomType::create($request->all());
+        vehicleType::create($request->all());
 
         return redirect()->back()
-            ->with('success', 'Room Type created successfully.');
+            ->with('success', 'Vehicle Type created successfully.');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(roomType $roomType)
+    public function show(vehicleType $vehicleType)
     {
-        // return view('roomType.roomType_show', compact('roomType'));
+        // return view('vehicleType.vehicleType_show', compact('vehicleType'));
     }
 
     /**
@@ -53,12 +52,12 @@ class RoomTypeController extends Controller
      */
     public function edit($id)
     {
-        $roomType = roomType::find($id);
-        if ($roomType == null) {
+        $vehicleType = vehicleType::find($id);
+        if ($vehicleType == null) {
             return redirect()->back()
-                ->with('error', 'Room Type not found.');
+                ->with('error', 'Vehicle Type not found.');
         }
-        return view('roomType.roomType_edit', compact('roomType'));
+        return view('vehicleType.vehicleType_edit', compact('vehicleType'));
     }
 
     /**
@@ -66,20 +65,20 @@ class RoomTypeController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $roomType = roomType::find($id);
-        if ($roomType == null) {
+        $vehicleType = vehicleType::find($id);
+        if ($vehicleType == null) {
             return redirect()->back()
-                ->with('error', 'Room Type not found.');
+                ->with('error', 'Vehicle Type not found.');
         }
 
         $request->validate([
             'name' => 'required',
         ]);
 
-        $roomType->update($request->all());
+        $vehicleType->update($request->all());
 
         return redirect()->back()
-            ->with('success', 'Room Type updated successfully.');
+            ->with('success', 'Vehicle Type updated successfully.');
     }
 
     /**
@@ -87,9 +86,9 @@ class RoomTypeController extends Controller
      */
     public function destroy($id)
     {
-        roomType::find($id)->delete();
+        vehicleType::find($id)->delete();
 
         return redirect()->back()
-            ->with('success', 'Room Type deleted successfully.');
+            ->with('success', 'Vehicle Type deleted successfully.');
     }
 }

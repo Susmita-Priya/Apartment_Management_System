@@ -1,7 +1,7 @@
 @extends('master')
 
 @push('title')
-    <title>Amenities List</title>
+    <title>Vehicle Types List</title>
 @endpush
 
 @section('content')
@@ -10,11 +10,11 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box">
-                        <h4 class="page-title float-left">Amenities</h4>
+                        <h4 class="page-title float-left">Vehicle Types</h4>
 
                         <ol class="breadcrumb float-right">
                             <li class="breadcrumb-item"><a href="{{ route('index') }}">Admin</a></li>
-                            <li class="breadcrumb-item active">Amenities list</li>
+                            <li class="breadcrumb-item active">Vehicle Types list</li>
                         </ol>
 
                         <div class="clearfix"></div>
@@ -26,15 +26,14 @@
             <div class="row">
                 <div class="col-12">
                     <div class="card-box">
-                        <h4 class="header-title m-b-15 m-t-0">Amenities List</h4>
+                        <h4 class="header-title m-b-15 m-t-0">Vehicle Types List</h4>
                         <div class="row">
-                            @can('amenities-create')
-                                
-                                <div class="col-sm-12">
+                            @can('vehicle-type-create')
+                            <div class="col-sm-12">
                                 <div class="text-right m-b-20">
                                     <button type="button" class="btn waves-effect waves-light greenbtn"
-                                        onclick="window.location.href='{{ route('amenities.create') }}'">
-                                        <i class="mdi mdi-plus m-r-5"></i> Add Asset
+                                        onclick="window.location.href='{{ route('vehicleType.create') }}'">
+                                        <i class="mdi mdi-plus m-r-5"></i> Add Vehicle Type
                                     </button>
                                 </div>
                             </div>
@@ -47,9 +46,8 @@
                             <thead>
                                 <tr>
                                     <th>Serial No</th>
-                                    <th>Asset Name</th>
-                                    <th>Asset Image</th>
-                                    <th>Asset Description</th>
+                                    <th>Vehicle Type</th>
+                                    <th>Description</th>
                                     <th>Status</th>
                                     <th>Action</th>
                                 </tr>
@@ -59,17 +57,14 @@
                                     $i = 1;
                                 @endphp
 
-                                @foreach ($amenities as $amenity)
+                                @foreach ($vehicleTypes as $vehicleType)
                                     <tr>
                                         <td>{{ $i++ }}</td>
-                                        <td>{{ $amenity->name }}</td>
-                                        <td>
-                                            <img src="{{ asset($amenity->image) }}" alt="{{ $amenity->name }}" style="width: 80px; height: auto;">
-                                        </td>
-                                        <td>{{ $amenity->description ? $amenity->description : 'No Description' }}</td>
+                                        <td>{{ $vehicleType->name }}</td>
+                                        <td>{{ $vehicleType->description ? $vehicleType->description : 'No Description' }}</td>
 
                                         <td>
-                                            @if ($amenity->status == 1)
+                                            @if ($vehicleType->status == 1)
                                                 <span class="badge badge-success">Active</span>
                                             @else
                                                 <span class="badge badge-danger">Inactive</span>
@@ -81,22 +76,22 @@
                                                     data-toggle="dropdown" aria-expanded="false"><i
                                                         class="mdi mdi-dots-horizontal"></i></a>
                                                 <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                                                    @can('amenities-edit')
+                                                    @can('vehicle-type-edit')
                                                         <a class="dropdown-item"
-                                                        href="{{ route('amenities.edit', ['id' => $amenity->id]) }}"
+                                                        href="{{ route('vehicleType.edit', ['id' => $vehicleType->id]) }}"
                                                         type="submit"><i
                                                             class="mdi mdi-pencil m-r-10 text-muted font-18 vertical-middle"></i>Edit
-                                                        Asset</a>
+                                                        Vehicle Type</a>
                                                     @endcan
-                                                    @can('amenities-delete')
+                                                    @can('vehicle-type-delete')
                                                         <a class="dropdown-item" href="#"
-                                                        onclick="confirmDelete('{{ route('amenities.delete', ['id' => $amenity->id]) }}')"><i
+                                                        onclick="confirmDelete('{{ route('vehicleType.delete', ['id' => $vehicleType->id]) }}')"><i
                                                             class="mdi mdi-delete m-r-10 text-muted font-18 vertical-middle"></i>
-                                                        Delete Asset
+                                                        Delete Vehicle Type
                                                     </a>
                                                     <!-- Hidden form for deletion -->
                                                     <form id="delete-form"
-                                                        action="{{ route('amenities.delete', ['id' => $amenity->id]) }}"
+                                                        action="{{ route('vehicleType.delete', ['id' => $vehicleType->id]) }}"
                                                         method="GET" style="display: none;">
                                                         @csrf
                                                         @method('DELETE')

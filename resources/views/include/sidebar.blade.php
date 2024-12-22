@@ -55,6 +55,7 @@
                                             @can('room-create')
                                                 <li><a href="{{ route('room.create') }}">New Room</a></li>
                                             @endcan
+
                                         </ul>
                                     </li>
                                 @endcan
@@ -64,45 +65,29 @@
                                     <a href="{{ route('roomType.create') }}">
                                         <i class="fa fa-plus
                                         "></i>
-                                        <span>New Room Type</span>
+                                        <span>Room Type</span>
                                     </a>
                                 </li>
                                 @endcan
+
 
                                 @can('amenities-create')
                                 <li>
                                     <a href="{{ route('amenities.create') }}">
                                         <i class="fa fa-plus"></i>
-                                        <span>New Assets</span>
+                                        <span>Assets</span>
                                         
                                     </a>
                                 </li>
                                 @endcan
 
+
                                 @can('common-area-create')
                                 <li>
                                     <a href="{{ route('commonArea.create') }}">
-                                        <i class="fa fa-plus"></i>
-                                        <span>Common Area</span>
-                                    </a>
-                                </li>
-                                @endcan
-
-                                @can('stall-create')
-                                <li>
-                                    <a href="{{ route('stall.create') }}">
                                         <i class="fa fa-plus
                                         "></i>
-                                        <span>New Stall</span>
-                                    </a>
-                                </li>
-                                @endcan
-
-                                @can('tenant-create')
-                                <li>
-                                    <a href="{{ route('tenant.create') }}">
-                                        <i class="fa fa-plus"></i>
-                                        <span>New Tenant</span>
+                                        <span>Common Area</span>
                                     </a>
                                 </li>
                                 @endcan
@@ -123,7 +108,7 @@
 
                                         @endcan
                                     </li>
-                                @endcan
+                                @endcan--}}
 
                                 @can('parking-management')
                                     <li>
@@ -136,16 +121,30 @@
                                             @can('stall-create')
                                                 <li><a href="{{ route('stall.create') }}">New Stall</a></li>
                                             @endcan
-                                            @can('vehicle-create')
-                                                <li><a href="{{ route('vehicle.create') }}">New Vehicle</a></li>
-                                            @endcan
                                             @can('parker-create')
                                                 <li><a href="{{ route('parker.create') }}">New Parker</a></li>
+                                            @endcan
+                                            @can('vehicle-type-create')
+                                                <li><a href="{{ route('vehicleType.create') }}">New Vehicle Type</a></li>
+                                            @endcan
+                                            @can('vehicle-create')
+                                                <li><a href="{{ route('vehicle.create') }}">New Vehicle</a></li>
                                             @endcan
 
                                         </ul>
                                     </li>
-                                @endcan --}}
+                                @endcan 
+
+
+                                @can('tenant-create')
+                                <li>
+                                    <a href="{{ route('tenant.create') }}">
+                                        <i class="fa fa-plus"></i>
+                                        <span>New Tenant</span>
+                                    </a>
+                                </li>
+                                @endcan
+
                             </ul>
                         </li>
                     @endcan
@@ -239,14 +238,17 @@
                                 <span class="menu-arrow
                                 "></span></a>
                             <ul class="nav-second-level " aria-expanded="false">
-                                @can('vehicle-list')
-                                    <li><a href="{{ route('vehicle.index') }}">Vehicles</a></li>
+                                 @can('stall-list')
+                                    <li><a href="{{ route('stall.index') }}">Stall List</a></li>
                                 @endcan
                                 @can('parker-list')
                                     <li><a href="{{ route('parker.index') }}">Parkers</a></li>
                                 @endcan
-                                @can('stall-list')
-                                    <li><a href="{{ route('stall.index') }}">Stall List</a></li>
+                                @can('vehicle-type-list')
+                                    <li><a href="{{ route('vehicleType.index') }}">Vehicle Types</a></li>
+                                @endcan
+                                @can('vehicle-list')
+                                    <li><a href="{{ route('vehicle.index') }}">Vehicles</a></li>
                                 @endcan
                             </ul>
                         </li>
@@ -297,8 +299,7 @@
 
 
                     <!-- lease -->
-{{-- 
-                    <li>
+                {{-- <li>
                         <a href="javascript: void(0);"><i class="fa fa-user"></i> <span> Leases </span> <span
                                 class="menu-arrow"></span></a>
                         <ul class="nav-second-level " aria-expanded="false">

@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Stall;
 use App\Models\StallLocker;
+use App\Models\User;
 use App\Models\Vehicle;
+use App\Models\vehicleType;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class VehicleController extends Controller
 {
@@ -13,8 +17,9 @@ class VehicleController extends Controller
      */
     public function index()
     {
-        $vehicles = Vehicle::all();
-        return view('vehicle.vehicle_list', compact('vehicles'));
+        $vehicles = Vehicle::where('company_id', Auth::user()->id)->latest()->get();
+        $stalls = Stall::where('company_id', Auth::user()->id)->get();
+        return view('vehicle.vehicle_list', compact('vehicles', 'stalls'));
     }
 
     /**
@@ -23,8 +28,12 @@ class VehicleController extends Controller
     public function create()
     {
         // Fetch all available stalls to display in the dropdown
-        $stalls = StallLocker::all();
-        return view('vehicle.vehicle_add', compact('stalls'));
+        $stalls = Stall::where('company_id', Auth::user()->id)->get();
+        $vehicleTypes = vehicleType::where('status', 1)->get();
+        $vehicleOwners = User::whereHas('roles', function($query) {
+            $query->whereIn('name', ['Tenant', 'Landlord']);
+        })->get();
+        return view('vehicle.vehicle_add', compact('stalls', 'vehicleTypes', 'vehicleOwners'));
     }
 
     /**
@@ -33,18 +42,13 @@ class VehicleController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'vehicle_name' => 'required|max:255',
-            'vehicle_type' => 'required|max:255',
-            'owner_name' => 'required|max:255',
-            'owner_phn' => 'required|max:255',
-            'driver_name' => 'required|max:255',
-            'driver_phn' => 'required|max:255',
+            'registration_no' => 'required|max:255',
             'vehicle_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:1024', // Validate image file
-
+            'stall_id' => 'nullable',
         ]);
 
-        /// Determine vehicle type
-        $vehicleType = $request->vehicle_type === 'new' ? $request->new_vehicle_type : $request->vehicle_type;
+        // Determine the status based on stall assignment
+        $status = $request->stall_id ? '1' : '0';
 
         // Generate the vehicle ID
         $lastVehicle = Vehicle::orderBy('created_at', 'desc')->first();
@@ -69,16 +73,15 @@ class VehicleController extends Controller
 
         // Create new vehicle entry
         Vehicle::create([
+            'company_id' => Auth::user()->id,
+            'stall_id' => $request->stall_id,
+            'vehicle_type_id' => $request->vehicle_type_id,
+            'vehicle_owner_id' => $request->vehicle_owner_id,
             'vehicle_no' => $newVehicleId,
-            'vehicle_name' => $request->vehicle_name,
-            'vehicle_type' =>  $vehicleType,
-            'owner_name' => $request->owner_name,
-            'owner_phn' => $request->owner_phn,
-            'driver_name' => $request->driver_name,
-            'driver_phn' => $request->driver_phn,
-            'stall_no' => $request->stall_no,
-            'status' => 'not_assigned', // Set status to not assigned
-            'vehicle_image' =>  $fullPath, // Save image path
+            'model' => $request->model,
+            'registration_no' => $request->registration_no,
+            'vehicle_image' =>  $fullPath, 
+            'status' => $status,
         ]);
 
         return redirect()->back()->with('success', 'Vehicle added successfully');
@@ -98,9 +101,13 @@ class VehicleController extends Controller
     public function edit(String $id)
     {
         $vehicle = Vehicle::findOrFail($id);
-        $stalls = StallLocker::all(); // Fetch all available stalls
+        $stalls = Stall::where('company_id', Auth::user()->id)->get();
+        $vehicleTypes = vehicleType::where('status', 1)->get();
+        $vehicleOwners = User::whereHas('roles', function($query) {
+            $query->whereIn('name', ['Tenant', 'Landlord']);
+        })->get();
 
-        return view('vehicle.vehicle_edit', compact('vehicle', 'stalls'));
+        return view('vehicle.vehicle_edit', compact('vehicle', 'stalls', 'vehicleTypes', 'vehicleOwners'));
     }
 
     /**
@@ -110,20 +117,13 @@ class VehicleController extends Controller
     {
         // Validate the request data
         $request->validate([
-            'vehicle_name' => 'required|max:255',
-            'vehicle_type' => 'required|max:255',
-            'owner_name' => 'required|max:255',
-            'owner_phn' => 'required|max:255',
-            'driver_name' => 'required|max:255',
-            'driver_phn' => 'required|max:255',
+            'registration_no' => 'required|max:255',
             'vehicle_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:1024', // Validate image file
+            'stall_id' => 'nullable',
         ]);
 
         // Find the existing vehicle
         $vehicle = Vehicle::findOrFail($id);
-
-        // Determine vehicle type
-        $vehicleType = $request->vehicle_type === 'new' ? $request->new_vehicle_type : $request->vehicle_type;
 
         // Handle the image upload if present
         if ($request->hasFile('vehicle_image')) {
@@ -151,14 +151,13 @@ class VehicleController extends Controller
 
         // Update vehicle entry
         $vehicle->update([
-            'vehicle_name' => $request->vehicle_name,
-            'vehicle_type' => $vehicleType,
-            'owner_name' => $request->owner_name,
-            'owner_phn' => $request->owner_phn,
-            'driver_name' => $request->driver_name,
-            'driver_phn' => $request->driver_phn,
-            'stall_no' => $request->stall_no,
-            'vehicle_image' => $fullPath, // Save or retain the image path
+            'stall_id' => $request->stall_id,
+            'vehicle_type_id' => $request->vehicle_type_id,
+            'vehicle_owner_id' => $request->vehicle_owner_id,
+            'model' => $request->model,
+            'registration_no' => $request->registration_no,
+            'vehicle_image' => $fullPath,
+            'status' => $request->stall_id ? '1' : $vehicle->status,
         ]);
         // Redirect or respond as needed
         return redirect()->back()->with('success', 'Vehicle updated successfully.');
