@@ -20,4 +20,19 @@ class Vehicle extends Model
         'vehicle_image',
         'status'
     ];
+
+    public function stall()
+    {
+        return $this->belongsTo(Stall::class);
+    }
+
+    public function vehicleType()
+    {
+        return $this->belongsTo(vehicleType::class);
+    }
+
+    public function vehicleOwner()
+    {
+        return $this->belongsTo(User::class, 'vehicle_owner_id');
+    }
 }

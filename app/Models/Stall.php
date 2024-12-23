@@ -20,7 +20,9 @@ class Stall extends Model
         'status',
     ];
 
-    
-
+    public function vehicles()
+    {
+        return $this->hasMany(Vehicle::class, 'stall_id');
+    }
 
 }

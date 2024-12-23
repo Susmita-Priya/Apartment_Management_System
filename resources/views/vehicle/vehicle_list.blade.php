@@ -48,14 +48,12 @@
                             <thead>
                                 <tr>
                                     <th>Vehicle No</th>
-                                    <th>Vehicle Name</th>
                                     <th>Vehicle Type</th>
+                                    <th>Model</th>
+                                    <th>Registration No</th>
                                     <th>Vehicle Image</th>
-                                    <th>Owner Name</th>
-                                    <th>Owner Phone</th>
-                                    <th>Driver Name</th>
-                                    <th>Driver Phone</th>
                                     <th>Stall No</th>
+                                    <th>Vehicle Owner</th>
                                     <th>Status</th>
                                     <th>Action</th>
                                 </tr>
@@ -63,23 +61,21 @@
                             <tbody>
                                 @foreach ($vehicles as $vehicle)
                                     <tr>
+                                        
                                         <td>{{ $vehicle->vehicle_no }}</td>
-                                        <td>{{ $vehicle->vehicle_name }}</td>
-                                        <td>{{ $vehicle->vehicle_type }}</td>
+                                        <td>{{ $vehicle->vehicleType->name }}</td>
+                                        <td>{{ $vehicle->model }}</td>
+                                        <td>{{ $vehicle->registration_no }}</td>
                                         <td>
                                             <img src="{{ asset($vehicle->vehicle_image) }}" alt="{{ $vehicle->vehicle_name }}" style="width: 80px; height: auto;">
                                         </td>
-                                        <td>{{ $vehicle->owner_name }}</td>
-                                        <td>{{ $vehicle->owner_phn }}</td>
-                                        <td>{{ $vehicle->driver_name }}</td>
-                                        <td>{{ $vehicle->driver_phn }}</td>
-                                        <td>{{ $vehicle->stall_no ? "Stall - " . $vehicle->stall_no : '' }}</td>
-
+                                        <td>Stall - {{ $vehicle->stall->stall_no }}</td>
+                                        <td>{{ $vehicle->vehicleOwner->name }}</td>
                                         <td>
-                                            @if ($vehicle->status === 'assigned')
-                                                <span class="badge badge-success">{{ $vehicle->status }}</span>
+                                            @if ($vehicle->status === '1')
+                                                <span class="badge badge-success">Stored</span>
                                             @else
-                                                <span class="badge badge-danger">{{ $vehicle->status }}</span>
+                                                <span class="badge badge-danger">Not Stored</span>
                                             @endif                                      
                                         </td> <!-- Display status -->
                                         <td>
@@ -88,15 +84,20 @@
                                                     data-toggle="dropdown" aria-expanded="false"><i
                                                         class="mdi mdi-dots-horizontal"></i></a>
                                                 <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                                                    {{-- <a class="dropdown-item"
-                                                        href="{{ route('vehicle.show', ['id' => $vehicle->id]) }}"><i
+                                                    @can('stall-view')
+                                                        <a class="dropdown-item"
+                                                        href="{{ route('stall.show', ['id' => $vehicle->stall_id]) }}"><i
                                                             class="mdi mdi-eye m-r-10 font-18 text-muted vertical-middle"></i>View
-                                                        Details</a> --}}
-                                                    <a class="dropdown-item"
+                                                        Details</a>
+                                                    @endcan
+                                                    @can('vehicle-edit')
+                                                         <a class="dropdown-item"
                                                         href="{{ route('vehicle.edit', ['id' => $vehicle->id]) }}"
                                                         type="submit"><i
                                                             class="mdi mdi-pencil m-r-10 text-muted font-18 vertical-middle"></i>Edit
                                                         vehicle</a>
+                                                    @endcan
+                                                   @can('vehicle-delete')
                                                     <a class="dropdown-item" href="#"
                                                         onclick="confirmDelete('{{ route('vehicle.delete', ['id' => $vehicle->id]) }}')"><i
                                                             class="mdi mdi-delete m-r-10 text-muted font-18 vertical-middle"></i>
@@ -109,6 +110,9 @@
                                                         @csrf
                                                         @method('DELETE')
                                                     </form>
+                                                    @endcan
+                                                       
+                                                  
                                                 </div>
                                             </div>
                                         </td>

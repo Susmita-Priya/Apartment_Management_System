@@ -8,6 +8,8 @@ use App\Models\Floor;
 use App\Models\Parker;
 use App\Models\Stall;
 use App\Models\StallLocker;
+use App\Models\Vehicle;
+use App\Models\vehicleType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -100,10 +102,10 @@ class StallController extends Controller
         $floor = Floor::findOrFail($stall->floor_id);
         $building = Building::findOrFail($floor->building_id);
         $parkers = Parker::where('stall_no', $id)->get();
-        // $rooms = Room::where('unit_id', $stall->id)->orderBy('room_no')->get();
-        // $roomTypes = roomType::where('status',1)->get();
+        $vehicles = Vehicle::where('stall_id', $stall->id)->orderBy('vehicle_no')->get();
+        $vehicleTypes = vehicleType::where('status',1)->get();
      
-        return view('stall.stall_view', compact('stall', 'floor', 'building','parkers'));
+        return view('stall.stall_view', compact('stall', 'floor', 'building','parkers','vehicles','vehicleTypes'));
     }
 
     /**

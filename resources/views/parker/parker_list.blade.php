@@ -82,11 +82,11 @@
                                                     data-toggle="dropdown" aria-expanded="false"><i
                                                         class="mdi mdi-dots-horizontal"></i></a>
                                                 <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                                                    @can('parker-show')
+                                                    @can('stall-view')
                                                     <a class="dropdown-item"
-                                                        href="{{ route('stall.show', ['id' => $parker->stall_no]) }}"><i
-                                                            class="mdi mdi-eye m-r-10 font-18 text-muted vertical-middle"></i>View
-                                                        Details</a>
+                                                    href="{{ route('stall.show', ['id' => $parker->stall_id]) }}"><i
+                                                        class="mdi mdi-eye m-r-10 font-18 text-muted vertical-middle"></i>View
+                                                    Details</a>
                                                     @endcan
                                                     @can('parker-edit')
                                                     <a class="dropdown-item"

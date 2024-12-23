@@ -18,8 +18,7 @@
                         <ol class="breadcrumb float-right">
                             <li class="breadcrumb-item"><a href="{{ route('index') }}">Dashboard</a></li>
                             <li class="breadcrumb-item"><a href="{{ route('building') }}">Buildings</a></li>
-                            <li class="breadcrumb-item"><a
-                                    href="{{ route('building.show', $floor->building_id) }}">Building</a></li>
+                            <li class="breadcrumb-item"><a href="{{ route('building.show', $floor->building_id) }}">Building</a></li>
                             <li class="breadcrumb-item"><a href="{{ route('floor.show', $stall->floor_id) }}">Floor</a></li>
                             <li class="breadcrumb-item active">Stall Details</li>
                         </ol>
@@ -170,53 +169,60 @@
                     <div class="row">
                         <div class="col-sm-12 m-b-20">
                             <div class="text-right ">
-                                @can('room-create')
-                                    {{-- <button type="button" class="btn waves-effect waves-light greenbtn"
+                                @can('vehicle-create')
+                                    <button type="button" class="btn waves-effect waves-light greenbtn"
                                             style="position: absolute; "
-                                            onclick="window.location.href='{{ route('room.create', ['unit_id' => $stall->id]) }}'">
+                                            onclick="window.location.href='{{ route('vehicle.create', ['stall_id' => $stall->id]) }}'">
                                             <i class="mdi mdi-plus m-r-5"></i> Add Vehicle
-                                        </button> --}}
+                                    </button>
                                 @endcan
                             </div>
                         </div>
                     </div>
 
-                    {{-- <div class="row">
-                    @foreach ($rooms as $room)
+                 <div class="row">
+                    @foreach ($vehicles as $vehicle)
                     <div class="col-md-4 mb-4">
                         <div class="card-box">
-                            @foreach ($roomTypes as $roomType)
-                                @if ($roomType->id == $room->room_type_id)
-                                    <h4 class="header-title mt-0 m-b-20">{{ $roomType->name }} - {{ $room->room_no }}</h4>
+                            @foreach ($vehicleTypes as $vehicleType)
+                                @if ($vehicleType->id == $vehicle->vehicle_type_id)
+                                    <h4 class="header-title mt-0 m-b-20">{{ $vehicleType->name }} - {{ $vehicle->vehicle_no }}</h4>
                                 @endif
                             @endforeach
+                            <div class="gallery-box">
+                                <img 
+                                    src="{{ asset($vehicle->vehicle_image) }}" 
+                                    alt="Vehicle Image" 
+                                    class="img-fluid" 
+                                    style="height: 350px; width: 350px; object-fit: fill; ">
+                            </div>
                            
                             <div class="panel-body">
-                                <p class="text-muted font-15"><strong>Type:
-                                    </strong>{{ ucfirst($stall->type) }} Stall</p>
-                                @can('room-list')
-                                    <button type="button"
-                                        onclick="window.location.href='{{ route('room.show', $room->id) }}'"
-                                        class="btn btn-info m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm">
-                                        Enter
-                                    </button>
-                                @endcan
-                                @can('room-edit')
+                                <p class="text-muted font-15"><strong>Model:
+                                </strong>{{ ucfirst($vehicle->model) }}</p>
+                                <p class="text-muted font-15"><strong>Registration No:
+                                </strong>{{ ucfirst($vehicle->registration_no) }}</p>
+                                <p class="text-muted font-15"><strong>Owner Name:
+                                    </strong>{{ ucfirst($vehicle->vehicleOwner->name) }}</p>
+                                <p class="text-muted font-15"><strong>Owner Phone:
+                                    </strong>{{ $vehicle->vehicleOwner->phone?? 'N/A' }}</p>
+                               
+                                @can('vehicle-edit')
                                     <button type="button"
                                         class="btn btn-success m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm"
-                                        onclick="window.location.href='{{ route('room.edit', $room->id) }}'">
+                                        onclick="window.location.href='{{ route('vehicle.edit', $vehicle->id) }}'">
                                         Edit
                                     </button>
                                 @endcan
-                                @can('room-delete')
+                                @can('vehicle-delete')
                                     <button type="button"
                                         class="btn btn-danger m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm"
-                                        onclick="confirmDelete('{{ route('room.delete', ['id' => $room->id]) }}')">
+                                        onclick="confirmDelete('{{ route('vehicle.delete', ['id' => $vehicle->id]) }}')">
                                         Delete
                                     </button>
                                     <!-- Hidden form for deletion -->
                                     <form id="delete-form"
-                                        action="{{ route('room.delete', ['id' => $room->id]) }}" method="GET"
+                                        action="{{ route('vehicle.delete', ['id' => $vehicle->id]) }}" method="GET"
                                         style="display: none;">
                                         @csrf
                                         @method('DELETE')
@@ -228,6 +234,6 @@
                
                     @endforeach
 
-                </div> --}}
+                </div> 
                 </div> <!-- content -->
             @endsection

@@ -18,8 +18,9 @@ class VehicleController extends Controller
     public function index()
     {
         $vehicles = Vehicle::where('company_id', Auth::user()->id)->latest()->get();
-        $stalls = Stall::where('company_id', Auth::user()->id)->get();
-        return view('vehicle.vehicle_list', compact('vehicles', 'stalls'));
+        
+        
+        return view('vehicle.vehicle_list', compact('vehicles'));
     }
 
     /**

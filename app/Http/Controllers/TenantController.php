@@ -73,6 +73,8 @@ class TenantController extends Controller
                         $user->update(
                             [
                                 'name' =>  $contactInfo->full_name,
+                                'phone' =>  $contactInfo->phone,
+                                'address' =>  $contactInfo->address,
                                 'email' =>  $contactInfo->email,
                             ]
                         );
@@ -114,6 +116,8 @@ class TenantController extends Controller
                     User::create([
                         'name' =>  $contactInfo->full_name,
                         'email' =>  $contactInfo->email,
+                        'phone' =>  $contactInfo->phone,
+                        'address' =>  $contactInfo->address,
                         'password' =>  $contactInfo->password,
                     ]);
 
