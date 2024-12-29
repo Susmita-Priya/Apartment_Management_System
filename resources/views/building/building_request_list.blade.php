@@ -50,7 +50,17 @@
                                         <td>{{ $i++ }}</td>
                                         <td>{{ $building->name }}</td>
                                         <td>{{ $building->building_no }}</td>
-                                        <td>{{ $building->type}}</td>
+                                        <td>
+                                            @if ($building->type == 'COMB')
+                                                Commercial Building
+                                            @elseif ($building->type == 'RESB')
+                                                Residential Building
+                                            @elseif ($building->type == 'RECB')
+                                                Residential-Commercial Building
+                                            @else
+                                                {{ $building->type }}
+                                            @endif
+                                        </td>
                                         <td>
                                             <img src="{{ asset($building->image) }}" alt="{{ $building->name }}" style="width: 80px; height: auto;">
                                         </td>
@@ -60,8 +70,35 @@
                                                 <a href="{{ route('building.approve', $building->id) }}" class="action-icon" style="font-size: 26px; color: green;" title="Approve"> <i class="mdi mdi-check-circle"></i></a>
                                             @endcan
                                             @can('building-request-reject')
-                                                <a href="{{ route('building.reject', $building->id) }}" class="action-icon" style="font-size: 26px; color: red;" title="Reject"> <i class="mdi mdi-close-circle"></i></a>
+                                                <a href="javascript:void(0);" class="action-icon" style="font-size: 26px; color: red;" title="Reject" data-toggle="modal" data-target="#rejectModal{{ $building->id }}"> <i class="mdi mdi-close-circle"></i></a>
                                             @endcan
+
+                                            <!-- Reject Modal -->
+                                            <div class="modal fade" id="rejectModal{{ $building->id }}" tabindex="-1" role="dialog" aria-labelledby="rejectModalLabel{{ $building->id }}" aria-hidden="true">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="rejectModalLabel{{ $building->id }}">Reject Building Request</h5>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <form action="{{ route('building.reject', $building->id) }}" method="POST">
+                                                            @csrf
+                                                            <div class="modal-body">
+                                                                <div class="form-group">
+                                                                    <label for="note">Note</label>
+                                                                    <textarea class="form-control" id="note" name="note" rows="3" required></textarea>
+                                                                </div>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                                <button type="submit" class="btn btn-danger">OK</button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </td>
                                     </tr>
                                 @endforeach

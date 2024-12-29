@@ -47,6 +47,8 @@ class PermissionSeeder extends Seeder
             'building-request',
             'building-request-approve',
             'building-request-reject',
+            'building-reject-list',
+            'building-reject',
 
 
             //property management

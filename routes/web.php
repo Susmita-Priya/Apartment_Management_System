@@ -63,10 +63,12 @@ Route::middleware('auth')->group(callback: function () {
         Route::get('building/delete/{id}', [BuildingController::class, 'destroy'])->name("building.delete");
 
 
+
         //building approval
         Route::get('building/pending', [BuildingController::class, 'pending'])->name("building.pending");
         Route::get('building/approve/{id}', [BuildingController::class, 'approve'])->name("building.approve");
-        Route::get('building/reject/{id}', [BuildingController::class, 'reject'])->name("building.reject");
+        Route::get('building/rejectList', [BuildingController::class, 'rejectList'])->name("building.rejectList");
+        Route::post('building/reject/{id}', [BuildingController::class, 'reject'])->name("building.reject");
 
 
 

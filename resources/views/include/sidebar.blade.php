@@ -189,6 +189,19 @@
                         </li>
                     @endcan
 
+                    {{-- rejected request --}}
+                    @can('building-reject-list')
+                        <li>
+                            <a href="javascript: void(0);"><i class="fa fa-close"></i> <span> Rejected Property </span> <span
+                                    class="menu-arrow"></span></a>
+                            <ul class="nav-second-level " aria-expanded="false">
+                                @can('building-reject')
+                                    <li><a href="{{ route('building.rejectList') }}">Rejected Buildings </a></li>
+                                @endcan
+                            </ul>
+                        </li>
+                    @endcan
+
                     <!-- Amenities -->
                     @can('amenities-management')
                         <li>

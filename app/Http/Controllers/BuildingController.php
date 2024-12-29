@@ -101,7 +101,7 @@ class BuildingController extends Controller
         $building->save();
 
         // Redirect with a success message
-        return redirect()->route('building')->with('success', "New Building Created Successfully!");
+        return redirect()->route('building')->with('success', "New Building Request Send Successfully!");
     }
 
     /**
@@ -237,13 +237,24 @@ class BuildingController extends Controller
 
     public function reject(string $id, Request $request)
     {
+
+        // dd($request->all());
         $building = Building::find($id);
         if (!is_null($building)) {
             $building->status = 2;
             $building->note = $request->note;
             $building->save();
         }
-        return redirect()->route('building.pending')->with('success', 'Building Rejected Successfully!');
+        return redirect()->back()->with('success', 'Building Rejected');
+    }
+
+    public function rejectList()
+    {
+        $buildings = Building::where('company_id', Auth::user()->id)
+            ->where('status', 2)
+            ->latest()
+            ->get();
+        return view('building.building_reject_list', compact('buildings'));
     }
    
 }
