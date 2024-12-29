@@ -77,7 +77,7 @@
                                     <div class="alert alert-primary">
                                         <ul>
                                             <li>{{ "Max file size allowed is 100KB" }}</li>
-                                            <li>{{ "Upload only images of type jpg, png or webp" }}
+                                            {{-- <li>{{ "Upload only images of type jpg, png or webp" }} --}}
                                         </ul>
                                     </div>
 

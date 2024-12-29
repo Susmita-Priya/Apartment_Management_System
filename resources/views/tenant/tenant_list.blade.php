@@ -89,7 +89,7 @@
                                                     @can('tenant-delete')
                                                         <a class="dropdown-item" href="#"
                                                         onclick="confirmDelete('{{ route('tenant.delete', ['id' => $tenant->id]) }}')"><i
-                                                            class="mdi mdi-delete m-r-10 text-muted font-18 vertical-middle"></i>
+                                                             class="mdi mdi-delete m-r-10 text-muted font-18 vertical-middle"></i>
                                                         Delete
                                                     </a>
                                                     <!-- Hidden form for deletion -->

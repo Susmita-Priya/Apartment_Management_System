@@ -155,7 +155,7 @@
                             <div class="row">
                                 @foreach ($selectedAmenities as $selectedAmenity)
                                     <div class="col-md-4">
-                                        <div class="gallery-box">
+                                        <div class="gallery-box" >
                                             <img 
                                                 src="{{ asset($selectedAmenity['image']) }}" 
                                                 alt="{{ $selectedAmenity['name'] }}" 

@@ -89,7 +89,6 @@
 
     </div> <!-- content -->
 
-
     <script>
         // document.getElementById('building-select').addEventListener('change', function() {
         //     const buildingId = this.value;

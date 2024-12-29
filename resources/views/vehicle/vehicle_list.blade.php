@@ -85,10 +85,12 @@
                                                         class="mdi mdi-dots-horizontal"></i></a>
                                                 <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
                                                     @can('stall-view')
+                                                    @if($vehicle->stall_id)
                                                         <a class="dropdown-item"
                                                         href="{{ route('stall.show', ['id' => $vehicle->stall_id]) }}"><i
                                                             class="mdi mdi-eye m-r-10 font-18 text-muted vertical-middle"></i>View
                                                         Details</a>
+                                                        @endif
                                                     @endcan
                                                     @can('vehicle-edit')
                                                          <a class="dropdown-item"

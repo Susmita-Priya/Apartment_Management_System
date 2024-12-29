@@ -76,7 +76,7 @@ class TenantController extends Controller
                                 'phone' =>  $contactInfo->phone,
                                 'address' =>  $contactInfo->address,
                                 'email' =>  $contactInfo->email,
-                            ]
+                            ]  
                         );
                     }
                     if ($request->filled('password')) {

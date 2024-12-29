@@ -189,12 +189,12 @@
                                     <h4 class="header-title mt-0 m-b-20">{{ $vehicleType->name }} - {{ $vehicle->vehicle_no }}</h4>
                                 @endif
                             @endforeach
-                            <div class="gallery-box">
+                            <div class="gallery-box" style="height: 200px; overflow: hidden;">
                                 <img 
                                     src="{{ asset($vehicle->vehicle_image) }}" 
                                     alt="Vehicle Image" 
                                     class="img-fluid" 
-                                    style="height: 350px; width: 350px; object-fit: fill; ">
+                                    style="width: 100%; height: auto; object-fit: cover;">
                             </div>
                            
                             <div class="panel-body">

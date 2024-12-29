@@ -31,7 +31,7 @@ class AmenitiesController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'image' => 'nullable|image', 
+            'image' => 'nullable', 
         ]);
 
         // Handle the image upload if present

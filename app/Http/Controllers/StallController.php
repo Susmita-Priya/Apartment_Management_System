@@ -22,6 +22,7 @@ class StallController extends Controller
     {
          // Fetch all blocks with their associated buildings
          $buildings = Building::where('company_id', Auth::user()->id)->where('status',1)->latest()->get();
+        //  $buildings = Building::where('company_id', Auth::user()->id)->simplepaginate(5);
         return view('stall.stall_index', compact('buildings'));
     }
 
@@ -32,7 +33,7 @@ class StallController extends Controller
     {
         // Fetch all buildings, blocks, and floors
         $buildings = Building::where('company_id', Auth::user()->id)
-        ->where('status',1)->get();
+                            ->where('status',1)->get();
         $floors = Floor::where('type', 'underground')->where('status',1)->get();
 
         // Fetch the floor using the provided floor_id
