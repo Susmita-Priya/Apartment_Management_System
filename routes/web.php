@@ -19,6 +19,7 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\RoomTypeController;
 use App\Http\Controllers\SaasPlatform\WebsiteController;
+use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\StallController;
 use App\Http\Controllers\StallLockerController;
@@ -210,6 +211,14 @@ Route::middleware('auth')->group(callback: function () {
 
 
 
+        //service
+        Route::get('service/index', [ServiceController::class, 'index'])->name("service.index");
+        Route::get('service/create', [ServiceController::class, 'create'])->name("service.create");
+        Route::post('service/create', [ServiceController::class, 'store'])->name("service.store");
+        Route::get('service/show/{id}', [ServiceController::class, 'show'])->name("service.show");
+        Route::get('service/edit/{id}', [ServiceController::class, 'edit'])->name("service.edit");
+        Route::post('service/edit/{id}', [ServiceController::class, 'update'])->name("service.update");
+        Route::get('service/delete/{id}', [ServiceController::class, 'destroy'])->name("service.delete");
 
 
 
@@ -219,30 +228,30 @@ Route::middleware('auth')->group(callback: function () {
 
         // assign landlord to unit
 
-        Route::get('unit/{id}/assign', [UnitLandlordController::class, 'create'])->name('assign.create');
+        // Route::get('unit/{id}/assign', [UnitLandlordController::class, 'create'])->name('assign.create');
 
-        Route::post('unit/{id}/assign', [UnitLandlordController::class, 'store'])->name('assign.store');
+        // Route::post('unit/{id}/assign', [UnitLandlordController::class, 'store'])->name('assign.store');
 
-        Route::get('unit/removeLandlord/{Id}', [UnitLandlordController::class, 'removeLandlord'])->name('landlord.remove');
-
-
+        // Route::get('unit/removeLandlord/{Id}', [UnitLandlordController::class, 'removeLandlord'])->name('landlord.remove');
 
 
-        Route::post('/lease-request', [LeaseRequestController::class, 'store'])->name('lease-request.store');
 
-        Route::get('/lease-rqst-list', [LeaseRequestController::class, 'index'])->name('lease.index');
 
-        Route::get('/lease-aggrement', [LeaseRequestController::class, 'agreement'])->name('lease.agreement');
+        // Route::post('/lease-request', [LeaseRequestController::class, 'store'])->name('lease-request.store');
 
-        Route::get('/send-aggrement/{id}', [LeaseRequestController::class, 'sendagreement'])->name('send.agreement');
+        // Route::get('/lease-rqst-list', [LeaseRequestController::class, 'index'])->name('lease.index');
 
-        Route::post('/aggrement-form/{id}', [LeaseRequestController::class, 'agreementform'])->name('agreement.form');
+        // Route::get('/lease-aggrement', [LeaseRequestController::class, 'agreement'])->name('lease.agreement');
 
-        Route::get('/agreement/download/{id}', [LeaseRequestController::class, 'downloadAgreement'])->name('download.agreement');
+        // Route::get('/send-aggrement/{id}', [LeaseRequestController::class, 'sendagreement'])->name('send.agreement');
 
-        Route::get('/agreement/accept/{id}', [LeaseRequestController::class, 'accept'])->name('agreement.accept');
+        // Route::post('/aggrement-form/{id}', [LeaseRequestController::class, 'agreementform'])->name('agreement.form');
 
-        Route::get('/agreement/reject/{id}', [LeaseRequestController::class, 'reject'])->name('agreement.reject');
+        // Route::get('/agreement/download/{id}', [LeaseRequestController::class, 'downloadAgreement'])->name('download.agreement');
+
+        // Route::get('/agreement/accept/{id}', [LeaseRequestController::class, 'accept'])->name('agreement.accept');
+
+        // Route::get('/agreement/reject/{id}', [LeaseRequestController::class, 'reject'])->name('agreement.reject');
 
 
 
@@ -250,34 +259,6 @@ Route::middleware('auth')->group(callback: function () {
         
 
 
-
-        // Route::get('tenants/index', [TenantController::class, 'index'])->name("tenants.index");
-
-        // Route::get('tenants/create', [TenantController::class, 'create'])->name("tenants.create");
-
-        // Route::post('tenants/store', [TenantController::class, 'store'])->name("tenants.store");
-
-        // Route::get('tenants/show/{id}', [TenantController::class, 'show'])->name("tenants.show");
-
-        // Route::get('tenants/edit/{id}', [TenantController::class, 'edit'])->name("tenants.edit");
-
-        // Route::post('tenants/edit/{id}', [TenantController::class, 'update'])->name("tenants.update");
-
-        // Route::get('tenants/delete/{id}', [TenantController::class, 'destroy'])->name("tenants.delete");
-
-
-
-        Route::get('landlord/index', [LandlordController::class, 'index'])->name("landlord.index");
-
-        Route::get('landlord/create', [LandlordController::class, 'create'])->name("landlord.create");
-
-        Route::post('landlord/store', [LandlordController::class, 'store'])->name("landlord.store");
-
-        Route::get('landlord/edit/{id}', [LandlordController::class, 'edit'])->name("landlord.edit");
-
-        Route::post('landlord/edit/{id}', [LandlordController::class, 'update'])->name("landlord.update");
-
-        Route::get('landlord/delete/{id}', [LandlordController::class, 'destroy'])->name("landlord.delete");
 });
 
 

@@ -145,6 +145,16 @@
                                 </li>
                                 @endcan
 
+
+                                @can('service-create')
+                                <li>
+                                    <a href="{{ route('service.create') }}">
+                                        <i class="fa fa-plus"></i>
+                                        <span>New Service</span>
+                                    </a>
+                                </li>
+                                @endcan
+
                             </ul>
                         </li>
                     @endcan
@@ -280,6 +290,22 @@
                             </ul>
                         </li>
                     @endcan
+
+
+
+                    {{-- service --}}
+                    @can('service-management')
+                        <li>
+                            <a href="javascript: void(0);"><i class="fa fa-cogs"></i> <span> Services </span> <span
+                                    class="menu-arrow"></span></a>
+                            <ul class="nav-second-level " aria-expanded="false">
+                                @can('service-list')
+                                    <li><a href="{{ route('service.index') }}">Service List</a></li>
+                                @endcan
+                            </ul>
+                        </li>
+                    @endcan
+
 
 
                     {{-- <!-- Tenants -->
