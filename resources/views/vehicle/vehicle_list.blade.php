@@ -70,7 +70,7 @@
                                             <img src="{{ asset($vehicle->vehicle_image) }}" alt="{{ $vehicle->vehicle_name }}" style="width: 80px; height: auto;">
                                         </td>
                                         <td>Stall - {{ $vehicle->stall->stall_no }}</td>
-                                        <td>{{ $vehicle->vehicleOwner->name }}</td>
+                                        <td>{{ $vehicle->vehicleOwner->name ?? 'N/A' }}</td>
                                         <td>
                                             @if ($vehicle->status === '1')
                                                 <span class="badge badge-success">Stored</span>

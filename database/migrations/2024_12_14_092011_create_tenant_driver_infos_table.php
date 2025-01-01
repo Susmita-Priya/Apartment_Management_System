@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('tenant_driver_infos', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('contact_info_id')->references('id')->on('tenant_contact_infos')->constrained()->cascadeOnDelete();
+            $table->integer('contact_info_id');
             $table->string('full_name')->nullable();
             $table->string('email')->nullable();
             $table->string('phone')->nullable();

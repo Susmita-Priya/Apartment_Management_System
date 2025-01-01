@@ -13,7 +13,7 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box">
-                        <h4 class="page-title float-left">Dashboard</h4>
+                        <h4 class="page-title float-left">Admin Dashboard</h4>
 
                         <ol class="breadcrumb float-right">
                             <li class="breadcrumb-item active">Dashboard</li>
@@ -28,53 +28,49 @@
             <div class="row">
 
                 <div class="col-xl-3 col-sm-6">
-                    <div class="card-box widget-box-two widget-two-custom">
-                        <i class="mdi mdi-currency-usd widget-two-icon"></i>
-                        <div class="wigdet-two-content">
-                            <p class="m-0 text-uppercase font-bold font-secondary text-overflow" title="Statistics">Total
-                                Revenue</p>
-                            <h2 class="font-600"><span><i class="mdi mdi-arrow-up"></i></span> <span
-                                    data-plugin="counterup">65841</span></h2>
-                            <p class="m-0">Jan - Apr 2017</p>
+                    <div class="card-box widget-box-three">
+                        <div class="bg-icon pull-left">
+                            <img src="{{ asset('admin_dashboard') }}/assets/images/icons/timeline.svg" title="timeline.svg">
+                        </div>
+                        <div class="text-right">
+                            <p class="m-t-5 text-uppercase font-14 font-600">Total Building</p>
+                            <h2 class="m-b-5"><i class="mdi mdi-arrow-up"></i><span data-plugin="counterup">{{ $building }}</span></h2>
                         </div>
                     </div>
                 </div><!-- end col -->
 
                 <div class="col-xl-3 col-sm-6">
-                    <div class="card-box widget-box-two widget-two-custom">
-                        <i class="mdi mdi-account-multiple widget-two-icon"></i>
-                        <div class="wigdet-two-content">
-                            <p class="m-0 text-uppercase font-bold font-secondary text-overflow" title="Statistics">Total
-                                Unique Visitors</p>
-                            <h2 class="font-600"><span><i class="mdi mdi-arrow-up"></i></span> <span
-                                    data-plugin="counterup">236521</span></h2>
-                            <p class="m-0">Jan - Apr 2017</p>
+                    <div class="card-box widget-box-three">
+                        <div class="bg-icon pull-left">
+                            <img src="{{ asset('admin_dashboard') }}/assets/images/icons/timeline.svg" title="timeline.svg">
+                        </div>
+                        <div class="text-right">
+                            <p class="m-t-5 text-uppercase font-14 font-600">Total Floor</p>
+                            <h2 class="m-b-5"><i class="mdi mdi-arrow-up"></i><span data-plugin="counterup">{{ $floor }}</span></h2>
                         </div>
                     </div>
                 </div><!-- end col -->
 
                 <div class="col-xl-3 col-sm-6">
-                    <div class="card-box widget-box-two widget-two-custom">
-                        <i class="mdi mdi-crown widget-two-icon"></i>
-                        <div class="wigdet-two-content">
-                            <p class="m-0 text-uppercase font-bold font-secondary text-overflow" title="Statistics">Number
-                                of Transactions</p>
-                            <h2 class="font-600"><span><i class="mdi mdi-arrow-up"></i></span> <span
-                                    data-plugin="counterup">563698</span></h2>
-                            <p class="m-0">Jan - Apr 2017</p>
+                    <div class="card-box widget-box-three">
+                        <div class="bg-icon pull-left">
+                            <img src="{{ asset('admin_dashboard') }}/assets/images/icons/timeline.svg" title="timeline.svg">
+                        </div>
+                        <div class="text-right">
+                            <p class="m-t-5 text-uppercase font-14 font-600">Total Unit</p>
+                            <h2 class="m-b-5"><i class="mdi mdi-arrow-up"></i><span data-plugin="counterup">{{ $unit }}</span></h2>
                         </div>
                     </div>
                 </div><!-- end col -->
 
                 <div class="col-xl-3 col-sm-6">
-                    <div class="card-box widget-box-two widget-two-custom">
-                        <i class="mdi mdi-auto-fix widget-two-icon"></i>
-                        <div class="wigdet-two-content">
-                            <p class="m-0 text-uppercase font-bold font-secondary text-overflow" title="Statistics">
-                                Conversation Rate</p>
-                            <h2 class="font-600"><span><i class="mdi mdi-arrow-up"></i></span> <span
-                                    data-plugin="counterup">2.07</span>%</h2>
-                            <p class="m-0">Jan - Apr 2017</p>
+                    <div class="card-box widget-box-three">
+                        <div class="bg-icon pull-left">
+                            <img src="{{ asset('admin_dashboard') }}/assets/images/icons/timeline.svg" title="timeline.svg">
+                        </div>
+                        <div class="text-right">
+                            <p class="m-t-5 text-uppercase font-14 font-600">Total Room</p>
+                            <h2 class="m-b-5"><i class="mdi mdi-arrow-up"></i><span data-plugin="counterup">{{ $room }}</span></h2>
                         </div>
                     </div>
                 </div><!-- end col -->

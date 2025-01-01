@@ -135,7 +135,7 @@
 
                         </div>
                         <hr>
-                        <h4 class="header-title mt-0 m-b-20">Landlord Information</h4>
+                        {{-- <h4 class="header-title mt-0 m-b-20">Landlord Information</h4> --}}
                         {{-- <div class="panel-body">
 
                             @if ($unit->landlords->isEmpty())

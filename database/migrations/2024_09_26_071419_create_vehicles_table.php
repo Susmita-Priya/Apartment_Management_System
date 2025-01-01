@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('company_id')->references('id')->on('users');
             $table->foreignId('stall_id')->nullable()->references('id')->on('stalls')->onDelete('set null');
-            $table->foreignId('vehicle_type_id')->references('id')->on('vehicle_types');
-            $table->foreignId('vehicle_owner_id')->references('id')->on('users');
+            $table->integer('vehicle_type_id');
+            $table->integer('vehicle_owner_id');
             $table->string('vehicle_no')->unique();
             $table->string('model');
             $table->string('registration_no');

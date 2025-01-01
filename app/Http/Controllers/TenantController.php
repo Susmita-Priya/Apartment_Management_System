@@ -9,6 +9,7 @@ use App\Models\TenantContactInfo;
 use App\Models\TenantDriverInfo;
 use App\Models\TenantEmergencyContact;
 use App\Models\TenantPersonalInfo;
+use App\Models\Vehicle;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
@@ -274,6 +275,9 @@ class TenantController extends Controller
     public function destroy($id)
     {
         $tenant = TenantContactInfo::find($id);
+        $vehicle = Vehicle::where('vehicle_owner_id', $id);
+
+        // Delete the tenant
         TenantContactInfo::find($id)->delete();
         TenantPersonalInfo::where('contact_info_id', $id)->delete();
         TenantDriverInfo::where('contact_info_id', $id)->delete();
@@ -284,6 +288,11 @@ class TenantController extends Controller
         if ($user) {
             $user->delete();
         }
+
+        if ($vehicle) {
+            $vehicle->vehicle_owner_id = null;
+        }
+
         return back()->with('success', 'Tenant deleted successfully');
     }
 }

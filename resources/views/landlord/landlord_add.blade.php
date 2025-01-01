@@ -37,195 +37,99 @@
                                 <form action="{{ route('landlord.store') }}" method="POST" enctype="multipart/form-data">
                                     @csrf
 
-                                    <!-- Landlord Photo -->
-                                    <div class="form-group row">
-                                        <label class="col-2 col-form-label">
-                                            Photo
-                                        </label>
-                                        <div class="col-10">
-                                            <input class="form-control" type="file" name="image">
+
+                                    <div class="row">
+                                        <div class="col-12 col-md-12 mb-4">
+                                            <label for="name">Full Name<span style="color: red;">*</span></label>
+                                            <input type="text" placeholder="Enter your full name" name="name"
+                                                 required="required"
+                                                id="name" autocomplete="off"
+                                                class="form-control bg-transparent @error('name') is-invalid @enderror" />
+                                            @error('name')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
                                         </div>
                                     </div>
-
-                                    <!-- Landlord Name -->
-                                    <div class="form-group row">
-                                        <label class="col-2 col-form-label">
-                                            Name <b style="color: red">*</b>
-                                        </label>
-                                        <div class="col-10">
-                                            <input class="form-control" type="text" name="name" required>
+                                    <div class="row">
+                                        <div class="col-12 col-md-6 mb-4">
+                                            <label for="email">Email<span style="color: red;">*</span></label>
+                                            <input type="text" placeholder="Enter your email" name="email"
+                                                 required="required"
+                                                id="email" autocomplete="off"
+                                                class="form-control bg-transparent @error('email') is-invalid @enderror" />
+                                            @error('email')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+                                        </div>
+                                        <div class="col-12 col-md-6 mb-4">
+                                            <label for="phone">Mobile <span style="color: red;">*</span></label>
+                                            <input type="text" placeholder="Enter Your Mobile Number" name="phone"
+                                                required="required"
+                                                minlength="11" maxlength="11" id="mobileNumber" autocomplete="off"
+                                                class="form-control bg-transparent @error('phone') is-invalid @enderror" />
+                                            @error('phone')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
                                         </div>
                                     </div>
-
-                                    <!-- Phone -->
-                                    <div class="form-group row">
-                                        <label class="col-2 col-form-label">
-                                            Phone <b style="color: red">*</b>
-                                        </label>
-                                        <div class="col-10">
-                                            <input class="form-control" type="text" name="phone" required>
+                                    <div class="row">
+                                        <div class="col-6 col-md-6 mb-4">
+                                            <label for="address">Address<span style="color: red;">*</span></label>
+                                            <input type="text" placeholder="Enter your address" name="address"
+                                                required="required"
+                                                id="address" autocomplete="off"
+                                                class="form-control bg-transparent @error('address') is-invalid @enderror" />
+                                            @error('address')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+                                        </div>
+                                        <div class="col-6 col-md-6 mb-4">
+                                            <label for="nid">NID<span style="color: red;">*</span></label>
+                                            <input type="text" placeholder="Enter your NID" name="nid"
+                                                 required="required"
+                                                id="nid" autocomplete="off"
+                                                class="form-control bg-transparent @error('nid') is-invalid @enderror" />
+                                            @error('nid')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
                                         </div>
                                     </div>
-
-                                    <!-- Email -->
-                                    <div class="form-group row">
-                                        <label class="col-2 col-form-label">
-                                            Email <b style="color: red">*</b>
-                                        </label>
-                                        <div class="col-10">
-                                            <input class="form-control" type="email" name="email" required>
+                                    <div class="row">
+                                        <div class="col-6 col-md-6 mb-4">
+                                            <label for="tread_licence">Tread Licence<span style="color: red;">*</span></label>
+                                            <input type="text" placeholder="Enter your Tread Licence" name="tread_licence"
+                                                 required="required"
+                                                id="tread_licence" autocomplete="off"
+                                                class="form-control bg-transparent @error('tread_licence') is-invalid @enderror" />
+                                            @error('tread_licence')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+                                        </div>
+                                        <div class="col-6 col-md-6 mb-4">
+                                            <label for="password">Password<span style="color: red;">*</span></label>
+                                            <input type="password" placeholder="Enter password" name="password"
+                                                id="password" autocomplete="off"
+                                                class="form-control bg-transparent @error('password') is-invalid @enderror" />
+                                            
+                                            @error('password')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
                                         </div>
                                     </div>
-
-                                    <!-- NID -->
-                                    <div class="form-group row">
-                                        <label class="col-2 col-form-label">
-                                            NID <b style="color: red">*</b>
-                                        </label>
-                                        <div class="col-10">
-                                            <input class="form-control" type="text" name="nid" required>
-                                        </div>
-                                    </div>
-
-                                    <!-- Tax ID -->
-                                    <div class="form-group row">
-                                        <label class="col-2 col-form-label">
-                                            Tax ID <b style="color: red">*</b>
-                                        </label>
-                                        <div class="col-10">
-                                            <input class="form-control" type="text" name="tax_id" required>
-                                        </div>
-                                    </div>
-
-                                    <!-- Passport -->
-                                    <div class="form-group row">
-                                        <label class="col-2 col-form-label">
-                                            Passport
-                                        </label>
-                                        <div class="col-10">
-                                            <input class="form-control" type="text" name="passport">
-                                        </div>
-                                    </div>
-
-                                    <!-- Driving License -->
-                                    <div class="form-group row">
-                                        <label class="col-2 col-form-label">
-                                            Driving License
-                                        </label>
-                                        <div class="col-10">
-                                            <input class="form-control" type="text" name="driving_license">
-                                        </div>
-                                    </div>
-
-                                    <!-- Date of Birth -->
-                                    <div class="form-group row">
-                                        <label class="col-2 col-form-label">
-                                            Date of Birth <b style="color: red">*</b>
-                                        </label>
-                                        <div class="col-10">
-                                            <input class="form-control" type="date" name="dob" required>
-                                        </div>
-                                    </div>
-
-                                    <!--Marital Status-->
-                                    <div class="form-group row">
-                                        <label for="status" class="col-2 ">
-                                            Marital Status
-                                        </label>
-                                        <div class="col-10">
-                                            <div class="form-group">
-                                                <input type="radio" name="marital_status" value="Married"> Married
-                                                &nbsp;&nbsp;&nbsp;<input type="radio" name="marital_status"
-                                                    value="Unmarried">
-                                                Unmarried
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <!-- Permanent Address -->
-                                    <div class="form-group row">
-                                        <label class="col-2 col-form-label">
-                                            Permanent Address <b style="color: red">*</b>
-                                        </label>
-                                        <div class="col-10">
-                                            <input class="form-control" type="text" name="per_address" required>
-                                        </div>
-                                    </div>
-
-                                    <!--Occupation-->
-                                    <div class="form-group row">
-                                        <label class="col-2 col-form-label">
-                                            Occupation <b style="color: red">*</b>
-                                        </label>
-                                        <div class=" col-10">
-                                            <select class="form-control" name="occupation" required="">
-                                                <option value="">-- Select One --</option>
-                                                <option value="Businessman" id="busy">Businessman</option>
-                                                <option value="Job Holder" id="job">Job Holder</option>
-                                                <option value="Self Employed" id="self">Self Employed</option>
-                                                <option value="Service Holder" id="service">Service Holder</option>
-                                                <option value="Housewife" id="house">Housewife</option>
-                                                <option value="Student" id="stu">Student</option>
-                                                <option value="Unemployed" id="un">Unemployed</option>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <!-- Company -->
-                                    <div class="form-group row">
-                                        <label class="col-2 col-form-label">
-                                            Company
-                                        </label>
-                                        <div class="col-10">
-                                            <input class="form-control" type="text" name="company">
-                                        </div>
-                                    </div>
-
-                                    <!--religion-->
-                                    <div class="form-group row">
-                                        <label class="col-2 col-form-label">
-                                            Religion <b style="color: red">*</b>
-                                        </label>
-                                        <div class=" col-10">
-                                            <select class="form-control" name="religion" required="">
-                                                <option value="">-- Select One --</option>
-                                                <option value="Islam">Islam</option>
-                                                <option value="Hinduism">Hinduism</option>
-                                                <option value="Buddhism">Buddhism</option>
-                                                <option value="Christianity">Christianity</option>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <!--Qualification-->
-                                    <div class="form-group row">
-                                        <label class="col-2 col-form-label">
-                                            Qualification
-                                        </label>
-                                        <div class=" col-10">
-                                            <select class="form-control" name="qualification">
-                                                <option value="N/A">N/A</option>
-                                                <option value="SSC">SSC</option>
-                                                <option value="HSC">HSC</option>
-                                                <option value="Bachelors">Bachelor's</option>
-                                                <option value="Honours">Honours</option>
-                                                <option value="BBA">BBA</option>
-                                                <option value="LLB">LLB</option>
-                                                <option value="MBBS">MBBS</option>
-                                                <option value="Masters">Master's</option>
-                                                <option value="MBA">MBA</option>
-                                                <option value="Ph.D">Ph.D</option>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <!-- Password Confirmation -->
-                                <div class="form-group row">
-                                    <label class="col-2 col-form-label">Password <b style="color: red">*</b></label>
-                                    <div class="col-10">
-                                        <input class="form-control" type="password" name="password" required>
-                                    </div>
-                                </div>
 
 
                                     <button type="submit" class="btn submitbtn">Submit</button>

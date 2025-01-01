@@ -45,7 +45,7 @@ Route::post('/logout', [AuthController::class, 'logout'])->name("logout");
 
 Route::middleware('auth')->group(callback: function () {
 
-        Route::get('/index', [IndexController::class, 'index'])->name("index");
+        Route::get('/index', [IndexController::class, 'adminIndex'])->name("index");
 
 
         // Role and User Route
@@ -219,6 +219,16 @@ Route::middleware('auth')->group(callback: function () {
         Route::get('service/edit/{id}', [ServiceController::class, 'edit'])->name("service.edit");
         Route::post('service/edit/{id}', [ServiceController::class, 'update'])->name("service.update");
         Route::get('service/delete/{id}', [ServiceController::class, 'destroy'])->name("service.delete");
+
+
+        //landlord
+        Route::get('landlord/index', [LandlordController::class, 'index'])->name("landlord.index");
+        Route::get('landlord/create', [LandlordController::class, 'create'])->name("landlord.create");
+        Route::post('landlord/create', [LandlordController::class, 'store'])->name("landlord.store");
+        Route::get('landlord/show/{id}', [LandlordController::class, 'show'])->name("landlord.show");
+        Route::get('landlord/edit/{id}', [LandlordController::class, 'edit'])->name("landlord.edit");
+        Route::post('landlord/edit/{id}', [LandlordController::class, 'update'])->name("landlord.update");
+        Route::get('landlord/delete/{id}', [LandlordController::class, 'destroy'])->name("landlord.delete");
 
 
 

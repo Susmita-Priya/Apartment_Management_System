@@ -159,6 +159,16 @@ class PermissionSeeder extends Seeder
             'tenant-view',
 
 
+            //landlord management
+
+            'landlord-management',
+            'landlord-list',
+            'landlord-create',
+            'landlord-edit',
+            'landlord-delete',
+            'landlord-view',
+
+
             //service management
 
             'service-management',

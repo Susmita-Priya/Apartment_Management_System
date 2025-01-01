@@ -23,7 +23,7 @@
                     </li>
 
                     <!-- New -->
-                    @can('add-new')
+                    {{-- @can('add-new')
                         <li>
                             <a href="javascript: void(0);">
                                 <i class="fa fa-plus"></i>
@@ -43,9 +43,7 @@
                                             @can('building-create')
                                                 <li><a href="{{ route('building.create') }}">New Building</a></li>
                                             @endcan
-                                            {{-- @can('block-create')
-                                                <li><a href="{{ route('block.create') }}">New Block</a></li>
-                                            @endcan --}}
+                                            
                                             @can('floor-create')
                                                 <li><a href="{{ route('floor.create') }}">New Floor</a></li>
                                             @endcan 
@@ -90,7 +88,7 @@
                                         <span>Common Area</span>
                                     </a>
                                 </li>
-                                @endcan
+                                @endcan --}}
 
 
                                {{--  @can('landlord-management')
@@ -110,7 +108,7 @@
                                     </li>
                                 @endcan--}}
 
-                                @can('parking-management')
+                                {{-- @can('parking-management')
                                     <li>
                                         <a href="javascript: void(0);">
                                             <i class="fa fa-plus"></i>
@@ -157,7 +155,7 @@
 
                             </ul>
                         </li>
-                    @endcan
+                    @endcan --}}
 
                     <!-- Property -->
                     @can('property-management')
@@ -290,6 +288,21 @@
                             </ul>
                         </li>
                     @endcan
+
+
+                    {{-- landlord --}}
+                    @can('landlord-management')
+                        <li>
+                            <a href="javascript: void(0);"><i class="fa fa-user"></i> <span> Landlords </span> <span
+                                    class="menu-arrow"></span></a>
+                            <ul class="nav-second-level " aria-expanded="false">
+                                @can('landlord-list')
+                                    <li><a href="{{ route('landlord.index') }}">Landlords List</a></li>
+                                @endcan
+                            </ul>
+                        </li>
+                    @endcan
+
 
 
 
