@@ -80,7 +80,8 @@
                                     <td>Unit-{{ $agreement->unit->unit_no }}</td>
                                     <td>
                                         @if($agreement->document)
-                                            <a href="{{ asset($agreement->document) }}" target="_blank">View Document</a>
+                                            {{-- <a href="{{ asset($agreement->document) }}" >View Document</a> --}}
+                                        <a href="{{ asset($agreement->document) }}" target="_blank" class="btn btn-primary btn-sm">View Document</a>
                                         @else
                                             No Document
                                         @endif
