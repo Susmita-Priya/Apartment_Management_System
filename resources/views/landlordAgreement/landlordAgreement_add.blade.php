@@ -163,9 +163,16 @@
             floorSelect.innerHTML = '<option value="">Select Floor</option>';
 
             buildingFloors.forEach(floor => {
-                const suffix = (floor.floor_no % 10 == 1 && floor.floor_no % 100 != 11) ? 'st' :
-                               (floor.floor_no % 10 == 2 && floor.floor_no % 100 != 12) ? 'nd' :
-                               (floor.floor_no % 10 == 3 && floor.floor_no % 100 != 13) ? 'rd' : 'th';
+                let suffix = 'th';
+                    if (floor.floor_no == 1) {
+                        suffix = 'st';
+                    } else if (floor.floor_no == 2) {
+                        suffix = 'nd';
+                    } else if (floor.floor_no == 3) {
+                        suffix = 'rd';
+                    } else {
+                        suffix = 'th'; // For all other cases
+                    }
                 floorSelect.innerHTML +=
                     `<option value="${floor.id}">${floor.floor_no}<sup>${suffix}</sup> (${floor.type})</option>`;
             });

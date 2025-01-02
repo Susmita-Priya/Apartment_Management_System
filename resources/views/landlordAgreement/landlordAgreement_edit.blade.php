@@ -14,6 +14,7 @@
 
                         <ol class="breadcrumb float-right">
                             <li class="breadcrumb-item"><a href="{{ route('index') }}">Dashboard</a></li>
+                            <li class="breadcrumb-item"><a href="{{ route('landlord.agreement.index') }}">Landlord Agreement</a></li>
                             <li class="breadcrumb-item active">Edit Landlord Agreement</li>
                         </ol>
 
@@ -86,15 +87,15 @@
                                                 <label for="floor_id">Floor</label>
                                                 <select name="floor_id" id="floor_id" class="form-control" onchange="showFloorDetails()">
                                                     <option value="">Select Floor</option>
-                                                    @php
-                                                    $suffix = 'th';
-                                                    if ($landlordAgreement->floor->floor_no  == 1) {
-                                                        $suffix = 'st';
-                                                    } elseif ($landlordAgreement->floor->floor_no == 2) {
-                                                        $suffix = 'nd';
-                                                    } elseif ($landlordAgreement->floor->floor_no == 3) {
-                                                        $suffix = 'rd';
-                                                    }
+                                                @php
+                                                 $suffix =
+                                                $landlordAgreement->floor_no == 1
+                                                    ? 'st'
+                                                    : ($landlordAgreement->floor_no == 2
+                                                        ? 'nd'
+                                                        : ($landlordAgreement->floor_no == 3
+                                                            ? 'rd'
+                                                            : 'th'));
                                                 @endphp
                                                     @foreach ($floors as $floor)
 
@@ -163,9 +164,16 @@
                 floorSelect.innerHTML = '<option value="">Select Floor</option>';
 
                 buildingFloors.forEach(floor => {
-                    const suffix = (floor.floor_no % 10 == 1 && floor.floor_no % 100 != 11) ? 'st' :
-                               (floor.floor_no % 10 == 2 && floor.floor_no % 100 != 12) ? 'nd' :
-                               (floor.floor_no % 10 == 3 && floor.floor_no % 100 != 13) ? 'rd' : 'th';
+                    let suffix = 'th';
+                    if (floor.floor_no == 1) {
+                        suffix = 'st';
+                    } else if (floor.floor_no == 2) {
+                        suffix = 'nd';
+                    } else if (floor.floor_no == 3) {
+                        suffix = 'rd';
+                    } else {
+                        suffix = 'th'; // For all other cases
+                    }
                     floorSelect.innerHTML += `<option value="${floor.id}">${floor.floor_no}<sup>${suffix}</sup> (${floor.type})</option>`;
                 });
             }

@@ -64,13 +64,15 @@
                                     <td>{{ $agreement->building->name }}</td>
                                     <td>
                                         @php
-                                            $suffix = 'th';
-                                            if ($agreement->floor->floor_no  == 1) {
+                                            $floorNo = $agreement->floor->floor_no;
+                                            if ($floorNo == 1) {
                                                 $suffix = 'st';
-                                            } elseif ($agreement->floor->floor_no == 2) {
+                                            } elseif ($floorNo == 2) {
                                                 $suffix = 'nd';
-                                            } elseif ($agreement->floor->floor_no == 3) {
+                                            } elseif ($floorNo == 3) {
                                                 $suffix = 'rd';
+                                            } else {
+                                                $suffix = 'th';
                                             }
                                         @endphp
                                         {{ $agreement->floor->floor_no }}{{ $suffix }} ({{ $agreement->floor->type }})
