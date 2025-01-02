@@ -13,9 +13,37 @@ class LandlordAgreement extends Model
         'landlord_id',
         'company_id',
         'building_id',
+        'floor_id',
         'unit_id',
         'document',
         'amount',
         'status'
     ];
+
+    public function building()
+    {
+        return $this->belongsTo(Building::class);
+    }
+
+    public function floor()
+    {
+        return $this->belongsTo(Floor::class);
+    }
+
+    public function unit()
+    {
+        return $this->belongsTo(Unit::class);
+    }
+
+    public function landlord()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function company()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+
 }

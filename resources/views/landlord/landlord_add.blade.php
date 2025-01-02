@@ -37,9 +37,23 @@
                                 <form action="{{ route('landlord.store') }}" method="POST" enctype="multipart/form-data">
                                     @csrf
 
-
                                     <div class="row">
-                                        <div class="col-12 col-md-12 mb-4">
+                                        <div class="col-6 col-md-6 mb-4">
+                                            <label for="company_id">Company Name<span style="color: red;">*</span></label>
+                                            <select name="company_id" id="company_id" class="form-control bg-transparent @error('company_id') is-invalid @enderror" required>
+                                                <option value="">Select Company</option>
+                                                @foreach($companies as $company)
+                                                    <option value="{{ $company->id }}">{{ $company->name }}</option>
+                                                @endforeach
+                                            </select>
+                                            @error('company_id')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+                                        </div>
+                   
+                                        <div class="col-6 col-md-6 mb-4">
                                             <label for="name">Full Name<span style="color: red;">*</span></label>
                                             <input type="text" placeholder="Enter your full name" name="name"
                                                  required="required"
@@ -130,7 +144,6 @@
                                             @enderror
                                         </div>
                                     </div>
-
 
                                     <button type="submit" class="btn submitbtn">Submit</button>
                                 </form>

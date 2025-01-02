@@ -11,6 +11,7 @@ use App\Http\Controllers\CommonAreaController;
 use App\Http\Controllers\FloorController;
 use App\Http\Controllers\GetController;
 use App\Http\Controllers\IndexController;
+use App\Http\Controllers\LandlordAgreementController;
 use App\Http\Controllers\LandlordController;
 use App\Http\Controllers\LeaseRequestController;
 use App\Http\Controllers\ParkerController;
@@ -229,6 +230,18 @@ Route::middleware('auth')->group(callback: function () {
         Route::get('landlord/edit/{id}', [LandlordController::class, 'edit'])->name("landlord.edit");
         Route::post('landlord/edit/{id}', [LandlordController::class, 'update'])->name("landlord.update");
         Route::get('landlord/delete/{id}', [LandlordController::class, 'destroy'])->name("landlord.delete");
+
+
+
+
+        // landlord agreement
+        Route::get('landlordAgreement/index', [LandlordAgreementController::class, 'index'])->name("landlord.agreement.index");
+        Route::get('landlordAgreement/create', [LandlordAgreementController::class, 'create'])->name("landlord.agreement.create");
+        Route::post('landlordAgreement/create', [LandlordAgreementController::class, 'store'])->name("landlord.agreement.store");
+        Route::get('landlordAgreement/show/{id}', [LandlordAgreementController::class, 'show'])->name("landlord.agreement.show");
+        Route::get('landlordAgreement/edit/{id}', [LandlordAgreementController::class, 'edit'])->name("landlord.agreement.edit");
+        Route::post('landlordAgreement/edit/{id}', [LandlordAgreementController::class, 'update'])->name("landlord.agreement.update");
+        Route::get('landlordAgreement/delete/{id}', [LandlordAgreementController::class, 'destroy'])->name("landlord.agreement.delete");
 
 
 

@@ -26,7 +26,8 @@ class LandlordController extends Controller
      */
     public function create()
     {
-        return view('landlord.landlord_add');
+        $companies = User::role('Company')->get();
+        return view('landlord.landlord_add', compact('companies'));
     }
 
     /**
@@ -53,7 +54,7 @@ class LandlordController extends Controller
         $user->phone = $request->input('phone');
         $user->address = $request->input('address');
         $user->tread_licence = $request->input('tread_licence');
-        $user->parent_id = Auth::user()->id; 
+        $user->parent_id = $request->input('company_id');
         $user->password = Hash::make($request->input('password'));
 
         Role::updateOrCreate(['name' => 'Landlord']);
@@ -77,7 +78,8 @@ class LandlordController extends Controller
     public function edit($id)
     {
         $landlord = Landlord::find($id);
-        return view('landlord.landlord_edit', compact('landlord'));
+        $companies = User::role('Company')->get();
+        return view('landlord.landlord_edit', compact('landlord', 'companies'));
     }
 
     /**
@@ -92,11 +94,11 @@ class LandlordController extends Controller
             'address' => 'string|max:255',
             'nid' => 'required|string|max:20',
             'tread_licence' => 'required|string|max:20',
-            'password' => 'nullable|string|min:4',
         ]);
 
         $landlord = Landlord::find($id);
         $landlord->update([
+            'company_id' => $request->input('company_id'),
             'name' => $request->input('name'),
             'email' => $request->input('email'),
             'phone' => $request->input('phone'),
@@ -105,9 +107,15 @@ class LandlordController extends Controller
             'tread_licence' => $request->input('tread_licence'),
         ]);
 
+        if ($request->filled('password')) {
+            $landlord->password = Hash::make($request->input('password')); 
+            $landlord->save();
+        }
+
         // Update the corresponding user
         $user = User::where('email', $landlord->email)->first();
         if ($user) {
+            $user->parent_id = $request->input('company_id');
             $user->name = $request->input('name');
             $user->email = $request->input('email');
             $user->phone = $request->input('phone');

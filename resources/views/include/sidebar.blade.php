@@ -299,6 +299,10 @@
                                 @can('landlord-list')
                                     <li><a href="{{ route('landlord.index') }}">Landlords List</a></li>
                                 @endcan
+                                @can('landlord-agreement-list')
+                                    <li><a href="{{ route('landlord.agreement.index') }}">Landlord Agreement List</a></li>
+                                    
+                                @endcan
                             </ul>
                         </li>
                     @endcan

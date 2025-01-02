@@ -16,6 +16,7 @@ return new class extends Migration
             $table->integer('landlord_id');
             $table->integer('company_id');
             $table->integer('building_id');
+            $table->integer('floor_id');
             $table->integer('unit_id');
             $table->string('document')->nullable();
             $table->string('amount');

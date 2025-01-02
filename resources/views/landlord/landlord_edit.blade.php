@@ -37,9 +37,23 @@
                                 <form action="{{ route('landlord.update', $landlord->id) }}" method="POST" enctype="multipart/form-data">
                                     @csrf
 
-
                                     <div class="row">
-                                        <div class="col-12 col-md-12 mb-4">
+                                        <div class="col-6 col-md-6 mb-4">
+                                            <label for="company_id">Company Name<span style="color: red;">*</span></label>
+                                            <select name="company_id" id="company_id" class="form-control bg-transparent @error('company_id') is-invalid @enderror" required>
+                                                <option value="">Select Company</option>
+                                                @foreach($companies as $company)
+                                                    <option value="{{ $company->id }}" {{ old('company_id', $landlord->company_id) == $company->id ? 'selected' : '' }}>{{ $company->name }}</option>
+                                                @endforeach
+                                            </select>
+                                            @error('company_id')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+                                        </div>
+
+                                        <div class="col-6 col-md-6 mb-4">
                                             <label for="name">Full Name<span style="color: red;">*</span></label>
                                             <input type="text" placeholder="Enter your full name" name="name"
                                                 value="{{ old('name', $landlord->name ?? '') }}" required="required"
@@ -57,7 +71,7 @@
                                             <label for="email">Email<span style="color: red;">*</span></label>
                                             <input type="text" placeholder="Enter your email" name="email"
                                                 value="{{ old('email', $landlord->email ?? '') }}" required="required"
-                                                id="email" autocomplete="off"
+                                                id="email" autocomplete="off" readonly
                                                 class="form-control bg-transparent @error('email') is-invalid @enderror" />
                                             @error('email')
                                                 <span class="invalid-feedback" role="alert">
