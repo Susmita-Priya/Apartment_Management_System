@@ -277,13 +277,26 @@
 
 
                     {{-- tenant-registration --}}
-                    @can('tenant-list')
+                    @can('tenant-management')
                         <li>
                             <a href="javascript: void(0);"><i class="fa fa-user"></i> <span> Tenants</span> <span
                                     class="menu-arrow"></span></a>
                             <ul class="nav-second-level " aria-expanded="false">
+                                @can('tenant-registration')
+                                    <li><a href="{{ route('tenant.create') }}">Registration</a></li>
+                                @endcan
                                 @can('tenant-list')
                                     <li><a href="{{ route('tenants.index') }}">Tenant List</a></li>
+                                @endcan
+                                @can('tenant-agreement-create')
+                                    <li><a href="{{ route('tenant.agreement.create') }}">Agreement Request</a></li>
+                                    
+                                @endcan
+                                @can('tenant-agreement-list')
+                                    <li><a href="{{ route('tenant.agreement.index') }}">Agreement List</a></li>
+                                @endcan
+                                @can('tenant-agreement-pending')
+                                    <li><a href="{{ route('tenant.agreement.pending') }}">Pending Agreement List</a></li>
                                 @endcan
                             </ul>
                         </li>
@@ -299,8 +312,14 @@
                                 @can('landlord-list')
                                     <li><a href="{{ route('landlord.index') }}">Landlords List</a></li>
                                 @endcan
+                                @can('landlord-registration')
+                                    <li><a href="{{ route('landlord.create') }}">Registration</a></li>
+                                @endcan
+                                @can('landlord-agreement-create')
+                                    <li><a href="{{ route('landlord.agreement.create') }}">Agreement Request</a></li> 
+                                @endcan
                                 @can('landlord-agreement-list')
-                                    <li><a href="{{ route('landlord.agreement.index') }}">Landlord Agreement List</a></li>
+                                    <li><a href="{{ route('landlord.agreement.index') }}">Landlord Agreement</a></li>
                                     
                                 @endcan
                             </ul>

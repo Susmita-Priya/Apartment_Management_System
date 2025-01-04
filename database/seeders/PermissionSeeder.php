@@ -157,6 +157,16 @@ class PermissionSeeder extends Seeder
             'tenant-edit',
             'tenant-delete',
             'tenant-view',
+            'tenant-registration',
+
+            //tenant agreement
+
+            'tenant-agreement-list',
+            'tenant-agreement-create',
+            'tenant-agreement-delete',
+            'tenant-agreement-pending',
+            'agreement-request-approve',
+            'agreement-request-reject',
 
 
             //landlord management
@@ -167,6 +177,8 @@ class PermissionSeeder extends Seeder
             'landlord-edit',
             'landlord-delete',
             'landlord-view',
+            'landlord-registration',
+            'landlord-agreement-create',
 
 
             //landlord agreement

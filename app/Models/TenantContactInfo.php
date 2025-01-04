@@ -17,5 +17,4 @@ class TenantContactInfo extends Model
         'password',
         'status',
     ];
-
 }

@@ -34,7 +34,10 @@ class VehicleController extends Controller
         $vehicleOwners = User::whereHas('roles', function($query) {
             $query->whereIn('name', ['Tenant', 'Landlord']);
         })->get();
-        return view('vehicle.vehicle_add', compact('stalls', 'vehicleTypes', 'vehicleOwners'));
+
+        $stall_id = request()->query('stall_id');
+        $stl = Stall::find($stall_id);
+        return view('vehicle.vehicle_add', compact('stalls', 'vehicleTypes', 'vehicleOwners', 'stl'));
     }
 
     /**

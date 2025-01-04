@@ -44,13 +44,12 @@ class LandlordAgreementController extends Controller
 
         }elseif (Auth::user()->hasRole('Company')) {
             $company = Auth::user();
+            $company_id = Auth::user()->id;
         }
 
         $buildings = Building::where('company_id', $company_id)->where('status',1)->get();
-        $floors = Floor::where('status', 1)->get();
+        $floors = Floor::where('type','upper')->where('status', 1)->get();
         $units = Unit::where('company_id', Auth::user()->id)->get();
-
-        // dd($company, $landlord);
 
         return view('landlordAgreement.landlordAgreement_add', compact('buildings', 'floors', 'units','landlords','companies','landlord','company'));
     }
@@ -74,7 +73,7 @@ class LandlordAgreementController extends Controller
         $landlordAgreement->unit_id = $request->unit_id;
         if ($request->hasFile('document')) {
             $file = $request->file('document');
-            $filename = time() . '_pdf' . $file->getClientOriginalExtension();
+            $filename = time() . '_pdf.' . $file->getClientOriginalExtension();
             $path = 'uploads/pdfs';
             $file->move(public_path($path), $filename);
             $landlordAgreement->document = $path . '/' . $filename;
@@ -148,14 +147,15 @@ class LandlordAgreementController extends Controller
             }
 
             $file = $request->file('document');
-            $filename = time() . '_pdf' . $file->getClientOriginalExtension();
+            $filename = time() . '_pdf.' . $file->getClientOriginalExtension();
             $path = 'uploads/pdfs';
             $file->move(public_path($path), $filename);
-            $landlordAgreement->document = $path . '/' . $filename;
+            $fullPath = $path . '/' . $filename;
+            $landlordAgreement->document = $fullPath;
         }
 
         $landlordAgreement->amount = $request->amount;
-        $landlordAgreement->status = 1;
+        $landlordAgreement->status = $request->status;
         $landlordAgreement->save();
 
         return redirect()->back()->with('success', 'Landlord Agreement updated successfully');

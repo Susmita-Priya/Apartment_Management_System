@@ -28,7 +28,6 @@
                     <div class="card-box">
                         <form action="{{ route('landlord.agreement.update', $landlordAgreement->id) }}" enctype="multipart/form-data" method="POST">
                             @csrf
-                            @method('PUT')
                             <div class="container mt-5">
                                 <div class="col-md-12">
                                     <div class="card-box">
@@ -136,6 +135,21 @@
                                                 <input type="number" class="form-control" name="amount" id="amount" value="{{ $landlordAgreement->amount }}" placeholder="Enter Amount">
                                                 <span class="text-danger">
                                                     @error('amount') {{ $message }} @enderror
+                                                </span>
+                                            </div>
+
+                                            {{-- status --}}
+                                            <div class="form-group col-md-12">
+                                                <label for="status" class="col-form-label">Status</label>
+                                                <select class="form-control" name="status" id="status">
+                                                    <option value="">Select Status</option>
+                                                    <option value="1" {{ $landlordAgreement->status == 1 ? 'selected' : '' }}>Active</option>
+                                                    <option value="0" {{ $landlordAgreement->status == 0 ? 'selected' : '' }}>Inactive</option>
+                                                </select>
+                                                <span class="text-danger">
+                                                    @error('status')
+                                                        {{ $message }}
+                                                    @enderror
                                                 </span>
                                             </div>
 

@@ -24,6 +24,7 @@ use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\StallController;
 use App\Http\Controllers\StallLockerController;
+use App\Http\Controllers\TenantAgreementController;
 use App\Http\Controllers\TenantController;
 use App\Http\Controllers\TenantsController;
 use App\Http\Controllers\UnitAssignController;
@@ -34,6 +35,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\VehicleController;
 use App\Http\Controllers\VehicleTypeController;
 use App\Http\Middleware\AdminUserMiddleware;
+use App\Models\tenantAgreement;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -167,6 +169,16 @@ Route::middleware('auth')->group(callback: function () {
         Route::post('tenant-registration/{type?}/{id?}', [TenantController::class, 'tenantRegistration'])->name('tenant.store');
         Route::get('tenant/show/{id}', [TenantController::class, 'show'])->name("tenant.show");
         Route::get('tenant/delete/{id}', [TenantController::class, 'destroy'])->name("tenant.delete");
+
+
+
+        // tenant agreement
+        Route::get('tenantAgreement/index', [TenantAgreementController::class, 'index'])->name("tenant.agreement.index");
+        Route::get('tenantAgreement/create', [TenantAgreementController::class, 'create'])->name("tenant.agreement.create");
+        Route::post('tenantAgreement/create', [TenantAgreementController::class, 'store'])->name("tenant.agreement.store");
+        Route::get('tenantAgreement/pending', [TenantAgreementController::class, 'pending'])->name("tenant.agreement.pending");
+        Route::get('tenantAgreement/approve/{id}', [TenantAgreementController::class, 'approve'])->name("tenant.agreement.approve");
+        Route::post('tenantAgreement/reject/{id}', [TenantAgreementController::class, 'reject'])->name("tenant.agreement.reject");
 
 
 

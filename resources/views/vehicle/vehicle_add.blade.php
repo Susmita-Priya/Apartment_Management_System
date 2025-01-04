@@ -41,7 +41,9 @@
                                 <select class="form-control" id="stall_id" name="stall_id">
                                     <option value="">Select Stall</option>
                                     @foreach($stalls as $stall)
-                                        <option value="{{ $stall->id }}">{{ $stall->stall_no }}</option>
+                                        <option value="{{ $stall->id }}"
+                                            {{ $stall && $stall->id == $stl->id ? 'selected' : '' }}>
+                                            {{ $stall->stall_no }}</option>
                                     @endforeach
                                 </select>
                             </div>

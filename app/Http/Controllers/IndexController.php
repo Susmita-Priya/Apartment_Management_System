@@ -16,7 +16,8 @@ class IndexController extends Controller
 {
     public function adminIndex()
     {
-        $building = Building::where('company_id',Auth::user()->id)->count();
+        $building = Building::where('company_id',Auth::user()->id)
+                    ->where('status',1)->count();
         // dd($building);
         $floor = Floor::where('company_id',Auth::user()->id)->count();
         $unit = Unit::where('company_id',Auth::user()->id)->count();
