@@ -30,11 +30,16 @@ class BuildingController extends Controller
         // Pass the buildings data to the view
         // return view('building.building_list', $data);
 
-
+        if (Auth::user()->hasRole('Tenant')) {
+            $buildings = Building::where('status', 1)
+                ->latest()
+                ->get();
+        } else {
         $buildings = Building::where('company_id', Auth::user()->id)
             ->where('status', 1)
             ->latest()
             ->get();
+        }
         return view('building.building_list', compact('buildings'));
     }
 

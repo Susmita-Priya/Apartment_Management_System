@@ -298,6 +298,9 @@
                                 @can('tenant-agreement-pending')
                                     <li><a href="{{ route('tenant.agreement.pending') }}">Pending Agreement List</a></li>
                                 @endcan
+                                @can('tenant-agreement-reject')
+                                    <li><a href="{{ route('tenant.agreement.rejectList') }}">Rejected Agreement List</a></li>
+                                @endcan
                             </ul>
                         </li>
                     @endcan

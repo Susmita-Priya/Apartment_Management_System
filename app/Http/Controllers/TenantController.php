@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\LeaseRequest;
 use App\Models\Tenant;
+use App\Models\TenantAgreement;
 use App\Models\User;
 use App\Models\TenantContactInfo;
 use App\Models\TenantDriverInfo;
 use App\Models\TenantEmergencyContact;
 use App\Models\TenantPersonalInfo;
+use App\Models\Unit;
 use App\Models\Vehicle;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -268,8 +270,14 @@ class TenantController extends Controller
             'driver-info' => $tenantDriverInfo,
             'emergency-contact' => $tenantEmergencyContact,
         ];
+
+        $user = User::where('email', $tenantContactInfo->email)->first();
+        $tenantAgreements = TenantAgreement::with('unit')->where('tenant_id', $user->id)->get();
+        // dd($tenantAgreements);
+        $units = $tenantAgreements->pluck('unit')->flatten();
+        // dd($units);
         
-        return view('tenant.tenant_show', compact('tenant'));
+        return view('tenant.tenant_show', compact('tenant', 'units'));
     }
     
     public function destroy($id)

@@ -167,6 +167,7 @@ class PermissionSeeder extends Seeder
             'tenant-agreement-pending',
             'agreement-request-approve',
             'agreement-request-reject',
+            'tenant-agreement-reject',
 
 
             //landlord management

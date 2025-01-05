@@ -60,6 +60,21 @@ class TenantAgreementController extends Controller
         return redirect()->back()->with('success', 'Agreement Rejected');
     }
 
+    public function rejectList()
+    {
+        if (Auth::user()->hasRole('Tenant')) {
+            $tenantAgreements = TenantAgreement::where('tenant_id', Auth::user()->id)
+                ->where('status', 2)
+                ->latest()
+                ->get();
+        } else {
+            $tenantAgreements = TenantAgreement::where('status', 2)
+                ->latest()
+                ->get();
+        }
+        return view('tenantAgreement.tenantAgreement_reject_list', compact('tenantAgreements'));
+    }
+
 
     public function create()
     {

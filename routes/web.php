@@ -178,7 +178,8 @@ Route::middleware('auth')->group(callback: function () {
         Route::post('tenantAgreement/create', [TenantAgreementController::class, 'store'])->name("tenant.agreement.store");
         Route::get('tenantAgreement/pending', [TenantAgreementController::class, 'pending'])->name("tenant.agreement.pending");
         Route::get('tenantAgreement/approve/{id}', [TenantAgreementController::class, 'approve'])->name("tenant.agreement.approve");
-        Route::post('tenantAgreement/reject/{id}', [TenantAgreementController::class, 'reject'])->name("tenant.agreement.reject");
+        Route::get('tenantAgreement/reject/{id}', [TenantAgreementController::class, 'reject'])->name("tenant.agreement.reject");
+        Route::get('tenantAgreement/rejectList', [TenantAgreementController::class, 'rejectList'])->name("tenant.agreement.rejectList");
 
 
 

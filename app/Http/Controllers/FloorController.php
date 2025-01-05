@@ -14,7 +14,13 @@ class FloorController extends Controller
 {
     public function index()
     {
+        if (Auth::user()->hasRole('Tenant')) {
+            $buildings = Building::where('status', 1)
+                ->latest()
+                ->get();
+        } else {
         $buildings = Building::where('company_id', Auth::user()->id)->where('status',1)->latest()->get();
+        }
         return view('floor.floor_list', compact('buildings'));
     }
 

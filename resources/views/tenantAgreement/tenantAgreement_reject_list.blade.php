@@ -1,7 +1,7 @@
 @extends('master')
 
 @push('title')
-    <title>Tenant Agreement Request List</title>
+    <title>Tenant Agreement Reject List</title>
 @endpush
 
 @section('content')
@@ -14,7 +14,7 @@
 
                         <ol class="breadcrumb float-right">
                             <li class="breadcrumb-item"><a href="{{ route('index') }}">Dashboard</a></li>
-                            <li class="breadcrumb-item active">Tenant Agreement Request List</li>
+                            <li class="breadcrumb-item active">Tenant Agreement Reject List</li>
                         </ol>
 
                         <div class="clearfix"></div>
@@ -26,7 +26,7 @@
             <div class="row">
                 <div class="col-12">
                     <div class="card-box">
-                        <h4 class="header-title m-b-15 m-t-0">Tenant Agreement Request List</h4>
+                        <h4 class="header-title m-b-15 m-t-0">Tenant Agreement Reject List</h4>
                         <div class="row">
                             <div class="col-sm-12">
                                 <div class="text-right m-b-20">
@@ -50,13 +50,11 @@
                                     <th>Building</th>
                                     <th>Floor</th>
                                     <th>Unit</th>
-                                   
                                     <th>Rent</th>
                                     <th>Rent Advance Recived</th>
                                     <th>Lease Start Date</th>
                                     <th>Lease End Date</th>
                                     <th>Document</th>
-                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -96,14 +94,7 @@
                                                 No Document
                                             @endif
                                         </td>
-                                        <td>
-                                            @can('agreement-request-approve')
-                                                <a href="{{ route('tenant.agreement.approve', $agreement->id) }}" class="action-icon" style="font-size: 26px; color: green;" title="Approve"> <i class="mdi mdi-check-circle"></i></a>
-                                            @endcan
-                                            @can('agreement-request-reject')
-                                                <a href="{{ route('tenant.agreement.reject', $agreement->id) }}" class="action-icon" style="font-size: 26px; color: red;" title="Reject" > <i class="mdi mdi-close-circle"></i></a>
-                                            @endcan
-                                        </td>
+                                        
                                     </tr>
                                 @endforeach
                             </tbody>

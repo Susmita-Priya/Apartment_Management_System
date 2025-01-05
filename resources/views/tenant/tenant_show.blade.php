@@ -96,6 +96,8 @@
 
                             </div>
 
+                            {{-- <div class="text-right"> --}}
+
                         </div>
                     </div>
 
@@ -144,5 +146,28 @@
                         </div>
                     </div>
                 </div>
+
+
+            <!-- Units List -->
+                @foreach ($units as $unit)
+                        <div class="col-md-4 mb-4">
+                            <div class="card-box">
+                                <h4 class="header-title mt-0 m-b-20">UNIT-{{ $unit->unit_no }}
+                                </h4>
+                                <div class="panel-body">
+                                    <p class="text-muted font-15"><strong>Type:
+                                        </strong>{{ ucfirst($unit->type) }} Unit</p>
+                                    @can('unit-view')
+                                        <button type="button"
+                                            onclick="window.location.href='{{ route('unit.show', $unit->id) }}'"
+                                            class="btn btn-info m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light btn-sm">
+                                            Enter
+                                        </button>
+                                    @endcan
+                                </div>
+                            </div>
+                        </div>
+                @endforeach
+            </div>
             </div>
 @endsection
