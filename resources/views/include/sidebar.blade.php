@@ -346,6 +346,20 @@
                     @endcan
 
 
+                    {{-- service holder --}}
+                    @can('service-holder-management')
+                        <li>
+                            <a href="javascript: void(0);"><i class="fa fa-user"></i> <span> Service Holder </span> <span
+                                    class="menu-arrow"></span></a>
+                            <ul class="nav-second-level " aria-expanded="false">
+                                @can('service-holder-list')
+                                    <li><a href="{{ route('serviceHolder.index') }}">Service Holder List</a></li>
+                                @endcan
+                            </ul>
+                        </li>
+                    @endcan
+
+
 
                     {{-- <!-- Tenants -->
                     @can('tenant-management')

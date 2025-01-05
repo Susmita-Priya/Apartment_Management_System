@@ -21,6 +21,7 @@ use App\Http\Controllers\RoomController;
 use App\Http\Controllers\RoomTypeController;
 use App\Http\Controllers\SaasPlatform\WebsiteController;
 use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\ServiceHolderController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\StallController;
 use App\Http\Controllers\StallLockerController;
@@ -193,6 +194,7 @@ Route::middleware('auth')->group(callback: function () {
         Route::get('stall/delete/{id}', [StallController::class, 'destroy'])->name("stall.delete");
 
 
+
         //parker
         Route::get('parker/index', [ParkerController::class, 'index'])->name("parker.index");
         Route::get('parker/create', [ParkerController::class, 'create'])->name("parker.create");
@@ -233,6 +235,18 @@ Route::middleware('auth')->group(callback: function () {
         Route::get('service/edit/{id}', [ServiceController::class, 'edit'])->name("service.edit");
         Route::post('service/edit/{id}', [ServiceController::class, 'update'])->name("service.update");
         Route::get('service/delete/{id}', [ServiceController::class, 'destroy'])->name("service.delete");
+
+
+
+        //service holder
+        Route::get('serviceHolder/index', [ServiceHolderController::class, 'index'])->name("serviceHolder.index");
+        Route::get('serviceHolder/create', [ServiceHolderController::class, 'create'])->name("serviceHolder.create");
+        Route::post('serviceHolder/create', [ServiceHolderController::class, 'store'])->name("serviceHolder.store");
+        Route::get('serviceHolder/show/{id}', [ServiceHolderController::class, 'show'])->name("serviceHolder.show");
+        Route::get('serviceHolder/edit/{id}', [ServiceHolderController::class, 'edit'])->name("serviceHolder.edit");
+        Route::post('serviceHolder/edit/{id}', [ServiceHolderController::class, 'update'])->name("serviceHolder.update");
+        Route::get('serviceHolder/delete/{id}', [ServiceHolderController::class, 'destroy'])->name("serviceHolder.delete");
+
 
 
         //landlord

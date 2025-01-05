@@ -201,6 +201,16 @@ class PermissionSeeder extends Seeder
             'service-delete',
             'service-view',
 
+
+            //service holder management
+
+            'service-holder-management',
+            'service-holder-list',
+            'service-holder-create',
+            'service-holder-edit',
+            'service-holder-delete',
+            'service-holder-view',
+
         ];
 
         foreach ($permissions as $permission) {
