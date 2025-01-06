@@ -50,7 +50,7 @@
                                     <th>Unit</th>
                                     <th>Issue</th>
                                     <th>Status</th>
-                                    <th>Action</th>
+                                    <th>Update Status</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -88,8 +88,16 @@
                                                 <span class="badge badge-danger">Unknown</span>
                                             @endif
                                         </td>
+                                        <td>
+                                            @can('maintenance-edit')
+                                            <a class="dropdown-item"
+                                                href="{{ route('maintenance.edit', $maintenance->id) }}"
+                                                type="submit"><i
+                                                    class="mdi mdi-pencil m-r-10 text-muted font-18 vertical-middle"></i>Change</a>
+                                            @endcan
+                                        </td>
 
-                                        <td class="text">
+                                        {{-- <td class="text">
                                             <div class="btn-group dropdown">
                                                 <a href="javascript: void(0);" class="table-action-btn dropdown-toggle"
                                                     data-toggle="dropdown" aria-expanded="false"><i
@@ -120,7 +128,7 @@
                                                 </div>
                                             </div>
 
-                                        </td>
+                                        </td> --}}
                                     </tr>
                                 @endforeach
                             </tbody>

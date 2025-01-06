@@ -29,7 +29,7 @@
                             <div class="container mt-5">
                                 <div class="col-md-12">
                                     <div class="card-box">
-                                        <h1 class="d-flex justify-content-center mt-4">EDIT MAINTENANCE REQUEST</h1>
+                                        <h1 class="d-flex justify-content-center mt-4">CHANGE MAINTENANCE Status</h1>
                                         <div class="form-row">
                                             <!-- status -->
                                             <div class="form-group

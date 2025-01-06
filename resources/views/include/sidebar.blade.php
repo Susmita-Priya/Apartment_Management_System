@@ -368,7 +368,7 @@
                                     class="menu-arrow"></span></a>
                             <ul class="nav-second-level " aria-expanded="false">
                                 @can('maintenance-request')
-                                <li><a href="{{ route('maintenance.create') }}">New Maintenance Request</a></li>
+                                <li><a href="{{ route('maintenance.create') }}">Maintenance Request</a></li>
                                 @endcan
                                 @can('maintenance-list')
                                     <li><a href="{{ route('maintenance.index') }}">Maintenance List</a></li>
