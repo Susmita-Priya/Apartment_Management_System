@@ -29,10 +29,17 @@
     <link href="{{ asset('admin_dashboard') }}/assets/css/style.css" rel="stylesheet" type="text/css" />
 
     <script src="{{ asset('admin_dashboard') }}/assets/js/modernizr.min.js"></script>
+
+    <style>
+        .submitbtn {
+            background-color: rgb(100, 197, 177);
+            color: white;
+        }
+        </style>
 </head>
 
-<body style="background-color:rgb(100,197,177)">
-
+{{-- <body style="background-color:rgb(100,197,177)"> --}}
+    <body style=" background-image: url('{{ asset('image/bg-building.jpg') }}'); background-size: cover; background-repeat: no-repeat;">
 
     <!-- HOME -->
     <section>
@@ -54,7 +61,7 @@
                                         @csrf
                                         <div class="form-group m-b-20 row">
                                             <div class="col-12">
-                                                <label for="emailaddress">Email address</label>
+                                                <label for="emailaddress">Email address<span style="color: red;">*</span></label>
                                                 <input class="form-control" name="email" type="email"
                                                     id="emailaddress" required="" placeholder="abc@gmail.com">
                                             </div>
@@ -65,7 +72,7 @@
                                                 <a href="page-recoverpw.html"
                                                     class="text-muted pull-right"><small>Forgot your
                                                         password?</small></a>
-                                                <label for="password">Password</label>
+                                                <label for="password">Password<span style="color: red;">*</span></label>
                                                 <input class="form-control" name="password" type="password"
                                                     required="" id="password" placeholder="Enter your password">
                                             </div>
@@ -74,12 +81,12 @@
                                         <div class="form-group row m-b-20">
                                             <div class="col-12">
 
-                                                <div class="checkbox checkbox-success">
+                                                {{-- <div class="checkbox checkbox-success">
                                                     <input id="remember" type="checkbox" checked="">
                                                     <label for="remember">
                                                         Remember me
                                                     </label>
-                                                </div>
+                                                </div> --}}
 
                                             </div>
                                         </div>
@@ -87,8 +94,15 @@
                                         <div class="form-group row text-center m-t-10">
                                             <div class="col-12">
                                                 <button
-                                                    class="btn btn-md btn-block btn-primary waves-effect waves-light"
+                                                     class="btn btn-md btn-block submitbtn waves-effect waves-light"
                                                     type="submit">Sign In</button>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row m-t-30 m-b-0 text-center">
+                                            <div class="col-12">New here?
+                                                <a href="{{ route('register') }}"
+                                                    class="text-primary"> <u>Create an account</u></a>
                                             </div>
                                         </div>
                                     </form>

@@ -14,6 +14,7 @@ use App\Http\Controllers\IndexController;
 use App\Http\Controllers\LandlordAgreementController;
 use App\Http\Controllers\LandlordController;
 use App\Http\Controllers\LeaseRequestController;
+use App\Http\Controllers\MaintenanceController;
 use App\Http\Controllers\ParkerController;
 use App\Http\Controllers\ParkingController;
 use App\Http\Controllers\RoleController;
@@ -45,6 +46,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [AuthController::class, 'login'])->name("login");
 Route::post('login/form/submit', [AuthController::class, 'doLogin'])->name("do_login");
 Route::post('/logout', [AuthController::class, 'logout'])->name("logout");
+Route::get('/register', [AuthController::class, 'register'])->name("register");
+Route::post('/do_register', [AuthController::class, 'do_register'])->name("do_register");
 
 
 Route::middleware('auth')->group(callback: function () {
@@ -184,6 +187,18 @@ Route::middleware('auth')->group(callback: function () {
 
 
 
+        // maintenance
+        Route::get('maintenance/index', [MaintenanceController::class, 'index'])->name("maintenance.index");
+        Route::get('maintenance/create', [MaintenanceController::class, 'create'])->name("maintenance.create");
+        Route::post('maintenance/create', [MaintenanceController::class, 'store'])->name("maintenance.store");
+        Route::get('maintenance/show/{id}', [MaintenanceController::class, 'show'])->name("maintenance.show");
+        Route::get('maintenance/edit/{id}', [MaintenanceController::class, 'edit'])->name("maintenance.edit");
+        Route::post('maintenance/edit/{id}', [MaintenanceController::class, 'update'])->name("maintenance.update");
+        Route::get('maintenance/delete/{id}', [MaintenanceController::class, 'destroy'])->name("maintenance.delete");
+        
+
+
+
         // stall
         Route::get('stall/index', [StallController::class, 'index'])->name("stall.index");
         Route::get('stall/create', [StallController::class, 'create'])->name("stall.create");
@@ -271,60 +286,22 @@ Route::middleware('auth')->group(callback: function () {
         Route::get('landlordAgreement/delete/{id}', [LandlordAgreementController::class, 'destroy'])->name("landlord.agreement.delete");
 
 
-
-
-
-        
-
-        // assign landlord to unit
-
-        // Route::get('unit/{id}/assign', [UnitLandlordController::class, 'create'])->name('assign.create');
-
-        // Route::post('unit/{id}/assign', [UnitLandlordController::class, 'store'])->name('assign.store');
-
-        // Route::get('unit/removeLandlord/{Id}', [UnitLandlordController::class, 'removeLandlord'])->name('landlord.remove');
-
-
-
-
-        // Route::post('/lease-request', [LeaseRequestController::class, 'store'])->name('lease-request.store');
-
-        // Route::get('/lease-rqst-list', [LeaseRequestController::class, 'index'])->name('lease.index');
-
-        // Route::get('/lease-aggrement', [LeaseRequestController::class, 'agreement'])->name('lease.agreement');
-
-        // Route::get('/send-aggrement/{id}', [LeaseRequestController::class, 'sendagreement'])->name('send.agreement');
-
-        // Route::post('/aggrement-form/{id}', [LeaseRequestController::class, 'agreementform'])->name('agreement.form');
-
-        // Route::get('/agreement/download/{id}', [LeaseRequestController::class, 'downloadAgreement'])->name('download.agreement');
-
-        // Route::get('/agreement/accept/{id}', [LeaseRequestController::class, 'accept'])->name('agreement.accept');
-
-        // Route::get('/agreement/reject/{id}', [LeaseRequestController::class, 'reject'])->name('agreement.reject');
-
-
-
-
-        
-
-
 });
 
 
 /////////////////////////// selim  ///////////////////////////
 
 
-include('payroll.php');
-include('account.php');
-include('bank_management.php');
-include('saas_platform.php');
+// include('payroll.php');
+// include('account.php');
+// include('bank_management.php');
+// include('saas_platform.php');
 
-Route::get('setting/create_edit', [SettingController::class, 'create_edit'])->name("setting.create_edit");
-Route::post('setting/update/{id}', [SettingController::class, 'update'])->name("setting.update");
-Route::post('setting/store', [SettingController::class, 'store'])->name("setting.store");
-Auth::routes();
+// Route::get('setting/create_edit', [SettingController::class, 'create_edit'])->name("setting.create_edit");
+// Route::post('setting/update/{id}', [SettingController::class, 'update'])->name("setting.update");
+// Route::post('setting/store', [SettingController::class, 'store'])->name("setting.store");
+// Auth::routes();
 
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Auth::routes();
+

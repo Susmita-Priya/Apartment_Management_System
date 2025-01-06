@@ -78,7 +78,7 @@
             </div>
             <!-- end row -->
 
-            <div class="row">
+            {{-- <div class="row">
                 <div class="col-xl-4">
                     <div class="card-box">
                         <h4 class="header-title m-t-0 m-b-30">Revenue Comparison</h4>
@@ -129,11 +129,11 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
             <!-- end row -->
 
             <div class="row">
-                <div class="col-xl-6 col-lg-12">
+                <div class="col-xl-12 col-lg-12">
                     <div class="card-box">
                         <h4 class="m-t-0 header-title"><b>Recent Candidates</b></h4>
                         <p class="text-muted font-14 m-b-20">
@@ -316,7 +316,7 @@
                 </div>
                 <!-- end col -->
 
-                <div class="col-xl-3 col-lg-6">
+                {{-- <div class="col-xl-3 col-lg-6">
                     <div class="card-box">
                         <h4 class="header-title m-t-0 m-b-30">Total Unique Visitors</h4>
 
@@ -360,7 +360,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> --}}
             </div>
             <!--- end row -->
         </div> <!-- container -->

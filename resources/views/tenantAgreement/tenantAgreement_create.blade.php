@@ -30,7 +30,7 @@
                                 <div class="card-box">
                                     <h1 class="d-flex justify-content-center mt-4">TENANT AGREEMENT</h1>
 
-                                    <!-- Tenant Selection -->
+                                    <!-- Landlord Selection -->
                                     <div class="form-group">
                                         <label for="landlord_id" class="col-form-label">Landlord</label>
                                         <select class="form-control" name="landlord_id" id="landlord_id" onchange="filterBuildings()">

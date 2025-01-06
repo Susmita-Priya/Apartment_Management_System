@@ -6421,6 +6421,15 @@ h3.timeline-title {
   border-radius: 5px;
 }
 
+.account1-box {
+  position: relative;
+  max-width: 700px;
+  margin: 20px auto;
+  background-color: #ffffff;
+  border-radius: 5px;
+  padding: 30px;
+}
+
 .account-box .account-content {
   padding: 30px;
 }

@@ -361,81 +361,21 @@
 
 
 
-                    {{-- <!-- Tenants -->
-                    @can('tenant-management')
+                    {{-- maintenance --}}
+                    @can('maintenance-management')
                         <li>
-                            <a href="javascript: void(0);"><i class="fa fa-user"></i> <span> Tenants </span> <span
+                            <a href="javascript: void(0);"><i class="fa fa-wrench"></i> <span> Maintenance </span> <span
                                     class="menu-arrow"></span></a>
                             <ul class="nav-second-level " aria-expanded="false">
-                                @can('tenant-list')
-                                    <li><a href="{{ route('tenants.index') }}">Tenants List</a></li>
+                                @can('maintenance-request')
+                                <li><a href="{{ route('maintenance.create') }}">New Maintenance Request</a></li>
+                                @endcan
+                                @can('maintenance-list')
+                                    <li><a href="{{ route('maintenance.index') }}">Maintenance List</a></li>
                                 @endcan
                             </ul>
                         </li>
                     @endcan
-
-
-                    <!-- Landlords -->
-                    @can('landlord-management')
-                        <li>
-                            <a href="javascript: void(0);"><i class="fa fa-user"></i> <span> Landlords </span> <span
-                                    class="menu-arrow"></span></a>
-                            <ul class="nav-second-level " aria-expanded="false">
-                                @can('landlord-list')
-                                    <li><a href="{{ route('landlord.index') }}">Landlords List</a></li>
-                                @endcan
-                            </ul>
-                        </li>
-                    @endcan --}}
-
-
-
-                    <!-- lease -->
-                {{-- <li>
-                        <a href="javascript: void(0);"><i class="fa fa-user"></i> <span> Leases </span> <span
-                                class="menu-arrow"></span></a>
-                        <ul class="nav-second-level " aria-expanded="false">
-
-                            <li><a href="{{ route('lease.index') }}">Leases Request</a></li>
-
-                            <li><a href="{{ route('lease.agreement') }}">Agreement</a></li>
-
-
-                        </ul>
-                    </li>
-
-
-                    @can('parking-management')
-                        <li>
-                            <a href="javascript: void(0);"><i class="fa fa-car"></i> <span>Parking Management</span>
-                                <span class="menu-arrow"></span></a>
-                            <ul class="nav-second-level " aria-expanded="false">
-                                @can('vehicle-list')
-                                    <li><a href="{{ route('vehicle.index') }}">Vehicles</a></li>
-                                @endcan
-                                @can('parker-list')
-                                    <li><a href="{{ route('parker.index') }}">Parkers</a></li>
-                                @endcan
-                                @can('stall-list')
-                                    <li><a href="{{ route('parking.list') }}">Stall List</a></li>
-                                @endcan
-                            </ul>
-                        </li>
-                    @endcan --}}
-
-                    <!-- Leases / Tenancy -->
-                    {{-- @if (App\Models\Permission::hasPermission('view_lease', $role_id))
-                        <li>
-                            <a href="javascript: void(0);"><i class="fa fa-home"></i> <span> Leases / Tenancy </span>
-                                <span class="menu-arrow"></span></a>
-                            <ul class="nav-second-level " aria-expanded="false">
-                                @if (App\Models\Permission::hasPermission('create_lease', $role_id))
-                                    <li><a href="{{ url('/Lease/create') }}">Create Lease</a></li>
-                                @endif
-                                <li><a href="{{ url('/Lease') }}">View Lease</a></li>
-                            </ul>
-                        </li>
-                        @endif --}}
 
 
 

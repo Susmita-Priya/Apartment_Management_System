@@ -11,8 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('maintenances', function (Blueprint $table) {
+        Schema::create('login_logs', function (Blueprint $table) {
             $table->id();
+            $table->string('email');
+            $table->ipAddress('ip');
+            $table->string('browser');
+            $table->string('platform');
+            $table->timestamp('last_login');
+            $table->text('user_agent');
             $table->timestamps();
         });
     }
@@ -22,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('maintenances');
+        Schema::dropIfExists('login_logs');
     }
 };
