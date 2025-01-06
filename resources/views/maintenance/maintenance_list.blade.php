@@ -49,6 +49,7 @@
                                     <th>Floor</th>
                                     <th>Unit</th>
                                     <th>Issue</th>
+                                    <th>Issue Date</th>
                                     <th>Status</th>
                                     <th>Update Status</th>
                                 </tr>
@@ -77,6 +78,7 @@
                                         </td>
                                         <td>Unit-{{ $maintenance->unit->unit_no }}</td>
                                         <td>{{ $maintenance->issue }}</td>
+                                        <td>{{ $maintenance->created_at }}</td>
                                         <td>
                                             @if ($maintenance->status == 0)
                                                 <span class="badge badge-warning">Pending</span>
