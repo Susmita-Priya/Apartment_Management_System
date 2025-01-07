@@ -92,8 +92,7 @@
                                         </td>
                                         <td>
                                             @can('maintenance-edit')
-                                            <a class="dropdown-item"
-                                                href="{{ route('maintenance.edit', $maintenance->id) }}"
+                                            <a href="{{ route('maintenance.edit', $maintenance->id) }}"
                                                 type="submit"><i
                                                     class="mdi mdi-pencil m-r-10 text-muted font-18 vertical-middle"></i>Change</a>
                                             @endcan

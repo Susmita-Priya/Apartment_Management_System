@@ -8,7 +8,9 @@ use App\Models\Landlord;
 use App\Models\Room;
 use App\Models\Stall;
 use App\Models\Tenant;
+use App\Models\TenantContactInfo;
 use App\Models\Unit;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -23,8 +25,7 @@ class IndexController extends Controller
         $unit = Unit::where('company_id',Auth::user()->id)->count();
         $room = Room::where('company_id',Auth::user()->id)->count();
         $stall = Stall::where('company_id',Auth::user()->id)->count();
-        // $tenant = Tenant::count();
-        // $landlord = Landlord::count();
-        return view('admin_dashboard.index',compact('building','floor','unit','room','stall'));
+        $users = User::all();
+        return view('admin_dashboard.index',compact('building','floor','unit','room','stall','users'));
     }
 }
