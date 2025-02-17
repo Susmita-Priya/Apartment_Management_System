@@ -14,5 +14,5 @@ php artisan db:seed --class=CreateAdminUserSeeder
 php artisan serve
 
 # Credentials
-email : susmita@gmail.com
+email : susmita@gmail.com ,
 password : 123456
